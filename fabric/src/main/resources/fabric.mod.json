@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "cobbleloots",
+  "version": "${version}",
+  "name": "Cobblemon: CobbleLoots",
+  "description": "A side-mod for cobblemon that adds different ways to obtain items like in the original games.",
+  "authors": [
+    "Ripio (@ResistorCat)"
+  ],
+  "contact": {
+    "homepage": "https://ripio.dev/"
+  },
+  "license": "MIT",
+  "icon": "assets/cobbleloots/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "dev.ripio.cobbleloots.fabric.CobblelootsFabric"
+    ],
+    "client": [
+      "dev.ripio.cobbleloots.fabric.client.CobblelootsFabricClient"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.9",
+    "minecraft": "~1.21.1",
+    "java": ">=21",
+    "fabric-api": "*",
+    "cobblemon": ">=1.6.0"
+  }
+}
