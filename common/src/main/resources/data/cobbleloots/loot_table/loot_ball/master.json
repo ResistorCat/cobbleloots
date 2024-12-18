@@ -1,0 +1,76 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:master_ball",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:ability_patch",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_xl",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:nether_star",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_ingot",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:rare_candy",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "min": 5,
+                "max": 10
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:book",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:enchant_randomly"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
