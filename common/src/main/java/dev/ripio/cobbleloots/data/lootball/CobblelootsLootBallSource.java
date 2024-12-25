@@ -3,8 +3,6 @@ package dev.ripio.cobbleloots.data.lootball;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-
 public class CobblelootsLootBallSource {
     private final String type;
     private final ResourceLocation biome;

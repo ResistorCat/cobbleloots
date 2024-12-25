@@ -6,7 +6,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallData;
 import net.minecraft.resources.ResourceLocation;
