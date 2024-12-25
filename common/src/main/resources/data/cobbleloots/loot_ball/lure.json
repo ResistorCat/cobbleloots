@@ -1,7 +1,7 @@
 {
   "name": "Lure",
-  "rarity": "uncommon",
-  "table": "cobbleloots:loot_ball/lure",
+  "weight": 20,
+  "loot_table": "cobbleloots:loot_ball/lure",
   "texture": "cobblemon:textures/item/poke_balls/models/lure_ball.png",
   "sources": [
     {

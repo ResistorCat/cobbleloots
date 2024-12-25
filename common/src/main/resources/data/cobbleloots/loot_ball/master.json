@@ -1,14 +1,15 @@
 {
   "name": "Master",
-  "rarity": "ultra_rare",
-  "table": "cobbleloots:loot_ball/master",
+  "weight": 1,
+  "loot_table": "cobbleloots:loot_ball/master",
   "texture": "cobblemon:textures/item/poke_balls/models/master_ball.png",
   "sources": [
     {
       "type": "generation",
-      "biome": "cobbleloots:loot_ball/master",
-      "height": ":",
-      "weight": 1
+      "biome": "cobbleloots:loot_ball/master"
+    },
+    {
+      "type": "archaeology"
     }
   ]
 }

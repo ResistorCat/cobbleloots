@@ -1,14 +1,16 @@
 {
   "name": "Heal",
-  "rarity": "uncommon",
-  "table": "cobbleloots:loot_ball/heal",
+  "weight": 20,
+  "loot_table": "cobbleloots:loot_ball/heal",
   "texture": "cobblemon:textures/item/poke_balls/models/heal_ball.png",
   "sources": [
     {
       "type": "generation",
       "biome": "cobbleloots:loot_ball/heal",
-      "height": "50:",
-      "weight": 3
+      "height": {
+        "comment": "Above sea level",
+        "min": 63
+      }
     }
   ]
 }

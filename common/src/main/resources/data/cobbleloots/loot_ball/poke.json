@@ -1,55 +1,48 @@
 {
   "name": "Poke",
-  "rarity": "common",
-  "table": "cobbleloots:loot_ball/poke",
+  "weight": 50,
+  "loot_table": "cobbleloots:loot_ball/poke",
   "texture": "cobblemon:textures/item/poke_balls/models/poke_ball.png",
   "sources": [
     {
-      "type": "generation",
-      "biome": "cobbleloots:loot_ball/poke",
-      "height": ":",
-      "weight": 1
+      "type": "generation"
     },
     {
-      "type": "fishing",
-      "biome": "cobbleloots:loot_ball/poke"
+      "type": "fishing"
     },
     {
       "type": "archaeology"
-    },
-    {
-      "type": "chest"
     }
   ],
   "variants": [
     {
-      "name": "azure",
-      "table": "cobbleloots:loot_ball/azure",
+      "name": "Azure",
+      "loot_table": "cobbleloots:loot_ball/azure",
       "texture": "cobblemon:textures/item/poke_balls/models/azure_ball.png"
     },
     {
-      "name": "citrine",
-      "table": "cobbleloots:loot_ball/citrine",
+      "name": "Citrine",
+      "loot_table": "cobbleloots:loot_ball/citrine",
       "texture": "cobblemon:textures/item/poke_balls/models/citrine_ball.png"
     },
     {
-      "name": "premier",
-      "table": "cobbleloots:loot_ball/premier",
+      "name": "Premier",
+      "loot_table": "cobbleloots:loot_ball/premier",
       "texture": "cobblemon:textures/item/poke_balls/models/premier_ball.png"
     },
     {
-      "name": "roseate",
-      "table": "cobbleloots:loot_ball/roseate",
+      "name": "Roseate",
+      "loot_table": "cobbleloots:loot_ball/roseate",
       "texture": "cobblemon:textures/item/poke_balls/models/roseate_ball.png"
     },
     {
-      "name": "slate",
-      "table": "cobbleloots:loot_ball/slate",
+      "name": "Slate",
+      "loot_table": "cobbleloots:loot_ball/slate",
       "texture": "cobblemon:textures/item/poke_balls/models/slate_ball.png"
     },
     {
-      "name": "verdant",
-      "table": "cobbleloots:loot_ball/verdant",
+      "name": "Verdant",
+      "loot_table": "cobbleloots:loot_ball/verdant",
       "texture": "cobblemon:textures/item/poke_balls/models/verdant_ball.png"
     }
   ]

@@ -1,19 +1,20 @@
 {
   "name": "Dive",
-  "rarity": "uncommon",
-  "table": "cobbleloots:loot_ball/dive",
+  "weight": 20,
+  "loot_table": "cobbleloots:loot_ball/dive",
   "texture": "cobblemon:textures/item/poke_balls/models/dive_ball.png",
   "sources": [
     {
       "type": "generation",
       "biome": "cobbleloots:loot_ball/dive",
-      "height": "0:55",
-      "weight": 5
+      "height": {
+        "max": 62
+      },
+      "weight": 1
     },
     {
       "type": "fishing",
       "biome": "cobbleloots:loot_ball/dive"
     }
-  ],
-  "variants": []
+  ]
 }
