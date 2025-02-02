@@ -1,0 +1,12 @@
+{
+  "name": "Safari",
+  "weight": 50,
+  "loot_table": "cobbleloots:loot_ball/safari",
+  "texture": "cobblemon:textures/item/poke_balls/models/safari_ball.png",
+  "sources": [
+    {
+      "type": "generation",
+      "biome": "cobbleloots:loot_ball/safari"
+    }
+  ]
+}

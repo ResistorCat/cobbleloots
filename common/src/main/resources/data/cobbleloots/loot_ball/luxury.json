@@ -1,0 +1,15 @@
+{
+  "name": "Luxury",
+  "weight": 5,
+  "loot_table": "cobbleloots:loot_ball/luxury",
+  "texture": "cobblemon:textures/item/poke_balls/models/luxury_ball.png",
+  "sources": [
+    {
+      "type": "generation",
+      "height": {
+        "comment": "Deepslate level and below",
+        "max": 0
+      }
+    }
+  ]
+}
