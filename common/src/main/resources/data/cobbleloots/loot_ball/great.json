@@ -2,7 +2,7 @@
   "name": "Great",
   "weight": 20,
   "loot_table": "cobbleloots:loot_ball/great",
-  "texture": "cobblemon:textures/item/poke_balls/models/great_ball.png",
+  "texture": "cobblemon:textures/poke_balls/great_ball.png",
   "sources": [
     {
       "type": "generation"

@@ -2,7 +2,7 @@
   "name": "Luxury",
   "weight": 5,
   "loot_table": "cobbleloots:loot_ball/luxury",
-  "texture": "cobblemon:textures/item/poke_balls/models/luxury_ball.png",
+  "texture": "cobblemon:textures/poke_balls/luxury_ball.png",
   "sources": [
     {
       "type": "generation",

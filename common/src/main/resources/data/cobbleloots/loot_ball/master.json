@@ -2,7 +2,7 @@
   "name": "Master",
   "weight": 1,
   "loot_table": "cobbleloots:loot_ball/master",
-  "texture": "cobblemon:textures/item/poke_balls/models/master_ball.png",
+  "texture": "cobblemon:textures/poke_balls/master_ball.png",
   "sources": [
     {
       "type": "generation",

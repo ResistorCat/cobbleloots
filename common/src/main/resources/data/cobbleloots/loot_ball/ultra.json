@@ -2,7 +2,7 @@
   "name": "Ultra",
   "weight": 5,
   "loot_table": "cobbleloots:loot_ball/ultra",
-  "texture": "cobblemon:textures/item/poke_balls/models/ultra_ball.png",
+  "texture": "cobblemon:textures/poke_balls/ultra_ball.png",
   "sources": [
     {
       "type": "generation"
