@@ -42,7 +42,6 @@ public class CobblelootsLootBallItem extends Item {
     BlockPos blockPos = blockPlaceContext.getClickedPos();
     Direction direction = useOnContext.getClickedFace();
     ItemStack itemStack = useOnContext.getItemInHand();
-    //Vec3 vec3 = Vec3.atBottomCenterOf(blockPos);
     BlockState blockState = level.getBlockState(blockPos);
     BlockPos blockPos2;
     if (blockState.getCollisionShape(level, blockPos).isEmpty()) {
@@ -50,12 +49,6 @@ public class CobblelootsLootBallItem extends Item {
     } else {
       blockPos2 = blockPos.relative(direction);
     }
-    //EntityType<?> entityType = this.getLootBallType(itemStack);
-
-    //if (entityType.spawn((ServerLevel) level, itemStack, useOnContext.getPlayer(), blockPos2, MobSpawnType.SPAWN_EGG, true, !Objects.equals(blockPos, blockPos2) && direction == Direction.UP) != null) {
-    //  itemStack.shrink(1);
-    //  level.gameEvent(useOnContext.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
-    //}
 
     if (level instanceof ServerLevel serverLevel) {
       Consumer<CobblelootsLootBall> consumer = EntityType.createDefaultStackConfig(serverLevel, itemStack, useOnContext.getPlayer());
@@ -67,11 +60,6 @@ public class CobblelootsLootBallItem extends Item {
       }
 
       float f = (float) Mth.floor((Mth.wrapDegrees(useOnContext.getRotation() - 180.0F) + 22.5F) / 45.0F) * 45.0F;
-      //Cobbleloots.LOGGER.info(String.valueOf(f));
-      //float f = (float) Mth.wrapDegrees(useOnContext.getRotation() - 180.0F) + 22.5F;
-      //cobblelootsLootBall.moveTo(cobblelootsLootBall.getX(), cobblelootsLootBall.getY(), cobblelootsLootBall.getZ(), (float) Mth.wrapDegrees(0.0F), 0.0F);
-      //cobblelootsLootBall.setYHeadRot(f);
-      //Cobbleloots.LOGGER.info(String.valueOf(cobblelootsLootBall.getLookAngle()));
       cobblelootsLootBall.moveTo(blockPos2.getX() + 0.5F, blockPos2.getY(), blockPos2.getZ() + 0.5F, f, 0.0F);
       serverLevel.addFreshEntityWithPassengers(cobblelootsLootBall);
       level.playSound(null, cobblelootsLootBall.getX(), cobblelootsLootBall.getY(), cobblelootsLootBall.getZ(), SoundEvents.LANTERN_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
@@ -81,24 +69,6 @@ public class CobblelootsLootBallItem extends Item {
     itemStack.shrink(1);
 
     return InteractionResult.sidedSuccess(level.isClientSide);
-    //Consumer<ArmorStand> consumer2 = EntityType.createDefaultStackConfig(serverLevel, itemStack, useOnContext.getPlayer());
-    //ArmorStand armorStand = (ArmorStand)EntityType.ARMOR_STAND.create(serverLevel, consumer2, blockPos, MobSpawnType.SPAWN_EGG, true, true);
-    //if (armorStand == null) {
-    //  return InteractionResult.FAIL;
-    //}
-
-    //float f = (float) Mth.floor((Mth.wrapDegrees(useOnContext.getRotation() - 180.0F) + 22.5F) / 45.0F) * 45.0F;
-    //armorStand.moveTo(armorStand.getX(), armorStand.getY(), armorStand.getZ(), f, 0.0F);
-    //serverLevel.addFreshEntityWithPassengers(armorStand);
-    //level.playSound((Player)null, armorStand.getX(), armorStand.getY(), armorStand.getZ(), SoundEvents.ARMOR_STAND_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
-    //armorStand.gameEvent(GameEvent.ENTITY_PLACE, useOnContext.getPlayer());
-
-    //itemStack.shrink(1);
-    //return InteractionResult.sidedSuccess(level.isClientSide);
-
-    //return InteractionResult.FAIL;
-
-    //return InteractionResult.CONSUME;
   }
 
   public EntityType<?> getLootBallType(ItemStack itemStack) {
