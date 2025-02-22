@@ -4,6 +4,7 @@ import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.entity.client.CobblelootsLootBallRenderer;
 import dev.ripio.cobbleloots.neoforge.entity.CobblelootsEntities;
 import dev.ripio.cobbleloots.neoforge.item.CobblelootsItems;
+import dev.ripio.cobbleloots.sound.neoforge.CobblelootsLootBallSoundsImpl;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -23,6 +24,7 @@ public final class CobblelootsNeoForge {
         // NeoForge setup.
         CobblelootsEntities.register(modEventBus);
         CobblelootsItems.register(modEventBus);
+        CobblelootsLootBallSoundsImpl.register(modEventBus);
     }
 
     @EventBusSubscriber(modid = Cobbleloots.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
