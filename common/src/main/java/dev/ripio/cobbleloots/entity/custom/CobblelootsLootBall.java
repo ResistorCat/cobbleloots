@@ -3,6 +3,7 @@ package dev.ripio.cobbleloots.entity.custom;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.sound.CobblelootsLootBallSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -313,7 +313,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       if (!itemStack.isEmpty()) {
         this.spawnAtLocation(itemStack);
         this.addOpener(serverPlayer);
-        this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), SoundEvents.VAULT_EJECT_ITEM, SoundSource.BLOCKS, 0.5f, 1.0f, false);
+        this.playSound(CobblelootsLootBallSounds.getPopItemSound());
+        serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
       }
     }
     serverPlayer.giveExperiencePoints(5);
@@ -405,14 +406,16 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   private void toggleVisibility(ServerPlayer serverPlayer) {
+    serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.visibility").withStyle(ChatFormatting.AQUA), true);
+    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleInvisibilitySound(), SoundSource.BLOCKS, 0.5f, 1.0f);
     this.setInvisible(!this.isInvisible());
     serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.visibility").withStyle(ChatFormatting.AQUA), true);
     serverPlayer.playNotifySound(SoundEvents.BAT_TAKEOFF, SoundSource.BLOCKS, 0.5f, 1.0f);
   }
 
   private void toggleSparks(ServerPlayer serverPlayer) {
-    boolean sparks = this.hasSparks();
-    SoundEvent soundEvent = sparks ? SoundEvents.AXE_WAX_OFF : SoundEvents.HONEYCOMB_WAX_ON;
+    serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.sparks").withStyle(ChatFormatting.AQUA), true);
+    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleSparksSound(this.hasSparks()), SoundSource.BLOCKS, 0.5f, 1.0f);
     this.setSparks(!this.hasSparks());
     serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.sparks").withStyle(ChatFormatting.AQUA), true);
     serverPlayer.playNotifySound(soundEvent, SoundSource.BLOCKS, 0.5f, 1.0f);
@@ -422,7 +425,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     this.setItem(0, itemStack);
     if (!serverPlayer.isCreative()) serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
     serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.item").withStyle(ChatFormatting.AQUA), true);
-    serverPlayer.playNotifySound(SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.5f, 1.0f);
+    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getSetItemSound(), SoundSource.BLOCKS, 0.5f, 1.0f);
     this.setChanged();
   }
 
