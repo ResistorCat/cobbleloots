@@ -1,6 +1,5 @@
 package dev.ripio.cobbleloots.entity.custom;
 
-import dev.ripio.cobbleloots.Cobbleloots;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.Registries;
