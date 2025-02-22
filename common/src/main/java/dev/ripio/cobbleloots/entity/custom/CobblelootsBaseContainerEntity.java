@@ -70,9 +70,9 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   @Override
   public void addAdditionalSaveData(CompoundTag compoundTag) {
-    super.addAdditionalSaveData(compoundTag);
-    if (this.getLootTableLocation() != null) {
-      compoundTag.putString(TAG_LOOT_TABLE, this.getLootTableLocation().toString());
+    //super.addAdditionalSaveData(compoundTag);
+    if (this.lootTableLocation != null) {
+      compoundTag.putString(TAG_LOOT_TABLE, this.lootTableLocation.toString());
       if (this.getLootTableSeed() != 0L) {
         compoundTag.putLong(TAG_LOOT_TABLE_SEED, this.getLootTableSeed());
       }
@@ -83,22 +83,22 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   @Override
   public void readAdditionalSaveData(CompoundTag compoundTag) {
-    super.readAdditionalSaveData(compoundTag);
-    this.readChestVehicleSaveData(compoundTag, this.registryAccess());
+    //super.readAdditionalSaveData(compoundTag);
+    this.clearItemStacks();
+    if (compoundTag.contains(TAG_LOOT_TABLE, 8)) {
+      //this.setLootTable(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(compoundTag.getString(TAG_LOOT_TABLE))));
+      this.setLootTableLocation(ResourceLocation.tryParse(compoundTag.getString(TAG_LOOT_TABLE)));
+      this.setLootTableSeed(compoundTag.getLong(TAG_LOOT_TABLE_SEED));
+    } else {
+      ContainerHelper.loadAllItems(compoundTag, this.getItemStacks(), this.registryAccess());
+    }
   }
 
   // -- ContainerEntity Methods --
-
-
   @Override
   public void clearItemStacks() {
     this.getItemStacks().clear();
   }
-
-//  @Override
-//  public @NotNull ResourceKey<LootTable> getLootTable() {
-//    return ResourceKey.create(Registries.LOOT_TABLE, this.lootTableLocation);
-//  }
 
   @Override
   public void setLootTable(@Nullable ResourceKey<LootTable> resourceKey) {
@@ -109,11 +109,6 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
     this.lootTableSeed = l;
   }
 
-//  @Override
-//  public long getLootTableSeed() {
-//    return this.lootTableSeed;
-//  }
-
   public abstract @NotNull NonNullList<ItemStack> getItemStacks();
 
   @Override
@@ -121,23 +116,33 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   @Override
   public @NotNull ItemStack getItem(int i) {
-    this.unpackLootTable(null);
+    //this.unpackLootTable(null);
     return this.getItemStacks().get(i);
   }
 
   @Override
   public @NotNull ItemStack removeItem(int i, int j) {
-    return this.removeChestVehicleItem(i, j);
+    //this.unpackLootTable(null);
+    return ContainerHelper.removeItem(this.getItemStacks(), i, j);
   }
 
   @Override
   public @NotNull ItemStack removeItemNoUpdate(int i) {
-    return this.removeChestVehicleItemNoUpdate(i);
+    //this.unpackLootTable(null);
+    ItemStack itemStack = this.getItemStacks().get(i);
+    if (itemStack.isEmpty()) {
+      return ItemStack.EMPTY;
+    } else {
+      this.getItemStacks().set(i, ItemStack.EMPTY);
+      return itemStack;
+    }
   }
 
   @Override
   public void setItem(int i, ItemStack itemStack) {
-    this.setChestVehicleItem(i, itemStack);
+    //this.unpackLootTable(null);
+    this.getItemStacks().set(i, itemStack);
+    itemStack.limitSize(this.getMaxStackSize(itemStack));
   }
 
   @Override
@@ -146,12 +151,13 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   @Override
   public boolean stillValid(Player player) {
-    return this.isChestVehicleStillValid(player);
+    return !this.isRemoved() && player.canInteractWithEntity(this.getBoundingBox(), 4.0F);
   }
 
   @Override
   public void clearContent() {
-    this.clearChestVehicleContent();
+    //this.unpackLootTable(null);
+    this.getItemStacks().clear();
   }
 
   @Override
@@ -166,20 +172,18 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   protected void unpackLootTable(ServerPlayer serverPlayer) {
     MinecraftServer minecraftServer = this.level().getServer();
-    if (this.getLootTableLocation() != null && minecraftServer != null) {
-      ResourceKey<LootTable> resourceKey = ResourceKey.create(Registries.LOOT_TABLE, this.getLootTableLocation());
-      Cobbleloots.LOGGER.info("Unpacking loot table: {}", resourceKey.location());
+    ResourceLocation tableLocation = this.getLootTableLocation();
+    if (tableLocation != null && minecraftServer != null && this.isEmpty()) {
+      ResourceKey<LootTable> resourceKey = ResourceKey.create(Registries.LOOT_TABLE, tableLocation);
       LootTable lootTable = minecraftServer.reloadableRegistries().getLootTable(resourceKey);
       if (serverPlayer != null) {
         CriteriaTriggers.GENERATE_LOOT.trigger(serverPlayer, resourceKey);
       }
 
-      this.setLootTableLocation(null);  // TEMPORAL FIX
       LootParams.Builder builder = (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.ORIGIN, this.position());
       if (serverPlayer != null) {
         builder.withLuck(serverPlayer.getLuck()).withParameter(LootContextParams.THIS_ENTITY, serverPlayer);
       }
-
       lootTable.fill(this, builder.create(LootContextParamSets.CHEST), this.lootTableSeed);
     }
   }
@@ -187,6 +191,4 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
   private void setLootTableLocation(ResourceLocation resourceLocation) {
     this.lootTableLocation = resourceLocation;
   }
-
-
 }
