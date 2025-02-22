@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -30,9 +31,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // Inventory
@@ -62,7 +61,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TAG_USES = "Uses";
   private static final String TAG_MULTIPLIER = "Multiplier";
 
-  protected Set<UUID> openers = new HashSet<>();
+  protected final Map<UUID, Long> openers = new HashMap<>();
   protected int uses = 1;
   protected float multiplier = 1.0f;
 
@@ -182,8 +181,13 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     if (this.getVariant() != 0) compoundTag.putInt(TAG_VARIANT, this.getVariant());
     // Non-Synched Data
     if (!this.openers.isEmpty()) {
-      CompoundTag openersTag = new CompoundTag();
-      this.openers.forEach(uuid -> openersTag.putUUID(uuid.toString(), uuid));
+      ListTag openersTag = new ListTag();
+      for (Map.Entry<UUID, Long> entry : this.openers.entrySet()) {
+        CompoundTag openerTag = new CompoundTag();
+        openerTag.putUUID("UUID", entry.getKey());
+        openerTag.putLong("Timestamp", entry.getValue());
+        openersTag.add(openerTag);
+      }
       compoundTag.put(TAG_OPENERS, openersTag);
     }
     if (this.uses != 0) compoundTag.putInt(TAG_USES, this.uses);
@@ -206,11 +210,13 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     if (compoundTag.contains(TAG_VARIANT)) this.setVariant(compoundTag.getInt(TAG_VARIANT));
     // Non-Synched Data
     if (compoundTag.contains(TAG_OPENERS)) {
-      CompoundTag openersTag = compoundTag.getCompound(TAG_OPENERS);
-      openersTag.getAllKeys().forEach(uuidString -> {
-        UUID uuid = openersTag.getUUID(uuidString);
-        this.openers.add(uuid);
-      });
+      ListTag openersTag = compoundTag.getList(TAG_OPENERS, CompoundTag.TAG_COMPOUND);
+      for (int i = 0; i < openersTag.size(); i++) {
+        CompoundTag openerTag = openersTag.getCompound(i);
+        UUID uuid = openerTag.getUUID("UUID");
+        long timestamp = openerTag.getLong("Timestamp");
+        this.openers.put(uuid, timestamp);
+      }
     }
     if (compoundTag.contains(TAG_USES)) this.uses = compoundTag.getInt(TAG_USES);
     if (compoundTag.contains(TAG_MULTIPLIER)) this.multiplier = compoundTag.getFloat(TAG_MULTIPLIER);
@@ -284,10 +290,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // --- CobblelootsLootBall methods ---
   private void tryOpen(ServerPlayer serverPlayer) {
     // Check if the player is already an opener
-    boolean alreadyOpen = false;
     if (this.isOpener(serverPlayer)) {
-      alreadyOpen = true;
-      serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.already_open").withStyle(ChatFormatting.RED), true);
+      serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.error.already_opened").withStyle(ChatFormatting.RED), true);
       return;
     }
     // Generate loot
@@ -321,11 +325,11 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   private boolean isOpener(ServerPlayer serverPlayer) {
-    return this.openers.contains(serverPlayer.getUUID());
+    return this.openers.containsKey(serverPlayer.getUUID());
   }
 
   private void addOpener(ServerPlayer serverPlayer) {
-    this.openers.add(serverPlayer.getUUID());
+    this.openers.put(serverPlayer.getUUID(), this.level().getGameTime());
   }
 
   private int getRemainingUses() {
