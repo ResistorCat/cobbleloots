@@ -356,7 +356,6 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     int experiencePoints = 2;
     serverPlayer.giveExperiencePoints(experiencePoints);
     // Send message
-    Component msg = Component.translatable("entity.cobbleloots.loot_ball.opened").withStyle(ChatFormatting.AQUA);
     serverPlayer.sendSystemMessage(Component.translatable("entity.cobbleloots.loot_ball.open").withStyle(ChatFormatting.AQUA), true);
     // Clear the inventory
     this.clearContent();
