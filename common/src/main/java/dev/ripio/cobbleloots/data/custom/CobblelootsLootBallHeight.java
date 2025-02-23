@@ -1,4 +1,4 @@
-package dev.ripio.cobbleloots.data.lootball;
+package dev.ripio.cobbleloots.data.custom;
 
 public class CobblelootsLootBallHeight {
     private final Integer min;

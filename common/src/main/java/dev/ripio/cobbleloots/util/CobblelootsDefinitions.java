@@ -8,9 +8,7 @@ public class CobblelootsDefinitions {
     public static String[] SOURCE_TYPES = {
             "generation",
             "fishing",
-            "archaeology",
-            //"block",
-            //"chest"
+            "archaeology"
     };
     public static final ResourceLocation EMPTY = cobblelootsResource("empty");
 }

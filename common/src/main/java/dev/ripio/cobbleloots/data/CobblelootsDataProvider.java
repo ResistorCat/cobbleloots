@@ -7,7 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
-import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.Nullable;
@@ -28,7 +28,6 @@ public class CobblelootsDataProvider {
     DataResult<CobblelootsLootBallData> result = LOOT_BALL_CODEC.parse(JsonOps.INSTANCE, json);
     CobblelootsLootBallData data = result.resultOrPartial(Cobbleloots.LOGGER::error).orElseThrow();
     lootBallsData.put(id, data);
-    Cobbleloots.LOGGER.info("Added loot ball data for {}", id);
   }
 
   public static void removeLootBallData(ResourceLocation id) {
@@ -67,6 +66,7 @@ public class CobblelootsDataProvider {
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 
     // Load loot balls
+    Cobbleloots.LOGGER.info("Loading loot ball data...");
     for (ResourceLocation id : resourceManager.listResources(PATH_LOOT_BALLS, path -> path.getPath().endsWith(".json")).keySet()) {
       try (InputStream stream = resourceManager.getResourceOrThrow(id).open()) {
         // Parse JSON

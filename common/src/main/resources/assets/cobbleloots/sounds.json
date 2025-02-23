@@ -1,0 +1,8 @@
+{
+  "loot_ball_open": {
+    "subtitle": "subtitles.cobbleloots.loot_ball_open",
+    "sounds": [
+      "cobbleloots:loot_ball_open"
+    ]
+  }
+}

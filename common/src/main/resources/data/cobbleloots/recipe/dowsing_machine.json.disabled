@@ -1,0 +1,29 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#S#",
+        "cTc",
+        "cRc"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:echo_shard"
+        },
+        "S": {
+            "item": "minecraft:shulker_shell"
+        },
+        "c": {
+            "item": "minecraft:copper_ingot"
+        },
+        "T": {
+            "item": "minecraft:tinted_glass"
+        },
+        "R": {
+            "item": "minecraft:redstone"
+        }
+    },
+    "result": {
+        "item": "cobbleloots:dowsing_machine",
+        "count": 1
+    }
+}

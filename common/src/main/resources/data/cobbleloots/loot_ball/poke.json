@@ -2,7 +2,7 @@
   "name": "Poke",
   "weight": 50,
   "loot_table": "cobbleloots:loot_ball/poke",
-  "texture": "cobblemon:textures/item/poke_balls/models/poke_ball.png",
+  "texture": "cobblemon:textures/poke_balls/poke_ball.png",
   "sources": [
     {
       "type": "generation"
@@ -18,32 +18,32 @@
     {
       "name": "Azure",
       "loot_table": "cobbleloots:loot_ball/azure",
-      "texture": "cobblemon:textures/item/poke_balls/models/azure_ball.png"
+      "texture": "cobblemon:textures/poke_balls/azure_ball.png"
     },
     {
       "name": "Citrine",
       "loot_table": "cobbleloots:loot_ball/citrine",
-      "texture": "cobblemon:textures/item/poke_balls/models/citrine_ball.png"
+      "texture": "cobblemon:textures/poke_balls/citrine_ball.png"
     },
     {
       "name": "Premier",
       "loot_table": "cobbleloots:loot_ball/premier",
-      "texture": "cobblemon:textures/item/poke_balls/models/premier_ball.png"
+      "texture": "cobblemon:textures/poke_balls/premier_ball.png"
     },
     {
       "name": "Roseate",
       "loot_table": "cobbleloots:loot_ball/roseate",
-      "texture": "cobblemon:textures/item/poke_balls/models/roseate_ball.png"
+      "texture": "cobblemon:textures/poke_balls/roseate_ball.png"
     },
     {
       "name": "Slate",
       "loot_table": "cobbleloots:loot_ball/slate",
-      "texture": "cobblemon:textures/item/poke_balls/models/slate_ball.png"
+      "texture": "cobblemon:textures/poke_balls/slate_ball.png"
     },
     {
       "name": "Verdant",
       "loot_table": "cobbleloots:loot_ball/verdant",
-      "texture": "cobblemon:textures/item/poke_balls/models/verdant_ball.png"
+      "texture": "cobblemon:textures/poke_balls/verdant_ball.png"
     }
   ]
 }
