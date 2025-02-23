@@ -4,6 +4,9 @@ import dev.ripio.cobbleloots.Cobbleloots;
 import net.fabricmc.api.ModInitializer;
 
 import static dev.ripio.cobbleloots.fabric.data.CobblelootsReloadListeners.registerReloadListeners;
+import static dev.ripio.cobbleloots.fabric.entity.CobblelootsEntities.registerEntities;
+import static dev.ripio.cobbleloots.fabric.item.CobblelootsItems.registerItems;
+import static dev.ripio.cobbleloots.sound.fabric.CobblelootsLootBallSoundsImpl.registerSounds;
 
 public final class CobblelootsFabric implements ModInitializer {
     @Override
@@ -15,5 +18,8 @@ public final class CobblelootsFabric implements ModInitializer {
         // Run our common setup.
         Cobbleloots.init();
         registerReloadListeners();
+        registerSounds();
+        registerEntities();
+        registerItems();
     }
 }
