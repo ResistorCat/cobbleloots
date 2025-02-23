@@ -11,7 +11,7 @@
   "entity.cobbleloots.loot_ball.toggle.sparks": "Loot ball sparks toggled!",
   "item.cobbleloots.loot_ball": "Loot Ball",
   "item.cobbleloots.loot_ball.tooltip.1": "A mysterious ball that contains loot!",
-  "item.cobbleloots.loot_ball.tooltip.2": "Work in progress! Some features may not work as expected or may not be implemented yet!",
+  "item.cobbleloots.loot_ball.tooltip.2": "Work in progress!\n- Some features may not work as expected\n- Some features may not be implemented yet",
   "item.cobbleloots.dowsing_machine": "Dowsing Machine",
   "item.cobbleloots.dowsing_machine.chunks": "A hidden loot ball was detected within 2 chunks!",
   "item.cobbleloots.dowsing_machine.near": "A hidden loot ball is near!",

@@ -9,7 +9,7 @@ import net.minecraft.world.item.Item;
 public class CobblelootsItems {
   // Items
   public static CobblelootsLootBallItem getBaseLootBallItem() {
-    return new CobblelootsLootBallItem(new Item.Properties(), CobblelootsEntities.getBaseLootBallEntityType());
+    return new CobblelootsLootBallItem(new Item.Properties(), CobblelootsEntities.getLootBallEntityType());
   }
 
   @ExpectPlatform
