@@ -1,11 +1,13 @@
-package dev.ripio.cobbleloots.item;
+package dev.ripio.cobbleloots.item.custom;
 
 import com.mojang.serialization.MapCodec;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -16,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
@@ -24,7 +27,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.Consumer;
+
+import static dev.ripio.cobbleloots.util.CobblelootsUtils.cobblelootsText;
 
 public class CobblelootsLootBallItem extends Item {
   private static final MapCodec<EntityType<?>> ENTITY_TYPE_FIELD_CODEC;
@@ -33,6 +39,12 @@ public class CobblelootsLootBallItem extends Item {
   public CobblelootsLootBallItem(Properties properties, EntityType<? extends LivingEntity> lootBallEntityType) {
     super(properties);
     this.defaultType = lootBallEntityType;
+  }
+
+  @Override
+  public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
+    list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.1").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
+    list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.2").withStyle(ChatFormatting.BOLD, ChatFormatting.RED));
   }
 
   @Override

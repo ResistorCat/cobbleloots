@@ -1,7 +1,8 @@
 package dev.ripio.cobbleloots.entity.custom;
 
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
-import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.item.CobblelootsItems;
 import dev.ripio.cobbleloots.sound.CobblelootsLootBallSounds;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
@@ -46,6 +47,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // Opening logic
   private boolean isOpening = false;
   private ServerPlayer pendingOpener = null;
+  private boolean wasInvisible = false;
   private static final EntityDataAccessor<Integer> OPENING_TICKS = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.INT);
 
   // Synched Entity Data (Server <-> Client)
@@ -133,6 +135,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
           } else if (itemStack.is(Items.HONEYCOMB) && this.isInvisible()) {
             // Honeycomb and invisible
             this.toggleSparks(serverPlayer);
+          } else if (itemStack.is(CobblelootsItems.getLootBallItem())) {
+            // Loot ball item
+            this.showDebugInfo(serverPlayer);
           } else {
             // Other item
             this.setLootBallItem(itemStack, serverPlayer);
@@ -343,6 +348,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       // Set opening animation
       this.pendingOpener = serverPlayer;
       this.isOpening = true;
+      this.wasInvisible = this.isInvisible();
+      this.setInvisible(false);
       this.setOpeningTicks(LOOT_BALL_OPENING_TICKS);
     }
   }
@@ -460,6 +467,22 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     this.setSparks(!this.hasSparks());
   }
 
+  private void showDebugInfo(ServerPlayer serverPlayer) {
+    String lootBallDebugInfo = """
+        Loot Ball Debug Info:
+        - Variant: %d
+        - Texture: %s
+        - Loot Ball Data: %s
+        - Sparks: %s
+        - Invisible: %s
+        - Opening: %s
+        - Uses: %d
+        - Multiplier: %.2f
+        - Openers: %s
+        """.formatted(this.getVariant(), this.getTexture(), this.getLootBallData(), this.hasSparks(), this.isInvisible(), this.isOpening, this.getRemainingUses(), this.getMultiplier(), this.openers);
+    serverPlayer.sendSystemMessage(cobblelootsText(lootBallDebugInfo).withStyle(ChatFormatting.YELLOW), true);
+  }
+
   private void setLootBallItem(ItemStack itemStack, ServerPlayer serverPlayer) {
     this.setItem(0, itemStack);
     if (!serverPlayer.isCreative()) serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
@@ -495,6 +518,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       } else if (this.getOpeningTicks() == 0 && this.pendingOpener != null) {
         this.pendingOpener = null;
         this.isOpening = false;
+        this.setInvisible(this.wasInvisible);
         this.playSound(CobblelootsLootBallSounds.getLidCloseSound());
       }
     }

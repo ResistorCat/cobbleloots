@@ -16,7 +16,7 @@ public class CobblelootsLootBallSoundsImpl {
     return LOOT_BALL_OPEN.value();
   }
 
-  public static void register(IEventBus modEventBus) {
+  public static void registerSounds(IEventBus modEventBus) {
     SOUND_EVENTS.register(modEventBus);
   }
 }

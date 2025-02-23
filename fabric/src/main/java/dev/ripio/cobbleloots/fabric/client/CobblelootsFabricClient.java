@@ -2,10 +2,11 @@ package dev.ripio.cobbleloots.fabric.client;
 
 import dev.ripio.cobbleloots.entity.client.CobblelootsLootBallModel;
 import dev.ripio.cobbleloots.entity.client.CobblelootsLootBallRenderer;
-import dev.ripio.cobbleloots.fabric.entity.CobblelootsEntities;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+
+import static dev.ripio.cobbleloots.entity.fabric.CobblelootsEntitiesImpl.getLootBallEntityType;
 
 public final class CobblelootsFabricClient implements ClientModInitializer {
     @Override
@@ -14,7 +15,7 @@ public final class CobblelootsFabricClient implements ClientModInitializer {
 
         // Register the loot ball renderer
         EntityRendererRegistry.register(
-            CobblelootsEntities.LOOT_BALL,
+            getLootBallEntityType(),
             CobblelootsLootBallRenderer::new
         );
 

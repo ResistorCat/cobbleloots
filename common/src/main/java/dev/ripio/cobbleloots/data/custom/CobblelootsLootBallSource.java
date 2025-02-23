@@ -1,4 +1,4 @@
-package dev.ripio.cobbleloots.data.lootball;
+package dev.ripio.cobbleloots.data.custom;
 
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;

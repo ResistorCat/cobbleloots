@@ -2,9 +2,9 @@ package dev.ripio.cobbleloots.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallData;
-import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallHeight;
-import dev.ripio.cobbleloots.data.lootball.CobblelootsLootBallSource;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallHeight;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSource;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;

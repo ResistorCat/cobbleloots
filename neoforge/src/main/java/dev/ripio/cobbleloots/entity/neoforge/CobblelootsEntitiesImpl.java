@@ -1,23 +1,28 @@
-package dev.ripio.cobbleloots.neoforge.entity;
+package dev.ripio.cobbleloots.entity.neoforge;
 
 import dev.ripio.cobbleloots.Cobbleloots;
+import dev.ripio.cobbleloots.entity.CobblelootsEntities;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
-public class CobblelootsEntities {
+public class CobblelootsEntitiesImpl {
   public static final DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Cobbleloots.MOD_ID);
 
-  public static final Supplier<EntityType<CobblelootsLootBall>> LOOT_BALL = ENTITY_TYPES.register(
+  private static final Supplier<EntityType<CobblelootsLootBall>> LOOT_BALL_ENTITY_TYPE = ENTITY_TYPES.register(
       "loot_ball",
-      () -> EntityType.Builder.of(CobblelootsLootBall::new, MobCategory.MISC).sized(0.5f, 0.5f).build("loot_ball"));
+      CobblelootsEntities::getBaseLootBallEntityType);
 
-  public static void register(IEventBus modEventBus) {
+  public static EntityType<CobblelootsLootBall> getLootBallEntityType() {
+    return LOOT_BALL_ENTITY_TYPE.get();
+  }
+
+  public static void registerEntities(IEventBus modEventBus) {
+    Cobbleloots.LOGGER.info("Registering entities");
     ENTITY_TYPES.register(modEventBus);
   }
 }
