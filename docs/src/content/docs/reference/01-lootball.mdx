@@ -1,0 +1,108 @@
+---
+title: Loot Ball
+description: This page describes the technical details of the Loot Ball.
+---
+
+# Overview
+
+## NBT Tags
+
+- `LootTable` (String): The loot table location to use for the loot ball.
+    > Example: `minecraft:chests/simple_dungeon`
+- `LootTableSeed` (Long): The seed to use for the loot table. Default is 0.
+- `Items` (List): A list with the current item inside the loot ball. The maximum number of items is 1.
+- `Sparks` (Boolean Byte): Whether the loot ball is sparking or not while it is invisible.
+- `Invisible` (Boolean Byte): Whether the loot ball is invisible or not.
+- `Texture` (String): The texture location of the loot ball.
+    > Example: `cobblemon:textures/poke_balls/poke_ball.png`
+- `LootBallData` (String): The loot ball data location.
+    > Example: `cobbleloots:poke_ball`
+- `Variant` (Int): The variant of the loot ball. Default is 0.
+- `Openers` (List): A list with the UUIDs and Timestamps of the players who have opened the loot ball.
+- `Uses` (Int): The number of uses left for the loot ball. Default is 1. Negative values mean infinite uses.
+- `Multiplier` (Float): The multiplier of the loot ball.
+
+---
+
+## Loot Ball Data
+
+The loot ball data is a JSON file that contains the properties of the loot ball. It is located in the `data/cobbleloots/loot_ball` folder. Here is an example of the `cobbleloots:loot_ball/poke` json file:
+
+```json
+{
+  "name": "Poke",
+  "weight": 50,
+  "loot_table": "cobbleloots:loot_ball/poke",
+  "texture": "cobblemon:textures/poke_balls/poke_ball.png",
+  "sources": [
+    {
+      "type": "generation"
+    },
+    {
+      "type": "fishing"
+    },
+    {
+      "type": "archaeology"
+    }
+  ],
+  "variants": [
+    {
+      "name": "Azure",
+      "loot_table": "cobbleloots:loot_ball/azure",
+      "texture": "cobblemon:textures/poke_balls/azure_ball.png"
+    },
+    {
+      "name": "Citrine",
+      "loot_table": "cobbleloots:loot_ball/citrine",
+      "texture": "cobblemon:textures/poke_balls/citrine_ball.png"
+    },
+    {
+      "name": "Premier",
+      "loot_table": "cobbleloots:loot_ball/premier",
+      "texture": "cobblemon:textures/poke_balls/premier_ball.png"
+    },
+    {
+      "name": "Roseate",
+      "loot_table": "cobbleloots:loot_ball/roseate",
+      "texture": "cobblemon:textures/poke_balls/roseate_ball.png"
+    },
+    {
+      "name": "Slate",
+      "loot_table": "cobbleloots:loot_ball/slate",
+      "texture": "cobblemon:textures/poke_balls/slate_ball.png"
+    },
+    {
+      "name": "Verdant",
+      "loot_table": "cobbleloots:loot_ball/verdant",
+      "texture": "cobblemon:textures/poke_balls/verdant_ball.png"
+    }
+  ]
+}
+```
+
+Another example of the `cobbleloots:loot_ball/dive` json file:
+
+```json
+{
+  "name": "Dive",
+  "weight": 20,
+  "loot_table": "cobbleloots:loot_ball/dive",
+  "texture": "cobblemon:textures/poke_balls/dive_ball.png",
+  "sources": [
+    {
+      "type": "generation",
+      "biome": "cobbleloots:loot_ball/dive",
+      "height": {
+        "max": 62
+      },
+      "weight": 1
+    },
+    {
+      "type": "fishing",
+      "biome": "cobbleloots:loot_ball/dive"
+    }
+  ]
+}
+```
+
+> **Note**: The sources are still not implemented in the mod. They are planned for future updates, and the data structure may change in the future.
