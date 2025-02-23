@@ -1,0 +1,68 @@
+---
+title: "Mapmaking Guide: Loot Balls"
+description: Learn how to use Cobbleloots' Loot Balls in your Minecraft mapmaking projects.
+---
+
+Cobbleloots introduces a new way to obtain items in Minecraft: `Loot Balls`. These special items can be found in different ways to obtain various items. They work similarly to the Poké Balls in the Pokémon games, where you can find special items inside them.
+
+---
+
+# How to create Loot Balls
+
+Currently, there are two ways to create Loot Balls in Cobbleloots:
+
+1. **Using the `/summon` command**: You can create a Loot Ball by using the `/summon cobbleloots:loot_ball` command. This will spawn a Loot Ball at the specified location. You can also customize the Loot Ball by passing NBT tags to the command. For example:
+
+    ```mcfunction
+    summon cobbleloots:loot_ball ~ ~ ~ {Uses:3, Multiplier:2.0f, Items: [{count: 64, Slot: 0b, id: "minecraft:diamonds"}]}
+    ```
+
+    This command will spawn a Loot Ball containing 64 diamonds with 3 uses and a multiplier of 2.0. This means that 3 different players can open the Loot Ball, and each player will receive 128 diamonds.
+
+2. **Using the Loot Ball Item**: In the Creative Cobbleloots tab, you can find the Loot Ball item. You can place Loot Balls with this item, and configure them later.
+
+---
+
+# How to configure Loot Balls
+
+## Creative mode actions
+In `creative mode`, you can do the following actions without commands:
+
+1. **Right-clicking a Loot Ball**: You can configure some aspects of the Loot Balls by right-clicking them with some item or the empty hand:
+    - **Toggle Invisibility**: You can make the Loot Ball invisible or visible by right-clicking it with an empty hand.
+    - **Toggle Sparks effects**: Loot Balls sparks while invisible by default. You can make the Loot Ball spark or stop sparking by right-clicking it with a Honeycomb while the Loot Ball is invisible.
+    - **Set the Item**: You can set the item inside the Loot Ball by right-clicking it with the item you want to set.
+2. **Left-clicking a Loot Ball**: You can destroy the Loot Ball by left-clicking it with an empty hand. The Loot Ball will drop the item inside it, and the Loot Ball will be destroyed.
+
+## Commands
+To customize the Loot Ball further, you can use the `/data` command to modify the NBT tags of the Loot Ball. For example:
+
+```mcfunction
+data merge entity @n[type=cobbleloots:loot_ball] {Multiplier:2.0f}
+```
+
+This command will set the multiplier of the nearest Loot Ball to 2.0. A list of all available NBT tags can be found in the [Loot Ball reference](../../reference/01-lootball).
+
+## Custom Loot Balls
+
+You can create custom Loot Balls with different items and properties using the `LootBallData` NBT tag. This tag allows you to specify a custom Loot Ball data location, which can be used to define the properties of the Loot Ball. For example:
+
+```mcfunction
+summon cobbleloots:loot_ball ~ ~ ~ {LootBallData: "cobbleloots:loot_ball/master"}
+```
+
+This command will spawn a Loot Ball using the custom data defined in the `cobbleloots:loot_ball/master` data location. You can define custom Loot Ball data using datapacks. For more information, check the [Loot Ball reference](../../reference/01-lootball).
+
+> **Note**: Custom Loot Ball data overrides the default properties of the Loot Ball. Make sure to define all the necessary properties in the custom data to avoid issues.
+
+## Positioning
+
+Loot Balls are entities, so they can be moved around using commands or other methods. You can also use the `/teleport` command to move the Loot Ball to a specific location. For example:
+
+```mcfunction
+/teleport @n[type=cobbleloots:loot_ball] ~ ~ ~ ~ ~
+```
+
+This command will teleport the nearest Loot Ball to the command executor's location, and rotate it to the executor's rotation.
+
+You can also move the Loot Ball using other methods, such as pistons, water streams or gravity. Players and other entities can't push Loot Balls, so you need to use other methods to move them around.
