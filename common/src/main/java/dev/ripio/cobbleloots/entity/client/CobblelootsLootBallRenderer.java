@@ -25,4 +25,9 @@ public class CobblelootsLootBallRenderer extends LivingEntityRenderer<Cobbleloot
   public void render(CobblelootsLootBall livingEntity, float f, float g, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
     super.render(livingEntity, f, g, poseStack, multiBufferSource, i);
   }
+
+  @Override
+  protected boolean shouldShowName(CobblelootsLootBall livingEntity) {
+    return super.shouldShowName(livingEntity) && !livingEntity.getName().getString().equals("Loot Ball");
+  }
 }
