@@ -4,7 +4,9 @@
 
 ## Changes
 
+### Tags
+- Added new internal biome and block tags for loot ball generation and spawning.
+
 ### Loot Ball Data
 - Changed `biome` entry data type in `sources` definitions from `ResourceLocation` to `TagKey<Biome>` for better performance. From now on, biome filters should point to biome tags instead of biome IDs. If no biome filter is specified, the loot ball will be available in all biomes.
 - Added an experimental boolean `announce` entry. If set to `true`, when the loot ball is spawned, a message will be sent to all players on the server.
-- 
