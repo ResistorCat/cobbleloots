@@ -44,7 +44,7 @@ public class CobblelootsLootBallEvents {
     //int lootBallCount = level.getEntities(CobblelootsLootBall.class, pos2.getX(), pos2.getY(), pos2.getZ(), MAX_LOOT_BALLS_PER_CHUNK).size();
 
     // STEP: Attempt spawn at given pos
-    CobblelootsLootBall lootBall = spawnLootBall(level, pos, randomSource, CobblelootsSourceType.GENERATION);
+    spawnLootBall(level, pos, randomSource, CobblelootsSourceType.GENERATION);
   }
 
   public static void spawnLootBallNearRandomPlayer(MinecraftServer server, RandomSource randomSource) {
@@ -87,7 +87,6 @@ public class CobblelootsLootBallEvents {
     ResourceLocation dataId = weightRandomResourceLocation(randomSource, lootBallIds);
     if (dataId == CobblelootsDefinitions.EMPTY_LOCATION) return null;
     int variant = weightRandomVariant(randomSource, dataId);
-    CobblelootsLootBallData data = getLootBallData(dataId, variant);
 
     // STEP: Create a new loot ball entity
     EntityType<CobblelootsLootBall> lootBallEntityType = getLootBallEntityType();
