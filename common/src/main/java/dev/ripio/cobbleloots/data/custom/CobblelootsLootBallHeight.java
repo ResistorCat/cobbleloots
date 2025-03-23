@@ -16,4 +16,8 @@ public class CobblelootsLootBallHeight {
     public int getMax() {
         return this.max;
     }
+
+    public boolean isInRange(int height) {
+        return height >= this.min && height <= this.max;
+    }
 }

@@ -39,6 +39,11 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge-neoforge:$rootProject.neoforge_kotlin_version") {
         exclude group: "net.neoforged.fancymodloader", module: "loader"
     }
+    ////////////////////////////
+    // DEBUGGING DEPENDENCIES //
+    ////////////////////////////
+    // implementation "curse.maven:jade-324717:6011258"
+    ////////////////////////////
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')

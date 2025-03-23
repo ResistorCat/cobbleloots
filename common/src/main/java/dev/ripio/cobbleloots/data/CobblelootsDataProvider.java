@@ -8,8 +8,15 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSource;
+import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -18,6 +25,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+import static dev.ripio.cobbleloots.data.CobblelootsCodecs.EMPTY_BIOME_TAG;
 import static dev.ripio.cobbleloots.data.CobblelootsCodecs.LOOT_BALL_CODEC;
 
 public class CobblelootsDataProvider {
@@ -57,6 +65,63 @@ public class CobblelootsDataProvider {
     return data;
   }
 
+  public static int getTotalWeight(List<ResourceLocation> ids) {
+    int total = 0;
+    for (ResourceLocation id : ids) {
+      CobblelootsLootBallData data = getLootBallData(id, -1);
+      if (data != null) {
+        total += data.getWeight();
+      }
+    }
+    return total;
+  }
+
+  public static @NotNull List<ResourceLocation> getFilteredLootBallIds(ServerLevel level, BlockPos pos, CobblelootsSourceType sourceType) {
+    List<ResourceLocation> validLootBallIds = getExistingLootBallIds();
+    //Cobbleloots.LOGGER.info("DEBUG: Total loot balls: {}", validLootBallIds.size());
+    // Filter loot balls by biome and height
+    validLootBallIds.removeIf(id -> {
+      // Get loot ball data and sources
+      CobblelootsLootBallData data = getLootBallData(id, -1);
+      if (data == null) {
+        Cobbleloots.LOGGER.error("Data not found for id: {}", id);
+        return true;
+      }
+      List<CobblelootsLootBallSource> sourcesData = data.getSources();
+      if (sourcesData == null) {
+        //Cobbleloots.LOGGER.info("DEBUG: Sources not found for id: {}", id);
+        return true;
+      }
+
+      // Search for sourceType source
+      CobblelootsLootBallSource source = sourcesData.stream()
+          .filter(s -> Objects.equals(s.getType(), sourceType.getName()))
+          .findFirst()
+          .orElse(null);
+      if (source == null) {
+        //Cobbleloots.LOGGER.info("DEBUG: Source not found for id: {}", id);
+        return true;
+      }
+
+      // Check biome
+      TagKey<Biome> biomeId = source.getBiome();
+      if (biomeId != EMPTY_BIOME_TAG && !level.getBiome(pos).is(biomeId)) {
+        //Cobbleloots.LOGGER.info("DEBUG: Expected biome: {}, Found biome: {}", biomeId.location(), level.getBiome(pos).getRegisteredName());
+        return true;
+      }
+
+      // Check height
+      if (!source.getHeight().isInRange(pos.getY())) {
+        //Cobbleloots.LOGGER.info("DEBUG: Expected height: {} to {}, Found height: {}", source.getHeight().getMin(), source.getHeight().getMax(), pos.getY());
+        return true;
+      }
+
+      return false;
+    });
+
+    return validLootBallIds;
+  }
+
   public static List<ResourceLocation> getExistingLootBallIds() {
     return new ArrayList<>(lootBallsData.keySet());
   }
@@ -66,7 +131,6 @@ public class CobblelootsDataProvider {
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 
     // Load loot balls
-    Cobbleloots.LOGGER.info("Loading loot ball data...");
     for (ResourceLocation id : resourceManager.listResources(PATH_LOOT_BALLS, path -> path.getPath().endsWith(".json")).keySet()) {
       try (InputStream stream = resourceManager.getResourceOrThrow(id).open()) {
         // Parse JSON
@@ -83,5 +147,7 @@ public class CobblelootsDataProvider {
 
     // Remove deleted loot balls
     removeLootBallData(cachedLootBalls);
+
+    Cobbleloots.LOGGER.info("Loaded {} Loot Ball data definitions.", lootBallsData.size());
   }
 }
