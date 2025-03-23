@@ -4,6 +4,9 @@
 
 ## Changes
 
+### Loot Ball NBT
+- Added new nbt tag `DespawnTick`. This tag is used to store the tick when the loot ball will despawn. This tag is used to prevent **spawned** loot balls from staying in the world indefinitely. Generated loot balls doesn't have this tag, so they will not despawn.
+
 ### Tags
 - Added new internal biome and block tags for loot ball generation and spawning.
 

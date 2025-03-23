@@ -67,10 +67,12 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TAG_OPENERS = "Openers";
   private static final String TAG_USES = "Uses";
   private static final String TAG_MULTIPLIER = "Multiplier";
+  private static final String TAG_DESPAWN_TICK = "DespawnTick";
 
   protected final Map<UUID, Long> openers = new HashMap<>();
   protected int uses = 1;
   protected float multiplier = 1.0f;
+  protected long despawnTick = 0;
 
   // Text keys
   private static final String TEXT_ERROR_IS_OPENING = "entity.cobbleloots.loot_ball.error.is_opening";
@@ -223,6 +225,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     }
     if (this.uses != 1) compoundTag.putInt(TAG_USES, this.uses);
     if (this.multiplier != 1.0f) compoundTag.putFloat(TAG_MULTIPLIER, this.multiplier);
+    if (this.despawnTick != 0) compoundTag.putLong(TAG_DESPAWN_TICK, this.despawnTick);
   }
 
   @Override
@@ -251,6 +254,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     }
     if (compoundTag.contains(TAG_USES)) this.uses = compoundTag.getInt(TAG_USES);
     if (compoundTag.contains(TAG_MULTIPLIER)) this.multiplier = compoundTag.getFloat(TAG_MULTIPLIER);
+    if (compoundTag.contains(TAG_DESPAWN_TICK)) this.despawnTick = compoundTag.getLong(TAG_DESPAWN_TICK);
   }
 
   @Override
@@ -274,6 +278,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   public void tick() {
     super.tick();
     this.openingTick();
+
+    // Server logic
+    if (!this.level().isClientSide()) {
+      // Despawn logic
+      if (this.getDespawnTick() != 0 && this.level().getGameTime() >= this.getDespawnTick()) {
+        this.discard();
+      }
+    }
   }
 
   @Override
@@ -452,6 +464,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   public void setTexture(ResourceLocation texture) {
     this.entityData.set(TEXTURE, texture.toString());
+  }
+
+  public void setDespawnTick(long tick) {
+    this.despawnTick = tick;
+  }
+
+  public long getDespawnTick() {
+    return this.despawnTick;
   }
 
   // --- Private methods ---
