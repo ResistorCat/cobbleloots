@@ -4,6 +4,10 @@
 
 ## Changes
 
+### Loot Ball
+- Reverted changes to item obtaining in survival. Now, the item will be directly added to the player's inventory instead of dropping it on the ground. If the player's inventory is full, the item will be dropped on the ground.
+  - In the future, I will add a config option to choose between these two behaviors.
+
 ### Loot Ball NBT
 - Added new nbt tag `DespawnTick`. This tag is used to store the tick when the loot ball will despawn. This tag is used to prevent **spawned** loot balls from staying in the world indefinitely. Generated loot balls doesn't have this tag, so they will not despawn.
 

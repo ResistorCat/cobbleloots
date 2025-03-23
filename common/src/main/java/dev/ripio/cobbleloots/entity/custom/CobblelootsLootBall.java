@@ -380,8 +380,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     return this.entityData.get(OPENING_TICKS);
   }
 
-  private void open(ServerPlayer serverPlayer) {
-    // Drop items
+  private void open(ServerPlayer serverPlayer) {// Give or drop items
     for (ItemStack itemStack : this.itemStacks) {
       if (!itemStack.isEmpty()) {
         if (this.getMultiplier() > 1.0f) {
@@ -391,7 +390,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         } else {
           serverPlayer.sendSystemMessage(cobblelootsText(TEXT_OPEN_SUCCESS, itemStack.getHoverName().getString(), itemStack.getCount()).withStyle(ChatFormatting.AQUA), true);
         }
-        this.spawnAtLocation(itemStack);
+        serverPlayer.getInventory().placeItemBackInInventory(itemStack);
+        //this.spawnAtLocation(itemStack);
         this.addOpener(serverPlayer);
         this.playSound(CobblelootsLootBallSounds.getPopItemSound());
         serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
