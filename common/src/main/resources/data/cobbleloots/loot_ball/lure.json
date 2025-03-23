@@ -1,6 +1,6 @@
 {
   "name": "Lure",
-  "weight": 20,
+  "weight": 25,
   "loot_table": "cobbleloots:loot_ball/lure",
   "texture": "cobblemon:textures/poke_balls/lure_ball.png",
   "sources": [
