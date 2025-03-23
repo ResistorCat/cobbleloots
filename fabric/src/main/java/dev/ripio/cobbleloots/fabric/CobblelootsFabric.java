@@ -5,6 +5,7 @@ import net.fabricmc.api.ModInitializer;
 
 import static dev.ripio.cobbleloots.entity.fabric.CobblelootsEntitiesImpl.registerEntities;
 import static dev.ripio.cobbleloots.fabric.data.CobblelootsReloadListeners.registerReloadListeners;
+import static dev.ripio.cobbleloots.fabric.event.CobblelootsEvents.registerEvents;
 import static dev.ripio.cobbleloots.item.fabric.CobblelootsItemsImpl.registerItems;
 import static dev.ripio.cobbleloots.sound.fabric.CobblelootsLootBallSoundsImpl.registerSounds;
 
@@ -21,5 +22,6 @@ public final class CobblelootsFabric implements ModInitializer {
         registerSounds();
         registerEntities();
         registerItems();
+        registerEvents();
     }
 }

@@ -4,6 +4,14 @@
 
 ## Changes
 
+### Loot Ball Generation and Spawning
+- Loot balls can now be generated with new chunks in the world. The generation is based on biome tags filters and height filters.
+  - The generation can be configured in data packs and enabled or disabled for individual loot balls. By setting the `type` entry to `generated` in a source definition, the loot ball will be generated in the world.
+  - The generator will try to spawn a loot ball in a section of a chunk. By default, 3 attempts are made to spawn a loot ball in a chunk.
+  - Reduced the performance impact of loot ball generation compared to the previous mod, by checking smaller sections of the world.
+- Loot balls can now spawn nearby a random player. The spawning uses the same biome tags filters and height filters as generation, but they can be configured separately in data packs.
+  - Every certain amount of time, the mod will try to spawn a loot ball near a random player. By default, the mod will try to spawn a loot ball every 5-30 minutes.
+
 ### Loot Ball
 - Reverted changes to item obtaining in survival. Now, the item will be directly added to the player's inventory instead of dropping it on the ground. If the player's inventory is full, the item will be dropped on the ground.
   - In the future, I will add a config option to choose between these two behaviors.

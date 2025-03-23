@@ -9,8 +9,14 @@
       "biome": "cobbleloots:loot_ball/dive",
       "height": {
         "max": 62
-      },
-      "weight": 1
+      }
+    },
+    {
+      "type": "spawning",
+      "biome": "cobbleloots:loot_ball/dive",
+      "height": {
+        "max": 62
+      }
     },
     {
       "type": "fishing",
