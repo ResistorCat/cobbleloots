@@ -35,7 +35,7 @@ dependencies {
     ////////////////////////////
     // DEBUGGING DEPENDENCIES //
     ////////////////////////////
-    // modImplementation "curse.maven:jade-324717:6154968"
+    // modImplementation "curse.maven:jade-324717:6291536"
     ////////////////////////////
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }

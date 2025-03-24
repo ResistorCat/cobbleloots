@@ -93,7 +93,7 @@ public class CobblelootsLootBallEvents {
     CobblelootsLootBall lootBall = lootBallEntityType.create(level);
 
     // STEP: Move loot ball to the given position and add it to the world
-    Vec3 vec3 = new Vec3(pos.getX() + randomSource.nextFloat(), pos.getY(), pos.getZ() + randomSource.nextFloat());
+    Vec3 vec3 = new Vec3(pos.getX() + 0.25F + randomSource.nextFloat()*0.5F, pos.getY(), pos.getZ() + 0.25F + randomSource.nextFloat()*0.5F);
     float f = randomSource.nextFloat() * (360F);
     lootBall.moveTo(vec3.x(), vec3.y(), vec3.z(), f, 0.0F);
     level.addFreshEntity(lootBall);
