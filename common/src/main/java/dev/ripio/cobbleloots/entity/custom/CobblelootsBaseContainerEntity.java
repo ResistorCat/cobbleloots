@@ -9,12 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.vehicle.ContainerEntity;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.loot.LootParams;
@@ -24,7 +22,7 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class CobblelootsBaseContainerEntity extends LivingEntity implements ContainerEntity {
+public abstract class CobblelootsBaseContainerEntity extends LivingEntity implements Container {
   // Slots
   private static final NonNullList<ItemStack> EMPTY_STACK_LIST = NonNullList.createWithCapacity(0);
 
@@ -85,7 +83,6 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
     //super.readAdditionalSaveData(compoundTag);
     this.clearItemStacks();
     if (compoundTag.contains(TAG_LOOT_TABLE, 8)) {
-      //this.setLootTable(ResourceKey.create(Registries.LOOT_TABLE, ResourceLocation.parse(compoundTag.getString(TAG_LOOT_TABLE))));
       this.setLootTableLocation(ResourceLocation.tryParse(compoundTag.getString(TAG_LOOT_TABLE)));
       this.setLootTableSeed(compoundTag.getLong(TAG_LOOT_TABLE_SEED));
     } else {
@@ -93,19 +90,23 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
     }
   }
 
-  // -- ContainerEntity Methods --
-  @Override
+  // -- Container Methods --
   public void clearItemStacks() {
     this.getItemStacks().clear();
   }
 
-  @Override
-  public void setLootTable(@Nullable ResourceKey<LootTable> resourceKey) {
+  public void setLootTableSeed(long l) {
+    this.lootTableSeed = l;
   }
 
   @Override
-  public void setLootTableSeed(long l) {
-    this.lootTableSeed = l;
+  public boolean isEmpty() {
+    for (ItemStack itemStack : this.getItemStacks()) {
+      if (!itemStack.isEmpty()) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public abstract @NotNull NonNullList<ItemStack> getItemStacks();
@@ -157,11 +158,6 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
   public void clearContent() {
     //this.unpackLootTable(null);
     this.getItemStacks().clear();
-  }
-
-  @Override
-  public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-    return null;
   }
 
   @Nullable
