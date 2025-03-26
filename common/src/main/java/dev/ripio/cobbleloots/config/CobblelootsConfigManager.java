@@ -44,9 +44,7 @@ public class CobblelootsConfigManager {
     // Get the config spec
     ConfigSpec spec = getConfigSpec();
     // Check if the config file is correct
-    ConfigSpec.CorrectionListener listener = (action, path, incorrectValue, correctedValue) -> {
-      Cobbleloots.LOGGER.warn("Config value {}={} is incorrect, using default value {}", path, incorrectValue, correctedValue);
-    };
+    ConfigSpec.CorrectionListener listener = (action, path, incorrectValue, correctedValue) -> Cobbleloots.LOGGER.warn("Config value {}={} is incorrect, using default value {}", path, incorrectValue, correctedValue);
     int numberOfErrors = spec.correct(CONFIG, listener);
     Cobbleloots.LOGGER.info("Config loaded with {} errors", numberOfErrors);
     // Save the config file
