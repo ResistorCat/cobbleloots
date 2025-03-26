@@ -26,6 +26,7 @@ import static dev.ripio.cobbleloots.entity.CobblelootsEntities.getLootBallEntity
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.*;
 
 public class CobblelootsLootBallEvents {
+  private static final String TEXT_EVENT_LOOT_BALL_SPAWN_SPECIAL = "event.cobbleloots.loot_ball.spawn.special";
 
   public static void generateLootBallOnChunk(ServerLevel level, LevelChunk levelChunk, RandomSource randomSource) {
     // STEP: Check chance for loot ball generation attempt
@@ -111,7 +112,7 @@ public class CobblelootsLootBallEvents {
 
     // STEP: Decoration
     if (getLootBallData(dataId, variant).getAnnounce()) {
-      level.getServer().getPlayerList().broadcastSystemMessage(cobblelootsText("event.loot_ball.spawn.special", getLootBallData(dataId, variant).getName()), false);
+      level.getServer().getPlayerList().broadcastSystemMessage(cobblelootsText(TEXT_EVENT_LOOT_BALL_SPAWN_SPECIAL), false);
     }
     return lootBall;
   }

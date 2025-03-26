@@ -23,6 +23,7 @@
   "stat.cobbleloots.loot_ball_open": "Loot ball open fanfare",
   "gamerule.doLootBallFishing": "Allow loot ball fishing",
   "gamerule.generateLootBalls": "Enable loot ball natural generation",
+  "event.cobbleloots.loot_ball.spawn.special": "A special loot ball has spawned!",
   "text.config.cobbleloots-config.option.doLootBallArchaeology": "Enable loot balls from archaeology loot tables",
   "text.config.cobbleloots-config.option.doLootBallChests": "Enable loot balls from chest loot tables",
   "text.config.cobbleloots-config.option.doLootBallChests.tooltip": "Not implemented yet!",
