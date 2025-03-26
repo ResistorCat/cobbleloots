@@ -18,6 +18,7 @@ public class CobblelootsEventManager {
     if (getBooleanConfig(LOOT_BALL_GENERATION_ENABLED)) {
       int count = 0;
       for (int i = 0; i < getIntConfig(LOOT_BALL_GENERATION_ATTEMPTS); i++) {
+        if (count >= getIntConfig(LOOT_BALL_GENERATION_CHUNK_CAP)) break;
         if (generateLootBallOnChunk(level, levelChunk, randomSource)) count++;
       }
     }

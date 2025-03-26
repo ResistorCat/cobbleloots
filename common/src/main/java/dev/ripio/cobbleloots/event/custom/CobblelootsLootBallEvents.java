@@ -28,24 +28,21 @@ import static dev.ripio.cobbleloots.util.CobblelootsUtils.*;
 public class CobblelootsLootBallEvents {
   private static final String TEXT_EVENT_LOOT_BALL_SPAWN_SPECIAL = "event.cobbleloots.loot_ball.spawn.special";
 
-  public static void generateLootBallOnChunk(ServerLevel level, LevelChunk levelChunk, RandomSource randomSource) {
+  public static boolean generateLootBallOnChunk(ServerLevel level, LevelChunk levelChunk, RandomSource randomSource) {
     // STEP: Check chance for loot ball generation attempt
     if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_GENERATION_CHANCE) ) return false;
 
     // STEP: Select a random position in the chunk
     LevelChunkSection[] sections = levelChunk.getSections();
     int sectionIndex = searchRandomNonEmptySectionIndex(sections, randomSource);
-    if (sectionIndex == -1) return;
+    if (sectionIndex == -1) return false;
     LevelChunkSection section = sections[sectionIndex];
     BlockPos relativePos = searchRandomValidLootBallSpawn(section, randomSource);
-    if (relativePos == null) return;
+    if (relativePos == null) return false;
     BlockPos pos = relativePos.offset(levelChunk.getPos().getMinBlockX(), levelChunk.getSectionYFromSectionIndex(sectionIndex)*LevelChunkSection.SECTION_HEIGHT, levelChunk.getPos().getMinBlockZ());
 
-    // STEP: Check loot ball cap for the chunk
-    //int lootBallCount = level.getEntities(CobblelootsLootBall.class, pos2.getX(), pos2.getY(), pos2.getZ(), MAX_LOOT_BALLS_PER_CHUNK).size();
-
     // STEP: Attempt spawn at given pos
-    spawnLootBall(level, pos, randomSource, CobblelootsSourceType.GENERATION);
+    return spawnLootBall(level, pos, randomSource, CobblelootsSourceType.GENERATION) != null;
   }
 
   public static void spawnLootBallNearRandomPlayer(MinecraftServer server, RandomSource randomSource) {
@@ -70,9 +67,6 @@ public class CobblelootsLootBallEvents {
     BlockPos relativePos = searchRandomValidLootBallSpawn(section, randomSource);
     if (relativePos == null) return;
     BlockPos pos = relativePos.offset(randomChunk.getPos().getMinBlockX(), randomChunk.getSectionYFromSectionIndex(sectionIndex)*LevelChunkSection.SECTION_HEIGHT, randomChunk.getPos().getMinBlockZ());
-
-    // STEP: Check loot ball cap for the chunk
-    //int lootBallCount = level.getEntities(CobblelootsLootBall.class, pos2.getX(), pos2.getY(), pos2.getZ(), MAX_LOOT_BALLS_PER_CHUNK).size();
 
     // STEP: Attempt spawn at given pos
     CobblelootsLootBall lootBall = spawnLootBall(level, pos, randomSource, CobblelootsSourceType.SPAWNING);
