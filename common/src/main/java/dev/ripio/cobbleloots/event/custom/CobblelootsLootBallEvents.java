@@ -53,13 +53,14 @@ public class CobblelootsLootBallEvents {
 
     // STEP: Choose a random player
     List<ServerPlayer> playerList = server.getPlayerList().getPlayers();
+    if (playerList.isEmpty()) return;
     ServerPlayer player = playerList.get(randomSource.nextInt(playerList.size()));
 
     // STEP: Select a random chunk near the player
     ServerLevel level = player.serverLevel();
     LevelChunk playerChunk = level.getChunkAt(player.blockPosition());
     ChunkPos playerChunkPos = playerChunk.getPos();
-    LevelChunk randomChunk = level.getChunk(playerChunkPos.x + randomSource.nextInt(-1, 1), playerChunkPos.z + randomSource.nextInt(-1, 1));
+    LevelChunk randomChunk = level.getChunk(playerChunkPos.x + randomSource.nextIntBetweenInclusive(-1, 1), playerChunkPos.z + randomSource.nextIntBetweenInclusive(-1, 1));
 
     // STEP: Select a random position in the chunk
     int sectionIndex = playerChunk.getSectionIndex((int) player.getY());
@@ -86,7 +87,7 @@ public class CobblelootsLootBallEvents {
     @Nullable List<ResourceLocation> lootBallIds = getFilteredLootBallIds(level, pos, sourceType);
     ResourceLocation dataId = weightRandomResourceLocation(randomSource, lootBallIds);
     if (dataId == CobblelootsDefinitions.EMPTY_LOCATION) return null;
-    int variant = weightRandomVariant(randomSource, dataId);
+    int variant = randomVariant(randomSource, dataId);
 
     // STEP: Create a new loot ball entity
     EntityType<CobblelootsLootBall> lootBallEntityType = getLootBallEntityType();
@@ -115,7 +116,7 @@ public class CobblelootsLootBallEvents {
     return lootBall;
   }
 
-  private static int weightRandomVariant(RandomSource random, ResourceLocation dataId) {
+  private static int randomVariant(RandomSource random, ResourceLocation dataId) {
     CobblelootsLootBallData data = getLootBallData(dataId, -1);
     if (data == null) return -1;
     List<CobblelootsLootBallData> variantsData = data.getVariants();
@@ -123,22 +124,6 @@ public class CobblelootsLootBallEvents {
     if (variantsData.isEmpty()) return -1;
 
     return random.nextIntBetweenInclusive(-1, variantsData.size()-1);
-
-    // Calculate variant weight
-    //int totalWeight = data.getWeight();
-    //for (CobblelootsLootBallData variantData : variantsData) {
-    //  totalWeight += variantData.getWeight();
-    //}
-    //if (totalWeight == 0) return -1;
-
-    // Choose a random variant
-    //int randomValue = random.nextInt(totalWeight);
-    //for (CobblelootsLootBallData variantData : variantsData) {
-    //  randomValue -= variantData.getWeight();
-    //  if (randomValue < 0) return variantsData.indexOf(variantData);
-    //}
-
-    //return -1;
   }
 
   private static ResourceLocation weightRandomResourceLocation(RandomSource random, @Nullable List<ResourceLocation> lootBallIds) {
@@ -147,6 +132,7 @@ public class CobblelootsLootBallEvents {
 
     // Calculate total weight
     int totalWeight = getTotalWeight(lootBallIds);
+    if (totalWeight == 0) return CobblelootsDefinitions.EMPTY_LOCATION;
 
     // Choose a random id
     int randomValue = random.nextInt(totalWeight);
