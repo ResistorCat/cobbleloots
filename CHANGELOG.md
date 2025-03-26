@@ -3,3 +3,5 @@
 > **IMPORTANT**: Alpha versions of the mod may contain bugs and **unfinished features**. Use them at your own risk. If you find any issues, please report them on the GitHub repository.
 
 ## Changes
+- Added a configuration file to customize the mod's features.
+  - A new configuration file is generated in the `config/cobbleloots` folder when the mod is loaded for the first time.

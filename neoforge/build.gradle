@@ -39,6 +39,10 @@ dependencies {
     implementation("thedarkcolour:kotlinforforge-neoforge:$rootProject.neoforge_kotlin_version") {
         exclude group: "net.neoforged.fancymodloader", module: "loader"
     }
+
+    implementation("com.electronwill.night-config:core:3.8.1")
+    implementation("com.electronwill.night-config:yaml:3.8.1")
+
     ////////////////////////////
     // DEBUGGING DEPENDENCIES //
     ////////////////////////////

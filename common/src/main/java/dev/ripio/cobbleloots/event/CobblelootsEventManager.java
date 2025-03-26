@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 
-import static dev.ripio.cobbleloots.config.CobblelootsConfig.*;
+import static dev.ripio.cobbleloots.config.CobblelootsConfigManager.*;
 import static dev.ripio.cobbleloots.event.custom.CobblelootsLootBallEvents.generateLootBallOnChunk;
 import static dev.ripio.cobbleloots.event.custom.CobblelootsLootBallEvents.spawnLootBallNearRandomPlayer;
 
@@ -15,9 +15,10 @@ public class CobblelootsEventManager {
 
   public static void onChunkGenerate(ServerLevel level, LevelChunk levelChunk) {
     // If loot ball generation is enabled, try to generate a loot ball in the chunk
-    if (LOOT_BALL_GENERATION_ENABLED.getValue()) {
-      for (int i = 0; i < LOOT_BALL_GENERATION_ATTEMPTS.getValue(); i++) {
-        generateLootBallOnChunk(level, levelChunk, randomSource);
+    if (getBooleanConfig(LOOT_BALL_GENERATION_ENABLED)) {
+      int count = 0;
+      for (int i = 0; i < getIntConfig(LOOT_BALL_GENERATION_ATTEMPTS); i++) {
+        if (generateLootBallOnChunk(level, levelChunk, randomSource)) count++;
       }
     }
   }
@@ -27,7 +28,7 @@ public class CobblelootsEventManager {
     if (lootBallSpawnTick == 0) lootBallSpawnTick = server.getTickCount() + getLootBallCooldown();
 
     // Every lootBallSpawnCooldown ticks, try to spawn a loot ball
-    if (server.getTickCount() > lootBallSpawnTick && LOOT_BALL_SPAWNING_ENABLED.getValue()) {
+    if (server.getTickCount() > lootBallSpawnTick && getBooleanConfig(LOOT_BALL_SPAWNING_ENABLED)) {
       spawnLootBallNearRandomPlayer(server, randomSource);
       // Reset the cooldown to a new random value
       lootBallSpawnTick = server.getTickCount() + getLootBallCooldown();
@@ -35,7 +36,7 @@ public class CobblelootsEventManager {
   }
 
   private static long getLootBallCooldown() {
-    return CobblelootsEventManager.randomSource.nextIntBetweenInclusive(Math.toIntExact(LOOT_BALL_SPAWN_COOLDOWN_MIN.getValue()), Math.toIntExact(LOOT_BALL_SPAWN_COOLDOWN_MAX.getValue()));
+    return CobblelootsEventManager.randomSource.nextIntBetweenInclusive(getIntConfig(LOOT_BALL_SPAWNING_COOLDOWN_MIN), getIntConfig(LOOT_BALL_SPAWNING_COOLDOWN_MAX));
   }
 
 

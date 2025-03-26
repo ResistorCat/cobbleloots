@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static dev.ripio.cobbleloots.config.CobblelootsConfig.*;
+import static dev.ripio.cobbleloots.config.CobblelootsConfigManager.*;
 import static dev.ripio.cobbleloots.data.CobblelootsDataProvider.*;
 import static dev.ripio.cobbleloots.entity.CobblelootsEntities.getLootBallEntityType;
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.*;
@@ -29,7 +29,7 @@ public class CobblelootsLootBallEvents {
 
   public static void generateLootBallOnChunk(ServerLevel level, LevelChunk levelChunk, RandomSource randomSource) {
     // STEP: Check chance for loot ball generation attempt
-    if (randomSource.nextFloat() > LOOT_BALL_GENERATION_CHANCE.getValue()) return;
+    if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_GENERATION_CHANCE) ) return false;
 
     // STEP: Select a random position in the chunk
     LevelChunkSection[] sections = levelChunk.getSections();
@@ -49,7 +49,7 @@ public class CobblelootsLootBallEvents {
 
   public static void spawnLootBallNearRandomPlayer(MinecraftServer server, RandomSource randomSource) {
     // STEP: Check chance for loot ball spawn attempt
-    if (randomSource.nextFloat() > LOOT_BALL_SPAWN_CHANCE.getValue()) return;
+    if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_SPAWN_CHANCE)) return;
 
     // STEP: Choose a random player
     List<ServerPlayer> playerList = server.getPlayerList().getPlayers();
@@ -76,7 +76,7 @@ public class CobblelootsLootBallEvents {
     CobblelootsLootBall lootBall = spawnLootBall(level, pos, randomSource, CobblelootsSourceType.SPAWNING);
     if (lootBall != null) {
       // STEP: Set despawn tick
-      lootBall.setDespawnTick(server.getTickCount() + LOOT_BALL_DESPAWN_TIME.getValue());
+      lootBall.setDespawnTick(server.getTickCount() + getIntConfig(LOOT_BALL_DESPAWN_TIME)); //LOOT_BALL_DESPAWN_TIME.getValue());
     }
   }
 
@@ -103,16 +103,15 @@ public class CobblelootsLootBallEvents {
     lootBall.setVariant(variant);
 
     // STEP: Check random chance to be invisible and have a multiplier
-    if (LOOT_BALL_BONUS_ENABLED.getValue() && randomSource.nextFloat() < LOOT_BALL_BONUS_CHANCE.getValue()) {
-      lootBall.setInvisible(LOOT_BALL_BONUS_INVISIBLE.getValue());
-      lootBall.setMultiplier(LOOT_BALL_BONUS_MULTIPLIER.getValue());
+    if (getBooleanConfig(LOOT_BALL_BONUS_ENABLED) && randomSource.nextFloat() < getFloatConfig(LOOT_BALL_BONUS_CHANCE)) {
+      lootBall.setInvisible(getBooleanConfig(LOOT_BALL_BONUS_INVISIBLE));
+      lootBall.setMultiplier(getFloatConfig(LOOT_BALL_BONUS_MULTIPLIER));
     }
 
     // STEP: Decoration
     if (getLootBallData(dataId, variant).getAnnounce()) {
       level.getServer().getPlayerList().broadcastSystemMessage(cobblelootsText("event.loot_ball.spawn.special", getLootBallData(dataId, variant).getName()), false);
     }
-    //Cobbleloots.LOGGER.info("DEBUG: Spawned loot ball at: {} of type {}", pos, dataId);
     return lootBall;
   }
 
