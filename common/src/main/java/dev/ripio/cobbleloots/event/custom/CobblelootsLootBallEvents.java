@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-import static dev.ripio.cobbleloots.config.CobblelootsConfigManager.*;
+import static dev.ripio.cobbleloots.config.CobblelootsConfig.*;
 import static dev.ripio.cobbleloots.data.CobblelootsDataProvider.*;
 import static dev.ripio.cobbleloots.entity.CobblelootsEntities.getLootBallEntityType;
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.*;

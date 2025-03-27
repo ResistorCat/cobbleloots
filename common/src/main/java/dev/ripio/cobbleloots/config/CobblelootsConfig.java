@@ -4,7 +4,7 @@ import com.electronwill.nightconfig.core.ConfigSpec;
 import com.electronwill.nightconfig.core.file.FileConfig;
 import dev.ripio.cobbleloots.Cobbleloots;
 
-public class CobblelootsConfigManager {
+public class CobblelootsConfig {
   // Config access
   public static final FileConfig CONFIG = FileConfig.of("config/cobbleloots/cobbleloots.yaml");
   // Loot Ball Bonus
@@ -56,8 +56,7 @@ public class CobblelootsConfigManager {
   }
 
   public static float getFloatConfig(String key) {
-    double value = CONFIG.get(key);
-    return (float) value;
+    return ((Double) CONFIG.get(key)).floatValue();
   }
 
   public static boolean getBooleanConfig(String key) {

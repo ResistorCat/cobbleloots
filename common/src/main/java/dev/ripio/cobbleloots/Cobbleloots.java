@@ -3,7 +3,7 @@ package dev.ripio.cobbleloots;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static dev.ripio.cobbleloots.config.CobblelootsConfigManager.initConfig;
+import static dev.ripio.cobbleloots.config.CobblelootsConfig.initConfig;
 
 
 public final class Cobbleloots {
