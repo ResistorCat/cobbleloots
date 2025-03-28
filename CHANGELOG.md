@@ -37,3 +37,4 @@
 ## Fixes
 - Fixed a bug where the server would crash when a loot ball spawn attempt happened without players connected.
 - Fixed an error in the calculation of nearby chunks for loot ball spawning.
+- Fixed a visual bug where loot balls would always render with poké ball texture instead of the correct loot ball texture from custom data.

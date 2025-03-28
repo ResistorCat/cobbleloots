@@ -58,6 +58,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final EntityDataAccessor<String> LOOT_BALL_DATA = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
   private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.INT);
 
+  private static final EntityDataAccessor<CompoundTag> LOOT_BALL_CLIENT_DATA = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.COMPOUND_TAG);
+
   // NBT Tags
   private static final String TAG_SPARKS = "Sparks";
   private static final String TAG_INVISIBLE = "Invisible";
@@ -208,6 +210,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     builder.define(LOOT_BALL_DATA, "");
     builder.define(VARIANT, -1);
     builder.define(OPENING_TICKS, 0);
+
+    builder.define(LOOT_BALL_CLIENT_DATA, new CompoundTag());
   }
 
   @Override
@@ -449,9 +453,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Nullable
   public ResourceLocation getTexture() {
     ResourceLocation textureLocation = ResourceLocation.tryParse(this.entityData.get(TEXTURE));
-    if (textureLocation == null || textureLocation.getPath().isEmpty()) {
-      CobblelootsLootBallData lootBallData = this.getLootBallData();
-      if (lootBallData != null) textureLocation = lootBallData.getTexture();
+    if (textureLocation != null && textureLocation.getPath().isEmpty()) {
+      if (this.entityData.get(LOOT_BALL_CLIENT_DATA).contains(TAG_TEXTURE)) {
+        String texturePath = this.entityData.get(LOOT_BALL_CLIENT_DATA).getString(TAG_TEXTURE);
+        if (!texturePath.isEmpty()) textureLocation = ResourceLocation.tryParse(texturePath);
+      } else {
+        CobblelootsLootBallData lootBallData = this.getLootBallData();
+        if (lootBallData != null) textureLocation = lootBallData.getTexture();
+      }
     }
     return textureLocation;
   }
@@ -462,10 +471,22 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   public void setVariant(int variant) {
     this.entityData.set(VARIANT, variant);
+    CompoundTag compoundTag = this.entityData.get(LOOT_BALL_CLIENT_DATA).copy();
+    CobblelootsLootBallData lootBallData = this.getLootBallData();
+    if (lootBallData != null) {
+      compoundTag.putString(TAG_TEXTURE, lootBallData.getTexture().toString());
+    }
+    this.entityData.set(LOOT_BALL_CLIENT_DATA, compoundTag);
   }
 
   public void setLootBallData(ResourceLocation lootBallData) {
     this.entityData.set(LOOT_BALL_DATA, lootBallData.toString());
+    CobblelootsLootBallData data = getLootBallData();
+    if (data != null) {
+      CompoundTag tag = new CompoundTag();
+      tag.putString(TAG_TEXTURE, data.getTexture().toString());
+      this.entityData.set(LOOT_BALL_CLIENT_DATA, tag);
+    }
   }
 
   public void setTexture(ResourceLocation texture) {
