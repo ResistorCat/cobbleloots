@@ -1,15 +1,15 @@
 package dev.ripio.cobbleloots.data.custom;
 
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 
 public class CobblelootsLootBallSource {
     private final String type;
-    private final ResourceLocation biome;
+    private final TagKey<Biome> biome;
     private final CobblelootsLootBallHeight height;
     private final int weight;
 
-    public CobblelootsLootBallSource(String type, ResourceLocation biome, CobblelootsLootBallHeight height, int weight) {
+    public CobblelootsLootBallSource(String type, TagKey<Biome> biome, CobblelootsLootBallHeight height, int weight) {
         this.type = type;
         this.biome = biome;
         this.height = height;
@@ -20,8 +20,7 @@ public class CobblelootsLootBallSource {
         return this.type;
     }
 
-    @Nullable
-    public ResourceLocation getBiome() {
+    public TagKey<Biome> getBiome() {
         return this.biome;
     }
 

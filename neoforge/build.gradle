@@ -40,6 +40,16 @@ dependencies {
         exclude group: "net.neoforged.fancymodloader", module: "loader"
     }
 
+    implementation("com.electronwill.night-config:yaml:3.8.1")
+    forgeRuntimeLibrary("com.electronwill.night-config:yaml:3.8.1")
+    shadowBundle("com.electronwill.night-config:yaml:3.8.1")
+
+    ////////////////////////////
+    // DEBUGGING DEPENDENCIES //
+    ////////////////////////////
+    // implementation "curse.maven:jade-324717:6011258"
+    ////////////////////////////
+
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
@@ -55,6 +65,8 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+    // Fix namespace conflicts
+    relocate 'com.electronwill.nightconfig', 'dev.ripio.cobbleloots.shadow.nightconfig'
 }
 
 remapJar {

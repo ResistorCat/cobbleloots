@@ -8,6 +8,9 @@
       "type": "generation"
     },
     {
+      "type": "spawning"
+    },
+    {
       "type": "fishing"
     }
   ]

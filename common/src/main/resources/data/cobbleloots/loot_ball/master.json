@@ -9,6 +9,10 @@
       "biome": "cobbleloots:loot_ball/master"
     },
     {
+      "type": "spawning",
+      "biome": "cobbleloots:loot_ball/master"
+    },
+    {
       "type": "archaeology"
     }
   ]

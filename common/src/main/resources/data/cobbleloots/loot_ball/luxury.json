@@ -6,10 +6,11 @@
   "sources": [
     {
       "type": "generation",
-      "height": {
-        "comment": "Deepslate level and below",
-        "max": 0
-      }
+      "biome": "cobbleloots:loot_ball/luxury"
+    },
+    {
+      "type": "spawning",
+      "biome": "cobbleloots:loot_ball/luxury"
     }
   ]
 }

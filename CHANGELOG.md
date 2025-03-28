@@ -1,34 +1,40 @@
-# Cobbleloots ALPHA-2.0.0
+# Cobbleloots ALPHA-2.0.3
 
 > **IMPORTANT**: Alpha versions of the mod may contain bugs and **unfinished features**. Use them at your own risk. If you find any issues, please report them on the GitHub repository.
 
-> **Note**: This mod replaces my previous mod `Cobblemon: Loot Balls`, but it is not compatible with the old loot balls from the other mod, so I suggest backing up items from previous worlds.
+## Changes
+- Added a configuration file to customize the mod's features.
+  - A new configuration file is generated in the `config/cobbleloots` folder when the mod is loaded for the first time.
+  - At the moment, the configuration file is missing a lot of features, but it will be expanded in future versions.
+- Added a chunk cap to loot ball generation which can be configured in the configuration file.
 
-## Changes from previous mod
+### Configurations
 
-- The Loot Balls code was completely redone from scratch. From now on, the mod will be called Cobbleloots, to avoid confusion with the old **incompatible** versions.
-  - Loot Balls are now **entities** instead of blocks.
-  - Loot Ball generation and survival sources **aren't implemented yet**. They will be added in future alpha versions.
-  - Loot Balls **now doesn't disappear after being opened**. They will stay in the world until they are destroyed by the players. This change was made to allow players to use the loot balls as **decorations** in future versions.
-    - Loot Balls doesn't drop themselves when destroyed. This will be added in future versions.
-  - Loot Balls items **now drop into the world** instead of being directly added to the player's inventory.
+> **NOTE**: The configuration file is in YAML format, so keys are referenced using a dot notation.
 
-## New Features
+#### Loot Ball Bonus
+- `loot_ball.bonus.enabled`: Enables/disables the bonus feature for loot balls (default: true)
+- `loot_ball.bonus.chance`: Chance for a loot ball to provide a bonus (0-1, default: 0.1)
+- `loot_ball.bonus.multiplier`: Multiplier applied to loot when bonus is active (default: 2.0)
+- `loot_ball.bonus.invisible`: Whether bonus loot balls are invisible (default: true)
 
-- Loot Balls now have new sounds and animations.
-  - The opening sound was updated to be more in line with the original Pokémon games.
-  - The opening animation was updated to be more fluid and visually appealing.
-  - Various sounds were added/updated for different actions on the loot balls.
+#### Loot Ball Generation
+- `loot_ball.generation.enabled`: Enables/disables loot ball generation in chunks (default: true)
+- `loot_ball.generation.chance`: Chance for loot ball generation on each attempt (0-1, default: 0.0625)
+- `loot_ball.generation.attempts`: Number of attempts to generate loot balls per chunk (min: 1, default: 2)
+- `loot_ball.generation.chunk_cap`: Maximum number of loot balls that can be generated per chunk (min: 1, default: 4)
 
-### Mapmaking
+#### Loot Ball Spawning
+- `loot_ball.spawning.enabled`: Enables/disables periodic loot ball spawning near players (default: true)
+- `loot_ball.spawning.chance`: Chance for a loot ball to spawn near a random player (0-1, default: 0.25)
+- `loot_ball.spawning.cooldown.min`: Minimum ticks between loot ball spawn attempts (min: 0, default: 6000)
+- `loot_ball.spawning.cooldown.max`: Maximum ticks between loot ball spawn attempts (min: 0, default: 36000)
 
-- The mod now has a [documentation](https://resistorcat.github.io/cobbleloots/) to help mapmakers use the mod objects and features in their custom maps. This will be updated as new features are added.
-  - At the moment of this release, the documentation is still a work in progress. If you have any questions, feel free to ask on my discord server. I will update the documentation as soon as possible.
-- Added a new `Loot Ball Data` system to help mapmakers create custom loot balls with different properties.
-  - You can now create custom loot balls trough datapacks! Check the documentation for more information.
-  - The system is **still a work in progress**, and it may change in future versions.
-  - The system is not yet implemented in survival sources nor generation. It will be added in future alpha versions.
-  - You can customize the loot table, texture, sources, rarity, biomes and more. Some of these features are not yet implemented, but you can write the data for future use.
-- Reworked the `Openers` tag to allow more flexibility for mapmakers.
-  - The system is still a work in progress, and it may change in future versions.
-  - It now stores the `UUID` and the `Timestamp` of the player that opened the loot ball. This will be used in future versions to add more features to the mod, like **cooldowns** and **re-usable** loot balls.
+#### Loot Ball Despawn
+- `loot_ball.despawn.enabled`: Enables/disables loot ball despawning (default: true)
+- `loot_ball.despawn.time`: Time in ticks before a loot ball despawns (min: 0, default: 24000)
+
+## Fixes
+- Fixed a bug where the server would crash when a loot ball spawn attempt happened without players connected.
+- Fixed an error in the calculation of nearby chunks for loot ball spawning.
+- Fixed a visual bug where loot balls would always render with poké ball texture instead of the correct loot ball texture from custom data.

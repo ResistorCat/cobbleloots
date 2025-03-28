@@ -10,11 +10,13 @@ Cobbleloots is a mod for Cobblemon that adds different ways to obtain items base
 * [Cobblemon: CobbleLoots](#cobblemon-cobbleloots)
 * [Features](#features)
   * [Loot Balls 💎](#loot-balls-)
+    * [Obtaining Loot Balls (WIP)](#obtaining-loot-balls-wip)
   * [Mapmaking 🗺️](#mapmaking-)
     * [Custom Loot Balls 🎁](#custom-loot-balls-)
 * [Planned Features](#planned-features)
-  * [Survival: Natural Spawns 🌱](#survival-natural-spawns-)
+  * [Other Sources 🎣](#other-sources-)
   * [Mod configuration ⚙️](#mod-configuration-)
+  * [Loot Ball Timers ⏲️](#loot-ball-timers-)
   * [Commands 🛠️](#commands-)
   * [Hidden Items 🔍](#hidden-items-)
   * [Fake Items 🪤](#fake-items-)
@@ -30,6 +32,10 @@ Based on my previous work on the **Cobblemon mod: Loot Balls**, these balls cont
 
 > **Note**: The loot balls from the previous mod (versions b1.x or older) are not compatible with this one!
 
+### Obtaining Loot Balls (WIP)
+- **Generation**: Loot balls can be found in the world. Some of them are specific to biomes, while others are more common.
+- **Spawning**: Overtime, loot balls will spawn in the world around random players.
+
 ## Mapmaking 🗺️
 Check out the [documentation](https://resistorcat.github.io/cobbleloots/) to learn how to use the mod objects and features in your custom maps. If you still have questions, feel free to ask on my discord server.
 
@@ -40,11 +46,14 @@ Create custom loot balls with different items and properties using the new Loot 
 
 # Planned Features
 
-## Survival: Natural Spawns 🌱
-Different ways to obtain loot balls in survival mode, such as generation, fishing, and more.
+## Other Sources 🎣
+More ways to obtain loot balls in survival mode, such as fishing, archaeology and more.
 
 ## Mod configuration ⚙️
 A configuration file to customize the mod features and objects.
+
+## Loot Ball Timers ⏲️
+Set timers for loot balls, and customize the time intervals for people to claim them.
 
 ## Commands 🛠️
 Commands to help mapmakers and server owners to manage the mod features.
