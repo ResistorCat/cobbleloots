@@ -1,33 +1,32 @@
 modLoader = "javafml"
 loaderVersion = "[2,)"
 #issueTrackerURL = ""
-license = "MIT"
+license = "${mod_license}"
 
 [[mods]]
-modId = "cobbleloots"
-version = "${version}"
-displayName = "Cobblemon: CobbleLoots"
-authors = "Ripio (@ResistorCat)"
-description = '''
-A side-mod for cobblemon that adds different ways to obtain items like in the original games.
-'''
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_authors}"
+description = "${mod_description}"
+logoFile = "${mod_logo}"
 #logoFile = ""
 
-[[dependencies.cobbleloots]]
+[[dependencies.${mod_id}]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.cobbleloots]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.cobbleloots]]
+[[dependencies.${mod_id}]]
 modId = "cobblemon"
 type = "required"
 versionRange = "[1.6.0,)"
