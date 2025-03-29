@@ -43,6 +43,10 @@ subprojects {
         maven {
             url = "https://thedarkcolour.github.io/KotlinForForge/"
         }
+        maven {
+            name = "Terraformers"
+            url = "https://maven.terraformersmc.com/"
+        }
     }
 
     dependencies {
