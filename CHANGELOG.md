@@ -5,6 +5,7 @@
 ## Changes
 
 ## Fixes
+- Fixed a bug where the mod would export config libraries without masking the namespace, causing conflicts with other mods.
 
 ## Known Issues
 - Bonus loot balls invisibility is not working as intended.
