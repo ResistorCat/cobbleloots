@@ -11,6 +11,7 @@
 
 ## Fixes
 - Fixed a bug where the mod would export config libraries without masking the namespace, causing conflicts with other mods.
+- Fixed a bug where the game would crash because of an inconsistent float parsing in the mod configuration.
 
 ## Known Issues
 - Bonus loot balls invisibility is not working as intended.
