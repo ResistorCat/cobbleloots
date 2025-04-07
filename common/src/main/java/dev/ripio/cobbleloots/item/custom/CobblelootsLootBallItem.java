@@ -1,6 +1,8 @@
 package dev.ripio.cobbleloots.item.custom;
 
 import com.mojang.serialization.MapCodec;
+import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -8,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -36,15 +39,27 @@ public class CobblelootsLootBallItem extends Item {
   private static final MapCodec<EntityType<?>> ENTITY_TYPE_FIELD_CODEC;
   private final EntityType<?> defaultType;
 
-  public CobblelootsLootBallItem(Properties properties, EntityType<? extends LivingEntity> lootBallEntityType) {
+  public CobblelootsLootBallItem(Item.Properties properties, EntityType<? extends LivingEntity> lootBallEntityType) {
     super(properties);
     this.defaultType = lootBallEntityType;
   }
 
   @Override
   public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
-    list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.1").withStyle(ChatFormatting.ITALIC, ChatFormatting.GRAY));
-    list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.2").withStyle(ChatFormatting.BOLD, ChatFormatting.RED));
+    list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.1").withStyle(ChatFormatting.GRAY));
+    if (itemStack.has(DataComponents.CUSTOM_DATA)) {
+      CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+      if (customData.contains("LootBallData")) {
+        ResourceLocation dataLocation = ResourceLocation.tryParse(customData.copyTag().getString("LootBallData"));
+        int variant = -1;
+        if (customData.contains("Variant")) variant = customData.copyTag().getInt("Variant");
+        CobblelootsLootBallData lootBallData = CobblelootsDataProvider.getLootBallData(dataLocation, variant);
+        if (lootBallData != null) {
+          list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.2", "%s Loot Ball".formatted(lootBallData.getName().getString())).withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.ITALIC));
+        }
+
+      }
+    }
   }
 
   @Override
@@ -76,6 +91,12 @@ public class CobblelootsLootBallItem extends Item {
       serverLevel.addFreshEntityWithPassengers(cobblelootsLootBall);
       level.playSound(null, cobblelootsLootBall.getX(), cobblelootsLootBall.getY(), cobblelootsLootBall.getZ(), SoundEvents.LANTERN_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
       cobblelootsLootBall.gameEvent(GameEvent.ENTITY_PLACE, useOnContext.getPlayer());
+
+      // Set loot ball data
+      if (itemStack.has(DataComponents.CUSTOM_DATA)) {
+        CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        cobblelootsLootBall.readAdditionalSaveData(customData.copyTag());
+      }
     }
 
     itemStack.shrink(1);

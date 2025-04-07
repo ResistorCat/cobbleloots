@@ -10,7 +10,6 @@ displayName = "${mod_name}"
 authors = "${mod_authors}"
 description = "${mod_description}"
 logoFile = "${mod_logo}"
-#logoFile = ""
 
 [[dependencies.${mod_id}]]
 modId = "neoforge"
