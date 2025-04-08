@@ -11,5 +11,4 @@ dependencies {
         transitive false
     }
     implementation("com.electronwill.night-config:yaml:3.8.1")
-    include("com.electronwill.night-config:yaml:3.8.1")
 }

@@ -13,9 +13,9 @@ Cobbleloots is a mod for Cobblemon that adds different ways to obtain items base
     * [Obtaining Loot Balls (WIP)](#obtaining-loot-balls-wip)
   * [Mapmaking 🗺️](#mapmaking-)
     * [Custom Loot Balls 🎁](#custom-loot-balls-)
+  * [Mod configuration ⚙️](#mod-configuration-)
 * [Planned Features](#planned-features)
   * [Other Sources 🎣](#other-sources-)
-  * [Mod configuration ⚙️](#mod-configuration-)
   * [Loot Ball Timers ⏲️](#loot-ball-timers-)
   * [Commands 🛠️](#commands-)
   * [Hidden Items 🔍](#hidden-items-)
@@ -42,15 +42,15 @@ Check out the [documentation](https://resistorcat.github.io/cobbleloots/) to lea
 ### Custom Loot Balls 🎁
 Create custom loot balls with different items and properties using the new Loot Ball Data system. You can customize the loot table, texture, sources, rarity, biomes and more. Some of these features are not yet implemented, but you can write the data for future use.
 
+## Mod configuration ⚙️
+You can customize some of the mod features in the config file. The config file is located in the `config/cobbleloots` folder of your Minecraft instance, and is named `cobbleloots.yaml`. You can edit it with any text editor.
+
 ---
 
 # Planned Features
 
 ## Other Sources 🎣
 More ways to obtain loot balls in survival mode, such as fishing, archaeology and more.
-
-## Mod configuration ⚙️
-A configuration file to customize the mod features and objects.
 
 ## Loot Ball Timers ⏲️
 Set timers for loot balls, and customize the time intervals for people to claim them.

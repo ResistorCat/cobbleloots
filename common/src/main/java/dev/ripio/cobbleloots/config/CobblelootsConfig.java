@@ -52,11 +52,13 @@ public class CobblelootsConfig {
   }
 
   public static int getIntConfig(String key) {
-    return CONFIG.get(key);
+    Number number = CONFIG.get(key);
+    return number.intValue();
   }
 
   public static float getFloatConfig(String key) {
-    return ((Double) CONFIG.get(key)).floatValue();
+    Number number = CONFIG.get(key);
+    return number.floatValue();
   }
 
   public static boolean getBooleanConfig(String key) {
