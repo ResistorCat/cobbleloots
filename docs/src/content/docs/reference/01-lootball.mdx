@@ -21,6 +21,7 @@ description: This page describes the technical details of the Loot Ball.
 - `Openers` (List): A list with the UUIDs and Timestamps of the players who have opened the loot ball.
 - `Uses` (Int): The number of uses left for the loot ball. Default is 1. Negative values mean infinite uses.
 - `Multiplier` (Float): The multiplier of the loot ball.
+- `DespawnTick` (Long): The tick when the loot ball will despawn. Default is 0, which means it will not despawn.
 
 ---
 
@@ -31,12 +32,15 @@ The loot ball data is a JSON file that contains the properties of the loot ball.
 ```json
 {
   "name": "Poke",
-  "weight": 50,
+  "weight": 100,
   "loot_table": "cobbleloots:loot_ball/poke",
   "texture": "cobblemon:textures/poke_balls/poke_ball.png",
   "sources": [
     {
       "type": "generation"
+    },
+    {
+      "type": "spawning"
     },
     {
       "type": "fishing"
@@ -85,7 +89,7 @@ Another example of the `cobbleloots:loot_ball/dive` json file:
 ```json
 {
   "name": "Dive",
-  "weight": 20,
+  "weight": 25,
   "loot_table": "cobbleloots:loot_ball/dive",
   "texture": "cobblemon:textures/poke_balls/dive_ball.png",
   "sources": [
@@ -94,8 +98,14 @@ Another example of the `cobbleloots:loot_ball/dive` json file:
       "biome": "cobbleloots:loot_ball/dive",
       "height": {
         "max": 62
-      },
-      "weight": 1
+      }
+    },
+    {
+      "type": "spawning",
+      "biome": "cobbleloots:loot_ball/dive",
+      "height": {
+        "max": 62
+      }
     },
     {
       "type": "fishing",
@@ -103,6 +113,7 @@ Another example of the `cobbleloots:loot_ball/dive` json file:
     }
   ]
 }
+
 ```
 
-> **Note**: The sources are still not implemented in the mod. They are planned for future updates, and the data structure may change in the future.
+> **Note**: Data definitions are still being worked on. The above examples are subject to change.
