@@ -7,17 +7,17 @@ description: This page describes the technical details of the Loot Ball.
 
 ## NBT Tags
 
-- `LootTable` (String): The loot table location to use for the loot ball.
+- `LootTable` (String): The loot table location to use for the loot ball. Default is an empty string.
     > Example: `minecraft:chests/simple_dungeon`
 - `LootTableSeed` (Long): The seed to use for the loot table. Default is 0.
-- `Items` (List): A list with the current item inside the loot ball. The maximum number of items is 1.
-- `Sparks` (Boolean Byte): Whether the loot ball is sparking or not while it is invisible.
-- `Invisible` (Boolean Byte): Whether the loot ball is invisible or not.
-- `Texture` (String): The texture location of the loot ball.
+- `Items` (List): A list with the current item inside the loot ball. The maximum number of entries is 1 (1 ItemStack).
+- `Sparks` (Boolean Byte): Whether the loot ball is sparking or not while it is invisible. Default is true.
+- `Invisible` (Boolean Byte): Whether the loot ball is invisible or not. Default is false.
+- `Texture` (String): The texture location of the loot ball. Default is an empty string.
     > Example: `cobblemon:textures/poke_balls/poke_ball.png`
-- `LootBallData` (String): The loot ball data location.
+- `LootBallData` (String): The loot ball data location. Default is an empty string.
     > Example: `cobbleloots:poke_ball`
-- `Variant` (Int): The variant of the loot ball. Default is 0.
+- `Variant` (Int): The variant of the loot ball. Default is -1, which means no variant.
 - `Openers` (List): A list with the UUIDs and Timestamps of the players who have opened the loot ball.
 - `Uses` (Int): The number of uses left for the loot ball. Default is 1. Negative values mean infinite uses.
 - `Multiplier` (Float): The multiplier of the loot ball.

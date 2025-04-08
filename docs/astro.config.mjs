@@ -9,10 +9,10 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Cobbleloots Docs',
-			social: {
-				github: 'https://github.com/ResistorCat/cobbleloots',
-				discord: 'https://discord.gg/kbykWUH5dV',
-			},
+			social: [
+				{icon: 'github', label: 'GitHub', href: 'https://github.com/ResistorCat/cobbleloots'},
+				{icon: 'discord', label: 'Discord', href: 'https://discord.gg/kbykWUH5dV'}
+			],
 			defaultLocale: 'root',
 			locales: {
 				root: {
