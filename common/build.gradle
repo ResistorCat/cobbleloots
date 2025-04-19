@@ -10,5 +10,4 @@ dependencies {
     modCompileOnly("com.cobblemon:mod:$rootProject.cobblemon_version") {
         transitive false
     }
-    implementation("com.electronwill.night-config:yaml:3.8.1")
 }
