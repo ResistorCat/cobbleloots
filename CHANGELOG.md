@@ -1,17 +1,15 @@
-# Cobbleloots ALPHA-2.0.4
+# Cobbleloots ALPHA-2.0.5
 
 > **IMPORTANT**: Alpha versions of the mod may contain bugs and **unfinished features**. Use them at your own risk. If you find any issues, please report them on the GitHub repository.
 
 ## Changes
-- Updated the creative loot ball item.
-  - Now, they have a custom model and texture depending on the loot ball data they hold.
-  - Updated its tooltip to show the loot ball data attached to it.
-  - `CustomData` item component is now used to store the loot ball data that will be added to the loot ball placed with this item.
-  - Added some default loot balls to the cobbleloots tab in the creative inventory.
+- Replaced the external library for configuration with a custom one.
+  - This should improve performance and reduce the number of dependencies (preventing mod conflicts).
+  - No changes to the configuration format. It's still a YAML file in the same location as before.
+  - This change is experimental and may cause issues. Please report any problems you encounter.
 
 ## Fixes
-- Fixed a bug where the mod would export config libraries without masking the namespace, causing conflicts with other mods.
-- Fixed a bug where the game would crash because of an inconsistent float parsing in the mod configuration.
+- Fixed a bug where the mod would crash when other mods were importing the same YAML library. Now it uses a custom library that should not conflict with other mods.
 
 ## Known Issues
 - Bonus loot balls invisibility is not working as intended.

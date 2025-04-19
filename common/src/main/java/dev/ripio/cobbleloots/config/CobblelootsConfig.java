@@ -1,91 +1,160 @@
 package dev.ripio.cobbleloots.config;
 
-import com.electronwill.nightconfig.core.ConfigSpec;
-import com.electronwill.nightconfig.core.file.FileConfig;
 import dev.ripio.cobbleloots.Cobbleloots;
+import dev.ripio.cobbleloots.util.io.CobblelootsYamlParser;
+
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CobblelootsConfig {
-  // Config access
-  public static final FileConfig CONFIG = FileConfig.of("config/cobbleloots/cobbleloots.yaml");
-  // Loot Ball Bonus
-  public static final String LOOT_BALL_BONUS_ENABLED = "loot_ball.bonus.enabled";
-  public static final String LOOT_BALL_BONUS_CHANCE = "loot_ball.bonus.chance";
-  public static final String LOOT_BALL_BONUS_MULTIPLIER = "loot_ball.bonus.multiplier";
-  public static final String LOOT_BALL_BONUS_INVISIBLE = "loot_ball.bonus.invisible";
-  // Loot Ball Generation
-  public static final String LOOT_BALL_GENERATION_ENABLED = "loot_ball.generation.enabled";
-  public static final String LOOT_BALL_GENERATION_CHANCE = "loot_ball.generation.chance";
-  public static final String LOOT_BALL_GENERATION_ATTEMPTS = "loot_ball.generation.attempts";
-  public static final String LOOT_BALL_GENERATION_CHUNK_CAP = "loot_ball.generation.chunk_cap";
-  // Loot Ball Spawning
-  public static final String LOOT_BALL_SPAWNING_ENABLED = "loot_ball.spawning.enabled";
-  public static final String LOOT_BALL_SPAWN_CHANCE = "loot_ball.spawning.chance";
-  public static final String LOOT_BALL_SPAWNING_COOLDOWN_MIN = "loot_ball.spawning.cooldown.min";
-  public static final String LOOT_BALL_SPAWNING_COOLDOWN_MAX = "loot_ball.spawning.cooldown.max";
-  // Loot Ball Despawn
-  public static final String LOOT_BALL_DESPAWN_ENABLED = "loot_ball.despawn.enabled";
-  public static final String LOOT_BALL_DESPAWN_TIME = "loot_ball.despawn.time";
+    public static final Path CONFIG_PATH = Path.of("config/cobbleloots/cobbleloots.yaml");
 
-  public static void initConfig() {
-    // Load the config file
-    if (!CONFIG.getFile().exists()) {
-      // Create folder
-      if (CONFIG.getFile().getParentFile().mkdirs()) {
-        Cobbleloots.LOGGER.warn("Config folder does not exist, creating a new one");
-      }
-      // Create the config file
-      Cobbleloots.LOGGER.warn("Config file does not exist, creating a new one");
-      CONFIG.load();
-      getConfigSpec().correct(CONFIG);
-      CONFIG.save();
-      return;
+    // Config keys
+    public static final String LOOT_BALL_BONUS_ENABLED = "loot_ball.bonus.enabled";
+    public static final String LOOT_BALL_BONUS_CHANCE = "loot_ball.bonus.chance";
+    public static final String LOOT_BALL_BONUS_MULTIPLIER = "loot_ball.bonus.multiplier";
+    public static final String LOOT_BALL_BONUS_INVISIBLE = "loot_ball.bonus.invisible";
+    public static final String LOOT_BALL_GENERATION_ENABLED = "loot_ball.generation.enabled";
+    public static final String LOOT_BALL_GENERATION_CHANCE = "loot_ball.generation.chance";
+    public static final String LOOT_BALL_GENERATION_ATTEMPTS = "loot_ball.generation.attempts";
+    public static final String LOOT_BALL_GENERATION_CHUNK_CAP = "loot_ball.generation.chunk_cap";
+    public static final String LOOT_BALL_SPAWNING_ENABLED = "loot_ball.spawning.enabled";
+    public static final String LOOT_BALL_SPAWN_CHANCE = "loot_ball.spawning.chance";
+    public static final String LOOT_BALL_SPAWNING_COOLDOWN_MIN = "loot_ball.spawning.cooldown.min";
+    public static final String LOOT_BALL_SPAWNING_COOLDOWN_MAX = "loot_ball.spawning.cooldown.max";
+    public static final String LOOT_BALL_DESPAWN_ENABLED = "loot_ball.despawn.enabled";
+    public static final String LOOT_BALL_DESPAWN_TIME = "loot_ball.despawn.time";
+
+    private static Map<String, Object> configMap = new HashMap<>();
+
+    public static void initConfig() {
+        boolean needsSave = false;
+        // Try to load config
+        if (Files.exists(CONFIG_PATH)) {
+            try {
+                configMap = flatten(CobblelootsYamlParser.parse(CONFIG_PATH), "");
+            } catch (IOException e) {
+                Cobbleloots.LOGGER.error("Invalid config file, generating new one with defaults.");
+                configMap = getDefaultConfig();
+                needsSave = true;
+            }
+        } else {
+            // File does not exist, create with defaults
+            configMap = getDefaultConfig();
+            needsSave = true;
+        }
+        // Check for missing keys
+        Map<String, Object> defaults = getDefaultConfig();
+        for (String key : defaults.keySet()) {
+            if (!configMap.containsKey(key)) {
+                configMap.put(key, defaults.get(key));
+                Cobbleloots.LOGGER.warn("Config missing key '{}', setting default: {}", key, defaults.get(key));
+                needsSave = true;
+            }
+        }
+        if (needsSave) {
+            saveConfig();
+        }
+        Cobbleloots.LOGGER.info("{} configurations loaded.", configMap.size());
     }
-    CONFIG.load();
-    // Get the config spec
-    ConfigSpec spec = getConfigSpec();
-    // Check if the config file is correct
-    ConfigSpec.CorrectionListener listener = (action, path, incorrectValue, correctedValue) -> Cobbleloots.LOGGER.warn("Config value {}={} is incorrect, using default value {}", path, incorrectValue, correctedValue);
-    int numberOfErrors = spec.correct(CONFIG, listener);
-    Cobbleloots.LOGGER.info("Config loaded with {} errors", numberOfErrors);
-    // Save the config file
-    CONFIG.save();
-  }
 
-  public static int getIntConfig(String key) {
-    Number number = CONFIG.get(key);
-    return number.intValue();
-  }
+    public static int getIntConfig(String key) {
+        Object value = configMap.get(key);
+        if (value instanceof Number) return ((Number) value).intValue();
+        if (value instanceof String) return Integer.parseInt((String) value);
+        throw new IllegalArgumentException("Config key not found or not an int: " + key);
+    }
 
-  public static float getFloatConfig(String key) {
-    Number number = CONFIG.get(key);
-    return number.floatValue();
-  }
+    public static float getFloatConfig(String key) {
+        Object value = configMap.get(key);
+        if (value instanceof Number) return ((Number) value).floatValue();
+        if (value instanceof String) return Float.parseFloat((String) value);
+        throw new IllegalArgumentException("Config key not found or not a float: " + key);
+    }
 
-  public static boolean getBooleanConfig(String key) {
-    return CONFIG.get(key);
-  }
+    public static boolean getBooleanConfig(String key) {
+        Object value = configMap.get(key);
+        if (value instanceof Boolean) return (Boolean) value;
+        if (value instanceof String) return Boolean.parseBoolean((String) value);
+        throw new IllegalArgumentException("Config key not found or not a boolean: " + key);
+    }
 
-  private static ConfigSpec getConfigSpec() {
-    ConfigSpec spec = new ConfigSpec();
-    // Loot Ball Bonus
-    spec.define(LOOT_BALL_BONUS_ENABLED, true);
-    spec.defineInRange(LOOT_BALL_BONUS_CHANCE, 0.1F, 0F, 1F);
-    spec.defineInRange(LOOT_BALL_BONUS_MULTIPLIER, 2F, 0F, Float.MAX_VALUE);
-    spec.define(LOOT_BALL_BONUS_INVISIBLE, true);
-    // Loot Ball Generation
-    spec.define(LOOT_BALL_GENERATION_ENABLED, true);
-    spec.defineInRange(LOOT_BALL_GENERATION_CHANCE, 0.0625F, 0F, 1F);
-    spec.defineInRange(LOOT_BALL_GENERATION_ATTEMPTS, 2, 1, Integer.MAX_VALUE);
-    spec.defineInRange(LOOT_BALL_GENERATION_CHUNK_CAP, 4, 1, Integer.MAX_VALUE);
-    // Loot Ball Spawning
-    spec.define(LOOT_BALL_SPAWNING_ENABLED, true);
-    spec.defineInRange(LOOT_BALL_SPAWN_CHANCE, 0.25F, 0F, 1F);
-    spec.defineInRange(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000, 0, Integer.MAX_VALUE);
-    spec.defineInRange(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000, 0, Integer.MAX_VALUE);
-    // Loot Ball Despawn
-    spec.define(LOOT_BALL_DESPAWN_ENABLED, true);
-    spec.defineInRange(LOOT_BALL_DESPAWN_TIME, 24000, 0, Integer.MAX_VALUE);
-    return spec;
-  }
+    private static Map<String, Object> getDefaultConfig() {
+        Map<String, Object> defaults = new HashMap<>();
+        defaults.put(LOOT_BALL_BONUS_ENABLED, true);
+        defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
+        defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
+        defaults.put(LOOT_BALL_BONUS_INVISIBLE, true);
+        defaults.put(LOOT_BALL_GENERATION_ENABLED, true);
+        defaults.put(LOOT_BALL_GENERATION_CHANCE, 0.0625F);
+        defaults.put(LOOT_BALL_GENERATION_ATTEMPTS, 2);
+        defaults.put(LOOT_BALL_GENERATION_CHUNK_CAP, 4);
+        defaults.put(LOOT_BALL_SPAWNING_ENABLED, true);
+        defaults.put(LOOT_BALL_SPAWN_CHANCE, 0.25F);
+        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000);
+        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
+        defaults.put(LOOT_BALL_DESPAWN_ENABLED, true);
+        defaults.put(LOOT_BALL_DESPAWN_TIME, 24000);
+        return defaults;
+    }
 
+    private static void saveConfig() {
+        // Write configMap as YAML
+        try {
+            if (!Files.exists(CONFIG_PATH.getParent())) {
+                Files.createDirectories(CONFIG_PATH.getParent());
+            }
+            try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_PATH)) {
+                Map<String, Object> nested = unflatten(configMap);
+                writeYaml(writer, nested, 0);
+            }
+        } catch (IOException e) {
+            Cobbleloots.LOGGER.error("Failed to save config: {}", e.getMessage());
+        }
+    }
+
+    // Flattens nested map to dot notation
+    private static Map<String, Object> flatten(Map<String, Object> map, String prefix) {
+        Map<String, Object> flat = new HashMap<>();
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            String key = prefix.isEmpty() ? entry.getKey() : prefix + "." + entry.getKey();
+            if (entry.getValue() instanceof Map) {
+                flat.putAll(flatten((Map<String, Object>) entry.getValue(), key));
+            } else {
+                flat.put(key, entry.getValue());
+            }
+        }
+        return flat;
+    }
+
+    // Unflattens dot notation map to nested map
+    private static Map<String, Object> unflatten(Map<String, Object> flat) {
+        Map<String, Object> nested = new HashMap<>();
+        for (Map.Entry<String, Object> entry : flat.entrySet()) {
+            String[] parts = entry.getKey().split("\\.");
+            Map<String, Object> current = nested;
+            for (int i = 0; i < parts.length - 1; i++) {
+                current = (Map<String, Object>) current.computeIfAbsent(parts[i], k -> new HashMap<>());
+            }
+            current.put(parts[parts.length - 1], entry.getValue());
+        }
+        return nested;
+    }
+
+    // Writes a nested map as YAML
+    private static void writeYaml(BufferedWriter writer, Map<String, Object> map, int indent) throws IOException {
+        String indentStr = " ".repeat(indent);
+        for (Map.Entry<String, Object> entry : map.entrySet()) {
+            if (entry.getValue() instanceof Map) {
+                writer.write(indentStr + entry.getKey() + ":\n");
+                writeYaml(writer, (Map<String, Object>) entry.getValue(), indent + 2);
+            } else {
+                writer.write(indentStr + entry.getKey() + ": " + entry.getValue() + "\n");
+            }
+        }
+    }
 }

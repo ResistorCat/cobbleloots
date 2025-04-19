@@ -32,9 +32,6 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
     modImplementation "com.cobblemon:fabric:$rootProject.cobblemon_version"
 
-    implementation("com.electronwill.night-config:yaml:3.8.1")
-    shadowBundle("com.electronwill.night-config:yaml:3.8.1")
-
     ////////////////////////////
     // DEBUGGING DEPENDENCIES //
     ////////////////////////////
