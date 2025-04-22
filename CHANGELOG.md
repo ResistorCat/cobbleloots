@@ -9,6 +9,8 @@
 - Changed configuration keys:
   - `loot_ball.despawn.*` configurations are now under `loot_ball.spawning.despawn.*`.
 - Now, the boolean NBT tags for loot balls are always saved regardless of the value. This affects the `Invisible` and `Sparks` tags.
+- Reduced the default configuration value for loot ball generation chance from `0.0625` to `0.0513`.
+  - This means that the chance for a chunk to generate a loot ball or more (with 2 attempts per chunk) is now `~10%` instead of `~12%`.
 
 ## Fixes
 - Fixed a bug where the loot ball despawn enabling/disabling configuration didn't work properly. The game would always use the default value of `true` regardless of the configuration.
