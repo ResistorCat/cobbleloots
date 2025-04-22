@@ -14,6 +14,8 @@ public class CobblelootsConfig {
     public static final Path CONFIG_PATH = Path.of("config/cobbleloots/cobbleloots.yaml");
 
     // Config keys
+    public static final String LOOT_BALL_XP_ENABLED = "loot_ball.xp.enabled";
+    public static final String LOOT_BALL_XP_AMOUNT = "loot_ball.xp.amount";
     public static final String LOOT_BALL_BONUS_ENABLED = "loot_ball.bonus.enabled";
     public static final String LOOT_BALL_BONUS_CHANCE = "loot_ball.bonus.chance";
     public static final String LOOT_BALL_BONUS_MULTIPLIER = "loot_ball.bonus.multiplier";
@@ -30,6 +32,28 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_DESPAWN_TIME = "loot_ball.despawn.time";
 
     private static Map<String, Object> configMap = new HashMap<>();
+    private static Map<String, Object> fileMap = new HashMap<>();
+
+    private static Map<String, Object> getDefaultConfig() {
+        Map<String, Object> defaults = new HashMap<>();
+        defaults.put(LOOT_BALL_XP_ENABLED, true);
+        defaults.put(LOOT_BALL_XP_AMOUNT, 5);
+        defaults.put(LOOT_BALL_BONUS_ENABLED, true);
+        defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
+        defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
+        defaults.put(LOOT_BALL_BONUS_INVISIBLE, true);
+        defaults.put(LOOT_BALL_GENERATION_ENABLED, true);
+        defaults.put(LOOT_BALL_GENERATION_CHANCE, 0.0513F);
+        defaults.put(LOOT_BALL_GENERATION_ATTEMPTS, 2);
+        defaults.put(LOOT_BALL_GENERATION_CHUNK_CAP, 4);
+        defaults.put(LOOT_BALL_SPAWNING_ENABLED, true);
+        defaults.put(LOOT_BALL_SPAWNING_CHANCE, 0.25F);
+        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000);
+        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
+        defaults.put(LOOT_BALL_SPAWNING_DESPAWN_ENABLED, true);
+        defaults.put(LOOT_BALL_SPAWNING_DESPAWN_TIME, 24000);
+        return defaults;
+    }
 
     public static void initConfig() {
         boolean needsSave = false;
@@ -81,25 +105,6 @@ public class CobblelootsConfig {
         if (value instanceof Boolean) return (Boolean) value;
         if (value instanceof String) return Boolean.parseBoolean((String) value);
         throw new IllegalArgumentException("Config key not found or not a boolean: " + key);
-    }
-
-    private static Map<String, Object> getDefaultConfig() {
-        Map<String, Object> defaults = new HashMap<>();
-        defaults.put(LOOT_BALL_BONUS_ENABLED, true);
-        defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
-        defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
-        defaults.put(LOOT_BALL_BONUS_INVISIBLE, true);
-        defaults.put(LOOT_BALL_GENERATION_ENABLED, true);
-        defaults.put(LOOT_BALL_GENERATION_CHANCE, 0.0625F);
-        defaults.put(LOOT_BALL_GENERATION_ATTEMPTS, 2);
-        defaults.put(LOOT_BALL_GENERATION_CHUNK_CAP, 4);
-        defaults.put(LOOT_BALL_SPAWNING_ENABLED, true);
-        defaults.put(LOOT_BALL_SPAWN_CHANCE, 0.25F);
-        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000);
-        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
-        defaults.put(LOOT_BALL_DESPAWN_ENABLED, true);
-        defaults.put(LOOT_BALL_DESPAWN_TIME, 24000);
-        return defaults;
     }
 
     private static void saveConfig() {

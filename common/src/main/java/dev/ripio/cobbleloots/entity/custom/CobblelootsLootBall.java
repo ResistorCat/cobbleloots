@@ -1,5 +1,6 @@
 package dev.ripio.cobbleloots.entity.custom;
 
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.item.CobblelootsItems;
@@ -401,13 +402,16 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
       }
     }
-    // Give experience points (disabled)
-    // int experiencePoints = 1;
-    // serverPlayer.giveExperiencePoints(experiencePoints);
     // Clear the inventory
     this.clearContent();
     // Decrease uses
     this.setRemainingUses(this.getRemainingUses() - 1);
+    // Give experience points if enabled
+    if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_XP_ENABLED)) {
+      int experiencePoints = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_XP_AMOUNT);
+      serverPlayer.giveExperiencePoints(experiencePoints);
+    }
+
     // Update
     this.setChanged();
   }
