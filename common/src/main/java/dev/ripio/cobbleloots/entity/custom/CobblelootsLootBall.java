@@ -120,9 +120,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   @Override
+  protected void updateInvisibilityStatus() {
+    this.setInvisible(this.isInvisible());
+  }
+
+  @Override
   public void setInvisible(boolean bl) {
-    super.setInvisible(bl);
     this.entityData.set(INVISIBLE, bl);
+    super.setInvisible(bl);
   }
 
   @Override
@@ -218,8 +223,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Override
   public void addAdditionalSaveData(CompoundTag compoundTag) {
     super.addAdditionalSaveData(compoundTag);
-    if (!this.hasSparks()) compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
-    if (this.isInvisible()) compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
+    compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
+    compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
     if (!this.entityData.get(TEXTURE).isEmpty()) compoundTag.putString(TAG_TEXTURE, this.entityData.get(TEXTURE));
     if (this.getLootBallData() != null) compoundTag.putString(TAG_LOOT_BALL_DATA, this.entityData.get(LOOT_BALL_DATA));
     if (this.getVariant() != -1) compoundTag.putInt(TAG_VARIANT, this.getVariant());
