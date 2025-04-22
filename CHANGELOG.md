@@ -15,3 +15,4 @@
 - Fixed a bug where the game would crash if the configurations were of the wrong type. Now the game will log an error message and use the default value instead.
 - Fixed a bug where loot ball invisibility didn't work properly and were losing their tag on world reloads and generations.
 - Fixed a bug where setting the loot ball uses to negative values (infinite uses) would not work properly, removing its contents and making it unusable. Now, negative values effectively make the loot ball infinite.
+- Fixed a bug where loot balls would show a name tag when the language keys were different from default values. Now, it will only render its tag if a custom name is set with NBT.
