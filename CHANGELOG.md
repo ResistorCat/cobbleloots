@@ -6,6 +6,8 @@
 - Added new configurations:
   - `loot_ball.xp.enabled`: Whether to enable loot ball XP when a player opens a loot ball. Default: `true`.
   - `loot_ball.xp.amount`: The amount of XP to give when a player opens a loot ball. Default: `5`.
+- Changed configuration keys:
+  - `loot_ball.despawn.*` configurations are now under `loot_ball.spawning.despawn.*`.
 
 ## Fixes
-- 
+- Fixed a bug where the loot ball despawn enabling/disabling configuration didn't work properly. The game would always use the default value of `true` regardless of the configuration.

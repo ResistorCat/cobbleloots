@@ -402,14 +402,18 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
       }
     }
-    // Clear the inventory
-    this.clearContent();
-    // Decrease uses
-    this.setRemainingUses(this.getRemainingUses() - 1);
     // Give experience points if enabled
     if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_XP_ENABLED)) {
       int experiencePoints = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_XP_AMOUNT);
       serverPlayer.giveExperiencePoints(experiencePoints);
+    }
+
+    // Check if uses are infinite
+    if (!this.isInfinite()) {
+      // Clear inventory
+      this.clearContent();
+      // Decrease uses
+      this.setRemainingUses(this.getRemainingUses() - 1);
     }
 
     // Update

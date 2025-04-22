@@ -25,11 +25,11 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_GENERATION_ATTEMPTS = "loot_ball.generation.attempts";
     public static final String LOOT_BALL_GENERATION_CHUNK_CAP = "loot_ball.generation.chunk_cap";
     public static final String LOOT_BALL_SPAWNING_ENABLED = "loot_ball.spawning.enabled";
-    public static final String LOOT_BALL_SPAWN_CHANCE = "loot_ball.spawning.chance";
+    public static final String LOOT_BALL_SPAWNING_CHANCE = "loot_ball.spawning.chance";
     public static final String LOOT_BALL_SPAWNING_COOLDOWN_MIN = "loot_ball.spawning.cooldown.min";
     public static final String LOOT_BALL_SPAWNING_COOLDOWN_MAX = "loot_ball.spawning.cooldown.max";
-    public static final String LOOT_BALL_DESPAWN_ENABLED = "loot_ball.despawn.enabled";
-    public static final String LOOT_BALL_DESPAWN_TIME = "loot_ball.despawn.time";
+    public static final String LOOT_BALL_SPAWNING_DESPAWN_ENABLED = "loot_ball.spawning.despawn.enabled";
+    public static final String LOOT_BALL_SPAWNING_DESPAWN_TIME = "loot_ball.spawning.despawn.time";
 
     private static Map<String, Object> configMap = new HashMap<>();
     private static Map<String, Object> fileMap = new HashMap<>();
