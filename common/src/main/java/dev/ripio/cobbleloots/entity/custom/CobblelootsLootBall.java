@@ -513,6 +513,10 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     return this.despawnTick;
   }
 
+  public boolean isInfinite() {
+    return this.uses <= -1;
+  }
+
   // --- Private methods ---
   private void toggleVisibility(ServerPlayer serverPlayer) {
     serverPlayer.sendSystemMessage(cobblelootsText(TEXT_TOGGLE_VISIBILITY).withStyle(ChatFormatting.AQUA), true);
