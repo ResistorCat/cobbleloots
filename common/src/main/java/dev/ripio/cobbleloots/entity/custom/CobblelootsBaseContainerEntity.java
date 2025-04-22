@@ -67,7 +67,6 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   @Override
   public void addAdditionalSaveData(CompoundTag compoundTag) {
-    //super.addAdditionalSaveData(compoundTag);
     if (this.lootTableLocation != null) {
       compoundTag.putString(TAG_LOOT_TABLE, this.lootTableLocation.toString());
       if (this.getLootTableSeed() != 0L) {
@@ -80,7 +79,6 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
 
   @Override
   public void readAdditionalSaveData(CompoundTag compoundTag) {
-    //super.readAdditionalSaveData(compoundTag);
     this.clearItemStacks();
     if (compoundTag.contains(TAG_LOOT_TABLE, 8)) {
       this.setLootTableLocation(ResourceLocation.tryParse(compoundTag.getString(TAG_LOOT_TABLE)));

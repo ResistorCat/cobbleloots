@@ -47,7 +47,7 @@ public class CobblelootsLootBallEvents {
 
   public static void spawnLootBallNearRandomPlayer(MinecraftServer server, RandomSource randomSource) {
     // STEP: Check chance for loot ball spawn attempt
-    if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_SPAWN_CHANCE)) return;
+    if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_SPAWNING_CHANCE)) return;
 
     // STEP: Choose a random player
     List<ServerPlayer> playerList = server.getPlayerList().getPlayers();
@@ -70,9 +70,9 @@ public class CobblelootsLootBallEvents {
 
     // STEP: Attempt spawn at given pos
     CobblelootsLootBall lootBall = spawnLootBall(level, pos, randomSource, CobblelootsSourceType.SPAWNING);
-    if (lootBall != null) {
+    if (lootBall != null && getBooleanConfig(LOOT_BALL_SPAWNING_DESPAWN_ENABLED)) {
       // STEP: Set despawn tick
-      lootBall.setDespawnTick(server.getTickCount() + getIntConfig(LOOT_BALL_DESPAWN_TIME)); //LOOT_BALL_DESPAWN_TIME.getValue());
+      lootBall.setDespawnTick(server.getTickCount() + getIntConfig(LOOT_BALL_SPAWNING_DESPAWN_TIME));
     }
   }
 

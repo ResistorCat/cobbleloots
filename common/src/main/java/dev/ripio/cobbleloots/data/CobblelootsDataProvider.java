@@ -25,7 +25,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static dev.ripio.cobbleloots.data.CobblelootsCodecs.EMPTY_BIOME_TAG;
+import static dev.ripio.cobbleloots.util.CobblelootsDefinitions.EMPTY_BIOME_TAG;
 import static dev.ripio.cobbleloots.data.CobblelootsCodecs.LOOT_BALL_CODEC;
 
 public class CobblelootsDataProvider {

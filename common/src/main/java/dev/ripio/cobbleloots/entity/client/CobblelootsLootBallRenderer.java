@@ -28,6 +28,6 @@ public class CobblelootsLootBallRenderer extends LivingEntityRenderer<Cobbleloot
 
   @Override
   protected boolean shouldShowName(CobblelootsLootBall livingEntity) {
-    return super.shouldShowName(livingEntity) && !livingEntity.getName().getString().equals("Loot Ball");
+    return super.shouldShowName(livingEntity) && livingEntity.hasCustomName();
   }
 }

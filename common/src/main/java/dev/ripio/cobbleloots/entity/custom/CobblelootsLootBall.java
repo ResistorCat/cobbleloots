@@ -1,5 +1,6 @@
 package dev.ripio.cobbleloots.entity.custom;
 
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.item.CobblelootsItems;
@@ -119,9 +120,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   @Override
+  protected void updateInvisibilityStatus() {
+    this.setInvisible(this.isInvisible());
+  }
+
+  @Override
   public void setInvisible(boolean bl) {
-    super.setInvisible(bl);
     this.entityData.set(INVISIBLE, bl);
+    super.setInvisible(bl);
   }
 
   @Override
@@ -217,8 +223,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Override
   public void addAdditionalSaveData(CompoundTag compoundTag) {
     super.addAdditionalSaveData(compoundTag);
-    if (!this.hasSparks()) compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
-    if (this.isInvisible()) compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
+    compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
+    compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
     if (!this.entityData.get(TEXTURE).isEmpty()) compoundTag.putString(TAG_TEXTURE, this.entityData.get(TEXTURE));
     if (this.getLootBallData() != null) compoundTag.putString(TAG_LOOT_BALL_DATA, this.entityData.get(LOOT_BALL_DATA));
     if (this.getVariant() != -1) compoundTag.putInt(TAG_VARIANT, this.getVariant());
@@ -395,19 +401,25 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
           serverPlayer.sendSystemMessage(cobblelootsText(TEXT_OPEN_SUCCESS, itemStack.getHoverName().getString(), itemStack.getCount()).withStyle(ChatFormatting.AQUA), true);
         }
         serverPlayer.getInventory().placeItemBackInInventory(itemStack);
-        //this.spawnAtLocation(itemStack);
         this.addOpener(serverPlayer);
         this.playSound(CobblelootsLootBallSounds.getPopItemSound());
         serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
       }
     }
-    // Give experience points (disabled)
-    // int experiencePoints = 1;
-    // serverPlayer.giveExperiencePoints(experiencePoints);
-    // Clear the inventory
-    this.clearContent();
-    // Decrease uses
-    this.setRemainingUses(this.getRemainingUses() - 1);
+    // Give experience points if enabled
+    if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_XP_ENABLED)) {
+      int experiencePoints = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_XP_AMOUNT);
+      serverPlayer.giveExperiencePoints(experiencePoints);
+    }
+
+    // Check if uses are infinite
+    if (!this.isInfinite()) {
+      // Clear inventory
+      this.clearContent();
+      // Decrease uses
+      this.setRemainingUses(this.getRemainingUses() - 1);
+    }
+
     // Update
     this.setChanged();
   }
@@ -501,6 +513,10 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     return this.despawnTick;
   }
 
+  public boolean isInfinite() {
+    return this.uses <= -1;
+  }
+
   // --- Private methods ---
   private void toggleVisibility(ServerPlayer serverPlayer) {
     serverPlayer.sendSystemMessage(cobblelootsText(TEXT_TOGGLE_VISIBILITY).withStyle(ChatFormatting.AQUA), true);
@@ -527,7 +543,6 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         - Multiplier: %.2f
         - Openers: %s
         """.formatted(this.getVariant(), this.getTexture(), this.entityData.get(LOOT_BALL_DATA), this.hasSparks(), this.isInvisible(), this.isOpening, this.getRemainingUses(), this.getMultiplier(), this.openers);
-    // cobblelootsText(lootBallDebugInfo).withStyle(ChatFormatting.YELLOW)
     serverPlayer.sendSystemMessage(Component.literal(lootBallDebugInfo));
   }
 

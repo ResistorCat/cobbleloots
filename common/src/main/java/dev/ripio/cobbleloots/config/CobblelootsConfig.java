@@ -14,6 +14,8 @@ public class CobblelootsConfig {
     public static final Path CONFIG_PATH = Path.of("config/cobbleloots/cobbleloots.yaml");
 
     // Config keys
+    public static final String LOOT_BALL_XP_ENABLED = "loot_ball.xp.enabled";
+    public static final String LOOT_BALL_XP_AMOUNT = "loot_ball.xp.amount";
     public static final String LOOT_BALL_BONUS_ENABLED = "loot_ball.bonus.enabled";
     public static final String LOOT_BALL_BONUS_CHANCE = "loot_ball.bonus.chance";
     public static final String LOOT_BALL_BONUS_MULTIPLIER = "loot_ball.bonus.multiplier";
@@ -23,42 +25,73 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_GENERATION_ATTEMPTS = "loot_ball.generation.attempts";
     public static final String LOOT_BALL_GENERATION_CHUNK_CAP = "loot_ball.generation.chunk_cap";
     public static final String LOOT_BALL_SPAWNING_ENABLED = "loot_ball.spawning.enabled";
-    public static final String LOOT_BALL_SPAWN_CHANCE = "loot_ball.spawning.chance";
+    public static final String LOOT_BALL_SPAWNING_CHANCE = "loot_ball.spawning.chance";
     public static final String LOOT_BALL_SPAWNING_COOLDOWN_MIN = "loot_ball.spawning.cooldown.min";
     public static final String LOOT_BALL_SPAWNING_COOLDOWN_MAX = "loot_ball.spawning.cooldown.max";
-    public static final String LOOT_BALL_DESPAWN_ENABLED = "loot_ball.despawn.enabled";
-    public static final String LOOT_BALL_DESPAWN_TIME = "loot_ball.despawn.time";
+    public static final String LOOT_BALL_SPAWNING_DESPAWN_ENABLED = "loot_ball.spawning.despawn.enabled";
+    public static final String LOOT_BALL_SPAWNING_DESPAWN_TIME = "loot_ball.spawning.despawn.time";
 
     private static Map<String, Object> configMap = new HashMap<>();
+    private static Map<String, Object> fileMap = new HashMap<>();
+
+    private static Map<String, Object> getDefaultConfig() {
+        Map<String, Object> defaults = new HashMap<>();
+        defaults.put(LOOT_BALL_XP_ENABLED, true);
+        defaults.put(LOOT_BALL_XP_AMOUNT, 5);
+        defaults.put(LOOT_BALL_BONUS_ENABLED, true);
+        defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
+        defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
+        defaults.put(LOOT_BALL_BONUS_INVISIBLE, true);
+        defaults.put(LOOT_BALL_GENERATION_ENABLED, true);
+        defaults.put(LOOT_BALL_GENERATION_CHANCE, 0.0513F);
+        defaults.put(LOOT_BALL_GENERATION_ATTEMPTS, 2);
+        defaults.put(LOOT_BALL_GENERATION_CHUNK_CAP, 4);
+        defaults.put(LOOT_BALL_SPAWNING_ENABLED, true);
+        defaults.put(LOOT_BALL_SPAWNING_CHANCE, 0.25F);
+        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000);
+        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
+        defaults.put(LOOT_BALL_SPAWNING_DESPAWN_ENABLED, true);
+        defaults.put(LOOT_BALL_SPAWNING_DESPAWN_TIME, 24000);
+        return defaults;
+    }
 
     public static void initConfig() {
-        boolean needsSave = false;
+        boolean needsUpdate = false;
+        configMap = getDefaultConfig();
         // Try to load config
         if (Files.exists(CONFIG_PATH)) {
             try {
-                configMap = flatten(CobblelootsYamlParser.parse(CONFIG_PATH), "");
+                fileMap = flatten(CobblelootsYamlParser.parse(CONFIG_PATH), "");
             } catch (IOException e) {
                 Cobbleloots.LOGGER.error("Invalid config file, generating new one with defaults.");
-                configMap = getDefaultConfig();
-                needsSave = true;
             }
         } else {
             // File does not exist, create with defaults
-            configMap = getDefaultConfig();
-            needsSave = true;
+            Cobbleloots.LOGGER.info("Config file not found, creating new one with defaults.");
         }
-        // Check for missing keys
-        Map<String, Object> defaults = getDefaultConfig();
-        for (String key : defaults.keySet()) {
-            if (!configMap.containsKey(key)) {
-                configMap.put(key, defaults.get(key));
-                Cobbleloots.LOGGER.warn("Config missing key '{}', setting default: {}", key, defaults.get(key));
-                needsSave = true;
+        // Overwrite defaults with file values
+        for (String key : fileMap.keySet()) {
+            if (configMap.containsKey(key)) {
+                // Check if the type is compatible
+                Object defaultValue = configMap.get(key);
+                Object fileValue = fileMap.get(key);
+                // Try to cast the value to the default type
+                try {
+                  switch (defaultValue) {
+                    case Integer i -> configMap.put(key, Integer.parseInt(fileValue.toString()));
+                    case Float v -> configMap.put(key, Float.parseFloat(fileValue.toString()));
+                    case Double v -> configMap.put(key, Double.parseDouble(fileValue.toString()));
+                    case Long l -> configMap.put(key, Long.parseLong(fileValue.toString()));
+                    case Boolean b -> configMap.put(key, Boolean.parseBoolean(fileValue.toString()));
+                    case null, default -> configMap.put(key, fileValue);
+                  }
+                } catch (ClassCastException | NumberFormatException e) {
+                    Cobbleloots.LOGGER.error("Config key {} has incompatible type (Expected: {}). Using default value.", key, defaultValue.getClass().getSimpleName());
+                }
             }
         }
-        if (needsSave) {
-            saveConfig();
-        }
+        // Save config if it was updated
+        saveConfig();
         Cobbleloots.LOGGER.info("{} configurations loaded.", configMap.size());
     }
 
@@ -83,25 +116,6 @@ public class CobblelootsConfig {
         throw new IllegalArgumentException("Config key not found or not a boolean: " + key);
     }
 
-    private static Map<String, Object> getDefaultConfig() {
-        Map<String, Object> defaults = new HashMap<>();
-        defaults.put(LOOT_BALL_BONUS_ENABLED, true);
-        defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
-        defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
-        defaults.put(LOOT_BALL_BONUS_INVISIBLE, true);
-        defaults.put(LOOT_BALL_GENERATION_ENABLED, true);
-        defaults.put(LOOT_BALL_GENERATION_CHANCE, 0.0625F);
-        defaults.put(LOOT_BALL_GENERATION_ATTEMPTS, 2);
-        defaults.put(LOOT_BALL_GENERATION_CHUNK_CAP, 4);
-        defaults.put(LOOT_BALL_SPAWNING_ENABLED, true);
-        defaults.put(LOOT_BALL_SPAWN_CHANCE, 0.25F);
-        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000);
-        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
-        defaults.put(LOOT_BALL_DESPAWN_ENABLED, true);
-        defaults.put(LOOT_BALL_DESPAWN_TIME, 24000);
-        return defaults;
-    }
-
     private static void saveConfig() {
         // Write configMap as YAML
         try {
@@ -112,7 +126,7 @@ public class CobblelootsConfig {
                 Map<String, Object> nested = unflatten(configMap);
                 writeYaml(writer, nested, 0);
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassCastException e) {
             Cobbleloots.LOGGER.error("Failed to save config: {}", e.getMessage());
         }
     }
@@ -132,7 +146,7 @@ public class CobblelootsConfig {
     }
 
     // Unflattens dot notation map to nested map
-    private static Map<String, Object> unflatten(Map<String, Object> flat) {
+    static Map<String, Object> unflatten(Map<String, Object> flat) {
         Map<String, Object> nested = new HashMap<>();
         for (Map.Entry<String, Object> entry : flat.entrySet()) {
             String[] parts = entry.getKey().split("\\.");

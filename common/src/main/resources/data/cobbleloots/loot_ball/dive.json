@@ -1,6 +1,6 @@
 {
   "name": "Dive",
-  "weight": 25,
+  "weight": 30,
   "loot_table": "cobbleloots:loot_ball/dive",
   "texture": "cobblemon:textures/poke_balls/dive_ball.png",
   "sources": [

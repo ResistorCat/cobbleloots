@@ -1,6 +1,6 @@
 {
   "name": "Great",
-  "weight": 25,
+  "weight": 20,
   "loot_table": "cobbleloots:loot_ball/great",
   "texture": "cobblemon:textures/poke_balls/great_ball.png",
   "sources": [
