@@ -1,6 +1,6 @@
 {
   "name": "Heal",
-  "weight": 25,
+  "weight": 20,
   "loot_table": "cobbleloots:loot_ball/heal",
   "texture": "cobblemon:textures/poke_balls/heal_ball.png",
   "sources": [
