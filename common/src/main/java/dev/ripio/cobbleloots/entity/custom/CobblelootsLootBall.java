@@ -401,7 +401,6 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
           serverPlayer.sendSystemMessage(cobblelootsText(TEXT_OPEN_SUCCESS, itemStack.getHoverName().getString(), itemStack.getCount()).withStyle(ChatFormatting.AQUA), true);
         }
         serverPlayer.getInventory().placeItemBackInInventory(itemStack);
-        //this.spawnAtLocation(itemStack);
         this.addOpener(serverPlayer);
         this.playSound(CobblelootsLootBallSounds.getPopItemSound());
         serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
@@ -540,7 +539,6 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         - Multiplier: %.2f
         - Openers: %s
         """.formatted(this.getVariant(), this.getTexture(), this.entityData.get(LOOT_BALL_DATA), this.hasSparks(), this.isInvisible(), this.isOpening, this.getRemainingUses(), this.getMultiplier(), this.openers);
-    // cobblelootsText(lootBallDebugInfo).withStyle(ChatFormatting.YELLOW)
     serverPlayer.sendSystemMessage(Component.literal(lootBallDebugInfo));
   }
 
