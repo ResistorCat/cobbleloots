@@ -11,3 +11,4 @@
 
 ## Fixes
 - Fixed a bug where the loot ball despawn enabling/disabling configuration didn't work properly. The game would always use the default value of `true` regardless of the configuration.
+- Fixed a bug where the game would crash if the configurations were of the wrong type. Now the game will log an error message and use the default value instead.

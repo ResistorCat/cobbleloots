@@ -56,33 +56,42 @@ public class CobblelootsConfig {
     }
 
     public static void initConfig() {
-        boolean needsSave = false;
+        boolean needsUpdate = false;
+        configMap = getDefaultConfig();
         // Try to load config
         if (Files.exists(CONFIG_PATH)) {
             try {
-                configMap = flatten(CobblelootsYamlParser.parse(CONFIG_PATH), "");
+                fileMap = flatten(CobblelootsYamlParser.parse(CONFIG_PATH), "");
             } catch (IOException e) {
                 Cobbleloots.LOGGER.error("Invalid config file, generating new one with defaults.");
-                configMap = getDefaultConfig();
-                needsSave = true;
             }
         } else {
             // File does not exist, create with defaults
-            configMap = getDefaultConfig();
-            needsSave = true;
+            Cobbleloots.LOGGER.info("Config file not found, creating new one with defaults.");
         }
-        // Check for missing keys
-        Map<String, Object> defaults = getDefaultConfig();
-        for (String key : defaults.keySet()) {
-            if (!configMap.containsKey(key)) {
-                configMap.put(key, defaults.get(key));
-                Cobbleloots.LOGGER.warn("Config missing key '{}', setting default: {}", key, defaults.get(key));
-                needsSave = true;
+        // Overwrite defaults with file values
+        for (String key : fileMap.keySet()) {
+            if (configMap.containsKey(key)) {
+                // Check if the type is compatible
+                Object defaultValue = configMap.get(key);
+                Object fileValue = fileMap.get(key);
+                // Try to cast the value to the default type
+                try {
+                  switch (defaultValue) {
+                    case Integer i -> configMap.put(key, Integer.parseInt(fileValue.toString()));
+                    case Float v -> configMap.put(key, Float.parseFloat(fileValue.toString()));
+                    case Double v -> configMap.put(key, Double.parseDouble(fileValue.toString()));
+                    case Long l -> configMap.put(key, Long.parseLong(fileValue.toString()));
+                    case Boolean b -> configMap.put(key, Boolean.parseBoolean(fileValue.toString()));
+                    case null, default -> configMap.put(key, fileValue);
+                  }
+                } catch (ClassCastException | NumberFormatException e) {
+                    Cobbleloots.LOGGER.error("Config key {} has incompatible type (Expected: {}). Using default value.", key, defaultValue.getClass().getSimpleName());
+                }
             }
         }
-        if (needsSave) {
-            saveConfig();
-        }
+        // Save config if it was updated
+        saveConfig();
         Cobbleloots.LOGGER.info("{} configurations loaded.", configMap.size());
     }
 
@@ -117,7 +126,7 @@ public class CobblelootsConfig {
                 Map<String, Object> nested = unflatten(configMap);
                 writeYaml(writer, nested, 0);
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassCastException e) {
             Cobbleloots.LOGGER.error("Failed to save config: {}", e.getMessage());
         }
     }
@@ -137,7 +146,7 @@ public class CobblelootsConfig {
     }
 
     // Unflattens dot notation map to nested map
-    private static Map<String, Object> unflatten(Map<String, Object> flat) {
+    static Map<String, Object> unflatten(Map<String, Object> flat) {
         Map<String, Object> nested = new HashMap<>();
         for (Map.Entry<String, Object> entry : flat.entrySet()) {
             String[] parts = entry.getKey().split("\\.");
