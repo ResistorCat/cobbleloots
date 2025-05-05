@@ -77,12 +77,14 @@ public class CobblelootsConfig {
                 // Try to cast the value to the default type
                 try {
                   switch (defaultValue) {
-                    case Integer i -> configMap.put(key, Integer.parseInt(fileValue.toString()));
-                    case Float v -> configMap.put(key, Float.parseFloat(fileValue.toString()));
-                    case Double v -> configMap.put(key, Double.parseDouble(fileValue.toString()));
-                    case Long l -> configMap.put(key, Long.parseLong(fileValue.toString()));
-                    case Boolean b -> configMap.put(key, Boolean.parseBoolean(fileValue.toString()));
-                    case null, default -> configMap.put(key, fileValue);
+                    case Integer ignored -> configMap.put(key, Integer.parseInt(fileValue.toString()));
+                    case Float ignored -> configMap.put(key, Float.parseFloat(fileValue.toString()));
+                    case Double ignored -> configMap.put(key, Double.parseDouble(fileValue.toString()));
+                    case Long ignored -> configMap.put(key, Long.parseLong(fileValue.toString()));
+                    case Boolean ignored -> configMap.put(key, Boolean.parseBoolean(fileValue.toString()));
+                    case null, default -> {
+                      // Do nothing, just keep the default value
+                    }
                   }
                 } catch (ClassCastException | NumberFormatException e) {
                     Cobbleloots.LOGGER.error("Config key {} has incompatible type (Expected: {}). Using default value.", key, defaultValue.getClass().getSimpleName());
