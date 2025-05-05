@@ -56,8 +56,7 @@ public class CobblelootsConfig {
     }
 
     public static void initConfig() {
-        boolean needsUpdate = false;
-        configMap = getDefaultConfig();
+      configMap = getDefaultConfig();
         // Try to load config
         if (Files.exists(CONFIG_PATH)) {
             try {
