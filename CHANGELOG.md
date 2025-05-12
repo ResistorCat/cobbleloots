@@ -7,3 +7,6 @@
 
 ## Fixes
 -
+
+## Technical
+- All codecs were reworked for the new loot ball data format.
