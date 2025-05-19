@@ -5,6 +5,7 @@ import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
+import dev.ripio.cobbleloots.util.search.CobblelootsSearch;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -34,10 +35,10 @@ public class CobblelootsLootBallEvents {
 
     // STEP: Select a random position in the chunk
     LevelChunkSection[] sections = levelChunk.getSections();
-    int sectionIndex = searchRandomNonEmptySectionIndex(sections, randomSource);
+    int sectionIndex = CobblelootsSearch.searchRandomNonEmptySectionIndex(sections, randomSource);
     if (sectionIndex == -1) return false;
     LevelChunkSection section = sections[sectionIndex];
-    BlockPos relativePos = searchRandomValidLootBallSpawn(section, randomSource);
+    BlockPos relativePos = CobblelootsSearch.searchRandomValidLootBallSpawn(section, randomSource);
     if (relativePos == null) return false;
     BlockPos pos = relativePos.offset(levelChunk.getPos().getMinBlockX(), levelChunk.getSectionYFromSectionIndex(sectionIndex)*LevelChunkSection.SECTION_HEIGHT, levelChunk.getPos().getMinBlockZ());
 
@@ -64,7 +65,7 @@ public class CobblelootsLootBallEvents {
     int sectionIndex = playerChunk.getSectionIndex((int) player.getY());
     LevelChunkSection[] sections = randomChunk.getSections();
     LevelChunkSection section = sections[sectionIndex];
-    BlockPos relativePos = searchRandomValidLootBallSpawn(section, randomSource);
+    BlockPos relativePos = CobblelootsSearch.searchRandomValidLootBallSpawn(section, randomSource);
     if (relativePos == null) return;
     BlockPos pos = relativePos.offset(randomChunk.getPos().getMinBlockX(), randomChunk.getSectionYFromSectionIndex(sectionIndex)*LevelChunkSection.SECTION_HEIGHT, randomChunk.getPos().getMinBlockZ());
 
