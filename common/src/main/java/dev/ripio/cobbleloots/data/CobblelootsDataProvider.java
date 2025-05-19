@@ -8,7 +8,9 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSource;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
+import dev.ripio.cobbleloots.data.custom.filter.CobblelootsSourceFilter;
+import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +31,6 @@ import static dev.ripio.cobbleloots.util.CobblelootsDefinitions.EMPTY_BIOME_TAG;
 import static dev.ripio.cobbleloots.data.CobblelootsCodecs.LOOT_BALL_CODEC;
 
 public class CobblelootsDataProvider {
-  public static final String PATH_LOOT_BALLS = "loot_ball";
   private static final Map<ResourceLocation, CobblelootsLootBallData> lootBallsData = new HashMap<>();
 
   public static void addLootBallData(ResourceLocation id, JsonElement json) {
@@ -131,7 +132,7 @@ public class CobblelootsDataProvider {
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 
     // Load loot balls
-    for (ResourceLocation id : resourceManager.listResources(PATH_LOOT_BALLS, path -> path.getPath().endsWith(".json")).keySet()) {
+    for (ResourceLocation id : resourceManager.listResources(CobblelootsDefinitions.PATH_LOOT_BALLS, path -> path.getPath().endsWith(".json")).keySet()) {
       try (InputStream stream = resourceManager.getResourceOrThrow(id).open()) {
         // Parse JSON
         JsonObject jsonObject = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8)).getAsJsonObject();
