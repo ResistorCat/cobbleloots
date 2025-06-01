@@ -41,6 +41,10 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
   }
 
   // -- LivingEntity Methods --
+  @Override
+  public boolean isInvulnerable() {
+     return true; // Makes the entity invulnerable and untargetable by wardens
+  }
 
   @Override
   public @NotNull Iterable<ItemStack> getArmorSlots() {

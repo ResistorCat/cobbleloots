@@ -7,7 +7,7 @@
   - TODO
 
 ## Fixes
--
+- Fixed wardens no longer being able to aggro loot balls
 
 ## Technical
 - All codecs were reworked for the new loot ball data format.
