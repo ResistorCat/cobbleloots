@@ -16,6 +16,7 @@
 
 ## Fixes
 - Fixed wardens no longer being able to aggro loot balls
+- Fixed loot balls not despawning when falling into the world void.
 
 ## Technical
 - All codecs were reworked for the new loot ball data format.
