@@ -72,11 +72,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TAG_USES = "Uses";
   private static final String TAG_MULTIPLIER = "Multiplier";
   private static final String TAG_DESPAWN_TICK = "DespawnTick";
-
-  protected final Map<UUID, Long> openers = new HashMap<>();
-  protected int uses = 1;
-  protected float multiplier = 1.0f;
-  protected long despawnTick = 0;
+  private static final String TAG_PLAYER_TIMER = "PlayerTimer";
 
   // Text keys
   private static final String TEXT_ERROR_IS_OPENING = "entity.cobbleloots.loot_ball.error.is_opening";
@@ -89,6 +85,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TEXT_TOGGLE_VISIBILITY = "entity.cobbleloots.loot_ball.toggle.visibility";
   private static final String TEXT_TOGGLE_SPARKS = "entity.cobbleloots.loot_ball.toggle.sparks";
   private static final String TEXT_TOOLTIP = "entity.cobbleloots.loot_ball.tooltip";
+  private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_PLAYER_TIMER);
+  protected long playerTimer = DEFAULT_PLAYER_TIMER;
 
   // --- Constructors --
 
@@ -225,23 +223,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     super.addAdditionalSaveData(compoundTag);
     compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
     compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
-    if (!this.entityData.get(TEXTURE).isEmpty()) compoundTag.putString(TAG_TEXTURE, this.entityData.get(TEXTURE));
-    if (this.getLootBallData() != null) compoundTag.putString(TAG_LOOT_BALL_DATA, this.entityData.get(LOOT_BALL_DATA));
-    if (this.getVariant() != -1) compoundTag.putInt(TAG_VARIANT, this.getVariant());
-    // Non-Synced Data
-    if (!this.openers.isEmpty()) {
-      ListTag openersTag = new ListTag();
-      for (Map.Entry<UUID, Long> entry : this.openers.entrySet()) {
-        CompoundTag openerTag = new CompoundTag();
-        openerTag.putUUID("UUID", entry.getKey());
-        openerTag.putLong("Timestamp", entry.getValue());
-        openersTag.add(openerTag);
-      }
-      compoundTag.put(TAG_OPENERS, openersTag);
+    if (this.playerTimer != DEFAULT_PLAYER_TIMER) {
+      compoundTag.putLong(TAG_PLAYER_TIMER, this.playerTimer);
     }
-    if (this.uses != 1) compoundTag.putInt(TAG_USES, this.uses);
-    if (this.multiplier != 1.0f) compoundTag.putFloat(TAG_MULTIPLIER, this.multiplier);
-    if (this.despawnTick != 0) compoundTag.putLong(TAG_DESPAWN_TICK, this.despawnTick);
   }
 
   @Override
@@ -263,14 +247,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       ListTag openersTag = compoundTag.getList(TAG_OPENERS, CompoundTag.TAG_COMPOUND);
       for (int i = 0; i < openersTag.size(); i++) {
         CompoundTag openerTag = openersTag.getCompound(i);
-        UUID uuid = openerTag.getUUID("UUID");
-        long timestamp = openerTag.getLong("Timestamp");
-        this.openers.put(uuid, timestamp);
-      }
-    }
-    if (compoundTag.contains(TAG_USES)) this.uses = compoundTag.getInt(TAG_USES);
-    if (compoundTag.contains(TAG_MULTIPLIER)) this.multiplier = compoundTag.getFloat(TAG_MULTIPLIER);
-    if (compoundTag.contains(TAG_DESPAWN_TICK)) this.despawnTick = compoundTag.getLong(TAG_DESPAWN_TICK);
+    this.playerTimer = compoundTag.contains(TAG_PLAYER_TIMER) ?
+                       compoundTag.getLong(TAG_PLAYER_TIMER) : DEFAULT_PLAYER_TIMER;
   }
 
   @Override
@@ -368,17 +346,22 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       serverPlayer.sendSystemMessage(cobblelootsText(TEXT_ERROR_ALREADY_OPENED).withStyle(ChatFormatting.RED), true);
       return;
     }
-    // Generate loot
-    this.unpackLootTable(serverPlayer);
+    // Check for cooldown timer
+    if (this.getPlayerTimer() > 0) {
+      long lastOpenTime = this.openers.getOrDefault(serverPlayer.getUUID(), 0L);
+      long timeDiff = this.level().getGameTime() - lastOpenTime;
 
-    // Check if loot ball is empty
-    if (!this.isEmpty()) {
-      // Set opening animation
-      this.pendingOpener = serverPlayer;
-      this.isOpening = true;
-      this.wasInvisible = this.isInvisible();
-      this.setInvisible(false);
-      this.setOpeningTicks(LOOT_BALL_OPENING_TICKS);
+      // If still in cooldown, show remaining time
+      if (timeDiff < this.getPlayerTimer()) {
+        long remainingSeconds = (long) Math.ceil((this.getPlayerTimer() - timeDiff) / 20.0f);
+        serverPlayer.sendSystemMessage(
+            cobblelootsText(TEXT_ERROR_COOLDOWN, String.valueOf(remainingSeconds))
+                .withStyle(ChatFormatting.RED),
+            true);
+        return false;
+      } else {
+        return true;
+      }
     }
   }
 

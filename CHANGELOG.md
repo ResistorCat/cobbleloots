@@ -4,7 +4,10 @@
 
 ## Changes
 - Rework the Loot Ball Data definitions, including changes to sources and variants.
-  - TODO
+- Added `PlayerTimer` Loot Ball NBT Tag of type `Long`. Defaults to `0`.
+  - It represents a value in `ticks` that the player must wait to reopen the Loot Ball.
+  - A value of `0` disables this behaviour.
+  - A small value (like `1`) indicates that the player can reopen the Loot Ball indefinitely.
 
 ## Fixes
 - Fixed wardens no longer being able to aggro loot balls
