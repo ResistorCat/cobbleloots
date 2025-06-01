@@ -21,3 +21,4 @@
 
 ## Technical
 - All codecs were reworked for the new loot ball data format.
+- Optimized some internal game detections for loot ball entity targetting and damage.

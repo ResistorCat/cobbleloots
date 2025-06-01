@@ -45,10 +45,22 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
   public boolean isInvulnerable() {
      return true; // Makes the entity invulnerable and untargetable by wardens
   }
+
+  //@Override
+  public boolean canFreeze() {
+      return false;
+   }
+
   //@Override
   protected void onBelowWorld() {
     this.discard();  // Fix lag issue despawning entities below the world
   }
+
+  @Override
+  public boolean canBeSeenAsEnemy() {
+    return false;
+  }
+
   @Override
   public void kill() {
     this.discard();
