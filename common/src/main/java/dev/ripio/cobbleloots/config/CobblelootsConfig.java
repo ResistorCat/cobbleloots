@@ -30,6 +30,7 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_SPAWNING_COOLDOWN_MAX = "loot_ball.spawning.cooldown.max";
     public static final String LOOT_BALL_SPAWNING_DESPAWN_ENABLED = "loot_ball.spawning.despawn.enabled";
     public static final String LOOT_BALL_SPAWNING_DESPAWN_TIME = "loot_ball.spawning.despawn.time";
+    public static final String LOOT_BALL_SURVIVAL_DROP_ENABLED = "loot_ball.survival.drop.enabled";
     public static final String LOOT_BALL_DEFAULTS_USES = "loot_ball.defaults.uses";
     public static final String LOOT_BALL_DEFAULTS_MULTIPLIER = "loot_ball.defaults.multiplier";
     public static final String LOOT_BALL_DEFAULTS_PLAYER_TIMER = "loot_ball.defaults.player_timer";
@@ -56,6 +57,7 @@ public class CobblelootsConfig {
         defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
         defaults.put(LOOT_BALL_SPAWNING_DESPAWN_ENABLED, true);
         defaults.put(LOOT_BALL_SPAWNING_DESPAWN_TIME, 24000);
+        defaults.put(LOOT_BALL_SURVIVAL_DROP_ENABLED, true);
         defaults.put(LOOT_BALL_DEFAULTS_USES, 1);
         defaults.put(LOOT_BALL_DEFAULTS_MULTIPLIER, 1.0F);
         defaults.put(LOOT_BALL_DEFAULTS_PLAYER_TIMER, 0L);
