@@ -85,7 +85,18 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TEXT_TOGGLE_VISIBILITY = "entity.cobbleloots.loot_ball.toggle.visibility";
   private static final String TEXT_TOGGLE_SPARKS = "entity.cobbleloots.loot_ball.toggle.sparks";
   private static final String TEXT_TOOLTIP = "entity.cobbleloots.loot_ball.tooltip";
+
+  // Game balance constants
+  private static final float DEFAULT_MULTIPLIER = CobblelootsConfig.getFloatConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_MULTIPLIER);
+  private static final int DEFAULT_USES = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_USES);
+  private static final long DEFAULT_DESPAWN_TICK = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_DESPAWN_TICK);
   private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_PLAYER_TIMER);
+
+  // Variables
+  protected final Map<UUID, Long> openers = new HashMap<>();
+  protected int uses = DEFAULT_USES;
+  protected float multiplier = DEFAULT_MULTIPLIER;
+  protected long despawnTick = DEFAULT_DESPAWN_TICK;
   protected long playerTimer = DEFAULT_PLAYER_TIMER;
 
   // --- Constructors --
@@ -223,6 +234,19 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     super.addAdditionalSaveData(compoundTag);
     compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
     compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
+    // Only save non-default values to keep the tag small
+    if (this.uses != DEFAULT_USES) {
+      compoundTag.putInt(TAG_USES, this.uses);
+    }
+
+    if (this.multiplier != DEFAULT_MULTIPLIER) {
+      compoundTag.putFloat(TAG_MULTIPLIER, this.multiplier);
+    }
+
+    if (this.despawnTick != DEFAULT_DESPAWN_TICK) {
+      compoundTag.putLong(TAG_DESPAWN_TICK, this.despawnTick);
+    }
+
     if (this.playerTimer != DEFAULT_PLAYER_TIMER) {
       compoundTag.putLong(TAG_PLAYER_TIMER, this.playerTimer);
     }
@@ -247,6 +271,15 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       ListTag openersTag = compoundTag.getList(TAG_OPENERS, CompoundTag.TAG_COMPOUND);
       for (int i = 0; i < openersTag.size(); i++) {
         CompoundTag openerTag = openersTag.getCompound(i);
+    this.uses = compoundTag.contains(TAG_USES) ?
+                compoundTag.getInt(TAG_USES) : DEFAULT_USES;
+
+    this.multiplier = compoundTag.contains(TAG_MULTIPLIER) ?
+                      compoundTag.getFloat(TAG_MULTIPLIER) : DEFAULT_MULTIPLIER;
+
+    this.despawnTick = compoundTag.contains(TAG_DESPAWN_TICK) ?
+                       compoundTag.getLong(TAG_DESPAWN_TICK) : DEFAULT_DESPAWN_TICK;
+
     this.playerTimer = compoundTag.contains(TAG_PLAYER_TIMER) ?
                        compoundTag.getLong(TAG_PLAYER_TIMER) : DEFAULT_PLAYER_TIMER;
   }
