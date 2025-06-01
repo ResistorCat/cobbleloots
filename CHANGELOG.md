@@ -27,3 +27,5 @@
 ## Technical
 - All codecs were reworked for the new loot ball data format.
 - Optimized some internal game detections for loot ball entity targetting and damage.
+- Add a limit to random chunk search to optimize loot ball generation.
+- Removed internal block check for valid position when spawning a loot ball. This is replaced now by loot ball definition filters.
