@@ -10,6 +10,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
 
+import static dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall.TAG_LOOT_BALL_DATA_ID;
+
 public class CobblelootsItems {
   // Items
   public static CobblelootsLootBallItem getBaseLootBallItem() {
@@ -39,7 +41,7 @@ public class CobblelootsItems {
     CobblelootsLootBallItem lootBallItem = getLootBallItem();
     ItemStack stack = new ItemStack(lootBallItem);
     CompoundTag tag = new CompoundTag();
-    tag.putString("LootBallData", "cobbleloots:loot_ball/" + data);
+    tag.putString(TAG_LOOT_BALL_DATA_ID, "cobbleloots:loot_ball/" + data);
     stack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
     return stack;
   }
