@@ -2,7 +2,7 @@
   "entity.cobbleloots.loot_ball": "Loot Ball",
   "entity.cobbleloots.loot_ball.error.is_opening": "You can't open a loot ball while it's being opened!",
   "entity.cobbleloots.loot_ball.error.already_opened": "This loot ball has already been opened!",
-  "entity.cobbleloots.loot_ball.error.cooldown": "You must wait %s before opening again!",
+  "entity.cobbleloots.loot_ball.error.cooldown": "You must wait %s seconds before opening again!",
   "entity.cobbleloots.loot_ball.info.no_loot": "This loot ball has no loot!",
   "entity.cobbleloots.loot_ball.open.success": "You found: %s [×%s]",
   "entity.cobbleloots.loot_ball.open.success.bonus": "[BONUS ×%s] You found: %s [×%s]",
