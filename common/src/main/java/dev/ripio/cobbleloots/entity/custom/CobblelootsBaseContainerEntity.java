@@ -49,6 +49,10 @@ public abstract class CobblelootsBaseContainerEntity extends LivingEntity implem
   protected void onBelowWorld() {
     this.discard();  // Fix lag issue despawning entities below the world
   }
+  @Override
+  public void kill() {
+    this.discard();
+  }
 
   @Override
   public @NotNull Iterable<ItemStack> getArmorSlots() {
