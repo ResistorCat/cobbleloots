@@ -20,7 +20,7 @@
   - You can disable this with the new `loot_ball.survival.drop.enabled` config.
 
 ## Fixes
-- Fixed wardens no longer being able to aggro loot balls
+- Fixed a bug where wardens could target and attack loot balls; now wardens ignore loot balls as intended.
 - Fixed loot balls not despawning when falling into the world void.
 - Fixed loot balls not being killed using the `/kill` command.
 
