@@ -16,4 +16,8 @@ public class CobblelootsLightFilter {
   public CobblelootsMinMaxFilter getSky() {
     return this.sky;
   }
+
+  public boolean isInRange(int block, int sky) {
+    return this.block.isInRange(block) && this.sky.isInRange(sky);
+  }
 }
