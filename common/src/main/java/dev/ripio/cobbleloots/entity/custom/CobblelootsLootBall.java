@@ -101,10 +101,22 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   // --- Constructors --
 
+  /**
+   * Constructs a new CobblelootsLootBall entity.
+   *
+   * @param entityType The entity type
+   * @param level The level where the entity exists
+   */
   public CobblelootsLootBall(EntityType<? extends LivingEntity> entityType, Level level) {
     super(entityType, level);
   }
 
+  /**
+   * Creates the default attributes for loot ball entities.
+   * This entity has a custom gravity value to control its floating behavior.
+   *
+   * @return Builder with the entity's base attributes
+   */
   public static AttributeSupplier.Builder createAttributes() {
     return Animal.createMobAttributes().add(Attributes.GRAVITY, 0.1d);
   }
@@ -135,13 +147,13 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   @Override
   public void setInvisible(boolean bl) {
-    this.entityData.set(INVISIBLE, bl);
+    this.getEntityData().set(INVISIBLE, bl);
     super.setInvisible(bl);
   }
 
   @Override
   public boolean isInvisible() {
-    return this.entityData.get(INVISIBLE);
+    return this.getEntityData().get(INVISIBLE);
   }
 
   @Override
