@@ -33,6 +33,7 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_SURVIVAL_DROP_ENABLED = "loot_ball.survival.drop.enabled";
     public static final String LOOT_BALL_DEFAULTS_USES = "loot_ball.defaults.uses";
     public static final String LOOT_BALL_DEFAULTS_MULTIPLIER = "loot_ball.defaults.multiplier";
+    public static final String LOOT_BALL_DEFAULTS_XP = "loot_ball.defaults.xp";
     public static final String LOOT_BALL_DEFAULTS_PLAYER_TIMER = "loot_ball.defaults.player_timer";
     public static final String LOOT_BALL_DEFAULTS_DESPAWN_TICK = "loot_ball.defaults.despawn_tick";
 
@@ -42,7 +43,6 @@ public class CobblelootsConfig {
     private static Map<String, Object> getDefaultConfig() {
         Map<String, Object> defaults = new HashMap<>();
         defaults.put(LOOT_BALL_XP_ENABLED, true);
-        defaults.put(LOOT_BALL_XP_AMOUNT, 5);
         defaults.put(LOOT_BALL_BONUS_ENABLED, true);
         defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
         defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
@@ -60,6 +60,7 @@ public class CobblelootsConfig {
         defaults.put(LOOT_BALL_SURVIVAL_DROP_ENABLED, true);
         defaults.put(LOOT_BALL_DEFAULTS_USES, 1);
         defaults.put(LOOT_BALL_DEFAULTS_MULTIPLIER, 1.0F);
+        defaults.put(LOOT_BALL_DEFAULTS_XP, 0);
         defaults.put(LOOT_BALL_DEFAULTS_PLAYER_TIMER, 0L);
         defaults.put(LOOT_BALL_DEFAULTS_DESPAWN_TICK, 0L);
         return defaults;

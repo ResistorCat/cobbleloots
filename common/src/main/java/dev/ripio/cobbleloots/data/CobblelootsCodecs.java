@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 
+import static dev.ripio.cobbleloots.config.CobblelootsConfig.LOOT_BALL_DEFAULTS_XP;
 import static dev.ripio.cobbleloots.data.custom.filter.CobblelootsFilters.LOOT_BALL_SOURCE_CODEC;
 
 public class CobblelootsCodecs {
@@ -39,7 +40,8 @@ public class CobblelootsCodecs {
           ResourceLocation.CODEC.optionalFieldOf("loot_table", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getLootTable),
           ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getTexture),
           LOOT_BALL_SOURCES_CODEC.optionalFieldOf("sources", DEFAULT_LOOT_BALL_SOURCES).forGetter(CobblelootsLootBallData::getSources),
-          LOOT_BALL_VARIANT_CODEC.listOf().optionalFieldOf("variants", List.of()).forGetter(CobblelootsLootBallData::getVariants)
+          Codec.unboundedMap(Codec.STRING, LOOT_BALL_VARIANT_DATA_CODEC).optionalFieldOf("variants", Map.of()).forGetter(CobblelootsLootBallData::getVariants),
+            Codec.INT.optionalFieldOf("xp", CobblelootsConfig.getIntConfig(LOOT_BALL_DEFAULTS_XP)).forGetter(CobblelootsLootBallData::getXp)
       ).apply(instance, CobblelootsLootBallData::new)
   );
 

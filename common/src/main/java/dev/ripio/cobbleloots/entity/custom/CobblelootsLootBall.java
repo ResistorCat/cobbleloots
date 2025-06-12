@@ -62,17 +62,18 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final EntityDataAccessor<CompoundTag> LOOT_BALL_CLIENT_DATA = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.COMPOUND_TAG);
 
   // NBT Tags
-  private static final String TAG_SPARKS = "Sparks";
-  private static final String TAG_INVISIBLE = "Invisible";
-  private static final String TAG_TEXTURE = "Texture";
-  private static final String TAG_LOOT_BALL_DATA = "LootBallData";
-  private static final String TAG_VARIANT = "Variant";
+  public static final String TAG_SPARKS = "Sparks";
+  public static final String TAG_INVISIBLE = "Invisible";
+  public static final String TAG_CUSTOM_TEXTURE = "Texture";
+  public static final String TAG_LOOT_BALL_DATA_ID = "LootBallData";
+  public static final String TAG_VARIANT_ID = "Variant";
 
   private static final String TAG_OPENERS = "Openers";
   private static final String TAG_USES = "Uses";
   private static final String TAG_MULTIPLIER = "Multiplier";
   private static final String TAG_DESPAWN_TICK = "DespawnTick";
   private static final String TAG_PLAYER_TIMER = "PlayerTimer";
+  private static final String TAG_XP = "XP";
 
   // Text keys
   private static final String TEXT_ERROR_IS_OPENING = "entity.cobbleloots.loot_ball.error.is_opening";
@@ -91,6 +92,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final int DEFAULT_USES = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_USES);
   private static final long DEFAULT_DESPAWN_TICK = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_DESPAWN_TICK);
   private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_PLAYER_TIMER);
+  private static final int DEFAULT_XP = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_XP);
 
   // Variables
   protected final Map<UUID, Long> openers = new HashMap<>();
@@ -98,6 +100,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   protected float multiplier = DEFAULT_MULTIPLIER;
   protected long despawnTick = DEFAULT_DESPAWN_TICK;
   protected long playerTimer = DEFAULT_PLAYER_TIMER;
+  protected int xp = DEFAULT_XP;
 
   // --- Constructors --
 
@@ -260,6 +263,10 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     if (this.playerTimer != DEFAULT_PLAYER_TIMER) {
       compoundTag.putLong(TAG_PLAYER_TIMER, this.playerTimer);
     }
+
+    if (this.xp != DEFAULT_XP) {
+      compoundTag.putInt(TAG_XP, this.xp);
+    }
   }
 
   @Override
@@ -292,6 +299,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
     this.playerTimer = compoundTag.contains(TAG_PLAYER_TIMER) ?
                        compoundTag.getLong(TAG_PLAYER_TIMER) : DEFAULT_PLAYER_TIMER;
+
+    this.xp = compoundTag.contains(TAG_XP) ?
+              compoundTag.getInt(TAG_XP) : DEFAULT_XP;
   }
 
   @Override
@@ -416,7 +426,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     return this.entityData.get(OPENING_TICKS);
   }
 
-  private void open(ServerPlayer serverPlayer) {// Give or drop items
+    // Give experience points if enabled
+    awardExperienceIfEnabled(serverPlayer);
     for (ItemStack itemStack : this.itemStacks) {
       if (!itemStack.isEmpty()) {
         if (this.getMultiplier() > 1.0f) {
@@ -541,6 +552,22 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   public boolean isInfinite() {
     return this.uses <= -1;
+  }
+
+  public int getXP() {
+    // Check if XP is set directly
+    if (this.xp != DEFAULT_XP) {
+      return this.xp;
+    }
+
+    // If loot ball data is set, check if it has XP defined
+    CobblelootsLootBallData lootBallData = this.getLootBallData();
+    if (lootBallData != null && lootBallData.getXp() > 0) {
+      return lootBallData.getXp();
+    }
+
+    // Default to configured value if no specific XP is set
+    return this.xp;
   }
 
   // --- Private methods ---
