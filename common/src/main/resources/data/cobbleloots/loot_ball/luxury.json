@@ -1,16 +1,24 @@
 {
-  "name": "Luxury",
-  "weight": 5,
+  "name": {
+    "text": "Luxury Loot Ball",
+    "color": "dark_purple",
+    "bold": true
+  },
   "loot_table": "cobbleloots:loot_ball/luxury",
   "texture": "cobblemon:textures/poke_balls/luxury_ball.png",
-  "sources": [
-    {
-      "type": "generation",
-      "biome": "cobbleloots:loot_ball/luxury"
-    },
-    {
-      "type": "spawning",
-      "biome": "cobbleloots:loot_ball/luxury"
-    }
-  ]
+  "xp": 25,
+  "sources": {
+    "generation": [
+      {
+        "weight": 5,
+        "biome": "cobbleloots:loot_ball/luxury"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 5,
+        "biome": "cobbleloots:loot_ball/luxury"
+      }
+    ]
+  }
 }

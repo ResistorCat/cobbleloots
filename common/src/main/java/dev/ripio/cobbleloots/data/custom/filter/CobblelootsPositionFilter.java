@@ -22,4 +22,8 @@ public class CobblelootsPositionFilter {
   public CobblelootsMinMaxFilter getZ() {
     return z;
   }
+
+  public boolean isInRange(int x, int y, int z) {
+    return this.x.isInRange(x) && this.y.isInRange(y) && this.z.isInRange(z);
+  }
 }

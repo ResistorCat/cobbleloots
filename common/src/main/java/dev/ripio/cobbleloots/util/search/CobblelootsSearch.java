@@ -11,6 +11,9 @@ public class CobblelootsSearch {
     // Maximum number of attempts to search a valid loot ball spawn position in a
     // section to optimize performance
     public static final int MAX_SECTION_SEARCH_ATTEMPTS = 5;
+    // Maximum number of attempts to check if a block is solid in a section to
+    // pioritize spawns on top of solid blocks
+    public static final int MAX_CHECKS_FOR_SOLID_BLOCK = 5;
 
     @Nullable
     public static BlockPos searchRandomValidLootBallSpawn(LevelChunkSection section, RandomSource randomSource) {
@@ -25,8 +28,16 @@ public class CobblelootsSearch {
         for (int i = 0; i < y.length; i++) {
             int randomIndex = randomSource.nextIntBetweenInclusive(i, y.length - 1);
             BlockState blockState = section.getBlockState(x, y[randomIndex], z);
-            // Check if the block is not solid
+            // Search for solid base block
             if (!blockState.isSolid()) {
+                for (int j = y[randomIndex]; j >= 0; j--) {
+                    // Check if the block below is solid
+                    BlockState baseBlock = section.getBlockState(x, j, z);
+                    if (baseBlock.isSolid()) {
+                        return new BlockPos(x, j + 1, z);
+                    }
+                }
+                // If no solid block was found, return the current position
                 return new BlockPos(x, y[randomIndex], z);
             }
             y[randomIndex] = y[i];

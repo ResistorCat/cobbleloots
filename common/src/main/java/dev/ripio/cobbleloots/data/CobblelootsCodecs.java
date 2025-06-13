@@ -2,14 +2,18 @@ package dev.ripio.cobbleloots.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariant;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
+import java.util.Map;
 
 import static dev.ripio.cobbleloots.config.CobblelootsConfig.LOOT_BALL_DEFAULTS_XP;
 import static dev.ripio.cobbleloots.data.custom.filter.CobblelootsFilters.LOOT_BALL_SOURCE_CODEC;
@@ -26,12 +30,12 @@ public class CobblelootsCodecs {
       ).apply(instance, CobblelootsLootBallSources::new)
   );
 
-  public static final Codec<CobblelootsLootBallVariant> LOOT_BALL_VARIANT_CODEC = RecordCodecBuilder.create(
+  public static final Codec<CobblelootsLootBallVariantData> LOOT_BALL_VARIANT_DATA_CODEC = RecordCodecBuilder.create(
       instance -> instance.group(
-          ComponentSerialization.CODEC.fieldOf("name").forGetter(CobblelootsLootBallVariant::getName),
-          ResourceLocation.CODEC.optionalFieldOf("loot_table", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallVariant::getLootTable),
-          ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallVariant::getTexture)
-          ).apply(instance, CobblelootsLootBallVariant::new)
+          ComponentSerialization.CODEC.optionalFieldOf("name", Component.empty()).forGetter(CobblelootsLootBallVariantData::getName),
+          ResourceLocation.CODEC.optionalFieldOf("loot_table", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallVariantData::getLootTable),
+          ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallVariantData::getTexture)
+          ).apply(instance, CobblelootsLootBallVariantData::new)
   );
 
   public static final Codec<CobblelootsLootBallData> LOOT_BALL_DATA_CODEC = RecordCodecBuilder.create(

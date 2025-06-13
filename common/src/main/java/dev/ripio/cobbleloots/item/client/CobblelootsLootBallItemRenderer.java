@@ -3,6 +3,8 @@ package dev.ripio.cobbleloots.item.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
+import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -23,15 +25,6 @@ public class CobblelootsLootBallItemRenderer {
       ResourceLocation textureLocation = ResourceLocation.tryParse(compoundTag.getString("Texture"));
       if (textureLocation != null) {
         return textureLocation;
-      }
-    }
-    if (compoundTag.contains("LootBallData")) {
-      ResourceLocation dataLocation = ResourceLocation.tryParse(compoundTag.getString("LootBallData"));
-      int variant = -1;
-      if (compoundTag.contains("Variant")) variant = compoundTag.getInt("Variant");
-      CobblelootsLootBallData lootBallData = CobblelootsDataProvider.getLootBallData(dataLocation, variant);
-      if (lootBallData != null) {
-        return lootBallData.getTexture();
       }
     }
     return DEFAULT_TEXTURE;

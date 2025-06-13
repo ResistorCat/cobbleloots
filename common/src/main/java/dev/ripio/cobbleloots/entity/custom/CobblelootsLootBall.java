@@ -3,10 +3,13 @@ package dev.ripio.cobbleloots.entity.custom;
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
 import dev.ripio.cobbleloots.item.CobblelootsItems;
 import dev.ripio.cobbleloots.sound.CobblelootsLootBallSounds;
+import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -28,6 +31,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,10 +59,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // Synched Entity Data (Server <-> Client)
   private static final EntityDataAccessor<Boolean> SPARKS = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.BOOLEAN);
   private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.BOOLEAN);
-  private static final EntityDataAccessor<String> TEXTURE = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
-  private static final EntityDataAccessor<String> LOOT_BALL_DATA = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
-  private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.INT);
-
+  private static final EntityDataAccessor<String> CUSTOM_TEXTURE = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
+  private static final EntityDataAccessor<String> LOOT_BALL_DATA_ID = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
+  private static final EntityDataAccessor<String> VARIANT_ID = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
   private static final EntityDataAccessor<CompoundTag> LOOT_BALL_CLIENT_DATA = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.COMPOUND_TAG);
 
   // NBT Tags
@@ -125,7 +128,6 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   // --- Entity methods ---
-
   @Override
   public boolean fireImmune() {
     return true;
@@ -234,9 +236,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     super.defineSynchedData(builder);
     builder.define(SPARKS, true);
     builder.define(INVISIBLE, false);
-    builder.define(TEXTURE, "");
-    builder.define(LOOT_BALL_DATA, "");
-    builder.define(VARIANT, -1);
+    builder.define(CUSTOM_TEXTURE, "");
+    builder.define(LOOT_BALL_DATA_ID, "");
+    builder.define(VARIANT_ID, "");
     builder.define(OPENING_TICKS, 0);
 
     builder.define(LOOT_BALL_CLIENT_DATA, new CompoundTag());
@@ -245,8 +247,68 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Override
   public void addAdditionalSaveData(CompoundTag compoundTag) {
     super.addAdditionalSaveData(compoundTag);
+
+    // Save synced entity data
+    saveEntityVisualProperties(compoundTag);
+    saveEntityIdentificationData(compoundTag);
+
+    // Save non-synced data
+    saveOpeners(compoundTag);
+    saveNumericalProperties(compoundTag);
+  }
+
+  /**
+   * Save visual properties like sparks and invisibility
+   */
+  private void saveEntityVisualProperties(CompoundTag compoundTag) {
     compoundTag.putBoolean(TAG_SPARKS, this.hasSparks());
     compoundTag.putBoolean(TAG_INVISIBLE, this.isInvisible());
+
+    // Only save custom texture if it's not empty
+    String customTexture = this.getEntityData().get(CUSTOM_TEXTURE);
+    if (customTexture != null && !customTexture.isEmpty()) {
+      compoundTag.putString(TAG_CUSTOM_TEXTURE, customTexture);
+    }
+  }
+
+  /**
+   * Save data that identifies what type of loot ball this is
+   */
+  private void saveEntityIdentificationData(CompoundTag compoundTag) {
+    String lootBallDataId = this.getLootBallDataId();
+    if (lootBallDataId != null && !lootBallDataId.isEmpty()) {
+      compoundTag.putString(TAG_LOOT_BALL_DATA_ID, lootBallDataId);
+    }
+
+    String variantId = this.getVariantId();
+    if (variantId != null && !variantId.isEmpty()) {
+      compoundTag.putString(TAG_VARIANT_ID, variantId);
+    }
+  }
+
+  /**
+   * Save the list of players who have opened this loot ball
+   */
+  private void saveOpeners(CompoundTag compoundTag) {
+    if (this.openers.isEmpty()) {
+      return;
+    }
+
+    ListTag openersTag = new ListTag();
+    for (Map.Entry<UUID, Long> entry : this.openers.entrySet()) {
+      CompoundTag openerTag = new CompoundTag();
+      openerTag.putUUID("UUID", entry.getKey());
+      openerTag.putLong("Timestamp", entry.getValue());
+      openersTag.add(openerTag);
+    }
+    compoundTag.put(TAG_OPENERS, openersTag);
+  }
+
+  /**
+   * Save numerical properties like uses and multiplier,
+   * but only if they differ from defaults to save space.
+   */
+  private void saveNumericalProperties(CompoundTag compoundTag) {
     // Only save non-default values to keep the tag small
     if (this.uses != DEFAULT_USES) {
       compoundTag.putInt(TAG_USES, this.uses);
@@ -272,22 +334,67 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Override
   public void readAdditionalSaveData(CompoundTag compoundTag) {
     super.readAdditionalSaveData(compoundTag);
-    if (compoundTag.contains(TAG_SPARKS)) this.setSparks(compoundTag.getBoolean(TAG_SPARKS));
-    if (compoundTag.contains(TAG_INVISIBLE)) this.setInvisible(compoundTag.getBoolean(TAG_INVISIBLE));
-    if (compoundTag.contains(TAG_TEXTURE)) {
-      ResourceLocation textureLocation = ResourceLocation.tryParse(compoundTag.getString(TAG_TEXTURE));
-      if (textureLocation != null) this.setTexture(textureLocation);
+
+    // Read synced data with appropriate defaults
+    this.setSparks(compoundTag.getBoolean(TAG_SPARKS));
+    this.setInvisible(compoundTag.getBoolean(TAG_INVISIBLE));
+
+    // Read resource locations with validation
+    readTextureFromTag(compoundTag);
+    readLootBallDataFromTag(compoundTag);
+
+    // Read variant ID if present
+    if (compoundTag.contains(TAG_VARIANT_ID)) {
+      this.setVariantId(compoundTag.getString(TAG_VARIANT_ID));
     }
-    if (compoundTag.contains(TAG_LOOT_BALL_DATA)) {
-      ResourceLocation lootBallDataLocation = ResourceLocation.tryParse(compoundTag.getString(TAG_LOOT_BALL_DATA));
-      if (lootBallDataLocation != null) this.setLootBallData(lootBallDataLocation);
+
+    // Read non-synced data
+    readOpenersFromTag(compoundTag);
+    readNumericalValuesFromTag(compoundTag);
+  }
+
+  private void readTextureFromTag(CompoundTag compoundTag) {
+    if (compoundTag.contains(TAG_CUSTOM_TEXTURE)) {
+      String texturePath = compoundTag.getString(TAG_CUSTOM_TEXTURE);
+      if (!texturePath.isEmpty()) {
+        ResourceLocation textureLocation = ResourceLocation.tryParse(texturePath);
+        if (textureLocation != null) {
+          this.setTexture(textureLocation);
+        }
+      }
     }
-    if (compoundTag.contains(TAG_VARIANT)) this.setVariant(compoundTag.getInt(TAG_VARIANT));
-    // Non-Synced Data
+  }
+
+  private void readLootBallDataFromTag(CompoundTag compoundTag) {
+    if (compoundTag.contains(TAG_LOOT_BALL_DATA_ID)) {
+      String dataPath = compoundTag.getString(TAG_LOOT_BALL_DATA_ID);
+      if (!dataPath.isEmpty()) {
+        ResourceLocation lootBallDataLocation = ResourceLocation.tryParse(dataPath);
+        if (lootBallDataLocation != null) {
+          this.setLootBallDataId(lootBallDataLocation);
+        }
+      }
+    }
+  }
+
+  private void readOpenersFromTag(CompoundTag compoundTag) {
     if (compoundTag.contains(TAG_OPENERS)) {
       ListTag openersTag = compoundTag.getList(TAG_OPENERS, CompoundTag.TAG_COMPOUND);
+      this.openers.clear(); // Clear existing openers first
+
       for (int i = 0; i < openersTag.size(); i++) {
         CompoundTag openerTag = openersTag.getCompound(i);
+        if (openerTag.contains("UUID") && openerTag.contains("Timestamp")) {
+          UUID uuid = openerTag.getUUID("UUID");
+          long timestamp = openerTag.getLong("Timestamp");
+          this.openers.put(uuid, timestamp);
+        }
+      }
+    }
+  }
+
+  private void readNumericalValuesFromTag(CompoundTag compoundTag) {
+    // Read with appropriate defaults
     this.uses = compoundTag.contains(TAG_USES) ?
                 compoundTag.getInt(TAG_USES) : DEFAULT_USES;
 
@@ -329,7 +436,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     // Server logic
     if (!this.level().isClientSide()) {
       // Despawn logic
-      if (this.getDespawnTick() != 0 && this.level().getGameTime() >= this.getDespawnTick()) {
+      if (this.getDespawnTick() > 0L && this.level().getGameTime() >= this.getDespawnTick()) {
         this.discard();
       }
     }
@@ -378,16 +485,37 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   @Override
-  public @Nullable ResourceLocation getLootTableLocation() {
+  public ResourceLocation getLootTableLocation() {
     ResourceLocation tableLocation = super.getLootTableLocation();
     if (tableLocation == null) {
+      // Get loot table from loot ball data
       CobblelootsLootBallData lootBallData = this.getLootBallData();
-      if (lootBallData != null) tableLocation = lootBallData.getLootTable();
+      if (lootBallData == null) return CobblelootsDefinitions.EMPTY_LOCATION;
+
+      CobblelootsLootBallVariantData variantData = this.getVariantData();
+
+      if (variantData != null && variantData.getLootTable() != null &&
+          !variantData.getLootTable().equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
+        // Use variant loot table if available
+        tableLocation = variantData.getLootTable();
+      } else if (lootBallData.getLootTable() != null &&
+                 !lootBallData.getLootTable().equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
+        // Fallback to loot ball data loot table
+        tableLocation = lootBallData.getLootTable();
+      } else {
+        // No valid loot table found
+        return CobblelootsDefinitions.EMPTY_LOCATION;
+      }
+
     }
     return tableLocation;
   }
 
   // --- CobblelootsLootBall methods ---
+  /**
+   * Attempts to open the loot ball for a server player.
+   * This checks various conditions like cooldown and if the player already opened it.
+   */
   private void tryOpen(ServerPlayer serverPlayer) {
     // Check if someone is already opening the loot ball
     if (this.isOpening) {
@@ -416,14 +544,16 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         return true;
       }
     }
+  private long getPlayerTimer() {
+    return this.playerTimer;
   }
 
   private void setOpeningTicks(int i) {
-    this.entityData.set(OPENING_TICKS, i);
+    this.getEntityData().set(OPENING_TICKS, i);
   }
 
   private int getOpeningTicks() {
-    return this.entityData.get(OPENING_TICKS);
+    return this.getEntityData().get(OPENING_TICKS);
   }
 
     // Give experience points if enabled
@@ -443,10 +573,12 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         serverPlayer.playNotifySound(CobblelootsLootBallSounds.getFanfare(), SoundSource.BLOCKS, 1f, 1.0f);
       }
     }
-    // Give experience points if enabled
+  private void awardExperienceIfEnabled(ServerPlayer serverPlayer) {
     if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_XP_ENABLED)) {
-      int experiencePoints = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_XP_AMOUNT);
-      serverPlayer.giveExperiencePoints(experiencePoints);
+      if (this.getXP() > 0) {
+        serverPlayer.giveExperiencePoints(this.getXP());
+      }
+    }
     }
 
     // Check if uses are infinite
@@ -486,60 +618,155 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   public boolean hasSparks() {
-    return this.entityData.get(SPARKS);
+    return this.getEntityData().get(SPARKS);
   }
 
-  public int getVariant() {
-    return this.entityData.get(VARIANT);
+  public String getLootBallDataId() {
+    return this.getEntityData().get(LOOT_BALL_DATA_ID);
+  }
+  
+  public String getVariantId() {
+    return this.getEntityData().get(VARIANT_ID);
   }
 
   @Nullable
   public CobblelootsLootBallData getLootBallData() {
-    ResourceLocation dataLocation = ResourceLocation.tryParse(this.entityData.get(LOOT_BALL_DATA));
-    return CobblelootsDataProvider.getLootBallData(dataLocation, this.getVariant());
+    // Try to parse the current id
+    ResourceLocation dataLocation = ResourceLocation.tryParse(this.getLootBallDataId());
+    if (dataLocation == null) return null;
+    // Return the loot ball data if found
+    return CobblelootsDataProvider.getLootBallData(dataLocation);
   }
 
   @Nullable
-  public ResourceLocation getTexture() {
-    ResourceLocation textureLocation = ResourceLocation.tryParse(this.entityData.get(TEXTURE));
-    if (textureLocation != null && textureLocation.getPath().isEmpty()) {
-      if (this.entityData.get(LOOT_BALL_CLIENT_DATA).contains(TAG_TEXTURE)) {
-        String texturePath = this.entityData.get(LOOT_BALL_CLIENT_DATA).getString(TAG_TEXTURE);
-        if (!texturePath.isEmpty()) textureLocation = ResourceLocation.tryParse(texturePath);
-      } else {
-        CobblelootsLootBallData lootBallData = this.getLootBallData();
-        if (lootBallData != null) textureLocation = lootBallData.getTexture();
+  public CobblelootsLootBallVariantData getVariantData() {
+    // Try to get loot ball data
+    CobblelootsLootBallData lootBallData = this.getLootBallData();
+    if (lootBallData == null) return null;
+    // Return the variant data if found
+    return lootBallData.getVariants().get(this.getVariantId());
+  }
+
+  public CompoundTag getLootBallClientData() {
+    return this.getEntityData().get(LOOT_BALL_CLIENT_DATA);
+  }
+
+  public void updateLootBallClientData() {
+    CompoundTag compoundTag = new CompoundTag();
+
+    // Add texture data
+    ResourceLocation texture = this.getTextureFromServerData();
+    if (texture != null) {
+      compoundTag.putString(TAG_CUSTOM_TEXTURE, texture.toString());
+    }
+
+    // Update the entity data
+    this.getEntityData().set(LOOT_BALL_CLIENT_DATA, compoundTag);
+  }
+
+  @Override
+  public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+    super.onSyncedDataUpdated(key);
+
+    // If the data that affects appearance changes, update client data
+    if (key.equals(CUSTOM_TEXTURE) || key.equals(LOOT_BALL_DATA_ID) || key.equals(VARIANT_ID)) {
+      if (!this.level().isClientSide()) {
+        this.updateLootBallClientData();
       }
     }
-    return textureLocation;
+  }
+
+  public String getTextureId() {
+    return this.getTexture().toString();
+  }
+
+  @NotNull
+  public ResourceLocation getTexture() {
+    ResourceLocation textureLocation;
+
+    if (this.level().isClientSide()) {
+      textureLocation = getTextureFromClientData();
+      } else {
+      textureLocation = getTextureFromServerData();
+    }
+
+    return textureLocation != null ? textureLocation : CobblelootsDefinitions.EMPTY_LOCATION;
+  }
+
+  @Nullable
+  private ResourceLocation getTextureFromClientData() {
+    CompoundTag compoundTag = this.getLootBallClientData();
+    if (compoundTag == null || !compoundTag.contains(TAG_CUSTOM_TEXTURE)) {
+      return null;
+    }
+
+    String texturePath = compoundTag.getString(TAG_CUSTOM_TEXTURE);
+    if (texturePath.isEmpty()) {
+      return null;
+      }
+
+    return ResourceLocation.tryParse(texturePath);
+  }
+
+  @Nullable
+  private ResourceLocation getTextureFromServerData() {
+    // Check custom texture first (highest priority)
+    ResourceLocation customLocation = getCustomTextureLocation();
+    if (customLocation != null) {
+      return customLocation;
+  }
+
+    // Get texture from loot ball data and variants (second priority)
+    return getLootBallDataTexture();
+  }
+
+  @Nullable
+  private ResourceLocation getCustomTextureLocation() {
+    String customTexture = this.getEntityData().get(CUSTOM_TEXTURE);
+    if (customTexture.isEmpty()) {
+      return null;
+    }
+    return ResourceLocation.tryParse(customTexture);
+  }
+
+  @Nullable
+  private ResourceLocation getLootBallDataTexture() {
+    CobblelootsLootBallData lootBallData = this.getLootBallData();
+    if (lootBallData == null) {
+      return null;
+    }
+
+    // Check variant texture
+    String variantId = this.getVariantId();
+    if (!variantId.isEmpty()) {
+      CobblelootsLootBallVariantData variantData = lootBallData.getVariants().get(variantId);
+      if (variantData != null && variantData.getTexture() != null &&
+          !variantData.getTexture().equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
+        return variantData.getTexture();
+      }
+    }
+
+    // Fallback to default texture
+    return lootBallData.getTexture();
   }
 
   public void setSparks(boolean sparks) {
-    this.entityData.set(SPARKS, sparks);
+    this.getEntityData().set(SPARKS, sparks);
   }
 
-  public void setVariant(int variant) {
-    this.entityData.set(VARIANT, variant);
-    CompoundTag compoundTag = this.entityData.get(LOOT_BALL_CLIENT_DATA).copy();
-    CobblelootsLootBallData lootBallData = this.getLootBallData();
-    if (lootBallData != null) {
-      compoundTag.putString(TAG_TEXTURE, lootBallData.getTexture().toString());
-    }
-    this.entityData.set(LOOT_BALL_CLIENT_DATA, compoundTag);
+  public void setVariantId(String variantId) {
+    this.getEntityData().set(VARIANT_ID, variantId);
+    updateLootBallClientData();
   }
 
-  public void setLootBallData(ResourceLocation lootBallData) {
-    this.entityData.set(LOOT_BALL_DATA, lootBallData.toString());
-    CobblelootsLootBallData data = getLootBallData();
-    if (data != null) {
-      CompoundTag tag = new CompoundTag();
-      tag.putString(TAG_TEXTURE, data.getTexture().toString());
-      this.entityData.set(LOOT_BALL_CLIENT_DATA, tag);
-    }
+  public void setLootBallDataId(ResourceLocation lootBallData) {
+    this.getEntityData().set(LOOT_BALL_DATA_ID, lootBallData.toString());
+    updateLootBallClientData();
   }
 
   public void setTexture(ResourceLocation texture) {
-    this.entityData.set(TEXTURE, texture.toString());
+    this.getEntityData().set(CUSTOM_TEXTURE, texture.toString());
+    updateLootBallClientData();
   }
 
   public void setDespawnTick(long tick) {
@@ -581,22 +808,6 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     serverPlayer.sendSystemMessage(cobblelootsText(TEXT_TOGGLE_SPARKS).withStyle(ChatFormatting.AQUA), true);
     serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleSparksSound(this.hasSparks()), SoundSource.BLOCKS, 0.5f, 1.0f);
     this.setSparks(!this.hasSparks());
-  }
-
-  private void showDebugInfo(ServerPlayer serverPlayer) {
-    String lootBallDebugInfo = """
-        Loot Ball Debug Info:
-        - Variant: %d
-        - Texture: %s
-        - Loot Ball Data: %s
-        - Sparks: %s
-        - Invisible: %s
-        - Opening: %s
-        - Uses: %d
-        - Multiplier: %.2f
-        - Openers: %s
-        """.formatted(this.getVariant(), this.getTexture(), this.entityData.get(LOOT_BALL_DATA), this.hasSparks(), this.isInvisible(), this.isOpening, this.getRemainingUses(), this.getMultiplier(), this.openers);
-    serverPlayer.sendSystemMessage(Component.literal(lootBallDebugInfo));
   }
 
   private void setLootBallItem(ItemStack itemStack, ServerPlayer serverPlayer) {

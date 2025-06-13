@@ -2,6 +2,7 @@ package dev.ripio.cobbleloots.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
+import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
@@ -18,7 +19,7 @@ public class CobblelootsLootBallRenderer extends LivingEntityRenderer<Cobbleloot
   @Override
   public @NotNull ResourceLocation getTextureLocation(CobblelootsLootBall entity) {
     ResourceLocation texture = entity.getTexture();
-    return texture == null || texture.getPath().isEmpty() ? DEFAULT_TEXTURE : texture;
+    return texture.equals(CobblelootsDefinitions.EMPTY_LOCATION) ? DEFAULT_TEXTURE : texture;
   }
 
   @Override

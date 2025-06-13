@@ -1,52 +1,149 @@
 {
-  "name": "Poke",
-  "weight": 100,
+  "name": {
+    "text": "Poké Loot Ball"
+  },
   "loot_table": "cobbleloots:loot_ball/poke",
   "texture": "cobblemon:textures/poke_balls/poke_ball.png",
-  "sources": [
-    {
-      "type": "generation"
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 100,
+        "structure": "cobbleloots:empty",
+        "biome": "cobbleloots:empty",
+        "dimension": [],
+        "block": {
+          "spawn": "cobbleloots:empty",
+          "base": "cobbleloots:empty"
+        },
+        "fluid": "cobbleloots:empty",
+        "position": {
+          "x": {
+            "min": -2147483647,
+            "max": 2147483647
+          },
+          "y": {
+            "min": -2147483647,
+            "max": 2147483647
+          },
+          "z": {
+            "min": -2147483647,
+            "max": 2147483647
+          }
+        },
+        "time": {
+          "value": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "period": 24000
+        },
+        "weather": {
+          "rain": true,
+          "thunder": true,
+          "clear": true
+        }
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 100,
+        "structure": "cobbleloots:empty",
+        "biome": "cobbleloots:empty",
+        "dimension": [],
+        "block": {
+          "spawn": "cobbleloots:empty",
+          "base": "cobbleloots:empty"
+        },
+        "fluid": "cobbleloots:empty",
+        "position": {
+          "x": {
+            "min": -2147483647,
+            "max": 2147483647
+          },
+          "y": {
+            "min": -2147483647,
+            "max": 2147483647
+          },
+          "z": {
+            "min": -2147483647,
+            "max": 2147483647
+          }
+        },
+        "light": {
+          "block": {
+            "min": 0,
+            "max": 15
+          },
+          "sky": {
+            "min": 0,
+            "max": 15
+          }
+        },
+        "time": {
+          "value": {
+            "min": 0,
+            "max": 2147483647
+          },
+          "period": 24000
+        },
+        "weather": {
+          "rain": true,
+          "thunder": true,
+          "clear": true
+        }
+      }
+    ]
+  },
+  "variants": {
+    "poke": {
+      "name": {
+        "text": "Poké Loot Ball"
+      },
+      "loot_table": "cobbleloots:loot_ball/poke",
+      "texture": "cobblemon:textures/poke_balls/poke_ball.png"
     },
-    {
-      "type": "spawning"
-    },
-    {
-      "type": "fishing"
-    },
-    {
-      "type": "archaeology"
-    }
-  ],
-  "variants": [
-    {
-      "name": "Azure",
+    "azure": {
+      "name": {
+        "text": "Azure Loot Ball"
+      },
       "loot_table": "cobbleloots:loot_ball/azure",
       "texture": "cobblemon:textures/poke_balls/azure_ball.png"
     },
-    {
-      "name": "Citrine",
+    "citrine": {
+      "name": {
+        "text": "Citrine Loot Ball"
+      },
       "loot_table": "cobbleloots:loot_ball/citrine",
       "texture": "cobblemon:textures/poke_balls/citrine_ball.png"
     },
-    {
-      "name": "Premier",
+    "premier": {
+      "name": {
+        "text": "Premier Loot Ball"
+      },
       "loot_table": "cobbleloots:loot_ball/premier",
       "texture": "cobblemon:textures/poke_balls/premier_ball.png"
     },
-    {
-      "name": "Roseate",
+    "roseate": {
+      "name": {
+        "text": "Roseate Loot Ball"
+      },
       "loot_table": "cobbleloots:loot_ball/roseate",
       "texture": "cobblemon:textures/poke_balls/roseate_ball.png"
     },
-    {
-      "name": "Slate",
+    "slate": {
+      "name": {
+        "text": "Slate Loot Ball"
+      },
       "loot_table": "cobbleloots:loot_ball/slate",
       "texture": "cobblemon:textures/poke_balls/slate_ball.png"
     },
-    {
-      "name": "Verdant",
+    "verdant": {
+      "name": {
+        "text": "Verdant Loot Ball"
+      },
       "loot_table": "cobbleloots:loot_ball/verdant",
       "texture": "cobblemon:textures/poke_balls/verdant_ball.png"
     }
-  ]
+  }
 }

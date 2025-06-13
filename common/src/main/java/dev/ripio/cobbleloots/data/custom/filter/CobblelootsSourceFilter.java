@@ -3,23 +3,24 @@ package dev.ripio.cobbleloots.data.custom.filter;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
+
+import java.util.List;
 
 public class CobblelootsSourceFilter {
     private final int weight;
     private final TagKey<Structure> structure;
     private final TagKey<Biome> biome;
-    private final ResourceLocation dimension;
-    private final TagKey<Block> block;
+    private final List<ResourceLocation> dimension;
+    private final CobblelootsBlockFilter block;
     private final TagKey<Fluid> fluid;
     private final CobblelootsPositionFilter position;
     private final CobblelootsLightFilter light;
     private final CobblelootsTimeFilter time;
     private final CobblelootsWeatherFilter weather;
 
-  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, TagKey<Biome> biome, ResourceLocation dimension, TagKey<Block> block, TagKey<Fluid> fluid, CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time, CobblelootsWeatherFilter weather) {
+  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, TagKey<Biome> biome, List<ResourceLocation> dimension, CobblelootsBlockFilter block, TagKey<Fluid> fluid, CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time, CobblelootsWeatherFilter weather) {
     this.weight = weight;
     this.structure = structure;
     this.biome = biome;
@@ -44,11 +45,11 @@ public class CobblelootsSourceFilter {
     return biome;
   }
 
-  public ResourceLocation getDimension() {
+  public List<ResourceLocation> getDimension() {
     return dimension;
   }
 
-  public TagKey<Block> getBlock() {
+  public CobblelootsBlockFilter getBlock() {
     return block;
   }
 

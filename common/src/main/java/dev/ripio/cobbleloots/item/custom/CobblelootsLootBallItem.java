@@ -1,115 +1,99 @@
 package dev.ripio.cobbleloots.item.custom;
 
-import com.mojang.serialization.MapCodec;
-import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Consumer;
 
+import static dev.ripio.cobbleloots.entity.CobblelootsEntities.getLootBallEntityType;
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.cobblelootsText;
 
 public class CobblelootsLootBallItem extends Item {
-  private static final MapCodec<EntityType<?>> ENTITY_TYPE_FIELD_CODEC;
-  private final EntityType<?> defaultType;
-
-  public CobblelootsLootBallItem(Item.Properties properties, EntityType<? extends LivingEntity> lootBallEntityType) {
+  public CobblelootsLootBallItem(Item.Properties properties) {
     super(properties);
-    this.defaultType = lootBallEntityType;
   }
 
   @Override
-  public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
+  public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list,
+      TooltipFlag tooltipFlag) {
+    // Add the default tooltip for the loot ball item
     list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.1").withStyle(ChatFormatting.GRAY));
-    if (itemStack.has(DataComponents.CUSTOM_DATA)) {
-      CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-      if (customData.contains("LootBallData")) {
-        ResourceLocation dataLocation = ResourceLocation.tryParse(customData.copyTag().getString("LootBallData"));
-        int variant = -1;
-        if (customData.contains("Variant")) variant = customData.copyTag().getInt("Variant");
-        CobblelootsLootBallData lootBallData = CobblelootsDataProvider.getLootBallData(dataLocation, variant);
-        if (lootBallData != null) {
-          list.add(cobblelootsText("item.cobbleloots.loot_ball.tooltip.2", "%s Loot Ball".formatted(lootBallData.getName().getString())).withStyle(ChatFormatting.LIGHT_PURPLE, ChatFormatting.ITALIC));
-        }
-
-      }
-    }
   }
 
   @Override
   public @NotNull InteractionResult useOn(UseOnContext useOnContext) {
     Level level = useOnContext.getLevel();
-    BlockPlaceContext blockPlaceContext = new BlockPlaceContext(useOnContext);
-    BlockPos blockPos = blockPlaceContext.getClickedPos();
-    Direction direction = useOnContext.getClickedFace();
-    ItemStack itemStack = useOnContext.getItemInHand();
-    BlockState blockState = level.getBlockState(blockPos);
-    BlockPos blockPos2;
-    if (blockState.getCollisionShape(level, blockPos).isEmpty()) {
-      blockPos2 = blockPos;
-    } else {
-      blockPos2 = blockPos.relative(direction);
+
+    if (!this.placeLootBall(useOnContext)) {
+      return InteractionResult.FAIL;
     }
 
+    return InteractionResult.sidedSuccess(level.isClientSide());
+  }
+  
+
+  /*
+   * Places a loot ball entity at the clicked position in the world.
+   * @param useOnContext The context of the use action, containing player and clicked position.
+   * @return true if the loot ball was successfully placed, false otherwise.
+   * This method creates a new loot ball entity, sets its position and rotation based on the click location,
+   * and adds it to the world. It also plays a sound effect and triggers a game event for placing the entity.
+   * If the item stack has custom data, it reads that data into the loot ball entity.
+   * The item stack is then reduced by one to reflect the use of the item.
+   */
+  private boolean placeLootBall(UseOnContext useOnContext) {
+    Level level = useOnContext.getLevel();
     if (level instanceof ServerLevel serverLevel) {
-      Consumer<CobblelootsLootBall> consumer = EntityType.createDefaultStackConfig(serverLevel, itemStack, useOnContext.getPlayer());
-      EntityType<CobblelootsLootBall> entityType = (EntityType<CobblelootsLootBall>) this.getLootBallType(itemStack);
-      CobblelootsLootBall cobblelootsLootBall = entityType.create(serverLevel, consumer, blockPos2, MobSpawnType.SPAWN_EGG, true, true);
+      // Get the loot ball entity type
+      EntityType<CobblelootsLootBall> entityType = getLootBallEntityType();
 
-      if (cobblelootsLootBall == null) {
-        return InteractionResult.FAIL;
+      // Create the loot ball entity
+      CobblelootsLootBall lootBall = entityType.create(serverLevel);
+      if (lootBall == null) {
+        return false; // Failed to create loot ball entity
       }
 
-      float f = (float) Mth.floor((Mth.wrapDegrees(useOnContext.getRotation() - 180.0F) + 22.5F) / 45.0F) * 45.0F;
-      cobblelootsLootBall.moveTo(blockPos2.getX() + 0.5F, blockPos2.getY(), blockPos2.getZ() + 0.5F, f, 0.0F);
-      serverLevel.addFreshEntityWithPassengers(cobblelootsLootBall);
-      level.playSound(null, cobblelootsLootBall.getX(), cobblelootsLootBall.getY(), cobblelootsLootBall.getZ(), SoundEvents.LANTERN_PLACE, SoundSource.BLOCKS, 0.75F, 0.8F);
-      cobblelootsLootBall.gameEvent(GameEvent.ENTITY_PLACE, useOnContext.getPlayer());
+      // Set the position and rotation of the loot ball
+      lootBall.moveTo(
+          useOnContext.getClickLocation(),
+          Mth.wrapDegrees(useOnContext.getRotation() - 180.0F),
+          0.0F);
 
-      // Set loot ball data
-      if (itemStack.has(DataComponents.CUSTOM_DATA)) {
-        CustomData customData = itemStack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        cobblelootsLootBall.readAdditionalSaveData(customData.copyTag());
+      // Place the loot ball in the world
+      level.addFreshEntity(lootBall);
+      level.playSound(null, lootBall.getX(), lootBall.getY(), lootBall.getZ(), SoundEvents.LANTERN_PLACE,
+          SoundSource.BLOCKS, 0.75F, 0.8F);
+
+      // Game event for placing the loot ball
+      lootBall.gameEvent(GameEvent.ENTITY_PLACE, useOnContext.getPlayer());
+
+      // Set loot ball data from item stack if available
+      if (useOnContext.getItemInHand().has(DataComponents.CUSTOM_DATA)) {
+        CustomData customData = useOnContext.getItemInHand().getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
+        lootBall.readAdditionalSaveData(customData.copyTag());
       }
-    }
 
-    itemStack.shrink(1);
-
-    return InteractionResult.sidedSuccess(level.isClientSide);
+      // Remove the item from the player's inventory
+      useOnContext.getItemInHand().shrink(1);
   }
 
-  public EntityType<?> getLootBallType(ItemStack itemStack) {
-    CustomData customData = itemStack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY);
-    return !customData.isEmpty() ? customData.read(ENTITY_TYPE_FIELD_CODEC).result().orElse(this.defaultType) : this.defaultType;
-  }
-
-  static {
-    ENTITY_TYPE_FIELD_CODEC = BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("id");
+    return false;
   }
 }
