@@ -51,6 +51,10 @@
 
 ### Loot Ball Changes
 - You can now place Loot Balls directly where you are looking at instead of placing them on a fixed position centered on the block you are looking at.
+- Added the ability for Loot Balls to drop as decorative items in survival mode.
+  - When a loot ball has no remaining uses, you can destroy them in survival and the loot ball will drop as a decorative item.
+  - This change is currently work in progress, so expect some bugs.
+  - You can disable this behaviour in the config file.
 - Changed `Variant` NBT Tag type for Loot Balls to `String` instead of `Integer`. It now represents a variant id instead of the position in the variants lists inside the Loot Ball definition JSON.
 - Added `PlayerTimer` Loot Ball NBT Tag of type `Long`.
   - It represents a value in `ticks` that the player must wait to reopen the Loot Ball.
@@ -83,6 +87,8 @@
       - Now it can generate and spawn in all overworld biomes.
       - Reduced the weight to `10` for all sources to make it rarer.
   - Lure: Removed the `Lure` Loot Ball definition, as it was not used in the mod yet (until the fishing update).
+- Opening a Loot Ball with a despawn timer will now extend the despawn timer during the time the player is opening it. This change is to prevent Loot Balls from despawning while the player is opening them, which could lead to losing the Loot Ball and its contents.
+- Creative players can now middle-click Loot Balls to copy their data, allowing for easier use of Loot Balls in creative mode.
 
 ### Creative Tab Changes
 - Replaced all items in the Cobbleloots Creative Tab with:
@@ -97,15 +103,14 @@
   - `loot_ball.defaults.player_timer`: Default player timer in ticks. Defaults to `0`.
   - `loot_ball.defaults.despawn_tick`: Default despawn tick timer. Defaults to `0`.
   - `loot_ball.survival.drop.enabled`: Enable Loot Balls to drop as decorative items in survival mode. Defaults to `true`.
-- Added the ability for Loot Balls to drop as decorative items in survival mode.
-  - When a loot ball has no remaining uses, you can destroy them in survival and the loot ball will drop as a decorative item.
-  - This change is currently work in progress, so expect some bugs.
-  - You can disable this with the new `loot_ball.survival.drop.enabled` config.
+- Removed configs:
+  - `loot_ball.xp.amount`: This config was replaced by the new `loot_ball.defaults.xp` config.
 
 ## Fixes
 - Fixed a bug where wardens could target and attack loot balls; now wardens ignore loot balls as intended.
 - Fixed loot balls not despawning when falling into the world void.
 - Fixed loot balls not being killed using the `/kill` command.
+- Fixed a bug where, when a player in creative assigned an item to a loot ball, looting the loot ball caused the item to disappear from its inventory and prevented other players from claiming the loot.
 
 ## Technical
 - All codecs were reworked for the new loot ball data format.
@@ -114,3 +119,4 @@
 - Removed internal block check for valid position when spawning a loot ball. This is replaced now by loot ball definition filters.
 - Major rewrite of the loot ball code.
 - Updated lang files.
+- Updated some methods to better differentiate between client and server code.

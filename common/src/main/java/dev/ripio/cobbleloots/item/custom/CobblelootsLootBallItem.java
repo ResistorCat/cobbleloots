@@ -92,7 +92,7 @@ public class CobblelootsLootBallItem extends Item {
 
       // Remove the item from the player's inventory
       useOnContext.getItemInHand().shrink(1);
-  }
+    }
 
     return false;
   }
