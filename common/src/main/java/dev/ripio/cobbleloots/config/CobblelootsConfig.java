@@ -34,13 +34,13 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_SPAWNING_DESPAWN_ENABLED = "loot_ball.spawning.despawn.enabled";
     public static final String LOOT_BALL_SPAWNING_DESPAWN_TIME = "loot_ball.spawning.despawn.time";
     public static final String LOOT_BALL_SURVIVAL_DROP_ENABLED = "loot_ball.survival.drop.enabled";
+    public static final String LOOT_BALL_SURVIVAL_DROP_AUTOMATIC = "loot_ball.survival.drop.automatic";
+    public static final String LOOT_BALL_SURVIVAL_DESTROY_LOOTED = "loot_ball.survival.destroy_looted";
     public static final String LOOT_BALL_DEFAULTS_USES = "loot_ball.defaults.uses";
     public static final String LOOT_BALL_DEFAULTS_MULTIPLIER = "loot_ball.defaults.multiplier";
     public static final String LOOT_BALL_DEFAULTS_XP = "loot_ball.defaults.xp";
     public static final String LOOT_BALL_DEFAULTS_PLAYER_TIMER = "loot_ball.defaults.player_timer";
     public static final String LOOT_BALL_DEFAULTS_DESPAWN_TICK = "loot_ball.defaults.despawn_tick";
-
-    // New config keys for disabled dimensions
     public static final String LOOT_BALL_DISABLED_DIMENSIONS_GENERATION = "loot_ball.disabled.dimensions.generation";
     public static final String LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING = "loot_ball.disabled.dimensions.spawning";
     public static final String LOOT_BALL_DISABLED_DIMENSIONS_FISHING = "loot_ball.disabled.dimensions.fishing";
@@ -74,6 +74,8 @@ public class CobblelootsConfig {
         defaults.put(LOOT_BALL_SPAWNING_DESPAWN_ENABLED, true);
         defaults.put(LOOT_BALL_SPAWNING_DESPAWN_TIME, 24000);
         defaults.put(LOOT_BALL_SURVIVAL_DROP_ENABLED, true);
+        defaults.put(LOOT_BALL_SURVIVAL_DROP_AUTOMATIC, true);
+        defaults.put(LOOT_BALL_SURVIVAL_DESTROY_LOOTED, false);
         defaults.put(LOOT_BALL_DEFAULTS_USES, 1);
         defaults.put(LOOT_BALL_DEFAULTS_MULTIPLIER, 1.0F);
         defaults.put(LOOT_BALL_DEFAULTS_XP, 0);

@@ -233,6 +233,12 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       return false;
     }
 
+    if (this.isOpening) {
+      // If loot ball is currently opening, block the attack
+      serverPlayer.playNotifySound(SoundEvents.SHIELD_BLOCK, SoundSource.BLOCKS, 0.3f, 1.0f);
+      return false;
+    }
+
     // Drop loot if the loot ball has any in Creative mode
     if (!this.isEmpty() && serverPlayer.isCreative()) {
       this.spawnAtLocation(this.getItem(0));
@@ -1097,6 +1103,22 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       this.isOpening = false;
       this.setInvisible(this.wasInvisible);
       this.playSound(CobblelootsLootBallSounds.getLidCloseSound());
+      // Destroy the loot ball if it has no uses left and config enabled
+      if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DESTROY_LOOTED)) {
+        if (!this.isInfinite() && this.getRemainingUses() <= 0) {
+          this.discard();
+          return;
+        }
+      }
+      // Try to drop if automatic mode is enabled
+      if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DROP_ENABLED) && CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DROP_AUTOMATIC)) {
+        if (!this.isInfinite() && this.getRemainingUses() <= 0) {
+          // Drop the loot ball item itself
+          this.discard();
+          this.spawnAtLocation(this.getSurvivalLootBallItem());
+          this.playSound(SoundEvents.ITEM_FRAME_REMOVE_ITEM);
+        }
+      }
     }
   }
 

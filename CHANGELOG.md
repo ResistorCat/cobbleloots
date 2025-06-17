@@ -103,6 +103,8 @@
   - `loot_ball.defaults.player_timer`: Default player timer in ticks. Defaults to `0`.
   - `loot_ball.defaults.despawn_tick`: Default despawn tick timer. Defaults to `0`.
   - `loot_ball.survival.drop.enabled`: Enable Loot Balls to drop as decorative items in survival mode. Defaults to `true`.
+  - `loot_ball.survival.drop.automatic`: Enable Loot Balls to drop automatically when they have no remaining uses. Defaults to `true`.
+  - `loot_ball.survival.destroy_looted`: Enable Loot Balls to be destroyed in survival mode when looted. Defaults to `false`.
   - `loot_ball.disabled.dimensions.generation`: A list of dimensions where Loot Balls will not generate in the world. Defaults to an empty list.
   - `loot_ball.disabled.dimensions.spawning`: A list of dimensions where Loot Balls will not spawn in the world. Defaults to an empty list.
   - `loot_ball.disabled.dimensions.fishing`: A list of dimensions where Loot Balls will not spawn when fishing. Defaults to an empty list.
