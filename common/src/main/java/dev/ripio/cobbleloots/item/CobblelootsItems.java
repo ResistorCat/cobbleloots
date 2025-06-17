@@ -85,6 +85,8 @@ public class CobblelootsItems {
     output.accept(generateStackWithCobblemonTexture("ancient_gigaton"));
     output.accept(generateStackWithCobblemonTexture("ancient_origin"));
 
+    // Special Balls
+    output.accept(generateStackWithTexture("cobbleloots:textures/loot_ball/rainbow"));
   }
 
   public static void addCreativeTabItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {

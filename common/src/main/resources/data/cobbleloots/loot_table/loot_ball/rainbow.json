@@ -1,0 +1,149 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:black_banner",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "function": "minecraft:set_banner_pattern",
+              "patterns": [
+                {
+                  "pattern": "minecraft:half_vertical",
+                  "color": "red"
+                },
+                {
+                  "pattern": "minecraft:stripe_center",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:half_vertical_right",
+                  "color": "yellow"
+                },
+                {
+                  "pattern": "minecraft:stripe_right",
+                  "color": "lime"
+                },
+                {
+                  "pattern": "minecraft:gradient_up",
+                  "color": "blue"
+                },
+                {
+                  "pattern": "minecraft:creeper",
+                  "color": "black"
+                }
+              ],
+              "append": false
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Rainbow Creeper Banner",
+                "color": "light_purple"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:firework_rocket",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 16
+            },
+            {
+              "function": "minecraft:set_fireworks",
+              "explosions": {
+                "values": [
+                  {
+                    "shape": "large_ball",
+                    "colors": [
+                      16711680,
+                      16753920,
+                      16776960,
+                      8439583,
+                      2437522,
+                      8991416
+                    ],
+                    "fade_colors": [
+                      16711680,
+                      16753920,
+                      16776960,
+                      8439583,
+                      2437522,
+                      8991416
+                    ],
+                    "has_trail": true,
+                    "has_twinkle": true
+                  }
+                ],
+                "mode": "replace_all"
+              },
+              "flight_duration": 1
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Rainbow Pattern Firework",
+                "color": "gold"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:totem_of_undying",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_xs",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_s",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_m",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

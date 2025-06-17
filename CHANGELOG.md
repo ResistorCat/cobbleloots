@@ -6,6 +6,65 @@
 
 ## Changes
 
+### Loot Ball Changes
+- Added the `Rainbow Loot Ball`:
+  - It has a cobbleloots exclusive rainbow texture.
+  - It gives `5` XP when opened.
+  - Loot table:
+    - 1 x Rainbow Creeper Banner (Weight: 8)
+    - 16 x Rainbow Fireworks (Weight: 8)
+    - 1 x Totem of Undying (Weight: 1)
+    - 1 x Exp. Candy XS (Weight: 1)
+    - 1 x Exp. Candy S (Weight: 1)
+    - 1 x Exp. Candy M (Weight: 1)
+  - Obtaining:
+    - Generation: 
+      - Weight: 10
+      - Biomes: Can generate in mushroom fields, flower forests, meadows, sunflower plains, cherry groves, and warm ocean biomes.
+    - Spawning:
+      - Weight: 20
+      - Sky Light: 7-15
+      - Biomes: Same as generation.
+- You can now place Loot Balls directly where you are looking at instead of placing them on a fixed position centered on the block you are looking at.
+- Added the ability for Loot Balls to drop as decorative items in survival mode.
+  - When a loot ball has no remaining uses, you can destroy them in survival and the loot ball will drop as a decorative item.
+  - This change is currently work in progress, so expect some bugs.
+  - You can disable this behaviour in the config file.
+- Changed `Variant` NBT Tag type for Loot Balls to `String` instead of `Integer`. It now represents a variant id instead of the position in the variants lists inside the Loot Ball definition JSON.
+- Added `PlayerTimer` Loot Ball NBT Tag of type `Long`.
+  - It represents a value in `ticks` that the player must wait to reopen the Loot Ball.
+  - A value of `0` disables this behaviour.
+  - A small value (like `1`) indicates that the player can reopen the Loot Ball indefinitely.
+- Added `XP` Loot Ball NBT Tag of type `Integer`.
+  - It represents the amount of XP that the Loot Ball will give to the player when opened.
+- The default values for Loot Balls are now configurable via the new `loot_ball.defaults` config section. Some default values may still be hardcoded, but most of them can now be changed in the config file.
+- Loot balls will now try to spawn on a solid block instead of midair, but they will still spawn midair if no solid block is found after a certain amount of attempts.
+- Some default loot balls now have colours applied to their names to make them more distinguishable in the inventory.
+- Updated Loot Ball definitions to use the new Loot Ball Data format, and some of the definitions have been changed to reflect the new data structure:
+  - Poké (and variants): Now gives `1` XP when opened.
+    - The definition serves as a example for data pack creators to create their own Loot Ball definitions. The values you see in the Poké Loot Ball definition are mostly the default values for all Loot Balls (some of exceptions are the `xp` or `weight` values).
+  - Great: Now gives `3` XP when opened.
+  - Ultra: Now gives `10` XP when opened.
+  - Master:
+    - Now gives `50` XP when opened.
+    - Now it can spawn in all biomes with a weight of `1`.
+  - Safari: Now gives `1` XP when opened.
+  - Luxury: Now gives `25` XP when opened.
+  - Dive:
+    - Now gives `5` XP when opened.
+    - Generation and Spawning:
+      - Now it only generates/spawn inside water
+      - Removed the below y-level 62 generation condition.
+      - It still generates/spawn in the Dive Loot Ball allowed biomes.
+  - Heal:
+    - Now gives `10` XP when opened.
+    - Generation and Spawning:
+      - Now it can generate and spawn in all overworld biomes.
+      - Reduced the weight to `10` for all sources to make it rarer.
+  - Lure: Removed the `Lure` Loot Ball definition, as it was not used in the mod yet (until the fishing update).
+- Opening a Loot Ball with a despawn timer will now extend the despawn timer during the time the player is opening it. This change is to prevent Loot Balls from despawning while the player is opening them, which could lead to losing the Loot Ball and its contents.
+- Creative players can now middle-click Loot Balls to copy their data, allowing for easier use of Loot Balls in creative mode.
+
 ### Loot Ball Data Rework
 - Reworked the Loot Ball Data format to be more flexible and easier to use.
 - The Loot Ball definition structure (`data/namespace/loot_ball/{name}.json`) now contains:
@@ -47,48 +106,7 @@
 - The Loot Ball definition structure now uses a new `VariantData` format, which allows for more flexible variant data:
   - (**optional**) `name` [`Component`]: The name of the variant, displayed in the inventory. If not specified, the parent name will be used.
   - (**optional**) `texture` [`ResourceLocation`]: The texture to use for the variant item. If not specified, the parent texture will be used.
-  - (**optional**) `loot_table` [`ResourceLocation`]: The loot table to use when opening the variant Loot Ball. If not specified, the parent loot table will be used.  
-
-### Loot Ball Changes
-- You can now place Loot Balls directly where you are looking at instead of placing them on a fixed position centered on the block you are looking at.
-- Added the ability for Loot Balls to drop as decorative items in survival mode.
-  - When a loot ball has no remaining uses, you can destroy them in survival and the loot ball will drop as a decorative item.
-  - This change is currently work in progress, so expect some bugs.
-  - You can disable this behaviour in the config file.
-- Changed `Variant` NBT Tag type for Loot Balls to `String` instead of `Integer`. It now represents a variant id instead of the position in the variants lists inside the Loot Ball definition JSON.
-- Added `PlayerTimer` Loot Ball NBT Tag of type `Long`.
-  - It represents a value in `ticks` that the player must wait to reopen the Loot Ball.
-  - A value of `0` disables this behaviour.
-  - A small value (like `1`) indicates that the player can reopen the Loot Ball indefinitely.
-- Added `XP` Loot Ball NBT Tag of type `Integer`.
-  - It represents the amount of XP that the Loot Ball will give to the player when opened.
-- The default values for Loot Balls are now configurable via the new `loot_ball.defaults` config section. Some default values may still be hardcoded, but most of them can now be changed in the config file.
-- Loot balls will now try to spawn on a solid block instead of midair, but they will still spawn midair if no solid block is found after a certain amount of attempts.
-- Some default loot balls now have colours applied to their names to make them more distinguishable in the inventory.
-- Updated Loot Ball definitions to use the new Loot Ball Data format, and some of the definitions have been changed to reflect the new data structure:
-  - Poké (and variants): Now gives `1` XP when opened.
-    - The definition serves as a example for data pack creators to create their own Loot Ball definitions. The values you see in the Poké Loot Ball definition are mostly the default values for all Loot Balls (some of exceptions are the `xp` or `weight` values).
-  - Great: Now gives `3` XP when opened.
-  - Ultra: Now gives `10` XP when opened.
-  - Master:
-    - Now gives `50` XP when opened.
-    - Now it can spawn in all biomes with a weight of `1`.
-  - Safari: Now gives `1` XP when opened.
-  - Luxury: Now gives `25` XP when opened.
-  - Dive:
-    - Now gives `5` XP when opened.
-    - Generation and Spawning:
-      - Now it only generates/spawn inside water
-      - Removed the below y-level 62 generation condition.
-      - It still generates/spawn in the Dive Loot Ball allowed biomes.
-  - Heal:
-    - Now gives `10` XP when opened.
-    - Generation and Spawning:
-      - Now it can generate and spawn in all overworld biomes.
-      - Reduced the weight to `10` for all sources to make it rarer.
-  - Lure: Removed the `Lure` Loot Ball definition, as it was not used in the mod yet (until the fishing update).
-- Opening a Loot Ball with a despawn timer will now extend the despawn timer during the time the player is opening it. This change is to prevent Loot Balls from despawning while the player is opening them, which could lead to losing the Loot Ball and its contents.
-- Creative players can now middle-click Loot Balls to copy their data, allowing for easier use of Loot Balls in creative mode.
+  - (**optional**) `loot_table` [`ResourceLocation`]: The loot table to use when opening the variant Loot Ball. If not specified, the parent loot table will be used.
 
 ### Creative Tab Changes
 - Replaced all items in the Cobbleloots Creative Tab with:
