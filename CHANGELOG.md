@@ -103,6 +103,10 @@
   - `loot_ball.defaults.player_timer`: Default player timer in ticks. Defaults to `0`.
   - `loot_ball.defaults.despawn_tick`: Default despawn tick timer. Defaults to `0`.
   - `loot_ball.survival.drop.enabled`: Enable Loot Balls to drop as decorative items in survival mode. Defaults to `true`.
+  - `loot_ball.disabled.dimensions.generation`: A list of dimensions where Loot Balls will not generate in the world. Defaults to an empty list.
+  - `loot_ball.disabled.dimensions.spawning`: A list of dimensions where Loot Balls will not spawn in the world. Defaults to an empty list.
+  - `loot_ball.disabled.dimensions.fishing`: A list of dimensions where Loot Balls will not spawn when fishing. Defaults to an empty list.
+  - `loot_ball.disabled.dimensions.archaeology`: A list of dimensions where Loot Balls will not spawn when digging in archaeology sites. Defaults to an empty list.
 - Removed configs:
   - `loot_ball.xp.amount`: This config was replaced by the new `loot_ball.defaults.xp` config.
 
@@ -120,3 +124,4 @@
 - Major rewrite of the loot ball code.
 - Updated lang files.
 - Updated some methods to better differentiate between client and server code.
+- Added support for yaml lists in loot ball configs.

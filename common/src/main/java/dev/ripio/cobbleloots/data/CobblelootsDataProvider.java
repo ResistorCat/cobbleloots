@@ -7,6 +7,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsBlockFilter;
@@ -38,7 +39,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.AbstractMap;
 
 import static dev.ripio.cobbleloots.data.CobblelootsCodecs.LOOT_BALL_DATA_CODEC;
 import static dev.ripio.cobbleloots.util.CobblelootsDefinitions.EMPTY_BIOME_TAG;
@@ -149,6 +149,11 @@ public class CobblelootsDataProvider {
       // Cobbleloots.LOGGER.info("[DEBUG] processSourceFilter: Null parameter
       // received. Level: {}, Pos: {}, Source: {}",
       // level, pos, source);
+      return false;
+    }
+
+    // Check if dimension is disabled for this source type
+    if (isDimensionDisabled(level, sourceType)) {
       return false;
     }
 
@@ -406,4 +411,35 @@ public class CobblelootsDataProvider {
 
     Cobbleloots.LOGGER.info("Loaded {} Loot Ball data definitions.", lootBallsData.size());
   }
+
+  /**
+   * Checks if the dimension is disabled for the specified source type
+   * @param level The server level
+   * @param sourceType The source type being checked
+   * @return true if dimension is disabled, false otherwise
+   */
+  private static boolean isDimensionDisabled(ServerLevel level, CobblelootsSourceType sourceType) {
+    ResourceLocation dimensionId = level.dimension().location();
+    List<ResourceLocation> disabledDimensions;
+    
+    switch (sourceType) {
+      case GENERATION:
+        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_GENERATION);
+        break;
+      case SPAWNING:
+        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING);
+        break;
+      case FISHING:
+        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_FISHING);
+        break;
+      case ARCHAEOLOGY:
+        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
+        break;
+      default:
+        return false;
+    }
+    
+    return disabledDimensions != null && disabledDimensions.contains(dimensionId);
+  }
+  
 }
