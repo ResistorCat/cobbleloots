@@ -1,5 +1,6 @@
 # User-specific stuff
 .idea/
+.vscode/
 
 *.iml
 *.ipr
@@ -119,3 +120,4 @@ runs/
 !gradle-wrapper.jar
 /common/src/main/resources/assets/cobbleloots/icon.psd
 local/
+bin/

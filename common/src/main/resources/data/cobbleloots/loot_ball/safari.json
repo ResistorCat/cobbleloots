@@ -1,16 +1,22 @@
 {
-  "name": "Safari",
-  "weight": 100,
+  "name": {
+    "text": "Safari Loot Ball"
+  },
   "loot_table": "cobbleloots:loot_ball/safari",
   "texture": "cobblemon:textures/poke_balls/safari_ball.png",
-  "sources": [
-    {
-      "type": "generation",
-      "biome": "cobbleloots:loot_ball/safari"
-    },
-    {
-      "type": "spawning",
-      "biome": "cobbleloots:loot_ball/safari"
-    }
-  ]
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 100,
+        "biome": "cobbleloots:loot_ball/safari"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 100,
+        "biome": "cobbleloots:loot_ball/safari"
+      }
+    ]
+  }
 }

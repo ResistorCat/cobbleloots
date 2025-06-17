@@ -1,26 +1,26 @@
 {
-  "name": "Dive",
-  "weight": 30,
+  "name": {
+    "text": "Dive Loot Ball",
+    "color": "blue",
+    "bold": true
+  },
   "loot_table": "cobbleloots:loot_ball/dive",
   "texture": "cobblemon:textures/poke_balls/dive_ball.png",
-  "sources": [
-    {
-      "type": "generation",
-      "biome": "cobbleloots:loot_ball/dive",
-      "height": {
-        "max": 62
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 30,
+        "biome": "cobbleloots:loot_ball/dive",
+        "fluid": "minecraft:water"
       }
-    },
-    {
-      "type": "spawning",
-      "biome": "cobbleloots:loot_ball/dive",
-      "height": {
-        "max": 62
+    ],
+    "spawning": [
+      {
+        "weight": 30,
+        "biome": "cobbleloots:loot_ball/dive",
+        "fluid": "minecraft:water"
       }
-    },
-    {
-      "type": "fishing",
-      "biome": "cobbleloots:loot_ball/dive"
-    }
-  ]
+    ]
+  }
 }

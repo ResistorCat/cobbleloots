@@ -1,22 +1,24 @@
 {
-  "name": "Heal",
-  "weight": 20,
+  "name": {
+    "text": "Heal Loot Ball",
+    "color": "gold",
+    "bold": true
+  },
   "loot_table": "cobbleloots:loot_ball/heal",
   "texture": "cobblemon:textures/poke_balls/heal_ball.png",
-  "sources": [
-    {
-      "type": "generation",
-      "biome": "cobbleloots:loot_ball/heal",
-      "height": {
-        "min": 60
+  "xp": 10,
+  "sources": {
+    "generation": [
+      {
+        "weight": 10,
+        "dimension": ["minecraft:overworld"]
       }
-    },
-    {
-      "type": "spawning",
-      "biome": "cobbleloots:loot_ball/heal",
-      "height": {
-        "min": 60
+    ],
+    "spawning": [
+      {
+        "weight": 10,
+        "dimension": ["minecraft:overworld"]
       }
-    }
-  ]
+    ]
+  }
 }

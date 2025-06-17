@@ -1,0 +1,58 @@
+{
+  "name": [
+    {
+      "color": "#E40303",
+      "text": "R"
+    },
+    {
+      "color": "#F76501",
+      "text": "a"
+    },
+    {
+      "color": "#FFB600",
+      "text": "i"
+    },
+    {
+      "color": "#DBDD05",
+      "text": "n"
+    },
+    {
+      "color": "#249021",
+      "text": "b"
+    },
+    {
+      "color": "#0063A2",
+      "text": "o"
+    },
+    {
+      "color": "#750787",
+      "text": "w"
+    },
+    {
+      "color": "#FFFFFF",
+      "text": " Loot Ball"
+    }
+  ],
+  "loot_table": "cobbleloots:loot_ball/rainbow",
+  "texture": "cobbleloots:textures/loot_ball/rainbow.png",
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 10,
+        "biome": "cobbleloots:loot_ball/rainbow"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 20,
+        "light": {
+          "sky": {
+            "min": 7
+          }
+        },
+        "biome": "cobbleloots:loot_ball/rainbow"
+      }
+    ]
+  }
+}

@@ -1,17 +1,22 @@
 {
-  "name": "Ultra",
-  "weight": 5,
+  "name": {
+    "text": "Ultra Loot Ball",
+    "color": "gold",
+    "bold": true
+  },
   "loot_table": "cobbleloots:loot_ball/ultra",
   "texture": "cobblemon:textures/poke_balls/ultra_ball.png",
-  "sources": [
-    {
-      "type": "generation"
-    },
-    {
-      "type": "spawning"
-    },
-    {
-      "type": "fishing"
-    }
-  ]
+  "xp": 10,
+  "sources": {
+    "generation": [
+      {
+        "weight": 5
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 5
+      }
+    ]
+  }
 }

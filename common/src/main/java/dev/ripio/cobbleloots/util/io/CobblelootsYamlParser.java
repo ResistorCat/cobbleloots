@@ -6,10 +6,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
+import dev.ripio.cobbleloots.Cobbleloots;
+
 public class CobblelootsYamlParser {
     /**
      * Parses a YAML file into a nested Map<String, Object> structure.
      * Supports mappings and sequences with indentation-based nesting.
+     * 
      * @param path Path to the YAML file
      * @return Nested Map representing the YAML structure
      * @throws IOException if file reading fails
@@ -21,95 +24,98 @@ public class CobblelootsYamlParser {
             while ((line = reader.readLine()) != null) {
                 lines.add(line);
             }
-            return parseLines(lines);
+            Map<String, Object> result = new LinkedHashMap<>();
+            Object parsed = parseYaml(lines, 0);
+            if (parsed instanceof Map) {
+                result.putAll((Map<String, Object>) parsed);
+                return result;
+            } else if (parsed instanceof List) {
+                Cobbleloots.LOGGER.warn("Parsed YAML is a List, expected Map: " + parsed);
+            } else {
+                Cobbleloots.LOGGER.warn("Parsed YAML is not a Map or List: " + parsed);
+            }
+            return Collections.emptyMap();
         }
     }
 
-    // Internal recursive parser
-    private static Map<String, Object> parseLines(List<String> lines) {
-        return parseBlock(lines, 0, 0).map;
-    }
-
-    // Helper class to return both the parsed map and the next line index
-    private static class ParseResult {
-        Map<String, Object> map;
-        int nextLine;
-        ParseResult(Map<String, Object> map, int nextLine) {
-            this.map = map;
-            this.nextLine = nextLine;
-        }
-    }
-
-    // Parses a block of lines at a given indentation level
-    private static ParseResult parseBlock(List<String> lines, int start, int indent) {
-        Map<String, Object> map = new LinkedHashMap<>();
-        int i = start;
+    public static Object parseYaml(List<String> lines, int indent) {
+        Object result = null;
+        int i = 0;
         while (i < lines.size()) {
-            String raw = lines.get(i);
-            String line = raw.replaceAll("\\t", "    "); // tabs to spaces
-            int leading = countLeadingSpaces(line);
-            String trimmed = line.trim();
-            if (trimmed.isEmpty() || trimmed.startsWith("#")) {
+            String line = lines.get(i).replaceAll("\\t", "  ");
+            if (line.trim().isEmpty() || line.trim().startsWith("#")) {
                 i++;
                 continue;
             }
-            if (leading < indent) {
+            int currentIndent = line.indexOf(line.trim());
+            if (currentIndent < indent)
                 break;
-            }
-            if (trimmed.startsWith("- ")) {
-                // Sequence
-                String key = null;
-                List<Object> list = new ArrayList<>();
-                while (i < lines.size()) {
-                    String seqRaw = lines.get(i);
-                    String seqLine = seqRaw.replaceAll("\\t", "    ");
-                    int seqLeading = countLeadingSpaces(seqLine);
-                    String seqTrimmed = seqLine.trim();
-                    if (seqTrimmed.isEmpty() || seqTrimmed.startsWith("#")) {
-                        i++;
-                        continue;
-                    }
-                    if (seqLeading != indent || !seqTrimmed.startsWith("- ")) {
-                        break;
-                    }
-                    String value = seqTrimmed.substring(2).trim();
-                    if (!value.isEmpty()) {
-                        list.add(value);
-                        i++;
-                    } else {
-                        // Nested block in sequence
-                        ParseResult nested = parseBlock(lines, i + 1, indent + 2);
-                        list.add(nested.map);
-                        i = nested.nextLine;
-                    }
-                }
-                // Anonymous list (no key)
-                map.put(UUID.randomUUID().toString(), list);
-                continue;
-            }
-            int colon = trimmed.indexOf(":");
-            if (colon > 0) {
-                String key = trimmed.substring(0, colon).trim();
-                String value = trimmed.substring(colon + 1).trim();
-                if (!value.isEmpty()) {
-                    map.put(key, value);
+
+            line = line.trim();
+            if (line.startsWith("- ")) { // List item
+                if (!(result instanceof List))
+                    result = new ArrayList<>();
+                String item = line.substring(2).trim();
+                if (item.isEmpty()) {
+                    List<String> subLines = new ArrayList<>();
                     i++;
+                    while (i < lines.size()) {
+                        String nextLine = lines.get(i).replaceAll("\\t", "  ");
+                        int nextIndent = nextLine.indexOf(nextLine.trim());
+                        if (nextIndent <= currentIndent)
+                            break;
+                        subLines.add(nextLine);
+                        i++;
+                    }
+                    ((List<Object>) result).add(parseYaml(subLines, currentIndent + 2));
+                    continue;
                 } else {
-                    // Nested block
-                    ParseResult nested = parseBlock(lines, i + 1, indent + 2);
-                    map.put(key, nested.map);
-                    i = nested.nextLine;
+                    ((List<Object>) result).add(parseValue(item));
+                }
+            } else if (line.contains(":")) { // Map entry
+                if (!(result instanceof Map))
+                    result = new LinkedHashMap<>();
+                String[] parts = line.split(":", 2);
+                String key = parts[0].trim();
+                String value = parts[1].trim();
+                if (value.isEmpty()) {
+                    List<String> subLines = new ArrayList<>();
+                    i++;
+                    while (i < lines.size()) {
+                        String nextLine = lines.get(i);
+                        int nextIndent = nextLine.indexOf(nextLine.trim());
+                        if (nextIndent <= currentIndent)
+                            break;
+                        subLines.add(nextLine);
+                        i++;
+                    }
+                    ((Map<String, Object>) result).put(key, parseYaml(subLines, currentIndent + 2));
+                    continue;
+                } else {
+                    ((Map<String, Object>) result).put(key, parseValue(value));
                 }
             } else {
-                i++;
+                result = parseValue(line);
             }
+            i++;
         }
-        return new ParseResult(map, i);
+        return result;
     }
 
-    private static int countLeadingSpaces(String line) {
-        int count = 0;
-        while (count < line.length() && line.charAt(count) == ' ') count++;
-        return count;
+    private static Object parseValue(String value) {
+        // If the value is a inline list (e.g., "[item1, item2]"), parse it as a list
+        if (value.startsWith("[") && value.endsWith("]")) {
+            List<String> list = new ArrayList<>();
+            String content = value.substring(1, value.length() - 1).trim();
+            if (!content.isEmpty()) {
+                String[] items = content.split(",");
+                for (String item : items) {
+                    list.add(item.trim());
+                }
+            }
+            return list;
+        }
+        return value;
     }
+
 }

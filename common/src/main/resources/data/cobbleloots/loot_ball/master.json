@@ -1,19 +1,22 @@
 {
-  "name": "Master",
-  "weight": 1,
+  "name": {
+    "text": "Master Loot Ball",
+    "color": "dark_purple",
+    "bold": true
+  },
   "loot_table": "cobbleloots:loot_ball/master",
   "texture": "cobblemon:textures/poke_balls/master_ball.png",
-  "sources": [
-    {
-      "type": "generation",
-      "biome": "cobbleloots:loot_ball/master"
-    },
-    {
-      "type": "spawning",
-      "biome": "cobbleloots:loot_ball/master"
-    },
-    {
-      "type": "archaeology"
-    }
-  ]
+  "xp": 50,
+  "sources": {
+    "generation": [
+      {
+        "weight": 1
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 1
+      }
+    ]
+  }
 }

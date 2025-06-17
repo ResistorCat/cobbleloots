@@ -2,51 +2,51 @@ package dev.ripio.cobbleloots.data;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallHeight;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSource;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 
 import java.util.List;
+import java.util.Map;
+
+import static dev.ripio.cobbleloots.config.CobblelootsConfig.LOOT_BALL_DEFAULTS_XP;
+import static dev.ripio.cobbleloots.data.custom.filter.CobblelootsFilters.LOOT_BALL_SOURCE_CODEC;
 
 public class CobblelootsCodecs {
-  private static final int DEFAULT_WEIGHT = 1;
-  private static final int MAX_ABSOLUTE_HEIGHT = 10_000_000;
-  private static final CobblelootsLootBallHeight DEFAULT_HEIGHT = new CobblelootsLootBallHeight(-MAX_ABSOLUTE_HEIGHT, MAX_ABSOLUTE_HEIGHT);
+  public static final CobblelootsLootBallSources DEFAULT_LOOT_BALL_SOURCES = new CobblelootsLootBallSources(List.of(), List.of(), List.of(), List.of());
 
-  public static final Codec<CobblelootsLootBallHeight> LOOT_BALL_HEIGHT_CODEC = RecordCodecBuilder.create(
+  public static final Codec<CobblelootsLootBallSources> LOOT_BALL_SOURCES_CODEC = RecordCodecBuilder.create(
       instance -> instance.group(
-          Codec.INT.optionalFieldOf("min", -MAX_ABSOLUTE_HEIGHT).forGetter(CobblelootsLootBallHeight::getMin),
-          Codec.INT.optionalFieldOf("max", MAX_ABSOLUTE_HEIGHT).forGetter(CobblelootsLootBallHeight::getMax)
-      ).apply(instance, CobblelootsLootBallHeight::new)
+          LOOT_BALL_SOURCE_CODEC.listOf().optionalFieldOf("generation", List.of()).forGetter(CobblelootsLootBallSources::getGeneration),
+          LOOT_BALL_SOURCE_CODEC.listOf().optionalFieldOf("spawning", List.of()).forGetter(CobblelootsLootBallSources::getSpawning),
+          LOOT_BALL_SOURCE_CODEC.listOf().optionalFieldOf("fishing", List.of()).forGetter(CobblelootsLootBallSources::getFishing),
+          LOOT_BALL_SOURCE_CODEC.listOf().optionalFieldOf("archaeology", List.of()).forGetter(CobblelootsLootBallSources::getArchaeology)
+      ).apply(instance, CobblelootsLootBallSources::new)
   );
 
-  public static final Codec<CobblelootsLootBallSource> LOOT_BALL_SOURCE_CODEC = RecordCodecBuilder.create(
+  public static final Codec<CobblelootsLootBallVariantData> LOOT_BALL_VARIANT_DATA_CODEC = RecordCodecBuilder.create(
       instance -> instance.group(
-          Codec.STRING.fieldOf("type").forGetter(CobblelootsLootBallSource::getType),
-          TagKey.codec(Registries.BIOME).optionalFieldOf("biome", CobblelootsDefinitions.EMPTY_BIOME_TAG).forGetter(CobblelootsLootBallSource::getBiome),
-          LOOT_BALL_HEIGHT_CODEC.optionalFieldOf("height", DEFAULT_HEIGHT).forGetter(CobblelootsLootBallSource::getHeight),
-          Codec.INT.optionalFieldOf("weight", DEFAULT_WEIGHT).forGetter(CobblelootsLootBallSource::getWeight)
-      ).apply(instance, CobblelootsLootBallSource::new)
+          ComponentSerialization.CODEC.optionalFieldOf("name", Component.empty()).forGetter(CobblelootsLootBallVariantData::getName),
+          ResourceLocation.CODEC.optionalFieldOf("loot_table", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallVariantData::getLootTable),
+          ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallVariantData::getTexture)
+          ).apply(instance, CobblelootsLootBallVariantData::new)
   );
 
-  public static final Codec<CobblelootsLootBallData> LOOT_BALL_CODEC = Codec.recursive(
-      "LootBallData",
-      selfCodec -> RecordCodecBuilder.create(
-          instance -> instance.group(
-              ComponentSerialization.flatCodec(30).optionalFieldOf("name", Component.empty()).forGetter(CobblelootsLootBallData::getName),
-              Codec.BOOL.optionalFieldOf("announce", false).forGetter(CobblelootsLootBallData::getAnnounce),
-              Codec.INT.optionalFieldOf("weight", DEFAULT_WEIGHT).forGetter(CobblelootsLootBallData::getWeight),
-              ResourceLocation.CODEC.optionalFieldOf("loot_table", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getLootTable),
-              ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getTexture),
-              LOOT_BALL_SOURCE_CODEC.listOf().optionalFieldOf("sources", List.of()).forGetter(CobblelootsLootBallData::getSources),
-              selfCodec.listOf().optionalFieldOf("variants", List.of()).forGetter(CobblelootsLootBallData::getVariants)
-          ).apply(instance, CobblelootsLootBallData::new)
-      )
+  public static final Codec<CobblelootsLootBallData> LOOT_BALL_DATA_CODEC = RecordCodecBuilder.create(
+      instance -> instance.group(
+          ComponentSerialization.CODEC.fieldOf("name").forGetter(CobblelootsLootBallData::getName),
+          ResourceLocation.CODEC.optionalFieldOf("loot_table", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getLootTable),
+          ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getTexture),
+          LOOT_BALL_SOURCES_CODEC.optionalFieldOf("sources", DEFAULT_LOOT_BALL_SOURCES).forGetter(CobblelootsLootBallData::getSources),
+          Codec.unboundedMap(Codec.STRING, LOOT_BALL_VARIANT_DATA_CODEC).optionalFieldOf("variants", Map.of()).forGetter(CobblelootsLootBallData::getVariants),
+            Codec.INT.optionalFieldOf("xp", CobblelootsConfig.getIntConfig(LOOT_BALL_DEFAULTS_XP)).forGetter(CobblelootsLootBallData::getXp)
+      ).apply(instance, CobblelootsLootBallData::new)
   );
+
 }
