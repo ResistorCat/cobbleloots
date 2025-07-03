@@ -1,5 +1,6 @@
 package dev.ripio.cobbleloots.event.custom;
 
+import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
@@ -37,7 +38,10 @@ public class CobblelootsLootBallEvents {
     // STEP: Select a random position in the chunk
     LevelChunkSection[] sections = levelChunk.getSections();
     int sectionIndex = CobblelootsSearch.searchRandomNonEmptySectionIndex(sections, randomSource);
-    if (sectionIndex == -1) return false;
+    if (sectionIndex < 0 || sectionIndex >= sections.length) {
+      Cobbleloots.LOGGER.debug("[Cobbleloots] Invalid section index: {} for chunk at {}", sectionIndex, levelChunk.getPos());
+      return false; // Invalid section index, skip generation
+    }
     LevelChunkSection section = sections[sectionIndex];
     BlockPos relativePos = CobblelootsSearch.searchRandomValidLootBallSpawn(section, randomSource);
     if (relativePos == null) return false;
@@ -65,6 +69,10 @@ public class CobblelootsLootBallEvents {
     // STEP: Select a random position in the chunk
     int sectionIndex = playerChunk.getSectionIndex((int) player.getY());
     LevelChunkSection[] sections = randomChunk.getSections();
+    if (sectionIndex < 0 || sectionIndex >= sections.length) {
+      Cobbleloots.LOGGER.debug("[Cobbleloots] Invalid section index: {} for player at {}", sectionIndex, player.blockPosition());
+      return; // Invalid section index, skip spawning
+    }
     LevelChunkSection section = sections[sectionIndex];
     BlockPos relativePos = CobblelootsSearch.searchRandomValidLootBallSpawn(section, randomSource);
     if (relativePos == null) return;
