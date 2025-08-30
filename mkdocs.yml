@@ -47,4 +47,3 @@ markdown_extensions:
   - admonition
   - tables
   - attr_list
-  - pymdownx.blocks.caption
