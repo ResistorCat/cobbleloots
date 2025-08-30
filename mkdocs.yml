@@ -1,0 +1,50 @@
+site_name: Cobbleloots Documentation
+site_url: https://resistorcat.github.io/cobbleloots
+repo_url: https://github.com/ResistorCat/cobbleloots
+theme:
+  name: material
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+  language: en
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+plugins:
+  - search
+  - git-revision-date-localized:
+      enable_creation_date: true
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ResistorCat
+    - icon: fontawesome/brands/discord
+      link: https://discord.gg/2YGJXxHtBX
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - pymdownx.blocks.caption
