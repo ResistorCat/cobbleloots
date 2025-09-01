@@ -11,7 +11,7 @@ hide:
 ![Cobbleloots Logo](assets/logo.png){align=right}
 
 !!!warning "Work in Progress"
-    This documentation is currently a work in progress. Some sections may be incomplete or missing, or may contain incorrent information due to the use of artificial intelligence in its generation. If you can't find what you're looking for, please ask for help in the [Discord server](https://discord.gg/2YGJXxHtBX).
+    This documentation is currently a work in progress. Some sections may be incomplete or missing, or may contain incorrent information due to the use of artificial intelligence in its generation. If you can't find what you're looking for, please ask for help in the [Discord server](https://discord.gg/kbykWUH5dV).
 
 The official documentation for Cobbleloots. Here you will find guides, tutorials, and references to help you understand the mod and its features.
 
