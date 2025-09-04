@@ -12,6 +12,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 import static dev.ripio.cobbleloots.item.CobblelootsItems.getBaseLootBallItem;
+import static dev.ripio.cobbleloots.item.CobblelootsItems.generateStackWithCobblemonTexture;
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.cobblelootsResource;
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.cobblelootsText;
 
@@ -28,7 +29,7 @@ public class CobblelootsItemsImpl {
       BuiltInRegistries.CREATIVE_MODE_TAB.key(), cobblelootsResource("cobbleloots_tab"));
 
   public static final CreativeModeTab COBBLELOOTS_TAB = FabricItemGroup.builder()
-      .icon(() -> new ItemStack(getLootBallItem()))
+      .icon(() -> generateStackWithCobblemonTexture("master"))
       .title(cobblelootsText("creativeModeTab.cobbleloots"))
       .build();
 

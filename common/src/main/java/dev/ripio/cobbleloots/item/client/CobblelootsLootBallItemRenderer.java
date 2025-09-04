@@ -15,7 +15,7 @@ import net.minecraft.world.item.component.CustomData;
 import org.joml.Quaternionf;
 
 public class CobblelootsLootBallItemRenderer {
-  public static ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath("cobblemon","textures/poke_balls/poke_ball.png");
+  public static ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath("cobblemon","textures/poke_balls/strange_ball.png");
 
   public static CobblelootsLootBallItemModel MODEL = new CobblelootsLootBallItemModel(CobblelootsLootBallItemModel.createLayer().bakeRoot());
 
