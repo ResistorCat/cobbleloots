@@ -8,4 +8,5 @@
     - If you encounter a Strange Ball, it indicates that the Loot Ball is not properly configured or has missing data.
 
 ## Fixes
-- Fixed a bug where the game would crash when trying to spawn a Loot Ball in a chunk with an invalid section index (like the void or above the world height limit).
+- Fixed an issue where the Loot Ball Item texture would not display correctly if the texture data was missing or invalid.
+    - Note that if the texture data is missing, the Loot Ball will now display the Strange Ball texture as a fallback. Be sure to configure your Loot Balls properly when using commands to obtain them.

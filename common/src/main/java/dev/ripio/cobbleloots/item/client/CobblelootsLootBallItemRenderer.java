@@ -23,7 +23,7 @@ public class CobblelootsLootBallItemRenderer {
     CompoundTag compoundTag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
     if (compoundTag.contains("Texture")) {
       ResourceLocation textureLocation = ResourceLocation.tryParse(compoundTag.getString("Texture"));
-      if (textureLocation != null) {
+      if (textureLocation != null && !textureLocation.equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
         return textureLocation;
       }
     }
