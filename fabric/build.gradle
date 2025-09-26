@@ -39,6 +39,7 @@ dependencies {
     ////////////////////////////
     // modImplementation "curse.maven:jade-324717:6291536"
     // modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    // modImplementation "curse.maven:xaeros-minimap-263420:6778054"
     ////////////////////////////
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
