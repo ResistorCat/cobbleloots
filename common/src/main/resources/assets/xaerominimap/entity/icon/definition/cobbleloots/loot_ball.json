@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "default": "model:0"
+    },
+    "modelConfigs": [
+        {
+            "renderingFullModel" : true,
+            "baseScale" : 0.75
+        }
+    ]
+}
