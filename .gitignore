@@ -122,3 +122,9 @@ runs/
 /common/src/main/resources/assets/cobbleloots/icon.psd
 local/
 bin/
+
+# Environment variable files
+.env
+
+# Python
+__pycache__/
