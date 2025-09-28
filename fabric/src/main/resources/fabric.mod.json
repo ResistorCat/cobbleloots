@@ -8,7 +8,9 @@
     "${mod_authors}"
   ],
   "contact": {
-    "homepage": "${mod_homepage}"
+    "homepage": "${mod_homepage}",
+    "sources": "${mod_source}",
+    "issues": "${mod_issues}"
   },
   "license": "${mod_license}",
   "icon": "${mod_logo}",
@@ -22,10 +24,10 @@
     ]
   },
   "depends": {
-    "fabricloader": ">=0.16.9",
+    "fabricloader": ">=${fabric_loader_target_version}",
     "minecraft": "${minecraft_version}",
     "java": ">=21",
     "fabric-api": "*",
-    "cobblemon": ">=1.6.0"
+    "cobblemon": ">=${cobblemon_target_version}"
   }
 }

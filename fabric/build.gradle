@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
     id 'org.jetbrains.kotlin.jvm'
 }
 
@@ -58,6 +58,10 @@ processResources {
         'mod_logo'        : project.mod_logo,
         'mod_homepage'    : project.mod_homepage,
         'minecraft_version': project.minecraft_version,
+        'mod_source': project.mod_source,
+        'mod_issues': project.mod_issues,
+        'cobblemon_target_version': project.cobblemon_target_version,
+        'fabric_loader_target_version': project.fabric_loader_target_version,
     ])
 
     filesMatching('fabric.mod.json') {
@@ -72,6 +76,10 @@ processResources {
             'mod_logo'        : project.mod_logo,
             'mod_homepage'    : project.mod_homepage,
             'minecraft_version': project.minecraft_version,
+            'mod_source': project.mod_source,
+            'mod_issues': project.mod_issues,
+            'cobblemon_target_version': project.cobblemon_target_version,
+            'fabric_loader_target_version': project.fabric_loader_target_version,
         ])
     }
 }
@@ -82,7 +90,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
 }
 
 test {
