@@ -1,0 +1,54 @@
+"""
+Common configuration settings for the scripts.
+"""
+
+import os
+from pathlib import Path
+from models import ModProperties
+
+ROOT_PATH = Path(__file__).parent.parent
+ENV_PATH = ROOT_PATH / ".env"
+
+
+def load_env() -> None:
+    """
+    Load environment variables from the .env file.
+    """
+    if not ENV_PATH.exists():
+        raise FileNotFoundError(f"{ENV_PATH} does not exist.")
+
+    with ENV_PATH.open() as f:
+        for line in f:
+            if line.strip() and not line.startswith("#"):
+                key, value = line.strip().split("=", 1)
+                os.environ[key] = value
+
+
+def load_mod_properties() -> ModProperties:
+    """
+    Load mod properties from the gradle.properties file.
+    """
+    properties_path = ROOT_PATH / "gradle.properties"
+    if not properties_path.exists():
+        raise FileNotFoundError(f"{properties_path} does not exist.")
+
+    mod_properties = {}
+    with properties_path.open() as f:
+        for line in f:
+            if line.strip() and not line.startswith("#"):
+                key, value = line.strip().split("=", 1)
+                mod_properties[key] = value
+
+    return ModProperties(**mod_properties)
+
+
+def load_changelog() -> str:
+    """
+    Load the changelog from the CHANGELOG.md file.
+    """
+    changelog_path = ROOT_PATH / "CHANGELOG.md"
+    if not changelog_path.exists():
+        raise FileNotFoundError(f"{changelog_path} does not exist.")
+
+    with changelog_path.open() as f:
+        return f.read()
