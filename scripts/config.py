@@ -52,3 +52,15 @@ def load_changelog() -> str:
 
     with changelog_path.open() as f:
         return f.read()
+
+
+def load_modinfo() -> str:
+    """
+    Load the MODINFO.md file content.
+    """
+    modinfo_path = ROOT_PATH / "MODINFO.md"
+    if not modinfo_path.exists():
+        raise FileNotFoundError(f"{modinfo_path} does not exist.")
+
+    with modinfo_path.open() as f:
+        return f.read()
