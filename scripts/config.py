@@ -10,7 +10,12 @@ ROOT_PATH = Path(__file__).parent.parent
 ENV_PATH = ROOT_PATH / ".env"
 
 CURSEFORGE_VERSION_IDS = {
-    "1.21.1": 11779
+    "1.21.1": 11779,
+    "fabric": 7499,
+    "neoforge": 10150,
+    "server": 9639,
+    "client": 9638,
+    "java-21": 11135
 }
 
 
