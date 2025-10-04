@@ -2,6 +2,7 @@
 .idea/
 .vscode/
 .venv/
+DISCORD.md
 
 *.iml
 *.ipr
