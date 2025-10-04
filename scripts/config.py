@@ -9,6 +9,10 @@ from models import ModProperties
 ROOT_PATH = Path(__file__).parent.parent
 ENV_PATH = ROOT_PATH / ".env"
 
+CURSEFORGE_VERSION_IDS = {
+    "1.21.1": 11779
+}
+
 
 def load_env() -> None:
     """
