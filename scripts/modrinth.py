@@ -115,7 +115,7 @@ def upload_modinfo_to_modrinth(modinfo_content: str) -> requests.Response:
     return response
 
 
-def get_version_info(version_number: str) -> requests.Response:
+def fetch_modrinth_version(version_number: str) -> requests.Response:
     """
     Get version information from Modrinth.
 

@@ -15,7 +15,7 @@ CURSEFORGE_VERSION_IDS = {
     "neoforge": 10150,
     "server": 9639,
     "client": 9638,
-    "java-21": 11135
+    "java-21": 11135,
 }
 
 
