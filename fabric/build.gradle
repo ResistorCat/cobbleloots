@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
     id 'org.jetbrains.kotlin.jvm'
 }
 
@@ -27,9 +27,9 @@ configurations {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-
     modImplementation "net.fabricmc:fabric-language-kotlin:$rootProject.fabric_kotlin_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+
     modImplementation "com.cobblemon:fabric:$rootProject.cobblemon_version"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${rootProject.fabric_loader_version}"
@@ -37,8 +37,8 @@ dependencies {
     ////////////////////////////
     // DEBUGGING DEPENDENCIES //
     ////////////////////////////
-    // modImplementation "curse.maven:jade-324717:6291536"
-    // modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    // modImplementation "curse.maven:xaeros-minimap-263420:6778054"
     ////////////////////////////
 
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
@@ -57,6 +57,13 @@ processResources {
         'mod_logo'        : project.mod_logo,
         'mod_homepage'    : project.mod_homepage,
         'minecraft_version': project.minecraft_version,
+        'mod_source': project.mod_source,
+        'mod_issues': project.mod_issues,
+        'cobblemon_target_version': project.cobblemon_target_version,
+        'fabric_loader_target_version': project.fabric_loader_target_version,
+        'mod_discord': project.mod_discord,
+        'mod_modrinth': project.mod_modrinth,
+        'mod_curseforge': project.mod_curseforge
     ])
 
     filesMatching('fabric.mod.json') {
@@ -71,6 +78,13 @@ processResources {
             'mod_logo'        : project.mod_logo,
             'mod_homepage'    : project.mod_homepage,
             'minecraft_version': project.minecraft_version,
+            'mod_source': project.mod_source,
+            'mod_issues': project.mod_issues,
+            'cobblemon_target_version': project.cobblemon_target_version,
+            'fabric_loader_target_version': project.fabric_loader_target_version,
+            'mod_discord': project.mod_discord,
+            'mod_modrinth': project.mod_modrinth,
+            'mod_curseforge': project.mod_curseforge
         ])
     }
 }
@@ -81,7 +95,7 @@ shadowJar {
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    inputFile.set shadowJar.archiveFile
 }
 
 test {

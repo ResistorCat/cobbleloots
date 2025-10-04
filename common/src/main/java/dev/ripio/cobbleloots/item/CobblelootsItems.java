@@ -31,7 +31,7 @@ public class CobblelootsItems {
   // Creative mode tab
   public static void addCreativeTabItems(CreativeModeTab.Output output) {
     // Creative Balls
-    output.accept(new ItemStack(getLootBallItem()));
+    // output.accept(new ItemStack(getLootBallItem()));
 
     // Normal Balls
     output.accept(generateStackWithCobblemonTexture("poke"));
@@ -108,7 +108,7 @@ public class CobblelootsItems {
     return generateStackWithData(dataId, "");
   }
 
-  private static ItemStack generateStackWithCobblemonTexture(String textureId) {
+  public static ItemStack generateStackWithCobblemonTexture(String textureId) {
     return generateStackWithTexture("cobblemon:textures/poke_balls/" + textureId + "_ball");
   }
 

@@ -15,7 +15,7 @@ import net.minecraft.world.item.component.CustomData;
 import org.joml.Quaternionf;
 
 public class CobblelootsLootBallItemRenderer {
-  public static ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath("cobblemon","textures/poke_balls/poke_ball.png");
+  public static ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath("cobblemon","textures/poke_balls/strange_ball.png");
 
   public static CobblelootsLootBallItemModel MODEL = new CobblelootsLootBallItemModel(CobblelootsLootBallItemModel.createLayer().bakeRoot());
 
@@ -23,7 +23,7 @@ public class CobblelootsLootBallItemRenderer {
     CompoundTag compoundTag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
     if (compoundTag.contains("Texture")) {
       ResourceLocation textureLocation = ResourceLocation.tryParse(compoundTag.getString("Texture"));
-      if (textureLocation != null) {
+      if (textureLocation != null && !textureLocation.equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
         return textureLocation;
       }
     }

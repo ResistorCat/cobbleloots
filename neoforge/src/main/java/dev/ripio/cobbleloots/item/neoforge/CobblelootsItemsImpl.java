@@ -13,6 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.function.Supplier;
 
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.cobblelootsText;
+import static dev.ripio.cobbleloots.item.CobblelootsItems.generateStackWithCobblemonTexture;
 
 public class CobblelootsItemsImpl {
   // DeferredRegisters
@@ -29,7 +30,7 @@ public class CobblelootsItemsImpl {
   // Creative Mode Tabs
   public static final Supplier<CreativeModeTab> COBBLELOOTS_TAB = TABS.register("cobbleloots_tab", () -> CreativeModeTab.builder()
       .title(cobblelootsText("creativeModeTab.cobbleloots"))
-      .icon(() -> new ItemStack(getLootBallItem()))
+      .icon(() -> generateStackWithCobblemonTexture("master"))
       .displayItems(CobblelootsItems::addCreativeTabItems)
       .build());
 

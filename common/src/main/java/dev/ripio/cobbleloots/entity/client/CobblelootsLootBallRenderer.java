@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 public class CobblelootsLootBallRenderer extends LivingEntityRenderer<CobblelootsLootBall, CobblelootsLootBallModel<CobblelootsLootBall>> {
-  ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath("cobblemon","textures/poke_balls/poke_ball.png");
+  ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath("cobblemon","textures/poke_balls/strange_ball.png");
 
   public CobblelootsLootBallRenderer(EntityRendererProvider.Context context) {
     super(context, new CobblelootsLootBallModel<>(context.bakeLayer(CobblelootsLootBallModel.LAYER_LOCATION)), 0.5f);
