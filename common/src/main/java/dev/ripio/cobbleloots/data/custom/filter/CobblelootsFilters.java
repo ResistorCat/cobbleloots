@@ -35,6 +35,7 @@ public class CobblelootsFilters {
 			true);
 	private static final CobblelootsBlockFilter DEFAULT_BLOCK_FILTER = new CobblelootsBlockFilter(
 			CobblelootsDefinitions.EMPTY_BLOCK_TAG, CobblelootsDefinitions.EMPTY_BLOCK_TAG);
+	private static final CobblelootsDateFilter DEFAULT_DATE_FILTER = new CobblelootsDateFilter("", "");
 
 	/**
 	 * Codec for serializing and deserializing CobblelootsBlockFilter objects.
@@ -206,6 +207,12 @@ public class CobblelootsFilters {
 							.forGetter(CobblelootsWeatherFilter::getClear))
 					.apply(instance, CobblelootsWeatherFilter::new));
 
+	public static final Codec<CobblelootsDateFilter> DATE_FILTER_CODEC = RecordCodecBuilder.create(
+			instance -> instance.group(
+					Codec.STRING.optionalFieldOf("from", "").forGetter(CobblelootsDateFilter::getFrom),
+					Codec.STRING.optionalFieldOf("to", "").forGetter(CobblelootsDateFilter::getTo))
+					.apply(instance, CobblelootsDateFilter::new));
+
 	/**
 	 * Codec for serializing and deserializing CobblelootsSourceFilter objects.
 	 * This codec handles the various filters applied to loot balls, including
@@ -263,6 +270,8 @@ public class CobblelootsFilters {
 					TIME_FILTER_CODEC.optionalFieldOf("time", DEFAULT_TIME_FILTER)
 							.forGetter(CobblelootsSourceFilter::getTime),
 					WEATHER_FILTER_CODEC.optionalFieldOf("weather", DEFAULT_WEATHER_FILTER)
-							.forGetter(CobblelootsSourceFilter::getWeather))
+							.forGetter(CobblelootsSourceFilter::getWeather),
+					DATE_FILTER_CODEC.optionalFieldOf("date", DEFAULT_DATE_FILTER)
+							.forGetter(CobblelootsSourceFilter::getDate))
 					.apply(instance, CobblelootsSourceFilter::new));
 }

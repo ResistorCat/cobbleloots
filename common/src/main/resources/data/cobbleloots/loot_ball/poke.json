@@ -42,6 +42,10 @@
           "rain": true,
           "thunder": true,
           "clear": true
+        },
+        "date": {
+          "from": "01-01",
+          "to": "12-31"
         }
       }
     ],
@@ -91,6 +95,10 @@
           "rain": true,
           "thunder": true,
           "clear": true
+        },
+        "date": {
+          "from": "01-01",
+          "to": "12-31"
         }
       }
     ]

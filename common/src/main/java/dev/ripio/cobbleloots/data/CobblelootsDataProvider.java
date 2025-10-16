@@ -11,6 +11,7 @@ import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsBlockFilter;
+import dev.ripio.cobbleloots.data.custom.filter.CobblelootsDateFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsLightFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsPositionFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsSourceFilter;
@@ -225,6 +226,11 @@ public class CobblelootsDataProvider {
       return false;
     }
 
+    // Check date if specified
+    if (!checkDateFilter(source.getDate())) {
+      return false;
+    }
+
     // Cobbleloots.LOGGER.info("[DEBUG] All filters passed for source: {} at pos:
     // {}", source, pos);
 
@@ -234,7 +240,7 @@ public class CobblelootsDataProvider {
 
   /**
    * Checks if the position is within a piece of a structure matching the tag.
-   * 
+   *
    * @return true if the position is within a piece of the structure, false
    *         otherwise
    */
@@ -383,6 +389,18 @@ public class CobblelootsDataProvider {
     }
 
     return weatherFilter.isValid(level.isRaining(), level.isThundering());
+  }
+
+  /**
+   * Checks if the current date meets the criteria.
+   * 
+   * @return true if the current date is within the range, false otherwise
+   */
+  private static boolean checkDateFilter(CobblelootsDateFilter dateFilter) {
+    if (dateFilter == null) {
+      return true; // No filter specified, so it passes
+    }
+    return dateFilter.test();
   }
 
   public static void onReload(ResourceManager resourceManager) {
