@@ -38,6 +38,8 @@ dependencies {
     // DEBUGGING DEPENDENCIES //
     ////////////////////////////
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}")
+    modImplementation("maven.modrinth:sodium:${project.sodium_version}")
+    //modImplementation("maven.modrinth:iris:${project.iris_version}")
     // modImplementation "curse.maven:xaeros-minimap-263420:6778054"
     ////////////////////////////
 
