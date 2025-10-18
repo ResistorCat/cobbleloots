@@ -18,6 +18,12 @@ CURSEFORGE_VERSION_IDS = {
     "java-21": 11135,
 }
 
+FOOTERS = {
+    "alpha": "> Alpha versions may contain bugs and **unfinished features**. Use them at your own risk. If you find any issues, please report them on the Discord server.",
+    "beta": "> Beta versions may contain bugs. Please report any issues you find on the Discord server.",
+    "release": "> Please report any issues you find on the Discord server.",
+}
+
 
 def load_env() -> None:
     """
@@ -51,16 +57,27 @@ def load_mod_properties() -> ModProperties:
     return ModProperties(**mod_properties)
 
 
-def load_changelog() -> str:
+def load_changelog(mod_version_type: str) -> str:
     """
-    Load the changelog from the CHANGELOG.md file.
+    Load the latest changelog from the CHANGELOG.md file.
     """
     changelog_path = ROOT_PATH / "CHANGELOG.md"
     if not changelog_path.exists():
         raise FileNotFoundError(f"{changelog_path} does not exist.")
 
+    contents = []
     with changelog_path.open() as f:
-        return f.read()
+        recording = False
+        for line in f:
+            if line.startswith("## "):
+                if recording:
+                    break
+                recording = True
+                continue
+            if recording:
+                contents.append(line)
+    contents.append(f"\n{FOOTERS.get(mod_version_type, '')}\n")
+    return "".join(contents).strip()
 
 
 def load_modinfo() -> str:
