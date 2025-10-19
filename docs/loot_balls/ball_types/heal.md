@@ -7,7 +7,7 @@ icon: material/heart
 # Heal Loot Ball
 
 ![Heal Ball](<../../assets/ball/Heal_Ball_(model).png>){width=120, align=right}
-The Heal Loot Ball is a rare loot ball in the Cobbleloots mod, found in the Overworld. It contains a variety of healing and recovery items based on its loot table.
+The Heal Loot Ball is a rare loot ball found in the Overworld. It contains a variety of healing and recovery items.
 
 ## Details
 
@@ -28,14 +28,14 @@ The Heal Loot Ball is a rare loot ball in the Cobbleloots mod, found in the Over
 
 ## Loot Table
 
-| Item                    | Weight | Count |
-| ----------------------- | ------ | ----- |
-| cobblemon:full_restore  | 2      | 1–2   |
-| cobblemon:max_revive    | 5      | 1–3   |
-| cobblemon:full_heal     | 5      | 1–3   |
-| cobblemon:burn_heal     | 8      | 3–6   |
-| cobblemon:ice_heal      | 8      | 3–6   |
-| cobblemon:antidote      | 8      | 3–6   |
-| cobblemon:awakening     | 8      | 3–6   |
-| cobblemon:paralyze_heal | 8      | 3–6   |
-| cobblemon:heal_ball     | 10     | 1–2   |
+| Item                    | Weight | Count | Notes |
+| ----------------------- | ------ | ----- | ----- |
+| cobblemon:full_restore  | 2      | 1-2   |       |
+| cobblemon:max_revive    | 5      | 1-3   |       |
+| cobblemon:full_heal     | 5      | 1-3   |       |
+| cobblemon:burn_heal     | 8      | 3-6   |       |
+| cobblemon:ice_heal      | 8      | 3-6   |       |
+| cobblemon:antidote      | 8      | 3-6   |       |
+| cobblemon:awakening     | 8      | 3-6   |       |
+| cobblemon:paralyze_heal | 8      | 3-6   |       |
+| cobblemon:heal_ball     | 10     | 1-2   |       |

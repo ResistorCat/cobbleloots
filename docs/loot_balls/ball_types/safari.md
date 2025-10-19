@@ -7,7 +7,7 @@ icon: material/palm-tree
 # Safari Loot Ball
 
 ![Safari Ball](<../../assets/ball/Safari_Ball_(model).png>){width=120, align=right}
-The Safari Loot Ball is a common loot ball in the Cobbleloots mod, found in savanna biomes. It contains a variety of wild and rare items based on its loot table.
+The Safari Loot Ball is a common loot ball found in savanna biomes. It contains a variety of wild and rare items.
 
 ## Details
 
@@ -28,14 +28,14 @@ The Safari Loot Ball is a common loot ball in the Cobbleloots mod, found in sava
 
 ## Loot Table
 
-| Item                   | Weight | Count |
-| ---------------------- | ------ | ----- |
-| cobblemon:rare_candy   | 1      | 1     |
-| cobblemon:exp_candy_xs | 3      | 2–4   |
-| cobblemon:lucky_egg    | 4      | 1     |
-| cobblemon:pinap_berry  | 6      | 4–10  |
-| cobblemon:nanab_berry  | 6      | 4–10  |
-| cobblemon:razz_berry   | 6      | 4–10  |
-| cobblemon:silk_scarf   | 8      | 1     |
-| cobblemon:sun_stone    | 8      | 1–2   |
-| cobblemon:safari_ball  | 10     | 1–2   |
+| Item                   | Weight | Count | Notes |
+| ---------------------- | ------ | ----- | ----- |
+| cobblemon:rare_candy   | 1      | 1     |       |
+| cobblemon:exp_candy_xs | 3      | 2-4   |       |
+| cobblemon:lucky_egg    | 4      | 1     |       |
+| cobblemon:pinap_berry  | 6      | 4-10  |       |
+| cobblemon:nanab_berry  | 6      | 4-10  |       |
+| cobblemon:razz_berry   | 6      | 4-10  |       |
+| cobblemon:silk_scarf   | 8      | 1     |       |
+| cobblemon:sun_stone    | 8      | 1-2   |       |
+| cobblemon:safari_ball  | 10     | 1-2   |       |

@@ -7,7 +7,7 @@ icon: material/pokeball
 # Great Loot Ball
 
 ![Great Ball](<../../assets/ball/Great_Ball_(model).png>){width=120, align=right}
-The Great Loot Ball is an uncommon loot ball in the Cobbleloots mod. It contains a unique set of valuable items based on its loot table.
+The Great Loot Ball is an uncommon loot ball that can be found anywhere. It contains a variety of valuable items.
 
 ## Details
 
@@ -28,13 +28,13 @@ The Great Loot Ball is an uncommon loot ball in the Cobbleloots mod. It contains
 
 ## Loot Table
 
-| Item                   | Weight | Count |
-| ---------------------- | ------ | ----- |
-| cobblemon:rare_candy   | 1      | 1     |
-| minecraft:diamond      | 4      | 1–3   |
-| cobblemon:max_revive   | 4      | 1–2   |
-| cobblemon:max_ether    | 6      | 1–2   |
-| minecraft:golden_apple | 8      | 1–2   |
-| cobblemon:sitrus_berry | 8      | 2–4   |
-| cobblemon:super_potion | 8      | 1–3   |
-| cobblemon:great_ball   | 10     | 1–4   |
+| Item                   | Weight | Count | Notes |
+| ---------------------- | ------ | ----- | ----- |
+| cobblemon:rare_candy   | 1      | 1     |       |
+| minecraft:diamond      | 4      | 1-3   |       |
+| cobblemon:max_revive   | 4      | 1-2   |       |
+| cobblemon:max_ether    | 6      | 1-2   |       |
+| minecraft:golden_apple | 8      | 1-2   |       |
+| cobblemon:sitrus_berry | 8      | 2-4   |       |
+| cobblemon:super_potion | 8      | 1-3   |       |
+| cobblemon:great_ball   | 10     | 1-4   |       |

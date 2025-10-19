@@ -7,7 +7,7 @@ icon: material/gold
 # Luxury Loot Ball
 
 ![Luxury Ball](<../../assets/ball/Luxury_Ball_(model).png>){width=120, align=right}
-The Luxury Loot Ball is a rare loot ball in the Cobbleloots mod, found in special biomes. It contains a variety of luxurious and valuable items based on its loot table.
+The Luxury Loot Ball is a rare loot ball found in special biomes. It contains a variety of luxurious and valuable items.
 
 ## Details
 
@@ -28,14 +28,14 @@ The Luxury Loot Ball is a rare loot ball in the Cobbleloots mod, found in specia
 
 ## Loot Table
 
-| Item                                | Weight | Count |
-| ----------------------------------- | ------ | ----- |
-| cobblemon:rare_candy                | 1      | 1     |
-| minecraft:book (treasure, level 40) | 2      | 1     |
-| minecraft:enchanted_golden_apple    | 4      | 1–2   |
-| cobblemon:exp_candy_m               | 3      | 1     |
-| minecraft:emerald                   | 6      | 4–8   |
-| minecraft:diamond                   | 6      | 1–3   |
-| minecraft:gold_ingot                | 7      | 2–5   |
-| minecraft:amethyst_shard            | 8      | 8–24  |
-| cobblemon:luxury_ball               | 10     | 1–4   |
+| Item                             | Weight | Count | Notes                       |
+| -------------------------------- | ------ | ----- | --------------------------- |
+| cobblemon:rare_candy             | 1      | 1     |                             |
+| minecraft:book                   | 2      | 1     | Treasure enchanted (lvl 40) |
+| minecraft:enchanted_golden_apple | 4      | 1-2   |                             |
+| cobblemon:exp_candy_m            | 3      | 1     |                             |
+| minecraft:emerald                | 6      | 4-8   |                             |
+| minecraft:diamond                | 6      | 1-3   |                             |
+| minecraft:gold_ingot             | 7      | 2-5   |                             |
+| minecraft:amethyst_shard         | 8      | 8-24  |                             |
+| cobblemon:luxury_ball            | 10     | 1-4   |                             |

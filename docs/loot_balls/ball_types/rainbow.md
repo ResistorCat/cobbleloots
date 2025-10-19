@@ -7,7 +7,7 @@ icon: material/flag
 # Rainbow Loot Ball
 
 ![Rainbow Ball](<../../assets/ball/Rainbow_Ball_(model).png>){width=120, align=right}
-The Rainbow Loot Ball is an uncommon loot ball in the Cobbleloots mod, found in special biomes. It contains a variety of unique and vibrant items based on its loot table.
+The Rainbow Loot Ball is an uncommon loot ball found in special biomes. It contains a variety of unique and vibrant items.
 
 ## Details
 
@@ -16,7 +16,7 @@ The Rainbow Loot Ball is an uncommon loot ball in the Cobbleloots mod, found in 
 | Name          | Rainbow Loot Ball                            |
 | Rarity        | Uncommon                                     |
 | XP on Open    | 5                                            |
-| Texture       | `cobbleloots/textures/loot_ball/rainbow.png` |
+| Texture       | `cobbleloots:textures/loot_ball/rainbow.png` |
 | Loot Table ID | `cobbleloots:loot_ball/rainbow`              |
 
 ## Obtaining
@@ -30,9 +30,9 @@ The Rainbow Loot Ball is an uncommon loot ball in the Cobbleloots mod, found in 
 
 | Item                       | Weight | Count | Notes                    |
 | -------------------------- | ------ | ----- | ------------------------ |
-| minecraft:black_banner     | 8      | 1     | Rainbow Creeper Banner   |
-| minecraft:firework_rocket  | 8      | 16    | Rainbow Pattern Firework |
 | minecraft:totem_of_undying | 1      | 1     |                          |
 | cobblemon:exp_candy_xs     | 1      | 1     |                          |
 | cobblemon:exp_candy_s      | 1      | 1     |                          |
 | cobblemon:exp_candy_m      | 1      | 1     |                          |
+| minecraft:black_banner     | 8      | 1     | Rainbow Creeper Banner   |
+| minecraft:firework_rocket  | 8      | 16    | Rainbow Pattern Firework |

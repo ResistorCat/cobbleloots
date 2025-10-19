@@ -7,7 +7,7 @@ icon: material/pokeball
 # Master Loot Ball
 
 ![Master Ball](<../../assets/ball/Master_Ball_(model).png>){width=120, align=right}
-The Master Loot Ball is an ultra rare loot ball in the Cobbleloots mod. It contains the most powerful and unique items based on its loot table.
+The Master Loot Ball is an ultra rare loot ball that can be found anywhere. It contains the most powerful and unique items.
 
 ## Details
 
@@ -28,12 +28,12 @@ The Master Loot Ball is an ultra rare loot ball in the Cobbleloots mod. It conta
 
 ## Loot Table
 
-| Item                       | Weight | Count |
-| -------------------------- | ------ | ----- |
-| cobblemon:master_ball      | 1      | 1     |
-| cobblemon:ability_patch    | 1      | 1     |
-| cobblemon:exp_candy_xl     | 1      | 1–2   |
-| minecraft:nether_star      | 1      | 1     |
-| minecraft:netherite_ingot  | 2      | 1–2   |
-| cobblemon:rare_candy       | 4      | 5–10  |
-| minecraft:book (enchanted) | 4      | 1     |
+| Item                      | Weight | Count | Notes              |
+| ------------------------- | ------ | ----- | ------------------ |
+| cobblemon:master_ball     | 1      | 1     |                    |
+| cobblemon:ability_patch   | 1      | 1     |                    |
+| cobblemon:exp_candy_xl    | 1      | 1-2   |                    |
+| minecraft:nether_star     | 1      | 1     |                    |
+| minecraft:netherite_ingot | 2      | 1-2   |                    |
+| cobblemon:rare_candy      | 4      | 5-10  |                    |
+| minecraft:book            | 4      | 1     | Randomly enchanted |

@@ -7,7 +7,7 @@ icon: material/pokeball
 # Premier Loot Ball
 
 ![Premier Ball](<../../assets/ball/Premier_Ball_(model).png>){width=120, align=right}
-The Premier Loot Ball is a variant of the [Poké Loot Ball](poké.md) in the Cobbleloots mod. It contains a unique set of items based on its loot table.
+The Premier Loot Ball is a common variant of the Poké Loot Ball. It can be found anywhere and contains a variety of common items.
 
 ## Details
 
@@ -28,13 +28,13 @@ The Premier Loot Ball is a variant of the [Poké Loot Ball](poké.md) in the Cob
 
 ## Loot Table
 
-| Item                    | Weight | Count |
-| ----------------------- | ------ | ----- |
-| cobblemon:exp_candy_xs  | 1      | 5     |
-| minecraft:emerald       | 2      | 2–4   |
-| cobblemon:revive        | 4      | 1–2   |
-| cobblemon:ether         | 8      | 1–2   |
-| cobblemon:potion        | 8      | 1–3   |
-| minecraft:golden_carrot | 8      | 2–4   |
-| cobblemon:pecha_berry   | 8      | 2–4   |
-| cobblemon:premier_ball  | 10     | 1     |
+| Item                    | Weight | Count | Notes |
+| ----------------------- | ------ | ----- | ----- |
+| cobblemon:exp_candy_xs  | 1      | 5     |       |
+| minecraft:emerald       | 2      | 2-4   |       |
+| cobblemon:revive        | 4      | 1-2   |       |
+| cobblemon:ether         | 8      | 1-2   |       |
+| cobblemon:potion        | 8      | 1-3   |       |
+| minecraft:golden_carrot | 8      | 2-4   |       |
+| cobblemon:pecha_berry   | 8      | 2-4   |       |
+| cobblemon:premier_ball  | 10     | 1     |       |

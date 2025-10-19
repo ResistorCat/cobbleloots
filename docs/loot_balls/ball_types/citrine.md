@@ -7,7 +7,7 @@ icon: material/pokeball
 # Citrine Loot Ball
 
 ![Citrine Ball](<../../assets/ball/Citrine_Ball_(model).png>){width=120, align=right}
-The Citrine Loot Ball is a variant of the [Poké Loot Ball](poké.md) in the Cobbleloots mod. It contains a unique set of items based on its loot table.
+The Citrine Loot Ball is a common variant of the Poké Loot Ball. It can be found anywhere and contains a variety of common items.
 
 ## Details
 
@@ -31,10 +31,10 @@ The Citrine Loot Ball is a variant of the [Poké Loot Ball](poké.md) in the Cob
 | Item                   | Weight | Count | Notes |
 | ---------------------- | ------ | ----- | ----- |
 | cobblemon:exp_candy_xs | 1      | 5     |       |
-| minecraft:emerald      | 2      | 2–4   |       |
-| cobblemon:revive       | 4      | 1–2   |       |
-| cobblemon:ether        | 8      | 1–2   |       |
-| cobblemon:potion       | 8      | 1–3   |       |
-| minecraft:baked_potato | 8      | 4–8   |       |
-| cobblemon:aspear_berry | 8      | 2–4   |       |
+| minecraft:emerald      | 2      | 2-4   |       |
+| cobblemon:revive       | 4      | 1-2   |       |
+| cobblemon:ether        | 8      | 1-2   |       |
+| cobblemon:potion       | 8      | 1-3   |       |
+| minecraft:baked_potato | 8      | 4-8   |       |
+| cobblemon:aspear_berry | 8      | 2-4   |       |
 | cobblemon:citrine_ball | 10     | 1     |       |

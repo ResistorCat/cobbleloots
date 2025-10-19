@@ -7,7 +7,7 @@ icon: material/pokeball
 # Ultra Loot Ball
 
 ![Ultra Ball](<../../assets/ball/Ultra_Ball_(model).png>){width=120, align=right}
-The Ultra Loot Ball is a rare loot ball in the Cobbleloots mod. It contains the most valuable items based on its loot table.
+The Ultra Loot Ball is a rare loot ball that can be found anywhere. It contains a variety of valuable items.
 
 ## Details
 
@@ -28,14 +28,14 @@ The Ultra Loot Ball is a rare loot ball in the Cobbleloots mod. It contains the 
 
 ## Loot Table
 
-| Item                             | Weight | Count |
-| -------------------------------- | ------ | ----- |
-| cobblemon:ability_capsule        | 1      | 1     |
-| cobblemon:exp_candy_l            | 1      | 1     |
-| minecraft:netherite_scrap        | 2      | 1–2   |
-| cobblemon:pp_max                 | 4      | 1–2   |
-| cobblemon:full_restore           | 4      | 2–3   |
-| minecraft:enchanted_golden_apple | 6      | 1     |
-| cobblemon:max_elixir             | 6      | 1–3   |
-| cobblemon:hyper_potion           | 8      | 1–3   |
-| cobblemon:ultra_ball             | 10     | 1–4   |
+| Item                             | Weight | Count | Notes |
+| -------------------------------- | ------ | ----- | ----- |
+| cobblemon:ability_capsule        | 1      | 1     |       |
+| cobblemon:exp_candy_l            | 1      | 1     |       |
+| minecraft:netherite_scrap        | 2      | 1-2   |       |
+| cobblemon:pp_max                 | 4      | 1-2   |       |
+| cobblemon:full_restore           | 4      | 2-3   |       |
+| minecraft:enchanted_golden_apple | 6      | 1     |       |
+| cobblemon:max_elixir             | 6      | 1-3   |       |
+| cobblemon:hyper_potion           | 8      | 1-3   |       |
+| cobblemon:ultra_ball             | 10     | 1-4   |       |
