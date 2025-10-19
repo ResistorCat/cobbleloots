@@ -1,0 +1,378 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:red_banner",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "function": "minecraft:set_banner_pattern",
+              "patterns": [
+                {
+                  "pattern": "minecraft:gradient",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:gradient_up",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:small_stripes",
+                  "color": "yellow"
+                },
+                {
+                  "pattern": "minecraft:small_stripes",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:creeper",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:creeper",
+                  "color": "yellow"
+                },
+                {
+                  "pattern": "minecraft:triangles_top",
+                  "color": "brown"
+                },
+                {
+                  "pattern": "minecraft:triangles_top",
+                  "color": "green"
+                }
+              ],
+              "append": false
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Pumpkin Creeper Banner",
+                "color": "gold"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:rare_candy",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:pumpkin_pie",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:jack_o_lantern",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_xs",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 4
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_s",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "type": "minecraft:uniform",
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_m",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_candy_l",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:white_banner",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "function": "minecraft:set_banner_pattern",
+              "patterns": [
+                {
+                  "pattern": "minecraft:rhombus",
+                  "color": "black"
+                },
+                {
+                  "pattern": "minecraft:straight_cross",
+                  "color": "white"
+                },
+                {
+                  "pattern": "minecraft:half_horizontal_bottom",
+                  "color": "white"
+                },
+                {
+                  "pattern": "minecraft:creeper",
+                  "color": "black"
+                }
+              ],
+              "append": false
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Ghost Creeper Banner",
+                "color": "gray"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:yellow_banner",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "function": "minecraft:set_banner_pattern",
+              "patterns": [
+                {
+                  "pattern": "minecraft:triangles_bottom",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:flower",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:stripe_middle",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:half_horizontal",
+                  "color": "yellow"
+                },
+                {
+                  "pattern": "minecraft:circle",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:triangle_top",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:triangle_top",
+                  "color": "orange"
+                }
+              ],
+              "append": false
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Jack o'Lantern Banner",
+                "color": "gold"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:black_banner",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            },
+            {
+              "function": "minecraft:set_banner_pattern",
+              "patterns": [
+                {
+                  "pattern": "minecraft:gradient_up",
+                  "color": "purple"
+                },
+                {
+                  "pattern": "minecraft:gradient_up",
+                  "color": "black"
+                },
+                {
+                  "pattern": "minecraft:flower",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:half_horizontal",
+                  "color": "black"
+                },
+                {
+                  "pattern": "minecraft:triangles_bottom",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:triangle_top",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:stripe_middle",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:circle",
+                  "color": "orange"
+                },
+                {
+                  "pattern": "minecraft:triangles_top",
+                  "color": "orange"
+                }
+              ],
+              "append": false
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Withered Jack o'Lantern Banner",
+                "color": "#9500a6"
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:wither_skeleton_skull",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:firework_rocket",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 16
+            },
+            {
+              "function": "minecraft:set_fireworks",
+              "explosions": {
+                "values": [
+                  {
+                    "shape": "creeper",
+                    "colors": [
+                      15435844,
+                      243200,
+                      0
+                    ],
+                    "fade_colors": [
+                      4312372
+                    ],
+                    "has_trail": true,
+                    "has_twinkle": false
+                  },
+                  {
+                    "shape": "creeper",
+                    "colors": [
+                      80731,
+                      14188339
+                    ],
+                    "fade_colors": [
+                      15435844,
+                      4312372
+                    ],
+                    "has_trail": false,
+                    "has_twinkle": true
+                  }
+                ],
+                "mode": "replace_all"
+              },
+              "flight_duration": 1
+            },
+            {
+              "function": "minecraft:set_name",
+              "name": {
+                "text": "Spooky Firework",
+                "color": "#FF7518"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
