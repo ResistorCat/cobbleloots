@@ -14,6 +14,9 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Contains exclusive Halloween-themed loot, including unique banners, candies, and other surprises.
 - Updated documentation for loot balls to improve clarity and consistency.
 - Updated the mod logo to a Halloween-themed version.
+- Added a new configuration option to disable specific loot balls via the config file.
+  - This allows server admins to easily manage which loot balls are active without modifying data packs.
+  - The key for this config is `loot_ball.disabled.loot_balls`, and it accepts a list of loot ball IDs or patterns (e.g., `cobbleloots:*` to disable all CobbleLoots loot balls, or `cobbleloots:loot_ball/poke` to disable only the "poke" loot ball and its variants).
 
 ### Fixes
 

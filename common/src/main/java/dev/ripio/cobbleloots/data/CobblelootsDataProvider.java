@@ -9,6 +9,7 @@ import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
+import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallResourceLocation;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsBlockFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsDateFilter;
@@ -47,6 +48,7 @@ import static dev.ripio.cobbleloots.util.math.CobblelootsMath.weightedRandomEntr
 
 public class CobblelootsDataProvider {
   private static final Map<ResourceLocation, CobblelootsLootBallData> lootBallsData = new HashMap<>();
+  private static final List<CobblelootsLootBallResourceLocation> disabledLootBalls = new ArrayList<>();
 
   public static void addLootBallData(ResourceLocation id, JsonElement json) {
     DataResult<CobblelootsLootBallData> result = LOOT_BALL_DATA_CODEC.parse(JsonOps.INSTANCE, json);
@@ -407,18 +409,46 @@ public class CobblelootsDataProvider {
     // Cache data
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 
+    // Load disabled loot balls from config
+    disabledLootBalls.clear();
+    List<String> disabledLootBallsStrings = CobblelootsConfig
+        .getStringList(CobblelootsConfig.LOOT_BALL_DISABLED_LOOT_BALLS);
+    for (String disabledString : disabledLootBallsStrings) {
+      try {
+        disabledLootBalls.add(new CobblelootsLootBallResourceLocation(disabledString));
+      } catch (IllegalArgumentException e) {
+        Cobbleloots.LOGGER.warn("Invalid format for disabled loot ball location in config: '{}'", disabledString);
+      }
+    }
+
     // Load loot balls
     for (ResourceLocation id : resourceManager
         .listResources(CobblelootsDefinitions.PATH_LOOT_BALLS, path -> path.getPath().endsWith(".json")).keySet()) {
+      // Normalize id
+      ResourceLocation normalizedId = ResourceLocation.fromNamespaceAndPath(id.getNamespace(),
+          id.getPath().replace(".json", ""));
+
+      // Check if the loot ball is disabled
+      boolean isDisabled = false;
+      for (CobblelootsLootBallResourceLocation disabled : disabledLootBalls) {
+        if (disabled.matches(normalizedId.getNamespace(), normalizedId.getPath(), "*")) {
+          isDisabled = true;
+          break;
+        }
+      }
+
+      if (isDisabled) {
+        cachedLootBalls.remove(normalizedId);
+        continue;
+      }
+
       try (InputStream stream = resourceManager.getResourceOrThrow(id).open()) {
         // Parse JSON
         JsonObject jsonObject = JsonParser.parseReader(new InputStreamReader(stream, StandardCharsets.UTF_8))
             .getAsJsonObject();
-        // Normalize id
-        id = ResourceLocation.fromNamespaceAndPath(id.getNamespace(), id.getPath().replace(".json", ""));
         // Load loot ball data
-        addLootBallData(id, jsonObject);
-        cachedLootBalls.remove(id);
+        addLootBallData(normalizedId, jsonObject);
+        cachedLootBalls.remove(normalizedId);
       } catch (IOException | NullPointerException | JsonSyntaxException | NoSuchElementException e) {
         Cobbleloots.LOGGER.error("Error loading loot ball data: {}", id, e);
       }
@@ -432,32 +462,36 @@ public class CobblelootsDataProvider {
 
   /**
    * Checks if the dimension is disabled for the specified source type
-   * @param level The server level
+   * 
+   * @param level      The server level
    * @param sourceType The source type being checked
    * @return true if dimension is disabled, false otherwise
    */
   private static boolean isDimensionDisabled(ServerLevel level, CobblelootsSourceType sourceType) {
     ResourceLocation dimensionId = level.dimension().location();
     List<ResourceLocation> disabledDimensions;
-    
+
     switch (sourceType) {
       case GENERATION:
-        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_GENERATION);
+        disabledDimensions = CobblelootsConfig
+            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_GENERATION);
         break;
       case SPAWNING:
-        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING);
+        disabledDimensions = CobblelootsConfig
+            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING);
         break;
       case FISHING:
-        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_FISHING);
+        disabledDimensions = CobblelootsConfig
+            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_FISHING);
         break;
       case ARCHAEOLOGY:
-        disabledDimensions = CobblelootsConfig.getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
+        disabledDimensions = CobblelootsConfig
+            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
         break;
       default:
         return false;
     }
-    
+
     return disabledDimensions != null && disabledDimensions.contains(dimensionId);
   }
-  
 }

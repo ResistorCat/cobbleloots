@@ -31,4 +31,8 @@ public class CobblelootsLootBallSources {
     return archaeology;
   }
 
+  public boolean isEmpty() {
+    return generation.isEmpty() && spawning.isEmpty() && fishing.isEmpty() && archaeology.isEmpty();
+  }
+
 }
