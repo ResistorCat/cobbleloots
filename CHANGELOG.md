@@ -12,8 +12,9 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Spawns from October 24th to November 2nd.
   - Can be found in spooky biomes in the Overworld and also in the Nether.
   - Contains exclusive Halloween-themed loot, including unique banners, candies, and other surprises.
+- Updated documentation for loot balls to improve clarity and consistency.
+- Updated the mod logo to a Halloween-themed version.
 
 ### Fixes
-- 
 
 > **REMEMBER**: Alpha versions may contain bugs and **unfinished features**. Use them at your own risk. If you find any issues, please report them on the Discord server.
