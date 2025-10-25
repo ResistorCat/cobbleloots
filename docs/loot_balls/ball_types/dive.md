@@ -23,8 +23,8 @@ The Dive Loot Ball is an uncommon loot ball found in water biomes or underwater.
 
 | Source     | Weight | Filters/Restrictions                                                                                                               | Notes                                 |
 | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- |
-| Generation | 30     | Biome Tag: [`cobbleloots:loot_ball/dive`](../../reference/tags/biome_tags#cobblelootsloot_balldive)<br>Fluid: `minecraft:water` | Can generate in water in ocean biomes |
-| Spawning   | 30     | Biome Tag: [`cobbleloots:loot_ball/dive`](../../reference/tags/biome_tags#cobblelootsloot_balldive)<br>Fluid: `minecraft:water` | Can spawn in water in ocean biomes    |
+| Generation | 30     | Biome Tag: [`cobbleloots:loot_ball/dive`](../../reference/tags/biome_tags.md#cobblelootsloot_balldive)<br>Fluid: `minecraft:water` | Can generate in water in ocean biomes |
+| Spawning   | 30     | Biome Tag: [`cobbleloots:loot_ball/dive`](../../reference/tags/biome_tags.md#cobblelootsloot_balldive)<br>Fluid: `minecraft:water` | Can spawn in water in ocean biomes    |
 
 ## Loot Table
 

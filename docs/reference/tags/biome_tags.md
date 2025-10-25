@@ -1,7 +1,7 @@
 ---
 title: Biome Tags
 type: reference
-icon: tag
+icon: material/terrain
 ---
 
 # Biome Tags Reference

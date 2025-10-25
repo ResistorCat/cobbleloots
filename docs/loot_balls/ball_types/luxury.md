@@ -23,8 +23,8 @@ The Luxury Loot Ball is a rare loot ball found in special biomes. It contains a 
 
 | Source     | Weight | Filters/Restrictions                                                                                       | Notes                          |
 | ---------- | ------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| Generation | 5      | Biome Tag: [`cobbleloots:loot_ball/luxury`](../../reference/tags/biome_tags#cobblelootsloot_ballluxury) | Can generate in special biomes |
-| Spawning   | 5      | Biome Tag: [`cobbleloots:loot_ball/luxury`](../../reference/tags/biome_tags#cobblelootsloot_ballluxury) | Can spawn in special biomes    |
+| Generation | 5      | Biome Tag: [`cobbleloots:loot_ball/luxury`](../../reference/tags/biome_tags.md#cobblelootsloot_ballluxury) | Can generate in special biomes |
+| Spawning   | 5      | Biome Tag: [`cobbleloots:loot_ball/luxury`](../../reference/tags/biome_tags.md#cobblelootsloot_ballluxury) | Can spawn in special biomes    |
 
 ## Loot Table
 

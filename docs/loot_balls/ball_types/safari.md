@@ -24,7 +24,7 @@ The Safari Loot Ball is a common loot ball found in savanna biomes. It contains 
 | Source     | Weight | Filters/Restrictions                                                                                       | Notes                          |
 | ---------- | ------ | ---------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | Generation | 100    | Biome Tag: [`cobbleloots:loot_ball/safari`](../../reference/tags/biome_tags.md#cobblelootsloot_ballsafari) | Can generate in savanna biomes |
-| Spawning   | 100    | Biome Tag: [`cobbleloots:loot_ball/safari`](../../reference/tags/biome_tags#cobblelootsloot_ballsafari)    | Can spawn in savanna biomes    |
+| Spawning   | 100    | Biome Tag: [`cobbleloots:loot_ball/safari`](../../reference/tags/biome_tags.md#cobblelootsloot_ballsafari) | Can spawn in savanna biomes    |
 
 ## Loot Table
 

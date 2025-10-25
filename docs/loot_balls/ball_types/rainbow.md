@@ -23,8 +23,8 @@ The Rainbow Loot Ball is an uncommon loot ball found in special biomes. It conta
 
 | Source     | Weight | Filters/Restrictions                                                                                                             | Notes                                         |
 | ---------- | ------ | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
-| Generation | 10     | Biome Tag: [`cobbleloots:loot_ball/rainbow`](../../reference/tags/biome_tags#cobblelootsloot_ballrainbow)                     | Can generate in special biomes                |
-| Spawning   | 20     | Biome Tag: [`cobbleloots:loot_ball/rainbow`](../../reference/tags/biome_tags#cobblelootsloot_ballrainbow)<br>Sky Light: min 7 | Can spawn in special biomes with sky light 7+ |
+| Generation | 10     | Biome Tag: [`cobbleloots:loot_ball/rainbow`](../../reference/tags/biome_tags.md#cobblelootsloot_ballrainbow)                     | Can generate in special biomes                |
+| Spawning   | 20     | Biome Tag: [`cobbleloots:loot_ball/rainbow`](../../reference/tags/biome_tags.md#cobblelootsloot_ballrainbow)<br>Sky Light: min 7 | Can spawn in special biomes with sky light 7+ |
 
 ## Loot Table
 

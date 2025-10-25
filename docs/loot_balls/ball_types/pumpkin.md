@@ -23,10 +23,10 @@ The Pumpkin Loot Ball is a special Halloween-themed loot ball. It contains a var
 
 | Source     | Weight | Filters/Restrictions                                                                                                                                                   | Notes                                                       |
 | ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| Generation | 10     | Biome Tag: [`cobbleloots:loot_ball/pumpkin`](../../reference/tags/biome_tags#cobblelootsloot_ballpumpkin)<br>Date: from 10-24 to 11-02                              | Can generate in spooky biomes during Halloween season       |
-| Generation | 10     | Dimension: `minecraft:the_nether`<br>Date: from 10-24 to 11-02 -                                                                                                       | Can generate in the Nether during Halloween season -        |
-| Spawning   | 25     | Dimension: `minecraft:the_nether`<br>Date: from 10-24 to 11-02 -                                                                                                       | Can spawn in the Nether during Halloween season -           |
-| Spawning   | 10     | Biome Tag: [`cobbleloots:loot_ball/pumpkin`](../../reference/tags/biome_tags#cobblelootsloot_ballpumpkin)<br>Time: from 13000 to 23000<br>Date: from 10-24 to 11-02 | Can spawn in spooky biomes at night during Halloween season |
+| Generation | 10     | Biome Tag: [`cobbleloots:loot_ball/pumpkin`](../../reference/tags/biome_tags.md#cobblelootsloot_ballpumpkin)<br>Date: from 10-24 to 11-02                              | Can generate in spooky biomes during Halloween season       |
+| Generation | 10     | Dimension: `minecraft:the_nether`<br>Date: from 10-24 to 11-02                                                                                                         | Can generate in the Nether during Halloween season          |
+| Spawning   | 25     | Dimension: `minecraft:the_nether`<br>Date: from 10-24 to 11-02                                                                                                         | Can spawn in the Nether during Halloween season             |
+| Spawning   | 10     | Biome Tag: [`cobbleloots:loot_ball/pumpkin`](../../reference/tags/biome_tags.md#cobblelootsloot_ballpumpkin)<br>Time: from 13000 to 23000<br>Date: from 10-24 to 11-02 | Can spawn in spooky biomes at night during Halloween season |
 
 ## Loot Table
 
