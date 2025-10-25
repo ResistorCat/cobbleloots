@@ -87,6 +87,7 @@ public class CobblelootsItems {
 
     // Special Balls
     output.accept(generateStackWithTexture("cobbleloots:textures/loot_ball/rainbow"));
+    output.accept(generateStackWithTexture("cobbleloots:textures/loot_ball/pumpkin"));
   }
 
   public static void addCreativeTabItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {

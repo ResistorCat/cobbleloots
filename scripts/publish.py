@@ -30,7 +30,6 @@ def build(fabric: bool = True, neoforge: bool = True) -> None:
     Build the mod for Fabric and/or NeoForge.
     """
     # Load mod properties
-    print("[blue]Loading mod properties...[/blue]")
     mod_properties = load_mod_properties()
 
     # Print build info and ask for confirmation
@@ -71,14 +70,13 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
     Publish the mod to Modrinth and/or CurseForge.
     """
     # Load mod properties
-    print("[blue]Loading mod properties...[/blue]")
     mod_properties = load_mod_properties()
 
     # Build the mod before publishing
     build()
 
     # Load changelog
-    changelog = load_changelog()
+    changelog = load_changelog(mod_properties.mod_version_type)
     if changelog:
         print(f"[blue]Changelog loaded:[/blue]\n{changelog}")
         confirm = typer.confirm("Do you want to continue?", default=True)

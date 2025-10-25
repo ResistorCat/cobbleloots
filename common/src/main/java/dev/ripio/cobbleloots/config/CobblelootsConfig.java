@@ -45,6 +45,7 @@ public class CobblelootsConfig {
     public static final String LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING = "loot_ball.disabled.dimensions.spawning";
     public static final String LOOT_BALL_DISABLED_DIMENSIONS_FISHING = "loot_ball.disabled.dimensions.fishing";
     public static final String LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY = "loot_ball.disabled.dimensions.archaeology";
+    public static final String LOOT_BALL_DISABLED_LOOT_BALLS = "loot_ball.disabled.loot_balls";
 
     private static Map<String, Object> configMap = new HashMap<>();
     private static Map<String, Object> fileMap = new HashMap<>();
@@ -54,6 +55,10 @@ public class CobblelootsConfig {
                 key.equals(LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING) ||
                 key.equals(LOOT_BALL_DISABLED_DIMENSIONS_FISHING) ||
                 key.equals(LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
+    }
+
+    private static boolean isStringListKey(String key) {
+        return key.equals(LOOT_BALL_DISABLED_LOOT_BALLS);
     }
 
     private static Map<String, Object> getDefaultConfig() {
@@ -87,6 +92,7 @@ public class CobblelootsConfig {
         defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING, new ArrayList<ResourceLocation>());
         defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_FISHING, new ArrayList<ResourceLocation>());
         defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY, new ArrayList<ResourceLocation>());
+        defaults.put(LOOT_BALL_DISABLED_LOOT_BALLS, new ArrayList<String>());
 
         return defaults;
     }
@@ -158,8 +164,21 @@ public class CobblelootsConfig {
                             Cobbleloots.LOGGER.warn("Config key {} expected a list but got {}. Using default value.",
                                     key, fileValue.getClass().getSimpleName());
                         }
-                        // If fileValue is null or not a list, the default (empty
-                        // List<ResourceLocation>) is kept.
+                    } else if (defaultValue instanceof List && isStringListKey(key)) {
+                        if (fileValue instanceof List) {
+                            List<String> stringList = new ArrayList<>();
+                            for (Object item : (List<?>) fileValue) {
+                                if (item instanceof String) {
+                                    stringList.add((String) item);
+                                } else {
+                                    Cobbleloots.LOGGER.warn("Item in list for key {} is not a string: {}", key, item);
+                                }
+                            }
+                            configMap.put(key, stringList);
+                        } else if (fileValue != null) {
+                            Cobbleloots.LOGGER.warn("Config key {} expected a list but got {}. Using default value.",
+                                    key, fileValue.getClass().getSimpleName());
+                        }
                     } else if (defaultValue != null) {
                         Cobbleloots.LOGGER.warn(
                                 "Config key {} has an unexpected type (Expected: {}). Using default value.", key,
@@ -231,6 +250,15 @@ public class CobblelootsConfig {
             return (List<ResourceLocation>) value;
         }
         throw new IllegalArgumentException("Config key not found or not a resource location list: " + key);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<String> getStringList(String key) {
+        Object value = configMap.get(key);
+        if (value instanceof List) {
+            return (List<String>) value;
+        }
+        throw new IllegalArgumentException("Config key not found or not a string list: " + key);
     }
 
     private static void saveConfig() {

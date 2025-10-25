@@ -1,0 +1,61 @@
+{
+    "name": {
+        "text": "Pumpkin Loot Ball",
+        "color": "gold"
+    },
+    "loot_table": "cobbleloots:loot_ball/pumpkin",
+    "texture": "cobbleloots:textures/loot_ball/pumpkin.png",
+    "xp": 3,
+    "sources": {
+        "generation": [
+            {
+                "weight": 10,
+                "biome": "cobbleloots:loot_ball/pumpkin",
+                "date": {
+                    "from": "10-24",
+                    "to": "11-02"
+                }
+            },
+            {
+                "weight": 10,
+                "dimension": [
+                    "minecraft:the_nether"
+                ],
+                "date": {
+                    "from": "10-24",
+                    "to": "11-02"
+                }
+            }
+        ],
+        "spawning": [
+            {
+                "weight": 25,
+                "dimension": [
+                    "minecraft:the_nether"
+                ],
+                "date": {
+                    "from": "10-24",
+                    "to": "11-02"
+                }
+            },
+            {
+                "weight": 10,
+                "dimension": [
+                    "minecraft:overworld"
+                ],
+                "time": {
+                    "value": {
+                        "min": 13000,
+                        "max": 23000
+                    },
+                    "period": 24000
+                },
+                "date": {
+                    "from": "10-24",
+                    "to": "11-02"
+                },
+                "biome": "cobbleloots:loot_ball/pumpkin"
+            }
+        ]
+    }
+}

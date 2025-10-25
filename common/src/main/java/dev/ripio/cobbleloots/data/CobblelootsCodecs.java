@@ -45,7 +45,7 @@ public class CobblelootsCodecs {
           ResourceLocation.CODEC.optionalFieldOf("texture", CobblelootsDefinitions.EMPTY_LOCATION).forGetter(CobblelootsLootBallData::getTexture),
           LOOT_BALL_SOURCES_CODEC.optionalFieldOf("sources", DEFAULT_LOOT_BALL_SOURCES).forGetter(CobblelootsLootBallData::getSources),
           Codec.unboundedMap(Codec.STRING, LOOT_BALL_VARIANT_DATA_CODEC).optionalFieldOf("variants", Map.of()).forGetter(CobblelootsLootBallData::getVariants),
-            Codec.INT.optionalFieldOf("xp", CobblelootsConfig.getIntConfig(LOOT_BALL_DEFAULTS_XP)).forGetter(CobblelootsLootBallData::getXp)
+          Codec.INT.optionalFieldOf("xp", CobblelootsConfig.getIntConfig(LOOT_BALL_DEFAULTS_XP)).forGetter(CobblelootsLootBallData::getXp)
       ).apply(instance, CobblelootsLootBallData::new)
   );
 

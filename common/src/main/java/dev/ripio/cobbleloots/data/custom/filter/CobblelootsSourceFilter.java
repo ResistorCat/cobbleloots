@@ -19,8 +19,9 @@ public class CobblelootsSourceFilter {
     private final CobblelootsLightFilter light;
     private final CobblelootsTimeFilter time;
     private final CobblelootsWeatherFilter weather;
+    private final CobblelootsDateFilter date;
 
-  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, TagKey<Biome> biome, List<ResourceLocation> dimension, CobblelootsBlockFilter block, TagKey<Fluid> fluid, CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time, CobblelootsWeatherFilter weather) {
+  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, TagKey<Biome> biome, List<ResourceLocation> dimension, CobblelootsBlockFilter block, TagKey<Fluid> fluid, CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time, CobblelootsWeatherFilter weather, CobblelootsDateFilter date) {
     this.weight = weight;
     this.structure = structure;
     this.biome = biome;
@@ -31,6 +32,7 @@ public class CobblelootsSourceFilter {
     this.light = light;
     this.time = time;
     this.weather = weather;
+    this.date = date;
   }
 
   public int getWeight() {
@@ -71,6 +73,10 @@ public class CobblelootsSourceFilter {
 
   public CobblelootsWeatherFilter getWeather() {
     return weather;
+  }
+
+  public CobblelootsDateFilter getDate() {
+    return date;
   }
 
 }
