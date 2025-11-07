@@ -33,6 +33,7 @@ theme:
     - navigation.sections
     - navigation.top
     - navigation.footer
+    - content.code.copy
 plugins:
   - search
   - git-revision-date-localized:
@@ -47,3 +48,5 @@ markdown_extensions:
   - admonition
   - tables
   - attr_list
+  - pymdownx.highlight
+  - pymdownx.superfences
