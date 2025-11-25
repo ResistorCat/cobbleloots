@@ -2,6 +2,11 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## a2.1.0
+
+- Updated the mod to be compatible with Cobblemon 1.7.
+  - Updated dependencies to the same versions used in the official Cobblemon 1.7 repository.
+
 ## a2.0.10
 
 ### Changes
