@@ -34,6 +34,10 @@ theme:
     - navigation.top
     - navigation.footer
     - content.code.copy
+  nav:
+    - Home: index.md
+    - Loot Balls: loot_balls/index.md
+    - Configuration: configuration/index.md
 plugins:
   - search
   - git-revision-date-localized:

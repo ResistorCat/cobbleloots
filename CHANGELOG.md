@@ -15,6 +15,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Localization**: Added full localization support for configuration keys (`en_us.json`).
 - **Dependencies**:
   - Switched internal configuration library to MidnightLib for better cross-platform support.
+- **Cleanup**: Removed unused `xp_amount` configuration key to avoid confusion.
 
 ## a2.1.0
 
