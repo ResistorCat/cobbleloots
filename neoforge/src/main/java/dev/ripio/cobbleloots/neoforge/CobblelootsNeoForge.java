@@ -19,6 +19,9 @@ import static dev.ripio.cobbleloots.item.neoforge.CobblelootsItemsImpl.getLootBa
 import static dev.ripio.cobbleloots.item.neoforge.CobblelootsItemsImpl.registerItems;
 import static dev.ripio.cobbleloots.sound.neoforge.CobblelootsLootBallSoundsImpl.registerSounds;
 
+import eu.midnightdust.lib.config.MidnightConfig;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+
 @Mod(Cobbleloots.MOD_ID)
 public final class CobblelootsNeoForge {
 
@@ -30,6 +33,10 @@ public final class CobblelootsNeoForge {
         registerSounds(modEventBus);
         registerEntities(modEventBus);
         registerItems(modEventBus);
+
+        // Register config screen
+        modContainer.registerExtensionPoint(IConfigScreenFactory.class,
+                (container, screen) -> MidnightConfig.getScreen(screen, Cobbleloots.MOD_ID));
     }
 
     @EventBusSubscriber(modid = Cobbleloots.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -39,7 +46,8 @@ public final class CobblelootsNeoForge {
             Cobbleloots.LOGGER.info("Registering entity renderers");
             EntityRenderers.register(getLootBallEntityType(), CobblelootsLootBallRenderer::new);
             Cobbleloots.LOGGER.info("Registering item renderers");
-            CobblemonBuiltinItemRendererRegistry.INSTANCE.register(getLootBallItem(), CobblelootsLootBallItemRenderer::renderLootBallItem);
+            CobblemonBuiltinItemRendererRegistry.INSTANCE.register(getLootBallItem(),
+                    CobblelootsLootBallItemRenderer::renderLootBallItem);
         }
     }
 }

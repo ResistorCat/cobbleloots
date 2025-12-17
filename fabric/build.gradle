@@ -30,6 +30,9 @@ dependencies {
     modImplementation "net.fabricmc:fabric-language-kotlin:$rootProject.fabric_kotlin_version"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
 
+    modImplementation "eu.midnightdust:midnightlib:$rootProject.midnightlib_version_fabric"
+    include "eu.midnightdust:midnightlib:$rootProject.midnightlib_version_fabric"
+
     modImplementation "com.cobblemon:fabric:$rootProject.cobblemon_version"
 
     testImplementation "net.fabricmc:fabric-loader-junit:${rootProject.fabric_loader_version}"

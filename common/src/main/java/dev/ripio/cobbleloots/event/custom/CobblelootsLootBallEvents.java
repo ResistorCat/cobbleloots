@@ -25,7 +25,7 @@ import java.util.Map;
 
 import static dev.ripio.cobbleloots.data.CobblelootsDataProvider.getRandomLootBallData;
 
-import static dev.ripio.cobbleloots.config.CobblelootsConfig.*;
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import static dev.ripio.cobbleloots.entity.CobblelootsEntities.getLootBallEntityType;
 
 public class CobblelootsLootBallEvents {
@@ -33,19 +33,24 @@ public class CobblelootsLootBallEvents {
 
   public static boolean generateLootBallOnChunk(ServerLevel level, LevelChunk levelChunk, RandomSource randomSource) {
     // STEP: Check chance for loot ball generation attempt
-    if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_GENERATION_CHANCE) ) return false;
+    if (randomSource.nextFloat() > CobblelootsConfig.generation_chance)
+      return false;
 
     // STEP: Select a random position in the chunk
     LevelChunkSection[] sections = levelChunk.getSections();
     int sectionIndex = CobblelootsSearch.searchRandomNonEmptySectionIndex(sections, randomSource);
     if (sectionIndex < 0 || sectionIndex >= sections.length) {
-      Cobbleloots.LOGGER.debug("[Cobbleloots] Invalid section index: {} for chunk at {}", sectionIndex, levelChunk.getPos());
+      Cobbleloots.LOGGER.debug("[Cobbleloots] Invalid section index: {} for chunk at {}", sectionIndex,
+          levelChunk.getPos());
       return false; // Invalid section index, skip generation
     }
     LevelChunkSection section = sections[sectionIndex];
     BlockPos relativePos = CobblelootsSearch.searchRandomValidLootBallSpawn(section, randomSource);
-    if (relativePos == null) return false;
-    BlockPos pos = relativePos.offset(levelChunk.getPos().getMinBlockX(), levelChunk.getSectionYFromSectionIndex(sectionIndex)*LevelChunkSection.SECTION_HEIGHT, levelChunk.getPos().getMinBlockZ());
+    if (relativePos == null)
+      return false;
+    BlockPos pos = relativePos.offset(levelChunk.getPos().getMinBlockX(),
+        levelChunk.getSectionYFromSectionIndex(sectionIndex) * LevelChunkSection.SECTION_HEIGHT,
+        levelChunk.getPos().getMinBlockZ());
 
     // STEP: Attempt spawn at given pos
     return spawnLootBall(level, levelChunk, pos, randomSource, CobblelootsSourceType.GENERATION) != null;
@@ -53,43 +58,52 @@ public class CobblelootsLootBallEvents {
 
   public static void spawnLootBallNearRandomPlayer(MinecraftServer server, RandomSource randomSource) {
     // STEP: Check chance for loot ball spawn attempt
-    if (randomSource.nextFloat() > getFloatConfig(LOOT_BALL_SPAWNING_CHANCE)) return;
+    if (randomSource.nextFloat() > CobblelootsConfig.spawning_chance)
+      return;
 
     // STEP: Choose a random player
     List<ServerPlayer> playerList = server.getPlayerList().getPlayers();
-    if (playerList.isEmpty()) return;
+    if (playerList.isEmpty())
+      return;
     ServerPlayer player = playerList.get(randomSource.nextInt(playerList.size()));
 
     // STEP: Select a random chunk near the player
     ServerLevel level = player.serverLevel();
     LevelChunk playerChunk = level.getChunkAt(player.blockPosition());
     ChunkPos playerChunkPos = playerChunk.getPos();
-    LevelChunk randomChunk = level.getChunk(playerChunkPos.x + randomSource.nextIntBetweenInclusive(-1, 1), playerChunkPos.z + randomSource.nextIntBetweenInclusive(-1, 1));
+    LevelChunk randomChunk = level.getChunk(playerChunkPos.x + randomSource.nextIntBetweenInclusive(-1, 1),
+        playerChunkPos.z + randomSource.nextIntBetweenInclusive(-1, 1));
 
     // STEP: Select a random position in the chunk
     int sectionIndex = playerChunk.getSectionIndex((int) player.getY());
     LevelChunkSection[] sections = randomChunk.getSections();
     if (sectionIndex < 0 || sectionIndex >= sections.length) {
-      Cobbleloots.LOGGER.debug("[Cobbleloots] Invalid section index: {} for player at {}", sectionIndex, player.blockPosition());
+      Cobbleloots.LOGGER.debug("[Cobbleloots] Invalid section index: {} for player at {}", sectionIndex,
+          player.blockPosition());
       return; // Invalid section index, skip spawning
     }
     LevelChunkSection section = sections[sectionIndex];
     BlockPos relativePos = CobblelootsSearch.searchRandomValidLootBallSpawn(section, randomSource);
-    if (relativePos == null) return;
-    BlockPos pos = relativePos.offset(randomChunk.getPos().getMinBlockX(), randomChunk.getSectionYFromSectionIndex(sectionIndex)*LevelChunkSection.SECTION_HEIGHT, randomChunk.getPos().getMinBlockZ());
+    if (relativePos == null)
+      return;
+    BlockPos pos = relativePos.offset(randomChunk.getPos().getMinBlockX(),
+        randomChunk.getSectionYFromSectionIndex(sectionIndex) * LevelChunkSection.SECTION_HEIGHT,
+        randomChunk.getPos().getMinBlockZ());
 
     // STEP: Attempt spawn at given pos
     CobblelootsLootBall lootBall = spawnLootBall(level, randomChunk, pos, randomSource, CobblelootsSourceType.SPAWNING);
-    if (lootBall != null && getBooleanConfig(LOOT_BALL_SPAWNING_DESPAWN_ENABLED)) {
-      // STEP: Set despawn tick
-      lootBall.setDespawnTick(level.getGameTime() + getIntConfig(LOOT_BALL_SPAWNING_DESPAWN_TIME));
+    if (lootBall != null && CobblelootsConfig.spawning_despawn_enabled) {
+      // Set despawn timer
+      lootBall.setDespawnTick(level.getGameTime() + CobblelootsConfig.spawning_despawn_time);
     }
   }
 
   @Nullable
-  private static CobblelootsLootBall spawnLootBall(ServerLevel level, LevelChunk chunk, BlockPos pos, RandomSource randomSource, CobblelootsSourceType sourceType) {
+  private static CobblelootsLootBall spawnLootBall(ServerLevel level, LevelChunk chunk, BlockPos pos,
+      RandomSource randomSource, CobblelootsSourceType sourceType) {
     // STEP: Get a random loot ball data that passes all filters
-    Map.Entry<ResourceLocation, CobblelootsLootBallData> lootBallEntry = getRandomLootBallData(level, chunk, pos, sourceType);
+    Map.Entry<ResourceLocation, CobblelootsLootBallData> lootBallEntry = getRandomLootBallData(level, chunk, pos,
+        sourceType);
     if (lootBallEntry == null) {
       return null; // No suitable loot ball data found
     }
@@ -120,7 +134,8 @@ public class CobblelootsLootBallEvents {
     }
 
     // STEP: Move loot ball to the given position and add it to the world
-    Vec3 vec3 = new Vec3(pos.getX() + 0.25F + randomSource.nextFloat()*0.5F, pos.getY(), pos.getZ() + 0.25F + randomSource.nextFloat()*0.5F);
+    Vec3 vec3 = new Vec3(pos.getX() + 0.25F + randomSource.nextFloat() * 0.5F, pos.getY(),
+        pos.getZ() + 0.25F + randomSource.nextFloat() * 0.5F);
     float f = randomSource.nextFloat() * (360F);
     lootBall.moveTo(vec3.x(), vec3.y(), vec3.z(), f, 0.0F);
     level.addFreshEntity(lootBall);
@@ -130,9 +145,11 @@ public class CobblelootsLootBallEvents {
     lootBall.setVariantId(variant);
 
     // STEP: Check random chance to be invisible and have a multiplier
-    if (getBooleanConfig(LOOT_BALL_BONUS_ENABLED) && randomSource.nextFloat() < getFloatConfig(LOOT_BALL_BONUS_CHANCE)) {
-      lootBall.setInvisible(getBooleanConfig(LOOT_BALL_BONUS_INVISIBLE));
-      lootBall.setMultiplier(getFloatConfig(LOOT_BALL_BONUS_MULTIPLIER));
+    if (CobblelootsConfig.bonus_enabled && randomSource.nextFloat() < CobblelootsConfig.bonus_chance) {
+      if (CobblelootsConfig.bonus_invisible) {
+        lootBall.setInvisible(true);
+      }
+      lootBall.setMultiplier(CobblelootsConfig.bonus_multiplier);
     }
 
     return lootBall;

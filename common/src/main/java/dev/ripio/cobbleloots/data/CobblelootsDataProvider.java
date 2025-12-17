@@ -411,8 +411,7 @@ public class CobblelootsDataProvider {
 
     // Load disabled loot balls from config
     disabledLootBalls.clear();
-    List<String> disabledLootBallsStrings = CobblelootsConfig
-        .getStringList(CobblelootsConfig.LOOT_BALL_DISABLED_LOOT_BALLS);
+    List<String> disabledLootBallsStrings = CobblelootsConfig.disabled_loot_balls;
     for (String disabledString : disabledLootBallsStrings) {
       try {
         disabledLootBalls.add(new CobblelootsLootBallResourceLocation(disabledString));
@@ -469,29 +468,28 @@ public class CobblelootsDataProvider {
    */
   private static boolean isDimensionDisabled(ServerLevel level, CobblelootsSourceType sourceType) {
     ResourceLocation dimensionId = level.dimension().location();
-    List<ResourceLocation> disabledDimensions;
 
     switch (sourceType) {
       case GENERATION:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_GENERATION);
+        if (CobblelootsConfig.disabled_dimensions_generation.contains(dimensionId))
+          return true;
         break;
       case SPAWNING:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING);
+        if (CobblelootsConfig.disabled_dimensions_spawning.contains(dimensionId))
+          return true;
         break;
       case FISHING:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_FISHING);
+        if (CobblelootsConfig.disabled_dimensions_fishing.contains(dimensionId))
+          return true;
         break;
       case ARCHAEOLOGY:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
+        if (CobblelootsConfig.disabled_dimensions_archaeology.contains(dimensionId))
+          return true;
         break;
       default:
         return false;
     }
 
-    return disabledDimensions != null && disabledDimensions.contains(dimensionId);
+    return false;
   }
 }

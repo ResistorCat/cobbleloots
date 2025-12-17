@@ -21,6 +21,9 @@
     ],
     "client": [
       "dev.ripio.cobbleloots.fabric.client.CobblelootsFabricClient"
+    ],
+    "modmenu": [
+      "dev.ripio.cobbleloots.fabric.CobblelootsModMenuIntegration"
     ]
   },
   "depends": {

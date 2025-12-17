@@ -2,7 +2,23 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## b2.2.0
+
+### Changes
+
+- **In-Game Configuration**: Implemented full in-game configuration support using MidnightLib.
+  - Users can now edit mod settings directly from the game menu (Fabric via ModMenu, NeoForge via Mods menu).
+  - All configuration options are accessible and categorized for better usability.
+- **Legacy Config Migration**: Added an automatic migration system for existing `cobbleloots.yaml` files.
+  - On first launch with the new version, old configuration values will be preserved and migrated to the new format.
+  - The old `cobbleloots.yaml` file will be renamed to `cobbleloots.yaml.old` after successful migration.
+- **Localization**: Added full localization support for configuration keys (`en_us.json`).
+- **Dependencies**:
+  - Switched internal configuration library to MidnightLib for better cross-platform support.
+
 ## a2.1.0
+
+### Changes
 
 - Updated the mod to be compatible with Cobblemon 1.7.
   - Updated dependencies to the same versions used in the official Cobblemon 1.7 repository.

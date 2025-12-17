@@ -2,283 +2,222 @@ package dev.ripio.cobbleloots.config;
 
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.util.io.CobblelootsYamlParser;
+import eu.midnightdust.lib.config.MidnightConfig;
 import net.minecraft.resources.ResourceLocation;
 
 import java.io.IOException;
-import java.io.BufferedWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CobblelootsConfig {
-    public static final Path CONFIG_PATH = Path.of("config/cobbleloots/cobbleloots.yaml");
+public class CobblelootsConfig extends MidnightConfig {
+    public static final String CATEGORY_XP = "xp";
+    public static final String CATEGORY_BONUS = "bonus";
+    public static final String CATEGORY_GENERATION = "generation";
+    public static final String CATEGORY_SPAWNING = "spawning";
+    public static final String CATEGORY_SURVIVAL = "survival";
+    public static final String CATEGORY_DEFAULTS = "defaults";
+    public static final String CATEGORY_DISABLED = "disabled";
 
-    // Config keys
-    public static final String LOOT_BALL_XP_ENABLED = "loot_ball.xp.enabled";
-    public static final String LOOT_BALL_XP_AMOUNT = "loot_ball.xp.amount";
-    public static final String LOOT_BALL_BONUS_ENABLED = "loot_ball.bonus.enabled";
-    public static final String LOOT_BALL_BONUS_CHANCE = "loot_ball.bonus.chance";
-    public static final String LOOT_BALL_BONUS_MULTIPLIER = "loot_ball.bonus.multiplier";
-    public static final String LOOT_BALL_BONUS_INVISIBLE = "loot_ball.bonus.invisible";
-    public static final String LOOT_BALL_GENERATION_ENABLED = "loot_ball.generation.enabled";
-    public static final String LOOT_BALL_GENERATION_CHANCE = "loot_ball.generation.chance";
-    public static final String LOOT_BALL_GENERATION_ATTEMPTS = "loot_ball.generation.attempts";
-    public static final String LOOT_BALL_GENERATION_CHUNK_CAP = "loot_ball.generation.chunk_cap";
-    public static final String LOOT_BALL_SPAWNING_ENABLED = "loot_ball.spawning.enabled";
-    public static final String LOOT_BALL_SPAWNING_CHANCE = "loot_ball.spawning.chance";
-    public static final String LOOT_BALL_SPAWNING_COOLDOWN_MIN = "loot_ball.spawning.cooldown.min";
-    public static final String LOOT_BALL_SPAWNING_COOLDOWN_MAX = "loot_ball.spawning.cooldown.max";
-    public static final String LOOT_BALL_SPAWNING_DESPAWN_ENABLED = "loot_ball.spawning.despawn.enabled";
-    public static final String LOOT_BALL_SPAWNING_DESPAWN_TIME = "loot_ball.spawning.despawn.time";
-    public static final String LOOT_BALL_SURVIVAL_DROP_ENABLED = "loot_ball.survival.drop.enabled";
-    public static final String LOOT_BALL_SURVIVAL_DROP_AUTOMATIC = "loot_ball.survival.drop.automatic";
-    public static final String LOOT_BALL_SURVIVAL_DESTROY_LOOTED = "loot_ball.survival.destroy_looted";
-    public static final String LOOT_BALL_DEFAULTS_USES = "loot_ball.defaults.uses";
-    public static final String LOOT_BALL_DEFAULTS_MULTIPLIER = "loot_ball.defaults.multiplier";
-    public static final String LOOT_BALL_DEFAULTS_XP = "loot_ball.defaults.xp";
-    public static final String LOOT_BALL_DEFAULTS_PLAYER_TIMER = "loot_ball.defaults.player_timer";
-    public static final String LOOT_BALL_DEFAULTS_DESPAWN_TICK = "loot_ball.defaults.despawn_tick";
-    public static final String LOOT_BALL_DISABLED_DIMENSIONS_GENERATION = "loot_ball.disabled.dimensions.generation";
-    public static final String LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING = "loot_ball.disabled.dimensions.spawning";
-    public static final String LOOT_BALL_DISABLED_DIMENSIONS_FISHING = "loot_ball.disabled.dimensions.fishing";
-    public static final String LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY = "loot_ball.disabled.dimensions.archaeology";
-    public static final String LOOT_BALL_DISABLED_LOOT_BALLS = "loot_ball.disabled.loot_balls";
+    // XP
+    @Entry(category = CATEGORY_XP)
+    public static boolean xp_enabled = true;
+    @Entry(category = CATEGORY_XP)
+    public static int xp_amount = 0; // Note: Original key was loot_ball.xp.amount, default wasn't clear in old file
+                                     // map defaults, assuming 0 or needs check
 
-    private static Map<String, Object> configMap = new HashMap<>();
-    private static Map<String, Object> fileMap = new HashMap<>();
+    // Bonus
+    @Entry(category = CATEGORY_BONUS)
+    public static boolean bonus_enabled = true;
+    @Entry(category = CATEGORY_BONUS)
+    public static float bonus_chance = 0.1F;
+    @Entry(category = CATEGORY_BONUS)
+    public static float bonus_multiplier = 2F;
+    @Entry(category = CATEGORY_BONUS)
+    public static boolean bonus_invisible = true;
 
-    private static boolean isResourceLocationListKey(String key) {
-        return key.equals(LOOT_BALL_DISABLED_DIMENSIONS_GENERATION) ||
-                key.equals(LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING) ||
-                key.equals(LOOT_BALL_DISABLED_DIMENSIONS_FISHING) ||
-                key.equals(LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
+    // Generation
+    @Entry(category = CATEGORY_GENERATION)
+    public static boolean generation_enabled = true;
+    @Entry(category = CATEGORY_GENERATION)
+    public static float generation_chance = 0.0513F;
+    @Entry(category = CATEGORY_GENERATION)
+    public static int generation_attempts = 2;
+    @Entry(category = CATEGORY_GENERATION)
+    public static int generation_chunk_cap = 4;
+
+    // Spawning
+    @Entry(category = CATEGORY_SPAWNING)
+    public static boolean spawning_enabled = true;
+    @Entry(category = CATEGORY_SPAWNING)
+    public static float spawning_chance = 0.25F;
+    @Entry(category = CATEGORY_SPAWNING)
+    public static int spawning_cooldown_min = 6000;
+    @Entry(category = CATEGORY_SPAWNING)
+    public static int spawning_cooldown_max = 36000;
+    @Entry(category = CATEGORY_SPAWNING)
+    public static boolean spawning_despawn_enabled = true;
+    @Entry(category = CATEGORY_SPAWNING)
+    public static int spawning_despawn_time = 24000;
+
+    // Survival
+    @Entry(category = CATEGORY_SURVIVAL)
+    public static boolean survival_drop_enabled = true;
+    @Entry(category = CATEGORY_SURVIVAL)
+    public static boolean survival_drop_automatic = true;
+    @Entry(category = CATEGORY_SURVIVAL)
+    public static boolean survival_destroy_looted = false;
+
+    // Defaults
+    @Entry(category = CATEGORY_DEFAULTS)
+    public static int defaults_uses = 1;
+    @Entry(category = CATEGORY_DEFAULTS)
+    public static float defaults_multiplier = 1.0F;
+    @Entry(category = CATEGORY_DEFAULTS)
+    public static int defaults_xp = 0;
+    @Entry(category = CATEGORY_DEFAULTS)
+    public static long defaults_player_timer = 0L;
+    @Entry(category = CATEGORY_DEFAULTS)
+    public static long defaults_despawn_tick = 0L;
+
+    // Disabled Dimensions/Features (Lists)
+    @Entry(category = CATEGORY_DISABLED)
+    public static List<String> disabled_dimensions_generation = new ArrayList<>();
+    @Entry(category = CATEGORY_DISABLED)
+    public static List<String> disabled_dimensions_spawning = new ArrayList<>();
+    @Entry(category = CATEGORY_DISABLED)
+    public static List<String> disabled_dimensions_fishing = new ArrayList<>();
+    @Entry(category = CATEGORY_DISABLED)
+    public static List<String> disabled_dimensions_archaeology = new ArrayList<>();
+    @Entry(category = CATEGORY_DISABLED)
+    public static List<String> disabled_loot_balls = new ArrayList<>();
+
+    public static void init() {
+        init(Path.of("config/cobbleloots/cobbleloots.yaml"));
     }
 
-    private static boolean isStringListKey(String key) {
-        return key.equals(LOOT_BALL_DISABLED_LOOT_BALLS);
-    }
+    public static void init(Path legacyConfigPath) {
+        MidnightConfig.init(Cobbleloots.MOD_ID, CobblelootsConfig.class);
 
-    private static Map<String, Object> getDefaultConfig() {
-        Map<String, Object> defaults = new HashMap<>();
-        defaults.put(LOOT_BALL_XP_ENABLED, true);
-        defaults.put(LOOT_BALL_BONUS_ENABLED, true);
-        defaults.put(LOOT_BALL_BONUS_CHANCE, 0.1F);
-        defaults.put(LOOT_BALL_BONUS_MULTIPLIER, 2F);
-        defaults.put(LOOT_BALL_BONUS_INVISIBLE, true);
-        defaults.put(LOOT_BALL_GENERATION_ENABLED, true);
-        defaults.put(LOOT_BALL_GENERATION_CHANCE, 0.0513F);
-        defaults.put(LOOT_BALL_GENERATION_ATTEMPTS, 2);
-        defaults.put(LOOT_BALL_GENERATION_CHUNK_CAP, 4);
-        defaults.put(LOOT_BALL_SPAWNING_ENABLED, true);
-        defaults.put(LOOT_BALL_SPAWNING_CHANCE, 0.25F);
-        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MIN, 6000);
-        defaults.put(LOOT_BALL_SPAWNING_COOLDOWN_MAX, 36000);
-        defaults.put(LOOT_BALL_SPAWNING_DESPAWN_ENABLED, true);
-        defaults.put(LOOT_BALL_SPAWNING_DESPAWN_TIME, 24000);
-        defaults.put(LOOT_BALL_SURVIVAL_DROP_ENABLED, true);
-        defaults.put(LOOT_BALL_SURVIVAL_DROP_AUTOMATIC, true);
-        defaults.put(LOOT_BALL_SURVIVAL_DESTROY_LOOTED, false);
-        defaults.put(LOOT_BALL_DEFAULTS_USES, 1);
-        defaults.put(LOOT_BALL_DEFAULTS_MULTIPLIER, 1.0F);
-        defaults.put(LOOT_BALL_DEFAULTS_XP, 0);
-        defaults.put(LOOT_BALL_DEFAULTS_PLAYER_TIMER, 0L);
-        defaults.put(LOOT_BALL_DEFAULTS_DESPAWN_TICK, 0L);
-
-        // Default disabled dimensions are empty lists
-        defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_GENERATION, new ArrayList<ResourceLocation>());
-        defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING, new ArrayList<ResourceLocation>());
-        defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_FISHING, new ArrayList<ResourceLocation>());
-        defaults.put(LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY, new ArrayList<ResourceLocation>());
-        defaults.put(LOOT_BALL_DISABLED_LOOT_BALLS, new ArrayList<String>());
-
-        return defaults;
-    }
-
-    public static void initConfig() {
-        configMap = getDefaultConfig();
-        // Try to load config
-        if (Files.exists(CONFIG_PATH)) {
+        // Migration logic
+        if (Files.exists(legacyConfigPath)) {
+            Cobbleloots.LOGGER.info("Found legacy configuration file. Attempting migration...");
             try {
-                fileMap = flatten(CobblelootsYamlParser.parse(CONFIG_PATH), "");
-                Cobbleloots.LOGGER.info("Config file found, loading values.");
-            } catch (IOException e) {
-                Cobbleloots.LOGGER.error("Invalid config file, generating new one with defaults.");
+                Map<String, Object> legacyMap = CobblelootsYamlParser.parse(legacyConfigPath);
+                Map<String, Object> fileMap = flatten(legacyMap, "");
+
+                // Helper to safely get values
+                // We manually map old keys to new static fields
+                if (fileMap.containsKey("loot_ball.xp.enabled"))
+                    xp_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.xp.enabled").toString());
+                if (fileMap.containsKey("loot_ball.xp.amount"))
+                    xp_amount = Integer.parseInt(fileMap.get("loot_ball.xp.amount").toString());
+
+                if (fileMap.containsKey("loot_ball.bonus.enabled"))
+                    bonus_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.bonus.enabled").toString());
+                if (fileMap.containsKey("loot_ball.bonus.chance"))
+                    bonus_chance = Float.parseFloat(fileMap.get("loot_ball.bonus.chance").toString());
+                if (fileMap.containsKey("loot_ball.bonus.multiplier"))
+                    bonus_multiplier = Float.parseFloat(fileMap.get("loot_ball.bonus.multiplier").toString());
+                if (fileMap.containsKey("loot_ball.bonus.invisible"))
+                    bonus_invisible = Boolean.parseBoolean(fileMap.get("loot_ball.bonus.invisible").toString());
+
+                if (fileMap.containsKey("loot_ball.generation.enabled"))
+                    generation_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.generation.enabled").toString());
+                if (fileMap.containsKey("loot_ball.generation.chance"))
+                    generation_chance = Float.parseFloat(fileMap.get("loot_ball.generation.chance").toString());
+                if (fileMap.containsKey("loot_ball.generation.attempts"))
+                    generation_attempts = Integer.parseInt(fileMap.get("loot_ball.generation.attempts").toString());
+                if (fileMap.containsKey("loot_ball.generation.chunk_cap"))
+                    generation_chunk_cap = Integer.parseInt(fileMap.get("loot_ball.generation.chunk_cap").toString());
+
+                if (fileMap.containsKey("loot_ball.spawning.enabled"))
+                    spawning_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.spawning.enabled").toString());
+                if (fileMap.containsKey("loot_ball.spawning.chance"))
+                    spawning_chance = Float.parseFloat(fileMap.get("loot_ball.spawning.chance").toString());
+                if (fileMap.containsKey("loot_ball.spawning.cooldown.min"))
+                    spawning_cooldown_min = Integer.parseInt(fileMap.get("loot_ball.spawning.cooldown.min").toString());
+                if (fileMap.containsKey("loot_ball.spawning.cooldown.max"))
+                    spawning_cooldown_max = Integer.parseInt(fileMap.get("loot_ball.spawning.cooldown.max").toString());
+
+                if (fileMap.containsKey("loot_ball.spawning.despawn.enabled"))
+                    spawning_despawn_enabled = Boolean
+                            .parseBoolean(fileMap.get("loot_ball.spawning.despawn.enabled").toString());
+                if (fileMap.containsKey("loot_ball.spawning.despawn.time"))
+                    spawning_despawn_time = Integer.parseInt(fileMap.get("loot_ball.spawning.despawn.time").toString());
+
+                if (fileMap.containsKey("loot_ball.survival.drop.enabled"))
+                    survival_drop_enabled = Boolean
+                            .parseBoolean(fileMap.get("loot_ball.survival.drop.enabled").toString());
+                if (fileMap.containsKey("loot_ball.survival.drop.automatic"))
+                    survival_drop_automatic = Boolean
+                            .parseBoolean(fileMap.get("loot_ball.survival.drop.automatic").toString());
+                if (fileMap.containsKey("loot_ball.survival.destroy_looted"))
+                    survival_destroy_looted = Boolean
+                            .parseBoolean(fileMap.get("loot_ball.survival.destroy_looted").toString());
+
+                if (fileMap.containsKey("loot_ball.defaults.uses"))
+                    defaults_uses = Integer.parseInt(fileMap.get("loot_ball.defaults.uses").toString());
+                if (fileMap.containsKey("loot_ball.defaults.multiplier"))
+                    defaults_multiplier = Float.parseFloat(fileMap.get("loot_ball.defaults.multiplier").toString());
+                if (fileMap.containsKey("loot_ball.defaults.xp"))
+                    defaults_xp = Integer.parseInt(fileMap.get("loot_ball.defaults.xp").toString());
+                if (fileMap.containsKey("loot_ball.defaults.player_timer"))
+                    defaults_player_timer = Long.parseLong(fileMap.get("loot_ball.defaults.player_timer").toString());
+                if (fileMap.containsKey("loot_ball.defaults.despawn_tick"))
+                    defaults_despawn_tick = Long.parseLong(fileMap.get("loot_ball.defaults.despawn_tick").toString());
+
+                // Handle Lists (converting ResourceLocation strings if needed, though they are
+                // stored as Strings now)
+                if (fileMap.containsKey("loot_ball.disabled.loot_balls"))
+                    disabled_loot_balls = parseStringList(fileMap.get("loot_ball.disabled.loot_balls"));
+
+                if (fileMap.containsKey("loot_ball.disabled.dimensions.generation"))
+                    disabled_dimensions_generation = parseStringList(
+                            fileMap.get("loot_ball.disabled.dimensions.generation"));
+
+                if (fileMap.containsKey("loot_ball.disabled.dimensions.spawning"))
+                    disabled_dimensions_spawning = parseStringList(
+                            fileMap.get("loot_ball.disabled.dimensions.spawning"));
+
+                if (fileMap.containsKey("loot_ball.disabled.dimensions.fishing"))
+                    disabled_dimensions_fishing = parseStringList(fileMap.get("loot_ball.disabled.dimensions.fishing"));
+
+                if (fileMap.containsKey("loot_ball.disabled.dimensions.archaeology"))
+                    disabled_dimensions_archaeology = parseStringList(
+                            fileMap.get("loot_ball.disabled.dimensions.archaeology"));
+
+                Cobbleloots.LOGGER.info("Legacy config migrated successfully.");
+
+                // Rename old file
+                Files.move(legacyConfigPath, legacyConfigPath.resolveSibling(legacyConfigPath.getFileName() + ".old"));
+
+                // Save new config
+                MidnightConfig.write(Cobbleloots.MOD_ID);
+
             } catch (Exception e) {
-                Cobbleloots.LOGGER.error("Error loading config file: {}", e.getMessage());
-                Cobbleloots.LOGGER.info("Generating new config file with defaults.");
-            }
-        } else {
-            // File does not exist, create with defaults
-            Cobbleloots.LOGGER.info("Config file not found, creating new one with defaults.");
-        }
-        // Overwrite defaults with file values
-        for (String key : fileMap.keySet()) {
-            if (configMap.containsKey(key)) {
-                Object defaultValue = configMap.get(key);
-                Object fileValue = fileMap.get(key);
-                try {
-                    if (defaultValue instanceof Integer) {
-                        configMap.put(key, Integer.parseInt(fileValue.toString()));
-                    } else if (defaultValue instanceof Float) {
-                        configMap.put(key, Float.parseFloat(fileValue.toString()));
-                    } else if (defaultValue instanceof Double) {
-                        configMap.put(key, Double.parseDouble(fileValue.toString()));
-                    } else if (defaultValue instanceof Long) {
-                        configMap.put(key, Long.parseLong(fileValue.toString()));
-                    } else if (defaultValue instanceof Boolean) {
-                        configMap.put(key, Boolean.parseBoolean(fileValue.toString()));
-                    } else if (defaultValue instanceof String) {
-                        configMap.put(key, fileValue.toString());
-                    } else if (defaultValue instanceof List && isResourceLocationListKey(key)) {
-                        if (fileValue instanceof List) {
-                            List<ResourceLocation> locationList = new ArrayList<>();
-                            for (Object item : (List<?>) fileValue) {
-                                if (item instanceof String) {
-                                    ResourceLocation location = ResourceLocation.tryParse((String) item);
-                                    if (location != null) {
-                                        locationList.add(location);
-                                    } else {
-                                        Cobbleloots.LOGGER.warn(
-                                                "Invalid resource location string in list for key {}: {}", key, item);
-                                    }
-                                } else {
-                                    Cobbleloots.LOGGER.warn("Item in list for key {} is not a string: {}", key, item);
-                                }
-                            }
-                            configMap.put(key, locationList);
-                        } else if (fileValue instanceof String) {
-                            // If it's a single string, parse it as a ResourceLocation
-                            ResourceLocation location = ResourceLocation.tryParse(fileValue.toString());
-                            if (location != null) {
-                                List<ResourceLocation> singleItemList = new ArrayList<>();
-                                singleItemList.add(location);
-                                configMap.put(key, singleItemList);
-                            } else {
-                                Cobbleloots.LOGGER.warn("Invalid resource location string for key {}: {}", key,
-                                        fileValue);
-                            }
-                        } else if (fileValue != null) {
-                            Cobbleloots.LOGGER.warn("Config key {} expected a list but got {}. Using default value.",
-                                    key, fileValue.getClass().getSimpleName());
-                        }
-                    } else if (defaultValue instanceof List && isStringListKey(key)) {
-                        if (fileValue instanceof List) {
-                            List<String> stringList = new ArrayList<>();
-                            for (Object item : (List<?>) fileValue) {
-                                if (item instanceof String) {
-                                    stringList.add((String) item);
-                                } else {
-                                    Cobbleloots.LOGGER.warn("Item in list for key {} is not a string: {}", key, item);
-                                }
-                            }
-                            configMap.put(key, stringList);
-                        } else if (fileValue != null) {
-                            Cobbleloots.LOGGER.warn("Config key {} expected a list but got {}. Using default value.",
-                                    key, fileValue.getClass().getSimpleName());
-                        }
-                    } else if (defaultValue != null) {
-                        Cobbleloots.LOGGER.warn(
-                                "Config key {} has an unexpected type (Expected: {}). Using default value.", key,
-                                defaultValue.getClass().getSimpleName());
-                    } else { // Should not happen if getDefaultConfig() is comprehensive
-                        Cobbleloots.LOGGER.warn(
-                                "Config key {} has a null default value. Using file value if available: {}", key,
-                                fileValue);
-                        if (fileValue != null) {
-                            configMap.put(key, fileValue);
-                        }
-                    }
-                } catch (NumberFormatException e) {
-                    Cobbleloots.LOGGER.error(
-                            "Config key {} has incompatible number format (Value: '{}'). Using default value.",
-                            key, fileValue, e);
-                } catch (Exception e) { // Catch any other unexpected error during value processing
-                    Cobbleloots.LOGGER.error("Error processing config key {} (Value: '{}'). Using default value.", key,
-                            fileValue, e);
-                }
+                Cobbleloots.LOGGER.error("Error migrating legacy config: {}", e.getMessage());
+                e.printStackTrace();
             }
         }
-        // Save config if it was updated
-        saveConfig();
-        Cobbleloots.LOGGER.info("{} configurations loaded.", configMap.size());
     }
 
-    public static int getIntConfig(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof Integer)
-            return (Integer) value;
-        throw new IllegalArgumentException("Config key not found or not an int: " + key);
-    }
-
-    public static float getFloatConfig(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof Float)
-            return (Float) value;
-        throw new IllegalArgumentException("Config key not found or not a float: " + key);
-    }
-
-    public static boolean getBooleanConfig(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof Boolean)
-            return (Boolean) value;
-        throw new IllegalArgumentException("Config key not found or not a boolean: " + key);
-    }
-
-    public static long getLongConfig(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof Long)
-            return (Long) value;
-        throw new IllegalArgumentException("Config key not found or not a long: " + key);
-    }
-
-    public static String getStringConfig(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof String)
-            return (String) value;
-        throw new IllegalArgumentException("Config key not found or not a string: " + key);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static List<ResourceLocation> getResourceLocationList(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof List) {
-            // Assuming the list is of ResourceLocation, as per config structure
-            // Add runtime check if necessary, though initConfig should ensure this.
-            return (List<ResourceLocation>) value;
-        }
-        throw new IllegalArgumentException("Config key not found or not a resource location list: " + key);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static List<String> getStringList(String key) {
-        Object value = configMap.get(key);
-        if (value instanceof List) {
-            return (List<String>) value;
-        }
-        throw new IllegalArgumentException("Config key not found or not a string list: " + key);
-    }
-
-    private static void saveConfig() {
-        // Write configMap as YAML
-        try {
-            if (!Files.exists(CONFIG_PATH.getParent())) {
-                Files.createDirectories(CONFIG_PATH.getParent());
+    private static List<String> parseStringList(Object obj) {
+        if (obj instanceof List) {
+            List<String> list = new ArrayList<>();
+            for (Object item : (List<?>) obj) {
+                list.add(item.toString());
             }
-            try (BufferedWriter writer = Files.newBufferedWriter(CONFIG_PATH)) {
-                Map<String, Object> nested = unflatten(configMap);
-                writeYaml(writer, nested, 0);
-            }
-        } catch (IOException | ClassCastException e) {
-            Cobbleloots.LOGGER.error("Failed to save config: {}", e.getMessage());
+            return list;
         }
+        return new ArrayList<>();
     }
 
-    // Flattens nested map to dot notation
+    // Helper from old class to flatten map for easier key access
     private static Map<String, Object> flatten(Map<String, Object> map, String prefix) {
-        Map<String, Object> flat = new HashMap<>();
+        Map<String, Object> flat = new java.util.HashMap<>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             String key = prefix.isEmpty() ? entry.getKey() : prefix + "." + entry.getKey();
             if (entry.getValue() instanceof Map) {
@@ -290,58 +229,116 @@ public class CobblelootsConfig {
         return flat;
     }
 
-    // Unflattens dot notation map to nested map
-    static Map<String, Object> unflatten(Map<String, Object> flat) {
-        Map<String, Object> nested = new HashMap<>();
-        for (Map.Entry<String, Object> entry : flat.entrySet()) {
-            String[] parts = entry.getKey().split("\\.");
-            Map<String, Object> current = nested;
-            for (int i = 0; i < parts.length - 1; i++) {
-                current = (Map<String, Object>) current.computeIfAbsent(parts[i], k -> new HashMap<>());
-            }
-            current.put(parts[parts.length - 1], entry.getValue());
+    // Adaptor methods for code compatibility - keeping old getters
+    public static boolean getBooleanConfig(String key) {
+        switch (key) {
+            case "loot_ball.xp.enabled":
+                return xp_enabled;
+            case "loot_ball.bonus.enabled":
+                return bonus_enabled;
+            case "loot_ball.bonus.invisible":
+                return bonus_invisible;
+            case "loot_ball.generation.enabled":
+                return generation_enabled;
+            case "loot_ball.spawning.enabled":
+                return spawning_enabled;
+            case "loot_ball.spawning.despawn.enabled":
+                return spawning_despawn_enabled;
+            case "loot_ball.survival.drop.enabled":
+                return survival_drop_enabled;
+            case "loot_ball.survival.drop.automatic":
+                return survival_drop_automatic;
+            case "loot_ball.survival.destroy_looted":
+                return survival_destroy_looted;
+            default:
+                throw new IllegalArgumentException("Unknown boolean config key: " + key);
         }
-        return nested;
     }
 
-    // Writes a nested map as YAML
-    private static void writeYaml(BufferedWriter writer, Map<String, Object> map, int indent) throws IOException {
-        String indentStr = " ".repeat(indent);
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            Object value = entry.getValue();
-            if (value instanceof Map) {
-                writer.write(indentStr + entry.getKey() + ":\n");
-                writeYaml(writer, (Map<String, Object>) value, indent + 2);
-            } else if (value instanceof List) {
-                @SuppressWarnings("unchecked")
-                List<?> listValue = (List<?>) value;
-                if (listValue.isEmpty()) {
-                    writer.write(indentStr + entry.getKey() + ": []\n");
-                } else {
-                    // Check if it's a list of ResourceLocation by inspecting the first element.
-                    // This assumes homogeneous lists, which is true for ResourceLocation lists in
-                    // this config.
-                    if (listValue.get(0) instanceof ResourceLocation) {
-                        writer.write(indentStr + entry.getKey() + ":\n");
-                        for (Object item : listValue) {
-                            writer.write(indentStr + "  - " + ((ResourceLocation) item).toString() + "\n");
-                        }
-                    } else {
-                        // Generic list formatting (if other list types were supported)
-                        // For this config, we only expect List<ResourceLocation>.
-                        // If it's a list but not of ResourceLocation, it's an unexpected state or a
-                        // different kind of list.
-                        // Defaulting to writing elements' toString() for robustness if other list types
-                        // appear.
-                        writer.write(indentStr + entry.getKey() + ":\n");
-                        for (Object item : listValue) {
-                            writer.write(indentStr + "  - " + item.toString() + "\n");
-                        }
-                    }
-                }
-            } else {
-                writer.write(indentStr + entry.getKey() + ": " + value + "\n");
+    public static int getIntConfig(String key) {
+        switch (key) {
+            case "loot_ball.xp.amount":
+                return xp_amount;
+            case "loot_ball.generation.attempts":
+                return generation_attempts;
+            case "loot_ball.generation.chunk_cap":
+                return generation_chunk_cap;
+            case "loot_ball.spawning.cooldown.min":
+                return spawning_cooldown_min;
+            case "loot_ball.spawning.cooldown.max":
+                return spawning_cooldown_max;
+            case "loot_ball.spawning.despawn.time":
+                return spawning_despawn_time;
+            case "loot_ball.defaults.uses":
+                return defaults_uses;
+            case "loot_ball.defaults.xp":
+                return defaults_xp;
+            default:
+                throw new IllegalArgumentException("Unknown int config key: " + key);
+        }
+    }
+
+    public static float getFloatConfig(String key) {
+        switch (key) {
+            case "loot_ball.bonus.chance":
+                return bonus_chance;
+            case "loot_ball.bonus.multiplier":
+                return bonus_multiplier;
+            case "loot_ball.generation.chance":
+                return generation_chance;
+            case "loot_ball.spawning.chance":
+                return spawning_chance;
+            case "loot_ball.defaults.multiplier":
+                return defaults_multiplier;
+            default:
+                throw new IllegalArgumentException("Unknown float config key: " + key);
+        }
+    }
+
+    public static long getLongConfig(String key) {
+        switch (key) {
+            case "loot_ball.defaults.player_timer":
+                return defaults_player_timer;
+            case "loot_ball.defaults.despawn_tick":
+                return defaults_despawn_tick;
+            default:
+                throw new IllegalArgumentException("Unknown long config key: " + key);
+        }
+    }
+
+    public static List<ResourceLocation> getResourceLocationList(String key) {
+        List<String> stringList;
+        switch (key) {
+            case "loot_ball.disabled.dimensions.generation":
+                stringList = disabled_dimensions_generation;
+                break;
+            case "loot_ball.disabled.dimensions.spawning":
+                stringList = disabled_dimensions_spawning;
+                break;
+            case "loot_ball.disabled.dimensions.fishing":
+                stringList = disabled_dimensions_fishing;
+                break;
+            case "loot_ball.disabled.dimensions.archaeology":
+                stringList = disabled_dimensions_archaeology;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown config key for ResourceLocation list: " + key);
+        }
+        List<ResourceLocation> list = new ArrayList<>();
+        for (String s : stringList) {
+            try {
+                list.add(ResourceLocation.parse(s));
+            } catch (Exception e) {
+                Cobbleloots.LOGGER.warn("Invalid ResourceLocation in config {}: {}", key, s);
             }
         }
+        return list;
+    }
+
+    public static List<String> getStringList(String key) {
+        if ("loot_ball.disabled.loot_balls".equals(key)) {
+            return disabled_loot_balls;
+        }
+        throw new IllegalArgumentException("Unknown config key for String list: " + key);
     }
 }

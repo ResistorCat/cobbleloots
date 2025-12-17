@@ -22,5 +22,50 @@
   "creativeModeTab.cobbleloots": "Cobbleloots",
   "stat.cobbleloots.loot_ball.total_opened": "Loot balls opened",
   "stat.cobbleloots.loot_ball.open": "Loot ball open fanfare",
-  "event.cobbleloots.loot_ball.spawn.special": "A special loot ball has spawned!"
+  "event.cobbleloots.loot_ball.spawn.special": "A special loot ball has spawned!",
+  
+  "cobbleloots.midnightconfig.title": "Cobbleloots Settings",
+
+  "cobbleloots.midnightconfig.category.xp": "Experience",
+  "cobbleloots.midnightconfig.xp_enabled": "Enable XP Rewards",
+  "cobbleloots.midnightconfig.xp_amount": "XP Amount",
+
+  "cobbleloots.midnightconfig.category.bonus": "Bonus Content",
+  "cobbleloots.midnightconfig.bonus_enabled": "Enable Bonus Loot",
+  "cobbleloots.midnightconfig.bonus_chance": "Bonus Chance",
+  "cobbleloots.midnightconfig.bonus_multiplier": "Bonus Multiplier",
+  "cobbleloots.midnightconfig.bonus_invisible": "Invisible Bonus Balls",
+
+  "cobbleloots.midnightconfig.category.generation": "World Generation",
+  "cobbleloots.midnightconfig.generation_enabled": "Enable World Generation",
+  "cobbleloots.midnightconfig.generation_chance": "Generation Chance",
+  "cobbleloots.midnightconfig.generation_attempts": "Generation Attempts",
+  "cobbleloots.midnightconfig.generation_chunk_cap": "Chunk Cap",
+
+  "cobbleloots.midnightconfig.category.spawning": "Spawning",
+  "cobbleloots.midnightconfig.spawning_enabled": "Enable Spawning",
+  "cobbleloots.midnightconfig.spawning_chance": "Spawning Chance",
+  "cobbleloots.midnightconfig.spawning_cooldown_min": "Min Spawning Cooldown",
+  "cobbleloots.midnightconfig.spawning_cooldown_max": "Max Spawning Cooldown",
+  "cobbleloots.midnightconfig.spawning_despawn_enabled": "Enable Despawning",
+  "cobbleloots.midnightconfig.spawning_despawn_time": "Despawn Time",
+
+  "cobbleloots.midnightconfig.category.survival": "Survival Settings",
+  "cobbleloots.midnightconfig.survival_drop_enabled": "Enable Survival Drops",
+  "cobbleloots.midnightconfig.survival_drop_automatic": "Automatic Survival Drops",
+  "cobbleloots.midnightconfig.survival_destroy_looted": "Destroy Looted Balls",
+  
+  "cobbleloots.midnightconfig.category.defaults": "Loot Ball Defaults",
+  "cobbleloots.midnightconfig.defaults_uses": "Default Uses",
+  "cobbleloots.midnightconfig.defaults_multiplier": "Default Multiplier",
+  "cobbleloots.midnightconfig.defaults_xp": "Default XP",
+  "cobbleloots.midnightconfig.defaults_player_timer": "Default Player Timer",
+  "cobbleloots.midnightconfig.defaults_despawn_tick": "Default Despawn Tick",
+
+  "cobbleloots.midnightconfig.category.disabled": "Disabled Features",
+  "cobbleloots.midnightconfig.disabled_dimensions_generation": "Disabled Gen Dimensions",
+  "cobbleloots.midnightconfig.disabled_dimensions_spawning": "Disabled Spawn Dimensions",
+  "cobbleloots.midnightconfig.disabled_dimensions_fishing": "Disabled Fishing Dimensions",
+  "cobbleloots.midnightconfig.disabled_dimensions_archaeology": "Disabled Arch Dimensions",
+  "cobbleloots.midnightconfig.disabled_loot_balls": "Disabled Loot Balls"
 }
