@@ -53,7 +53,6 @@ public class CobblelootsConfigTest {
             writer.write("loot_ball:\n");
             writer.write("  xp:\n");
             writer.write("    enabled: false\n"); // Changed from default true
-            writer.write("    amount: 100\n");
             writer.write("  defaults:\n");
             writer.write("    uses: 5\n"); // Changed from default 1
         }
@@ -78,7 +77,6 @@ public class CobblelootsConfigTest {
 
         // Verify values were migrated
         Assertions.assertFalse(CobblelootsConfig.xp_enabled, "XP enabled should be false");
-        Assertions.assertEquals(100, CobblelootsConfig.xp_amount, "XP amount should be 100");
         Assertions.assertEquals(5, CobblelootsConfig.defaults_uses, "Default uses should be 5");
 
         // Verify file was renamed

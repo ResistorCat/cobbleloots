@@ -24,9 +24,6 @@ public class CobblelootsConfig extends MidnightConfig {
     // XP
     @Entry(category = CATEGORY_XP)
     public static boolean xp_enabled = true;
-    @Entry(category = CATEGORY_XP)
-    public static int xp_amount = 0; // Note: Original key was loot_ball.xp.amount, default wasn't clear in old file
-                                     // map defaults, assuming 0 or needs check
 
     // Bonus
     @Entry(category = CATEGORY_BONUS)
@@ -112,8 +109,6 @@ public class CobblelootsConfig extends MidnightConfig {
                 // We manually map old keys to new static fields
                 if (fileMap.containsKey("loot_ball.xp.enabled"))
                     xp_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.xp.enabled").toString());
-                if (fileMap.containsKey("loot_ball.xp.amount"))
-                    xp_amount = Integer.parseInt(fileMap.get("loot_ball.xp.amount").toString());
 
                 if (fileMap.containsKey("loot_ball.bonus.enabled"))
                     bonus_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.bonus.enabled").toString());
@@ -257,8 +252,6 @@ public class CobblelootsConfig extends MidnightConfig {
 
     public static int getIntConfig(String key) {
         switch (key) {
-            case "loot_ball.xp.amount":
-                return xp_amount;
             case "loot_ball.generation.attempts":
                 return generation_attempts;
             case "loot_ball.generation.chunk_cap":
