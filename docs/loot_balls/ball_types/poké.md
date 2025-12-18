@@ -25,6 +25,7 @@ The Poké Loot Ball is the most common type of loot ball. It can be found almost
 | ---------- | ------ | -------------------- | --------------------- |
 | Generation | 100    | None                 | Can generate anywhere |
 | Spawning   | 100    | None                 | Can spawn anywhere    |
+| Fishing    | 100    | Any Cobblemon Rod    |                       |
 
 ## Loot Table
 

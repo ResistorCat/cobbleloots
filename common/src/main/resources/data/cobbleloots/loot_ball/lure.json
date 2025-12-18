@@ -1,0 +1,20 @@
+{
+  "name": {
+    "text": "Lure Loot Ball",
+    "color": "aqua",
+    "bold": true
+  },
+  "loot_table": "cobbleloots:loot_ball/lure",
+  "texture": "cobblemon:textures/poke_balls/lure_ball.png",
+  "xp": 10,
+  "sources": {
+    "fishing": [
+      {
+        "weight": 5,
+        "poke_rod": [
+          "cobblemon:lure_rod"
+        ]
+      }
+    ]
+  }
+}

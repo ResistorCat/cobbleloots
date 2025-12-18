@@ -53,6 +53,17 @@
         },
         "biome": "cobbleloots:loot_ball/rainbow"
       }
+    ],
+    "fishing": [
+      {
+        "weight": 2,
+        "biome": "cobbleloots:loot_ball/rainbow",
+        "poke_rod": [
+          "cobblemon:ultra_rod",
+          "cobblemon:master_rod",
+          "cobblemon:ancient_ultra_rod"
+        ]
+      }
     ]
   }
 }

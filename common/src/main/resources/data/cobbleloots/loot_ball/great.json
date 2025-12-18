@@ -17,6 +17,13 @@
       {
         "weight": 20
       }
+    ],
+    "fishing": [
+      {
+        "weight": 20,
+        "poke_rod": ["cobblemon:great_rod", "cobblemon:ultra_rod", "cobblemon:master_rod", "cobblemon:ancient_great_rod", "cobblemon:ancient_ultra_rod"]
+      }
     ]
   }
 }
+

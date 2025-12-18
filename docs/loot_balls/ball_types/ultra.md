@@ -25,6 +25,7 @@ The Ultra Loot Ball is a rare loot ball that can be found anywhere. It contains 
 | ---------- | ------ | -------------------- | --------------------- |
 | Generation | 5      | None                 | Can generate anywhere |
 | Spawning   | 5      | None                 | Can spawn anywhere    |
+| Fishing    | 5      | Ultra Rod +          | Ultra Rod or Master Rod |
 
 ## Loot Table
 

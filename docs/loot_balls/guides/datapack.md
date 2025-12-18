@@ -51,8 +51,8 @@ Below are the common fields the mod reads. Not every field is required; the mod 
 - `loot_table` (string ResourceLocation) — Default loot table used when the ball opens, e.g. `my_ns:loot_ball/simple`.
 - `texture` (string ResourceLocation) — Default texture resource used by the ball when no variant/custom texture is set.
 - `xp` (integer) — XP awarded when the ball is opened (optional).
-- `sources` (object) — Controls generation/spawning rules. Typically contains `generation` and/or `spawning` arrays with rule objects. If you don't need world generation, you can omit `sources`.
-  - Each rule object supports fields such as `weight`, `structure`, `biome`, `dimension`, `block` (with `spawn`/`base`), `fluid`, `position` ranges, `time`, `weather`, and `date` ranges. Copy the existing rules shipped with the mod as a starting point.
+- `sources` (object) — Controls generation/spawning rules. Typically contains `generation`, `spawning`, or `fishing` arrays with rule objects. If you don't need world generation, you can omit `sources`.
+  - Each rule object supports fields such as `weight`, `structure`, `biome`, `dimension`, `block` (with `spawn`/`base`), `fluid`, `position` ranges, `time`, `weather`, `date` ranges, and `poke_rod` (for fishing). Copy the existing rules shipped with the mod as a starting point.
 - `variants` (object) — A map of variant id -> variant object. Variant object can override `name`, `loot_table`, and `texture`.
 
 Optional entity/item properties controlled via NBT (when creating items/entities in-game or in a datapack):
@@ -139,6 +139,12 @@ Place this file as `data/example_loot_balls/loot_ball/my_ball.json` inside your 
           "from": "01-01",
           "to": "12-31"
         }
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 100,
+        "poke_rod": ["cobblemon:poke_rod", "cobblemon:great_rod"]
       }
     ]
   },

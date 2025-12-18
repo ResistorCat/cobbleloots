@@ -16,6 +16,13 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Dependencies**:
   - Switched internal configuration library to MidnightLib for better cross-platform support.
 - **Cleanup**: Removed unused `xp_amount` configuration key to avoid confusion.
+- **Fishing Update**:
+  - Implemented fishing as a new loot ball source.
+  - Players can now catch loot balls when fishing with Cobblemon Poké Rods.
+  - Different rods can catch different tiers of loot balls (e.g. Master Rod is required for Master Loot Balls).
+  - Using the "Luck of the Sea" enchantment increases the chance of finding a loot ball.
+  - Expanded fishing sources to: **Dive**, **Safari**, **Rainbow**, and **Pumpkin** loot balls.
+  - Added new **Lure Loot Ball**: Exclusive to fishing with a Lure Rod, contains sea treasures.
 
 ## a2.1.0
 

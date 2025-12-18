@@ -17,6 +17,13 @@
       {
         "weight": 1
       }
+    ],
+    "fishing": [
+      {
+        "weight": 1,
+        "poke_rod": ["cobblemon:master_rod"]
+      }
     ]
   }
 }
+

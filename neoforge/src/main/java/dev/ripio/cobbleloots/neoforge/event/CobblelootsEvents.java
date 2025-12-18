@@ -23,7 +23,8 @@ public class CobblelootsEvents {
   @SubscribeEvent
   public static void registerLevelTickListeners(ServerTickEvent.Post event) {
     MinecraftServer server = event.getServer();
-    if (event.hasTime()) CobblelootsEventManager.onServerTick(server);
+    if (event.hasTime())
+      CobblelootsEventManager.onServerTick(server);
   }
 
   @SubscribeEvent

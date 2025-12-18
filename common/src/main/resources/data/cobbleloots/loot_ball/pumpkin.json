@@ -56,6 +56,15 @@
                 },
                 "biome": "cobbleloots:loot_ball/pumpkin"
             }
+        ],
+        "fishing": [
+            {
+                "weight": 20,
+                "date": {
+                    "from": "10-24",
+                    "to": "11-02"
+                }
+            }
         ]
     }
 }

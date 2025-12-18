@@ -25,6 +25,7 @@ The Master Loot Ball is an ultra rare loot ball that can be found anywhere. It c
 | ---------- | ------ | -------------------- | --------------------- |
 | Generation | 1      | None                 | Can generate anywhere |
 | Spawning   | 1      | None                 | Can spawn anywhere    |
+| Fishing    | 1      | Master Rod           | Only obtainable with Master Rod |
 
 ## Loot Table
 

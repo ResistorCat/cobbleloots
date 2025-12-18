@@ -20,6 +20,7 @@ public class CobblelootsConfig extends MidnightConfig {
     public static final String CATEGORY_SURVIVAL = "survival";
     public static final String CATEGORY_DEFAULTS = "defaults";
     public static final String CATEGORY_DISABLED = "disabled";
+    public static final String CATEGORY_FISHING = "fishing";
 
     // XP
     @Entry(category = CATEGORY_XP)
@@ -44,6 +45,14 @@ public class CobblelootsConfig extends MidnightConfig {
     public static int generation_attempts = 2;
     @Entry(category = CATEGORY_GENERATION)
     public static int generation_chunk_cap = 4;
+
+    // Fishing
+    @Entry(category = CATEGORY_FISHING)
+    public static boolean fishing_enabled = true;
+    @Entry(category = CATEGORY_FISHING)
+    public static float fishing_chance = 0.01F;
+    @Entry(category = CATEGORY_FISHING)
+    public static float fishing_luck_of_the_sea_multiplier = 1.25F;
 
     // Spawning
     @Entry(category = CATEGORY_SPAWNING)
@@ -245,6 +254,8 @@ public class CobblelootsConfig extends MidnightConfig {
                 return survival_drop_automatic;
             case "loot_ball.survival.destroy_looted":
                 return survival_destroy_looted;
+            case "loot_ball.fishing.enabled":
+                return fishing_enabled;
             default:
                 throw new IllegalArgumentException("Unknown boolean config key: " + key);
         }
@@ -283,6 +294,10 @@ public class CobblelootsConfig extends MidnightConfig {
                 return spawning_chance;
             case "loot_ball.defaults.multiplier":
                 return defaults_multiplier;
+            case "loot_ball.fishing.chance":
+                return fishing_chance;
+            case "loot_ball.fishing.luck_of_the_sea_multiplier":
+                return fishing_luck_of_the_sea_multiplier;
             default:
                 throw new IllegalArgumentException("Unknown float config key: " + key);
         }

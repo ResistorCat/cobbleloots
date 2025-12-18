@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
@@ -99,11 +100,18 @@ public class CobblelootsLootBallEvents {
   }
 
   @Nullable
-  private static CobblelootsLootBall spawnLootBall(ServerLevel level, LevelChunk chunk, BlockPos pos,
+  public static CobblelootsLootBall spawnLootBall(ServerLevel level, LevelChunk chunk, BlockPos pos,
       RandomSource randomSource, CobblelootsSourceType sourceType) {
+    return spawnLootBall(level, chunk, pos, randomSource, sourceType, null, null);
+  }
+
+  @Nullable
+  public static CobblelootsLootBall spawnLootBall(ServerLevel level, LevelChunk chunk, BlockPos pos,
+      RandomSource randomSource, CobblelootsSourceType sourceType, @Nullable ServerPlayer player,
+      @Nullable ItemStack tool) {
     // STEP: Get a random loot ball data that passes all filters
     Map.Entry<ResourceLocation, CobblelootsLootBallData> lootBallEntry = getRandomLootBallData(level, chunk, pos,
-        sourceType);
+        sourceType, player, tool);
     if (lootBallEntry == null) {
       return null; // No suitable loot ball data found
     }

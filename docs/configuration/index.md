@@ -63,6 +63,16 @@ Settings affecting how players interact with loot balls in Survival mode.
 | `survival_drop_automatic` | `true` | If enabled, loot balls will drop as items automatically when their uses are exhausted (unless destroyed). |
 | `survival_destroy_looted` | `false` | If enabled, loot balls are completely destroyed (vanish) when their uses are exhausted. Overrides `survival_drop_automatic`. |
 
+## Fishing
+
+Settings controlling loot ball drops from fishing with Cobblemon Poké Rods.
+
+| Key | Default | Description |
+| :--- | :--- | :--- |
+| `fishing_enabled` | `true` | If enabled, Cobblemon Poké Rods can fish up loot balls. |
+| `fishing_chance` | `0.1` (10%) | Base chance to catch a loot ball instead of/in addition to normal loot. |
+| `fishing_luck_of_the_sea_multiplier` | `1.25` | Multiplier applied to the chance for each level of Luck of the Sea enchantment (Exponential: `chance * (multiplier ^ level)`). |
+
 ## Loot Ball Defaults
 
 Default values used for new loot balls if not specified in their data files.
@@ -81,6 +91,6 @@ Lists to disable specific features in certain dimensions or globally.
 
 - **`disabled_dimensions_generation`**: List of dimension IDs where world generation is disabled.
 - **`disabled_dimensions_spawning`**: List of dimension IDs where spawning is disabled.
-- **`disabled_dimensions_fishing`**: List of dimension IDs where fishing loot is disabled.
+- **`disabled_dimensions_fishing`**: List of dimension IDs where fishing loot is disabled. (Not fully implemented yet, reserved for future use).
 - **`disabled_dimensions_archaeology`**: List of dimension IDs where archaeology loot is disabled.
 - **`disabled_loot_balls`**: List of loot ball IDs or patterns to disable (e.g., `cobbleloots:poke_ball`).

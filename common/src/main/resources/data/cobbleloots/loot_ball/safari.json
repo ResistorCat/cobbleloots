@@ -17,6 +17,19 @@
         "weight": 100,
         "biome": "cobbleloots:loot_ball/safari"
       }
+    ],
+    "fishing": [
+      {
+        "weight": 20,
+        "biome": "cobbleloots:loot_ball/safari",
+        "poke_rod": [
+          "cobblemon:great_rod",
+          "cobblemon:ultra_rod",
+          "cobblemon:master_rod",
+          "cobblemon:ancient_great_rod",
+          "cobblemon:ancient_ultra_rod"
+        ]
+      }
     ]
   }
 }

@@ -21,6 +21,12 @@
         "biome": "cobbleloots:loot_ball/dive",
         "fluid": "minecraft:water"
       }
+    ],
+    "fishing": [
+      {
+        "weight": 50,
+        "biome": "cobbleloots:loot_ball/dive"
+      }
     ]
   }
 }

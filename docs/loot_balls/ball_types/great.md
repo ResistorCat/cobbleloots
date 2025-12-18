@@ -25,6 +25,7 @@ The Great Loot Ball is an uncommon loot ball that can be found anywhere. It cont
 | ---------- | ------ | -------------------- | --------------------- |
 | Generation | 20     | None                 | Can generate anywhere |
 | Spawning   | 20     | None                 | Can spawn anywhere    |
+| Fishing    | 20     | Great Rod +          | Great Rod, Ultra Rod, or Master Rod |
 
 ## Loot Table
 

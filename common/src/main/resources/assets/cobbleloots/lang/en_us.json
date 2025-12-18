@@ -64,6 +64,14 @@
   "cobbleloots.midnightconfig.spawning_despawn_time": "Despawn Time",
   "cobbleloots.midnightconfig.spawning_despawn_time.tooltip": "Time (in ticks) before a spawned loot ball despawns (24000 ticks = 20 minutes).",
 
+  "cobbleloots.midnightconfig.category.fishing": "Fishing",
+  "cobbleloots.midnightconfig.fishing_enabled": "Enable Fishing Loot",
+  "cobbleloots.midnightconfig.fishing_enabled.tooltip": "If enabled, players can fish up loot balls.",
+  "cobbleloots.midnightconfig.fishing_chance": "Fishing Chance",
+  "cobbleloots.midnightconfig.fishing_chance.tooltip": "The chance to fish up a loot ball when catching something.",
+  "cobbleloots.midnightconfig.fishing_luck_of_the_sea_multiplier": "Luck of the Sea Multiplier",
+  "cobbleloots.midnightconfig.fishing_luck_of_the_sea_multiplier.tooltip": "Multiplier applied to fishing chance per level of Luck of the Sea.",
+
   "cobbleloots.midnightconfig.category.survival": "Survival Settings",
   "cobbleloots.midnightconfig.survival_drop_enabled": "Enable Survival Drops",
   "cobbleloots.midnightconfig.survival_drop_enabled.tooltip": "If enabled, players can break loot balls to pick them up as items.",

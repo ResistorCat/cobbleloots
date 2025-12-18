@@ -23,6 +23,8 @@ import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LightLayer;
@@ -112,7 +114,7 @@ public class CobblelootsDataProvider {
       }
       // Process source filters
       for (CobblelootsSourceFilter filter : sourceFilters) {
-        if (processSourceFilter(level, levelChunk, pos, filter, sourceType)) {
+        if (processSourceFilter(level, levelChunk, pos, filter, sourceType, null, null)) {
           // Add loot ball
           filtered.put(id, filter.getWeight());
         }
@@ -133,6 +135,49 @@ public class CobblelootsDataProvider {
     return null;
   }
 
+  public static Map.Entry<ResourceLocation, CobblelootsLootBallData> getRandomLootBallData(ServerLevel level,
+      LevelChunk levelChunk,
+      BlockPos pos, CobblelootsSourceType sourceType, @Nullable ServerPlayer player, @Nullable ItemStack tool) {
+    Map<ResourceLocation, Integer> filtered = new HashMap<>();
+
+    // Loop through all loot balls
+    for (ResourceLocation id : getExistingLootBallIds()) {
+      CobblelootsLootBallData data = getLootBallData(id);
+      if (data == null)
+        continue;
+
+      CobblelootsLootBallSources sourcesData = data.getSources();
+      if (sourcesData == null)
+        continue;
+
+      List<CobblelootsSourceFilter> sourceFilters;
+      switch (sourceType) {
+        case GENERATION -> sourceFilters = sourcesData.getGeneration();
+        case SPAWNING -> sourceFilters = sourcesData.getSpawning();
+        case FISHING -> sourceFilters = sourcesData.getFishing();
+        case ARCHAEOLOGY -> sourceFilters = sourcesData.getArchaeology();
+        default -> throw new IllegalStateException("Unexpected sourceType value: " + sourceType);
+      }
+
+      for (CobblelootsSourceFilter filter : sourceFilters) {
+        if (processSourceFilter(level, levelChunk, pos, filter, sourceType, player, tool)) {
+          // Add loot ball
+          filtered.put(id, filter.getWeight());
+        }
+      }
+    }
+
+    if (!filtered.isEmpty()) {
+      Map.Entry<ResourceLocation, Integer> weightEntry = weightedRandomEntry(filtered);
+      if (weightEntry != null) {
+        ResourceLocation key = weightEntry.getKey();
+        CobblelootsLootBallData value = getLootBallData(key);
+        return new AbstractMap.SimpleEntry<>(key, value);
+      }
+    }
+    return null;
+  }
+
   /**
    * Processes all filters in a source filter to determine if a loot ball can
    * spawn
@@ -148,6 +193,12 @@ public class CobblelootsDataProvider {
    */
   public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
       CobblelootsSourceFilter source, CobblelootsSourceType sourceType) {
+    return processSourceFilter(level, chunk, pos, source, sourceType, null, null);
+  }
+
+  public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
+      CobblelootsSourceFilter source, CobblelootsSourceType sourceType, @Nullable ServerPlayer player,
+      @Nullable ItemStack tool) {
     if (level == null || pos == null || source == null) {
       // Cobbleloots.LOGGER.info("[DEBUG] processSourceFilter: Null parameter
       // received. Level: {}, Pos: {}, Source: {}",
@@ -231,6 +282,13 @@ public class CobblelootsDataProvider {
     // Check date if specified
     if (!checkDateFilter(source.getDate())) {
       return false;
+    }
+
+    // Check poke rod if specified (only for FISHING source type)
+    if (sourceType == CobblelootsSourceType.FISHING) {
+      if (!checkPokeRodFilter(player, tool, source.getPokeRod())) {
+        return false;
+      }
     }
 
     // Cobbleloots.LOGGER.info("[DEBUG] All filters passed for source: {} at pos:
@@ -403,6 +461,18 @@ public class CobblelootsDataProvider {
       return true; // No filter specified, so it passes
     }
     return dateFilter.test();
+  }
+
+  /**
+   * Checks if the current poke rod meets the criteria.
+   *
+   * @return true if the poke rod matches the filter, false otherwise
+   */
+  private static boolean checkPokeRodFilter(@Nullable ServerPlayer player, @Nullable ItemStack tool,
+      @Nullable dev.ripio.cobbleloots.data.custom.filter.CobblelootsPokeRodFilter filter) {
+    if (filter == null)
+      return true;
+    return filter.test(null, null, null, player, tool);
   }
 
   public static void onReload(ResourceManager resourceManager) {
