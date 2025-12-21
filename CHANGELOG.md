@@ -12,7 +12,9 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Legacy Config Migration**: Added an automatic migration system for existing `cobbleloots.yaml` files.
   - On first launch with the new version, old configuration values will be preserved and migrated to the new format.
   - The old `cobbleloots.yaml` file will be renamed to `cobbleloots.yaml.old` after successful migration.
-- **Localization**: Added full localization support for configuration keys (`en_us.json`).
+- **Localization**:
+  - Added full localization support for configuration keys (`en_us.json`).
+  - Added translation keys for new messages.
 - **Dependencies**:
   - Switched internal configuration library to MidnightLib for better cross-platform support.
 - **Cleanup**: Removed unused `xp_amount` configuration key to avoid confusion.
@@ -25,6 +27,10 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Added new **Lure Loot Ball**: Exclusive to fishing with a Lure Rod, contains sea treasures.
   - Added configurable despawn delay for fished loot balls.
   - Fished loot balls now move towards the player (similar to items).
+- **Special Effects**: Added special effects when opening loot balls:
+    - Display the received item floating above the loot ball.
+    - Particle effects on open (customizable via config).
+- **New Configuration**: Added `loot_ball.defaults.effects_enabled` to toggle opening effects.
 
 ## a2.1.0
 

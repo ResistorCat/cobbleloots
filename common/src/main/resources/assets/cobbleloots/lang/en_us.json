@@ -91,6 +91,8 @@
   "cobbleloots.midnightconfig.defaults_player_timer.tooltip": "Default cooldown (in ticks) for a player to re-open a multi-use loot ball.",
   "cobbleloots.midnightconfig.defaults_despawn_tick": "Default Despawn Tick",
   "cobbleloots.midnightconfig.defaults_despawn_tick.tooltip": "Default despawn time (0 = never despawn).",
+  "cobbleloots.midnightconfig.defaults_effects_enabled": "Enable Opening Effects",
+  "cobbleloots.midnightconfig.defaults_effects_enabled.tooltip": "If enabled, particles and floating items will appear when opening a loot ball.",
 
   "cobbleloots.midnightconfig.category.disabled": "Disabled Features",
   "cobbleloots.midnightconfig.disabled_dimensions_generation": "Disabled Gen Dimensions",

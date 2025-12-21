@@ -47,7 +47,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   // Animations
   public final AnimationState openingAnimationState = new AnimationState();
-  private static final int LOOT_BALL_OPENING_TICKS = 50;
+  public static final int LOOT_BALL_OPENING_TICKS = 50;
   private static final int LOOT_BALL_OPENING_DROP_TICK = 25;
 
   // Particle effects
@@ -76,6 +76,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       EntityDataSerializers.STRING);
   private static final EntityDataAccessor<CompoundTag> LOOT_BALL_CLIENT_DATA = SynchedEntityData
       .defineId(CobblelootsLootBall.class, EntityDataSerializers.COMPOUND_TAG);
+  private static final EntityDataAccessor<ItemStack> DISPLAY_ITEM = SynchedEntityData.defineId(
+      CobblelootsLootBall.class,
+      EntityDataSerializers.ITEM_STACK);
 
   // NBT Tags
   public static final String TAG_SPARKS = "Sparks";
@@ -274,6 +277,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     builder.define(OPENING_TICKS, 0);
 
     builder.define(LOOT_BALL_CLIENT_DATA, new CompoundTag());
+    builder.define(DISPLAY_ITEM, ItemStack.EMPTY);
   }
 
   @Override
@@ -567,9 +571,18 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     // Generate loot
     this.unpackLootTable(serverPlayer);
 
+    // Get the first item to display
+    ItemStack displayItem = ItemStack.EMPTY;
+    for (ItemStack item : this.itemStacks) {
+      if (!item.isEmpty()) {
+        displayItem = item.copy();
+        break;
+      }
+    }
+
     // Start opening sequence if there's loot to give
     if (!this.isEmpty()) {
-      startOpeningAnimation(serverPlayer);
+      startOpeningAnimation(serverPlayer, displayItem);
     } else {
       // Notify player that loot ball is empty
       serverPlayer.sendSystemMessage(cobblelootsText(TEXT_INFO_NO_LOOT).withStyle(ChatFormatting.GRAY), true);
@@ -635,12 +648,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   /**
    * Starts the opening animation sequence for the loot ball
    */
-  private void startOpeningAnimation(ServerPlayer serverPlayer) {
+  private void startOpeningAnimation(ServerPlayer serverPlayer, ItemStack displayItem) {
     this.pendingOpener = serverPlayer;
     this.isOpening = true;
     this.wasInvisible = this.isInvisible();
     this.setInvisible(false);
     this.setOpeningTicks(LOOT_BALL_OPENING_TICKS);
+    this.setDisplayItem(displayItem);
+
     if (this.getDespawnTick() > 0L) {
       // If a despawn tick is set, extend it to allow for opening
       this.setDespawnTick(this.level().getGameTime() + LOOT_BALL_OPENING_TICKS * 5);
@@ -655,7 +670,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     this.getEntityData().set(OPENING_TICKS, i);
   }
 
-  private int getOpeningTicks() {
+  public int getOpeningTicks() {
     return this.getEntityData().get(OPENING_TICKS);
   }
 
@@ -666,6 +681,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
     // Give items to player
     deliverItemsToPlayer(serverPlayer);
+
+    // Stop displaying the item as it has been received
+    this.setDisplayItem(ItemStack.EMPTY);
 
     // Give experience points if enabled
     awardExperienceIfEnabled(serverPlayer);
@@ -1107,6 +1125,11 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       if (currentTicks == LOOT_BALL_OPENING_TICKS) {
         // Start opening animation and play sound
         this.playSound(CobblelootsLootBallSounds.getLidOpenSound());
+
+        // Spawn particles if enabled
+        if (CobblelootsConfig.defaults_effects_enabled) {
+          spawnOpeningParticles();
+        }
       } else if (currentTicks == LOOT_BALL_OPENING_DROP_TICK) {
         // Give loot at the specific tick
         this.open(this.pendingOpener);
@@ -1115,10 +1138,10 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       // Decrement opening tick counter
       this.setOpeningTicks(currentTicks - 1);
     } else if (currentTicks == 0 && this.pendingOpener != null) {
-      // Animation finished - reset state
       this.pendingOpener = null;
       this.isOpening = false;
       this.setInvisible(this.wasInvisible);
+      this.setDisplayItem(ItemStack.EMPTY);
       this.playSound(CobblelootsLootBallSounds.getLidCloseSound());
       // Destroy the loot ball if it has no uses left and config enabled
       if (CobblelootsConfig.survival_destroy_looted) {
@@ -1142,5 +1165,30 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Override
   public ItemStack getPickResult() {
     return this.getCreativeLootBallItem();
+  }
+
+  public void setDisplayItem(ItemStack item) {
+    this.getEntityData().set(DISPLAY_ITEM, item);
+  }
+
+  public ItemStack getDisplayItem() {
+    return this.getEntityData().get(DISPLAY_ITEM);
+  }
+
+  private void spawnOpeningParticles() {
+    if (this.level().isClientSide())
+      return;
+
+    // White sparkles rising like a fountain
+    ((net.minecraft.server.level.ServerLevel) this.level()).sendParticles(
+        ParticleTypes.FIREWORK,
+        this.getX(), this.getY() + 0.5, this.getZ(),
+        10, 0.2, 0.2, 0.2, 0.1);
+
+    // Some happy villager particles
+    ((net.minecraft.server.level.ServerLevel) this.level()).sendParticles(
+        ParticleTypes.HAPPY_VILLAGER,
+        this.getX(), this.getY() + 0.5, this.getZ(),
+        5, 0.3, 0.3, 0.3, 0.1);
   }
 }

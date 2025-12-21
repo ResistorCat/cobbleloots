@@ -87,9 +87,11 @@ public class CobblelootsConfig extends MidnightConfig {
     @Entry(category = CATEGORY_DEFAULTS)
     public static int defaults_xp = 0;
     @Entry(category = CATEGORY_DEFAULTS)
-    public static long defaults_player_timer = 0L;
+    public static int defaults_player_timer = 0;
     @Entry(category = CATEGORY_DEFAULTS)
-    public static long defaults_despawn_tick = 0L;
+    public static int defaults_despawn_tick = 0;
+    @Entry(category = CATEGORY_DEFAULTS)
+    public static boolean defaults_effects_enabled = true;
 
     // Disabled Dimensions/Features (Lists)
     @Entry(category = CATEGORY_DISABLED)
@@ -172,9 +174,12 @@ public class CobblelootsConfig extends MidnightConfig {
                 if (fileMap.containsKey("loot_ball.defaults.xp"))
                     defaults_xp = Integer.parseInt(fileMap.get("loot_ball.defaults.xp").toString());
                 if (fileMap.containsKey("loot_ball.defaults.player_timer"))
-                    defaults_player_timer = Long.parseLong(fileMap.get("loot_ball.defaults.player_timer").toString());
+                    defaults_player_timer = Integer.parseInt(fileMap.get("loot_ball.defaults.player_timer").toString());
                 if (fileMap.containsKey("loot_ball.defaults.despawn_tick"))
-                    defaults_despawn_tick = Long.parseLong(fileMap.get("loot_ball.defaults.despawn_tick").toString());
+                    defaults_despawn_tick = Integer.parseInt(fileMap.get("loot_ball.defaults.despawn_tick").toString());
+                if (fileMap.containsKey("loot_ball.defaults.effects_enabled"))
+                    defaults_effects_enabled = Boolean
+                            .parseBoolean(fileMap.get("loot_ball.defaults.effects_enabled").toString());
 
                 // Handle Lists (converting ResourceLocation strings if needed, though they are
                 // stored as Strings now)
@@ -261,6 +266,8 @@ public class CobblelootsConfig extends MidnightConfig {
                 return fishing_enabled;
             case "loot_ball.fishing.despawn.enabled":
                 return fishing_despawn_enabled;
+            case "loot_ball.defaults.effects_enabled":
+                return defaults_effects_enabled;
             default:
                 throw new IllegalArgumentException("Unknown boolean config key: " + key);
         }
@@ -313,9 +320,9 @@ public class CobblelootsConfig extends MidnightConfig {
     public static long getLongConfig(String key) {
         switch (key) {
             case "loot_ball.defaults.player_timer":
-                return defaults_player_timer;
+                return (long) defaults_player_timer;
             case "loot_ball.defaults.despawn_tick":
-                return defaults_despawn_tick;
+                return (long) defaults_despawn_tick;
             default:
                 throw new IllegalArgumentException("Unknown long config key: " + key);
         }

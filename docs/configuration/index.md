@@ -86,6 +86,7 @@ Default values used for new loot balls if not specified in their data files.
 | `defaults_xp` | `0` | Default amount of XP contained in a loot ball. |
 | `defaults_player_timer` | `0` | Default cooldown (in ticks) for a player to re-open a multi-use loot ball. |
 | `defaults_despawn_tick` | `0` | Default despawn time (0 = never despawn). |
+| `defaults_effects_enabled` | `true` | Default for whether special effects (particles/sounds) play on opening. |
 
 ## Disabled Features
 

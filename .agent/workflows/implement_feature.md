@@ -1,6 +1,7 @@
 ---
 description: Workflow for implementing new features in Cobbleloots
 ---
+
 This workflow outlines the standard process for adding new features to the Cobbleloots mod, ensuring consistency and completeness.
 
 1. **Analyze Requirements & Codebase**
@@ -26,6 +27,9 @@ This workflow outlines the standard process for adding new features to the Cobbl
    - Add an entry to `CHANGELOG.md` under the current version (or a new version section).
    - Use concise language to describe the "Added", "Changed", or "Fixed" items.
 
-6. **Verify Implementation**
+6. **Update Lang files**
+   - Add or update lang files of the mod to support new changes (if needed).
+
+7. **Verify Implementation**
    - Update `TODO.md` to mark the task as complete.
    - (Optional) Create a verification plan or walkthrough artifact if the feature is complex.
