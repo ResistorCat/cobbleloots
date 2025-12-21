@@ -24,6 +24,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Expanded fishing sources to: **Dive**, **Safari**, **Rainbow**, and **Pumpkin** loot balls.
   - Added new **Lure Loot Ball**: Exclusive to fishing with a Lure Rod, contains sea treasures.
   - Added configurable despawn delay for fished loot balls.
+  - Fished loot balls now move towards the player (similar to items).
 
 ## a2.1.0
 
