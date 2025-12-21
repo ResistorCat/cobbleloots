@@ -23,6 +23,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Using the "Luck of the Sea" enchantment increases the chance of finding a loot ball.
   - Expanded fishing sources to: **Dive**, **Safari**, **Rainbow**, and **Pumpkin** loot balls.
   - Added new **Lure Loot Ball**: Exclusive to fishing with a Lure Rod, contains sea treasures.
+  - Added configurable despawn delay for fished loot balls.
 
 ## a2.1.0
 

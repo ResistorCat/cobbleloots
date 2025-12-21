@@ -5,7 +5,6 @@ import dev.ripio.cobbleloots.util.io.CobblelootsYamlParser;
 import eu.midnightdust.lib.config.MidnightConfig;
 import net.minecraft.resources.ResourceLocation;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -53,6 +52,10 @@ public class CobblelootsConfig extends MidnightConfig {
     public static float fishing_chance = 0.01F;
     @Entry(category = CATEGORY_FISHING)
     public static float fishing_luck_of_the_sea_multiplier = 1.25F;
+    @Entry(category = CATEGORY_FISHING)
+    public static boolean fishing_despawn_enabled = true;
+    @Entry(category = CATEGORY_FISHING)
+    public static int fishing_despawn_time = 24000;
 
     // Spawning
     @Entry(category = CATEGORY_SPAWNING)
@@ -256,6 +259,8 @@ public class CobblelootsConfig extends MidnightConfig {
                 return survival_destroy_looted;
             case "loot_ball.fishing.enabled":
                 return fishing_enabled;
+            case "loot_ball.fishing.despawn.enabled":
+                return fishing_despawn_enabled;
             default:
                 throw new IllegalArgumentException("Unknown boolean config key: " + key);
         }
@@ -273,6 +278,8 @@ public class CobblelootsConfig extends MidnightConfig {
                 return spawning_cooldown_max;
             case "loot_ball.spawning.despawn.time":
                 return spawning_despawn_time;
+            case "loot_ball.fishing.despawn.time":
+                return fishing_despawn_time;
             case "loot_ball.defaults.uses":
                 return defaults_uses;
             case "loot_ball.defaults.xp":

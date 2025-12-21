@@ -72,6 +72,8 @@ Settings controlling loot ball drops from fishing with Cobblemon Poké Rods.
 | `fishing_enabled` | `true` | If enabled, Cobblemon Poké Rods can fish up loot balls. |
 | `fishing_chance` | `0.1` (10%) | Base chance to catch a loot ball instead of/in addition to normal loot. |
 | `fishing_luck_of_the_sea_multiplier` | `1.25` | Multiplier applied to the chance for each level of Luck of the Sea enchantment (Exponential: `chance * (multiplier ^ level)`). |
+| `fishing_despawn_enabled` | `true` | If enabled, fished loot balls will eventually disappear if not collected. |
+| `fishing_despawn_time` | `24000` | Time (in ticks) before a fished loot ball despawns (24000 ticks = 20 minutes). |
 
 ## Loot Ball Defaults
 

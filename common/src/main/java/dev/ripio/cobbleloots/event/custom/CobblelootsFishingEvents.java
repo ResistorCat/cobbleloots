@@ -34,7 +34,11 @@ public class CobblelootsFishingEvents {
         }
 
         LevelChunk chunk = level.getChunkAt(hookPos);
-        CobblelootsLootBallEvents.spawnLootBall(level, chunk, hookPos, level.getRandom(),
+        var lootBall = CobblelootsLootBallEvents.spawnLootBall(level, chunk, hookPos, level.getRandom(),
                 CobblelootsSourceType.FISHING, player, rodStack);
+
+        if (lootBall != null && CobblelootsConfig.fishing_despawn_enabled) {
+            lootBall.setDespawnTick(level.getGameTime() + CobblelootsConfig.fishing_despawn_time);
+        }
     }
 }
