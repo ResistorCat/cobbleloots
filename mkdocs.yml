@@ -34,10 +34,6 @@ theme:
     - navigation.top
     - navigation.footer
     - content.code.copy
-  nav:
-    - Home: index.md
-    - Loot Balls: loot_balls/index.md
-    - Configuration: configuration/index.md
 plugins:
   - search
   - git-revision-date-localized:
@@ -54,3 +50,7 @@ markdown_extensions:
   - attr_list
   - pymdownx.highlight
   - pymdownx.superfences
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
