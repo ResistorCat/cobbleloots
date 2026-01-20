@@ -18,6 +18,11 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Dependencies**:
   - Switched internal configuration library to MidnightLib for better cross-platform support.
 - **Cleanup**: Removed unused `xp_amount` configuration key to avoid confusion.
+- **Updated biome filters**: Biome filters now accept:
+  - *Biome keys*: `"minecraft:swamp"`
+  - *Biome tags*: `"#cobblemon:is_swamp"`
+  - *Biome dicts*: `{"id": "#c:is_ocean", "required": false}`
+  - *Lists*: Mix of any of the above
 - **Fishing Update**:
   - Implemented fishing as a new loot ball source.
   - Players can now catch loot balls when fishing with Cobblemon Poké Rods.

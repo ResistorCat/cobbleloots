@@ -15,6 +15,7 @@ import dev.ripio.cobbleloots.data.custom.filter.CobblelootsBlockFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsDateFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsLightFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsPositionFilter;
+import dev.ripio.cobbleloots.data.custom.filter.CobbleloootsBiomeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsSourceFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsTimeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsWeatherFilter;
@@ -28,7 +29,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -45,7 +45,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static dev.ripio.cobbleloots.data.CobblelootsCodecs.LOOT_BALL_DATA_CODEC;
-import static dev.ripio.cobbleloots.util.CobblelootsDefinitions.EMPTY_BIOME_TAG;
 import static dev.ripio.cobbleloots.util.math.CobblelootsMath.weightedRandomEntry;
 
 public class CobblelootsDataProvider {
@@ -316,16 +315,16 @@ public class CobblelootsDataProvider {
   }
 
   /**
-   * Checks if the position is in a biome matching the tag.
-   * 
-   * @return true if the position is in the biome, false otherwise
+   * Checks if the position is in a biome matching the filter.
+   *
+   * @return true if the position matches the biome filter, false otherwise
    */
-  private static boolean checkBiomeFilter(ServerLevel level, BlockPos pos, TagKey<Biome> biomeTag) {
-    if (biomeTag == null || biomeTag.equals(EMPTY_BIOME_TAG)) {
+  private static boolean checkBiomeFilter(ServerLevel level, BlockPos pos, CobbleloootsBiomeFilter biomeFilter) {
+    if (biomeFilter == null || biomeFilter.isEmpty()) {
       return true; // No filter specified, so it passes
     }
 
-    return level.getBiome(pos).is(biomeTag);
+    return biomeFilter.test(level, pos);
   }
 
   /**
