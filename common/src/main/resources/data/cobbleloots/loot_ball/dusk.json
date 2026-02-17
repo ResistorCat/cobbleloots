@@ -10,17 +10,17 @@
   "sources": {
     "generation": [
       {
-        "weight": 30,
+        "weight": 10,
         "biome": "#cobblemon:is_spooky"
       },
       {
-        "weight": 30,
+        "weight": 10,
         "biome": "#cobblemon:is_deep_dark"
       }
     ],
     "spawning": [
       {
-        "weight": 30,
+        "weight": 10,
         "biome": "#cobblemon:is_spooky",
         "light": {
           "block": {
@@ -32,7 +32,7 @@
         }
       },
       {
-        "weight": 30,
+        "weight": 10,
         "biome": "#cobblemon:is_deep_dark",
         "light": {
           "block": {
@@ -46,7 +46,7 @@
     ],
     "fishing": [
       {
-        "weight": 3,
+        "weight": 1,
         "biome": "#cobblemon:is_spooky",
         "time": {
           "value": {
@@ -57,7 +57,7 @@
         }
       },
       {
-        "weight": 3,
+        "weight": 1,
         "biome": "#cobblemon:is_deep_dark",
         "time": {
           "value": {
@@ -68,7 +68,7 @@
         }
       },
       {
-        "weight": 30,
+        "weight": 10,
         "biome": "#cobblemon:is_spooky",
         "time": {
           "value": {
@@ -82,7 +82,7 @@
         ]
       },
       {
-        "weight": 30,
+        "weight": 10,
         "biome": "#cobblemon:is_deep_dark",
         "time": {
           "value": {

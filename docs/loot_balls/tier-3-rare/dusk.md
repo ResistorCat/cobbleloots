@@ -17,7 +17,7 @@ icon: material/pokeball
             </div>
         </td>
         <td>:material-dice-2: **Rarity**</td>
-        <td><span style="color: #5555FF">Uncommon</span></td>
+        <td><span style="color: #FFAA00">Rare</span></td>
     </tr>
     <tr>
         <td>:material-orbit: **XP on Open**</td>
@@ -155,12 +155,12 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td>30</td>
+        <td>10</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_spooky.json">#cobblemon:is_spooky</a></td>
         <td>None</td>
     </tr>
     <tr>
-        <td>30</td>
+        <td>10</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_deep_dark.json">#cobblemon:is_deep_dark</a></td>
         <td>None</td>
     </tr>
@@ -180,12 +180,12 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td>30</td>
+        <td>10</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_spooky.json">#cobblemon:is_spooky</a></td>
         <td><ul><li>Light Requirements:<ul><li>Block Light (torches, etc.): 0-5</li><li>Sky Light (sun/moon): 0-5</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>30</td>
+        <td>10</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_deep_dark.json">#cobblemon:is_deep_dark</a></td>
         <td><ul><li>Light Requirements:<ul><li>Block Light (torches, etc.): 0-5</li><li>Sky Light (sun/moon): 0-5</li></ul></li></ul></td>
     </tr>
@@ -205,22 +205,22 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td>30</td>
+        <td>10</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_spooky.json">#cobblemon:is_spooky</a></td>
         <td><ul><li>Time: Night (13000-23000)</li><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Dusk Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>30</td>
+        <td>10</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_deep_dark.json">#cobblemon:is_deep_dark</a></td>
         <td><ul><li>Time: Night (13000-23000)</li><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Dusk Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>3</td>
+        <td>1</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_spooky.json">#cobblemon:is_spooky</a></td>
         <td><ul><li>Time: Night (13000-23000)</li></ul></td>
     </tr>
     <tr>
-        <td>3</td>
+        <td>1</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_deep_dark.json">#cobblemon:is_deep_dark</a></td>
         <td><ul><li>Time: Night (13000-23000)</li></ul></td>
     </tr>
