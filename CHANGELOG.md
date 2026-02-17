@@ -36,6 +36,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - (NEW) **Lure**: Can be fished with any rod in deep ocean biomes (or with a _lure rod_ for higher chances). It doesn't spawn naturally nor can be obtained from generation sources, as it is exclusively obtained from fishing.
     - (NEW) **Nest**: Can be found from generation and spawning sources in forests and swamps. It can be fished with any rod in those biomes (or with a _nest rod_ for higher chances).
     - (NEW) **Net**: Can be found from generation and spawning sources in oceans, swamps and rivers. It can be fished with any rod in those biomes (or with a _net rod_ for higher chances).
+    - (NEW) **Quick**: Can be found from generation and spawning sources in plains and sky biomes, and in the end dimension. It can be fished (only in the overworld) with any rod in those biomes (or with a _quick rod_ for higher chances).
   - **Rare Loot Balls**:
     - **Ultra**: Can now be found everywhere, spawns in all biomes and can be fished with an _ultra rod_.
     - **Luxury**: Can now be found everywhere in the end dimension from generation and spawning sources. It can't be fished.
