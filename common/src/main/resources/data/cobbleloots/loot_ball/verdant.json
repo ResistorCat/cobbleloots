@@ -1,0 +1,50 @@
+{
+  "name": {
+    "text": "Verdant Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/verdant",
+  "texture": "cobblemon:textures/poke_balls/verdant_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_plains"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_plains"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_forest",
+        "poke_rod": ["cobblemon:verdant_rod"]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_plains",
+        "poke_rod": ["cobblemon:verdant_rod"]
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_plains"
+      }
+    ]
+  }
+}
