@@ -4,31 +4,29 @@
   },
   "loot_table": "cobbleloots:loot_ball/safari",
   "texture": "cobblemon:textures/poke_balls/safari_ball.png",
-  "xp": 1,
+  "xp": 5,
   "sources": {
     "generation": [
       {
-        "weight": 100,
-        "biome": "cobbleloots:loot_ball/safari"
+        "weight": 30,
+        "biome": "#cobblemon:is_savanna"
       }
     ],
     "spawning": [
       {
-        "weight": 100,
-        "biome": "cobbleloots:loot_ball/safari"
+        "weight": 30,
+        "biome": "#cobblemon:is_savanna"
       }
     ],
     "fishing": [
       {
-        "weight": 20,
-        "biome": "cobbleloots:loot_ball/safari",
-        "poke_rod": [
-          "cobblemon:great_rod",
-          "cobblemon:ultra_rod",
-          "cobblemon:master_rod",
-          "cobblemon:ancient_great_rod",
-          "cobblemon:ancient_ultra_rod"
-        ]
+        "weight": 30,
+        "biome": "#cobblemon:is_savanna",
+        "poke_rod": ["cobblemon:safari_rod"]
+      },
+      {
+        "weight": 3,
+        "biome": "#cobblemon:is_savanna"
       }
     ]
   }
