@@ -47,6 +47,8 @@ ITEM_TEXTURE_MAPPINGS = {
     "gray_banner": "item/banner.png",
     "light_gray_banner": "item/banner.png",
     "clock": "item/clock_00.png",
+    "x_special_attack": "item/battle_items/x_sp_atk.png",
+    "x_special_defense": "item/battle_items/x_sp_def.png",
 }
 
 
@@ -172,68 +174,102 @@ def copy_item_icon(namespace: str, item_id: str) -> None:
         print(f"[yellow]Warning: Icon not found for {item_id}[/yellow]")
 
 
-def generate_loot_table_html(loot_table_id: str) -> str:
-    """Read the loot table file and generate an HTML table."""
-    # Convert cobbleloots:loot_ball/net -> loot_ball/net
+def parse_loot_table(
+    loot_table_id: str, probability_multiplier: float = 1.0
+) -> list[dict]:
+    """
+    Recursively parse a loot table and return a flat list of items with global probabilities.
+    """
+    items = []
+
+    # Handle external or special loot tables
     if ":" in loot_table_id:
         namespace_loot, path = loot_table_id.split(":")
-        # We assume namespace is cobbleloots for local files
         if namespace_loot != "cobbleloots":
-            return f"External Loot Table: `{loot_table_id}`"
+            # For external loot tables, we can't parse them easily, so return a placeholder
+            return [
+                {
+                    "type": "external",
+                    "name": loot_table_id,
+                    "weight": 0,
+                    "chance": probability_multiplier * 100,
+                    "quantity": "?",
+                    "notes": "External Loot Table",
+                    "icon_html": "",
+                    "display_name": f"External: {loot_table_id}",
+                }
+            ]
     else:
         path = loot_table_id
 
     file_path = LOOT_TABLES_DIR / f"{path}.json"
-
     if not file_path.exists():
-        return f"*Loot table file not found: {path}*"
+        return [
+            {
+                "type": "error",
+                "name": loot_table_id,
+                "weight": 0,
+                "chance": probability_multiplier * 100,
+                "quantity": "?",
+                "notes": "File not found",
+                "icon_html": "",
+                "display_name": f"Error: {loot_table_id} not found",
+            }
+        ]
 
     try:
         with file_path.open("r") as f:
             data = json.load(f)
     except Exception as e:
-        return f"*Error reading loot table: {e}*"
+        return [
+            {
+                "type": "error",
+                "name": loot_table_id,
+                "weight": 0,
+                "chance": probability_multiplier * 100,
+                "quantity": "?",
+                "notes": f"Error reading file: {e}",
+                "icon_html": "",
+                "display_name": f"Error: {loot_table_id}",
+            }
+        ]
 
-    processed_rows = []
-
-    pools: list[dict] = data.get("pools", [])
+    pools = data.get("pools", [])
     for pool in pools:
-        entries: list[dict] = pool.get("entries", [])
+        entries = pool.get("entries", [])
         total_weight = sum(entry.get("weight", 0) for entry in entries)
 
-        # Collect entries for this pool
-        pool_items = []
-        pool_others = []
+        if total_weight == 0:
+            continue
 
         for entry in entries:
+            weight = entry.get("weight", 1)
+            # Calculate local probability for this entry in this pool
+            local_probability = weight / total_weight
+            # Global probability is the parent's probability * local probability
+            global_probability = probability_multiplier * local_probability
+
             entry_type = entry.get("type", "")
-            # Handle both "item" and "minecraft:item"
-            if entry_type == "item" or entry_type == "minecraft:item":
-                raw_name: str = entry.get("name", "Unknown")
-                # Clean up ID for icon/display
+
+            if entry_type == "minecraft:item" or entry_type == "item":
+                raw_name = entry.get("name", "Unknown")
                 namespace = "minecraft"
                 item_id = raw_name
 
                 if ":" in raw_name:
                     namespace, item_id = raw_name.split(":", 1)
 
-                # Format name: water_stone -> Water Stone
                 display_name = item_id.replace("_", " ").title()
-
-                # Copy icon
                 copy_item_icon(namespace, item_id)
 
-                weight = entry.get("weight", 1)
-                chance = (weight / total_weight * 100) if total_weight > 0 else 0
-
-                # Quantity calculation
+                # Process functions
                 functions = entry.get("functions", [])
                 quantity = "1"
                 notes = []
 
                 for func in functions:
                     func_name = func.get("function")
-                    if func_name == "minecraft:set_count":
+                    if func_name == "minecraft:set_count" or func_name == "set_count":
                         count = func.get("count")
                         if isinstance(count, dict):
                             quantity = (
@@ -241,77 +277,187 @@ def generate_loot_table_html(loot_table_id: str) -> str:
                             )
                         else:
                             quantity = str(count)
-                    elif func_name == "minecraft:set_nbt":
+                    elif func_name == "minecraft:set_nbt" or func_name == "set_nbt":
                         notes.append("Has custom NBT data")
-                    elif func_name == "minecraft:enchant_randomly":
+                    elif (
+                        func_name == "minecraft:enchant_randomly"
+                        or func_name == "enchant_randomly"
+                    ):
                         notes.append("Randomly enchanted")
+                    elif (
+                        func_name == "minecraft:enchant_with_levels"
+                        or func_name == "enchant_with_levels"
+                    ):
+                        levels = func.get("levels")
+                        if isinstance(levels, dict):
+                            min_val = levels.get("min")
+                            max_val = levels.get("max")
+                            if min_val is not None and max_val is not None:
+                                notes.append(
+                                    f"Enchanted with {min_val}-{max_val} levels"
+                                )
+                            else:
+                                notes.append("Enchanted with levels")
+                        else:
+                            notes.append(f"Enchanted with {levels} levels")
                     elif "enchant" in func_name:
                         notes.append("Enchanted")
-                    elif func_name == "minecraft:set_banner_pattern":
+                    elif (
+                        func_name == "minecraft:set_banner_pattern"
+                        or func_name == "set_banner_pattern"
+                    ):
                         notes.append("Custom banner pattern")
-                    elif func_name == "minecraft:set_name":
+                    elif func_name == "minecraft:set_name" or func_name == "set_name":
                         display_name = parse_name(func.get("name"))
                         notes.append("Custom name")
-                    elif func_name == "minecraft:set_fireworks":
+                    elif (
+                        func_name == "minecraft:set_fireworks"
+                        or func_name == "set_fireworks"
+                    ):
                         notes.append("Custom fireworks")
+                    elif (
+                        func_name == "minecraft:set_potion" or func_name == "set_potion"
+                    ):
+                        potion_id = func.get("id", "unknown")
+                        if ":" in potion_id:
+                            potion_id = potion_id.split(":")[1]
+                        potion_name = potion_id.replace("_", " ").title()
+                        display_name = f"Potion of {potion_name}"
 
-                # Icon image path (Updated to ../../../assets/items/{namespace}/ for ball_types subdirectory)
-                # Added style="image-rendering: pixelated;" for better scaling of low-res textures
                 icon_html = f'<img src="../../../assets/items/{namespace}/{item_id}.png" width="32" height="32" alt="{display_name}" style="image-rendering: pixelated;">'
 
-                pool_items.append(
+                items.append(
                     {
-                        "icon_html": icon_html,
+                        "type": "item",
+                        "namespace": namespace,
+                        "id": item_id,
                         "display_name": display_name,
+                        "icon_html": icon_html,
                         "quantity": quantity,
                         "weight": weight,
-                        "chance": chance,
+                        "chance": global_probability * 100,
                         "notes": ", ".join(notes),
                     }
                 )
+
+            elif entry_type == "minecraft:loot_table":
+                # Recursive call
+                referenced_table = entry.get("name", "")
+                # Some times it is value not name
+                if not referenced_table:
+                    referenced_table = entry.get("value", "")
+
+                items.extend(parse_loot_table(referenced_table, global_probability))
+
             else:
-                # Handle other entry types (tag, loot_table, etc) if necessary
-                pool_others.append(
+                items.append(
                     {
-                        "content": f"""
-    <tr>
-        <td colspan="5">Type: {entry_type} - {entry.get("name", "")}</td>
-    </tr>"""
+                        "type": "other",
+                        "display_name": f"Type: {entry_type} - {entry.get('name', '')}",
+                        "icon_html": "",
+                        "quantity": "-",
+                        "weight": weight,
+                        "chance": global_probability * 100,
+                        "notes": "",
                     }
                 )
 
-        # Sort pool items: Chance (descending), then Weight (descending), then Name (ascending)
-        pool_items.sort(key=lambda x: (-x["chance"], -x["weight"], x["display_name"]))
+    return items
 
-        # Construct HTML for this pool
-        for item in pool_items:
-            row_html = f"""
-    <tr>
-        <td style="text-align:center">{item["icon_html"]}</td>
-        <td>{item["display_name"]}</td>
-        <td>{item["quantity"]}</td>
-        <td>{item["chance"]:.1f}%</td>
-        <td>{item["notes"]}</td>
-    </tr>"""
-            processed_rows.append(row_html)
 
-        for other in pool_others:
-            processed_rows.append(other["content"])
+def generate_loot_table_html(loot_table_id: str) -> str:
+    """Generate HTML table for a loot table, supporting recursive parsing."""
 
-    if not processed_rows:
+    # Initial call to recursive parser
+    items = parse_loot_table(loot_table_id)
+
+    if not items:
         return "*Empty Loot Table*"
+
+    # Group items by (Chance, Quantity, Notes)
+    # We use round(chance, 4) to avoid float precision issues
+    # Key: (chance_rounded, quantity, notes) -> list of items
+    grouped_map = {}
+
+    for item in items:
+        # Create a unique key for grouping
+        key = (round(item["chance"], 4), item["quantity"], item["notes"])
+        if key not in grouped_map:
+            grouped_map[key] = []
+        grouped_map[key].append(item)
+
+    # Convert groups to a list for sorting
+    # We want to sort by Chance (Desc), then by Display Name of the first item (Asc)
+    groups = []
+    for key, group_items in grouped_map.items():
+        # Sort items inside the group by name
+        group_items.sort(key=lambda x: x["display_name"])
+
+        # Calculate total chance for the group
+        total_chance = sum(i["chance"] for i in group_items)
+
+        groups.append(
+            {
+                "key": key,
+                "items": group_items,
+                "chance": total_chance,
+                "quantity": key[1],
+                "notes": key[2],
+            }
+        )
+
+    # Sort groups by Chance Descending, then Name Ascending
+    groups.sort(key=lambda x: (-x["chance"], x["items"][0]["display_name"]))
+
+    rows = []
+
+    for group in groups:
+        group_items = group["items"]
+
+        if len(group_items) == 1:
+            # Single item case - Standard display
+            item = group_items[0]
+            rows.append(f"""
+    <tr>
+        <td><div style="display:flex; align-items:center;">{item["icon_html"]} <span style="margin-left:10px;">{item["display_name"]}</span></div></td>
+        <td>{item["quantity"]}</td>
+        <td>{group["chance"]:.2f}%</td>
+        <td>{item["notes"]}</td>
+    </tr>""")
+        else:
+            # Multiple items case - Grouped display
+
+            # We create a list of items for the Name column
+            item_list_html = "<br>".join(
+                [
+                    f'<div style="display:flex; align-items:center;">{i["icon_html"]} <span style="margin-left:5px;">{i["display_name"]}</span></div>'
+                    for i in group_items
+                ]
+            )
+
+            rows.append(f"""
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                {item_list_html}
+            </div>
+        </td>
+        <td style="vertical-align:middle;">{group["quantity"]}</td>
+        <td style="vertical-align:middle;">{group["chance"]:.2f}%</td>
+        <td style="vertical-align:middle;">{group["notes"]}</td>
+    </tr>""")
 
     return f"""<table markdown="span">
     <thead>
         <tr>
-            <th>Icon</th>
-            <th>Name</th>
+            <th>Item</th>
             <th>Quantity</th>
             <th>Chance</th>
             <th>Notes</th>
         </tr>
     </thead>
-    <tbody>{"".join(processed_rows)}
+    <tbody>{"".join(rows)}
     </tbody>
 </table>"""
 
