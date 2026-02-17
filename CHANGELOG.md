@@ -32,6 +32,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - **Great**: Can now be found everywhere, spawns in all biomes and can be fished with any rod (or with a _great rod_ for higher chances).
     - **Dive**: Can now be found from generation and spawning sources in oceans and deep oceans. It can be fished with any rod in those biomes (or with a _dive rod_ for higher chances).
     - **Heal**: Can now be found from generation and spawning sources everywhere in the overworld dimension. It can be fished with any rod in the overworld (or with a _heal rod_ for higher chances).
+    - (NEW) **Lure**: Can be fished with any rod in deep ocean biomes (or with a _lure rod_ for higher chances). It doesn't spawn naturally nor can be obtained from generation sources, as it is exclusively obtained from fishing.
   - **Rare Loot Balls**:
     - **Ultra**: Can now be found everywhere, spawns in all biomes and can be fished with an _ultra rod_.
     - (NEW) **Dusk**: Can be found from generation sources in spooky and deep dark biomes. It can spawn in those biomes in dark places (low light level). It can be fished during night with any rod in those biomes (or with a _dusk rod_ for higher chances).

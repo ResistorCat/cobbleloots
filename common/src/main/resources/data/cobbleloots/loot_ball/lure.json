@@ -6,14 +6,19 @@
   },
   "loot_table": "cobbleloots:loot_ball/lure",
   "texture": "cobblemon:textures/poke_balls/lure_ball.png",
-  "xp": 10,
+  "xp": 5,
   "sources": {
     "fishing": [
       {
-        "weight": 5,
+        "weight": 50,
+        "biome": "#cobblemon:is_deep_ocean",
         "poke_rod": [
           "cobblemon:lure_rod"
         ]
+      },
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_deep_ocean"
       }
     ]
   }
