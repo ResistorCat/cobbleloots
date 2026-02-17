@@ -65,12 +65,15 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Dependencies**:
   - Switched internal configuration library to MidnightLib for better cross-platform support.
 - **Cleanup**: Removed unused `xp_amount` configuration key to avoid confusion.
-- **Updated biome filters**: Biome filters now accept:
+- **Updated Biome Filters**: Biome filters now accept:
   - _Biome keys_: `"minecraft:swamp"`
   - _Biome tags_: `"#cobblemon:is_swamp"`
   - _Biome dicts_: `{"id": "#c:is_ocean", "required": false}`
   - _Lists_: Mix of any of the above
 - **New Configuration**: Added `loot_ball.defaults.effects_enabled` to toggle opening effects.
+- **Updated Documentation**: Updated the mod documentation.
+  - New and updated pages for all loot balls, showing general information, loot table and obtaining methods.
+  - Updated Reference page with updated biome tag information.
 
 ## a2.1.0
 
