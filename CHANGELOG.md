@@ -28,6 +28,8 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - (NEW) **Roseate**: Can now be found from generation and spawning sources in floral and lush biomes. It can be fished with any rod in those biomes (or with a _roseate rod_ for higher chances).
     - (NEW) **Slate**: Can now be found from generation and spawning sources in caves and volcanic biomes. It can be fished with any rod in those biomes (or with a _slate rod_ for higher chances).
     - **Premier**: Can now be found from generation and spawning sources in mountains. It can be fished with any rod in those biomes (or with a _premier rod_ for higher chances).
+  - **Uncommon Loot Balls**:
+    - **Great**: Can now be found everywhere, spawns in all biomes and can be fished with any rod (or with a _great rod_ for higher chances).
 - **Opening Effects**: Added special effects when opening loot balls:
   - Display the received item floating above the loot ball.
   - Particle effects on open (customizable via config).
