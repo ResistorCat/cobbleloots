@@ -13,6 +13,12 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Using the _Luck of the Sea_ enchantment increases the chance of finding a loot ball.
   - Added configurable despawn delay for fished loot balls.
   - Fished loot balls move towards the player (similar to items).
+- **Opening Effects**: Added special effects when opening loot balls:
+  - Display the received item floating above the loot ball.
+  - Particle effects on open (customizable via config).
+
+### Technical Changes
+
 - **In-Game Configuration**: Implemented full in-game configuration support using MidnightLib.
   - Users can now edit mod settings directly from the game menu (Fabric via ModMenu, NeoForge via Mods menu).
   - All configuration options are accessible and categorized for better usability.
@@ -30,9 +36,6 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - _Biome tags_: `"#cobblemon:is_swamp"`
   - _Biome dicts_: `{"id": "#c:is_ocean", "required": false}`
   - _Lists_: Mix of any of the above
-- **Opening Effects**: Added special effects when opening loot balls:
-  - Display the received item floating above the loot ball.
-  - Particle effects on open (customizable via config).
 - **New Configuration**: Added `loot_ball.defaults.effects_enabled` to toggle opening effects.
 
 ## a2.1.0
