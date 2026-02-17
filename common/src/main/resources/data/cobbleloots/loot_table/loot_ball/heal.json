@@ -311,7 +311,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:x_defense",
+          "name": "cobblemon:x_defence",
           "weight": 5,
           "functions": [
             {
