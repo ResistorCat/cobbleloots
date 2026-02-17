@@ -4,7 +4,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
 
 ## b2.2.0
 
-### Changes
+### Gameplay Changes
 
 - **Added Loot Ball Fishing**:
   - Implemented fishing as a new loot ball source.
@@ -13,6 +13,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Using the _Luck of the Sea_ enchantment increases the chance of finding a loot ball.
   - Added configurable despawn delay for fished loot balls.
   - Fished loot balls move towards the player (similar to items).
+- **Loot Ball Balance Overhaul**: All loot tables and loot ball definitions were reworked to be more balanced.
 - **Opening Effects**: Added special effects when opening loot balls:
   - Display the received item floating above the loot ball.
   - Particle effects on open (customizable via config).
