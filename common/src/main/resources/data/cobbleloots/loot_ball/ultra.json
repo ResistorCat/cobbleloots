@@ -21,7 +21,7 @@
     "fishing": [
       {
         "weight": 5,
-        "poke_rod": ["cobblemon:ultra_rod", "cobblemon:master_rod", "cobblemon:ancient_ultra_rod"]
+        "poke_rod": ["cobblemon:ultra_rod"]
       }
     ]
   }
