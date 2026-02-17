@@ -1,23 +1,88 @@
 {
+  "type": "chest",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cobblemon:rare_candy",
-          "weight": 1
+          "name": "cobblemon:safari_ball",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:exp_candy_xs",
+          "name": "cobblemon:leftovers",
           "weight": 3,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:silk_scarf",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:oval_stone",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:exp_share",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:normal_gem",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:relic_coin",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_count",
               "count": {
-                "min": 2,
-                "max": 4
+                "min": 1,
+                "max": 9
               }
             }
           ]
@@ -25,82 +90,33 @@
         {
           "type": "minecraft:item",
           "name": "cobblemon:lucky_egg",
-          "weight": 4
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:pinap_berry",
-          "weight": 6,
+          "weight": 2,
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4,
-                "max": 10
-              }
+              "function": "set_count",
+              "count": 1
             }
           ]
         },
         {
-          "type": "minecraft:item",
-          "name": "cobblemon:nanab_berry",
-          "weight": 6,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4,
-                "max": 10
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:razz_berry",
-          "weight": 6,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4,
-                "max": 10
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:silk_scarf",
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/medicine_uncommon",
           "weight": 8
         },
         {
-          "type": "minecraft:item",
-          "name": "cobblemon:sun_stone",
-          "weight": 8,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/ev_uncommon",
+          "weight": 2
         },
         {
-          "type": "minecraft:item",
-          "name": "cobblemon:safari_ball",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_uncommon",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/tools_uncommon",
+          "weight": 1
         }
       ]
     }
