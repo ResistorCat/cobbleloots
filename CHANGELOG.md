@@ -30,6 +30,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - **Premier**: Can now be found from generation and spawning sources in mountains. It can be fished with any rod in those biomes (or with a _premier rod_ for higher chances).
   - **Uncommon Loot Balls**:
     - **Great**: Can now be found everywhere, spawns in all biomes and can be fished with any rod (or with a _great rod_ for higher chances).
+    - **Dive**: Can now be found from generation and spawning sources in oceans and deep oceans. It can be fished with any rod in those biomes (or with a _dive rod_ for higher chances).
 - **Opening Effects**: Added special effects when opening loot balls:
   - Display the received item floating above the loot ball.
   - Particle effects on open (customizable via config).
