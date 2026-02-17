@@ -14,13 +14,19 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Added configurable despawn delay for fished loot balls.
   - Fished loot balls move towards the player (similar to items).
 - **Loot Ball Balance Overhaul**: All loot tables and loot ball definitions were reworked to be more balanced.
-  - Split basic ball variants from Poké Ball into standalone files:
+  - New tiers for loot balls were defined:
+    - **Common**: More frequent, with simpler loot tables.
+    - **Uncommon**: Less frequent, with more complex loot tables.
+    - **Rare**: Rare, with more valuable loot tables.
+    - **Ultra Rare**: Very rare, with the most valuable loot tables.
+  - Ball variants from Poké Ball were split into standalone files.
+  - **Common Loot Balls**:
     - **Poké**: Can now be found everywhere, spawns in all biomes and can be fished with any rod (or with a _poké rod_ for higher chances).
-    - **Azure**: Can now be found from generation and spawning sources in oceans, coasts and rivers. It can be fished with any rod in those biomes (or with an _azure rod_ for higher chances).
-    - **Citrine**: Can now be found from generation and spawning sources in deserts, badlands and savannas. It can be fished with any rod in those biomes (or with a _citrine rod_ for higher chances).
-    - **Verdant**: Can now be found from generation and spawning sources in forests and plains. It can be fished with any rod in those biomes (or with a _verdant rod_ for higher chances).
-    - **Roseate**: Can now be found from generation and spawning sources in floral and lush biomes. It can be fished with any rod in those biomes (or with a _roseate rod_ for higher chances).
-    - **Slate**: Can now be found from generation and spawning sources in caves and volcanic biomes. It can be fished with any rod in those biomes (or with a _slate rod_ for higher chances).
+    - (NEW) **Azure**: Can now be found from generation and spawning sources in oceans, coasts and rivers. It can be fished with any rod in those biomes (or with an _azure rod_ for higher chances).
+    - (NEW) **Citrine**: Can now be found from generation and spawning sources in deserts, badlands and savannas. It can be fished with any rod in those biomes (or with a _citrine rod_ for higher chances).
+    - (NEW) **Verdant**: Can now be found from generation and spawning sources in forests and plains. It can be fished with any rod in those biomes (or with a _verdant rod_ for higher chances).
+    - (NEW) **Roseate**: Can now be found from generation and spawning sources in floral and lush biomes. It can be fished with any rod in those biomes (or with a _roseate rod_ for higher chances).
+    - (NEW) **Slate**: Can now be found from generation and spawning sources in caves and volcanic biomes. It can be fished with any rod in those biomes (or with a _slate rod_ for higher chances).
     - **Premier**: Can now be found from generation and spawning sources in mountains. It can be fished with any rod in those biomes (or with a _premier rod_ for higher chances).
 - **Opening Effects**: Added special effects when opening loot balls:
   - Display the received item floating above the loot ball.
