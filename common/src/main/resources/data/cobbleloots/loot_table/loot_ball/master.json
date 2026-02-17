@@ -1,4 +1,5 @@
 {
+  "type": "chest",
   "pools": [
     {
       "rolls": 1,
@@ -6,23 +7,24 @@
         {
           "type": "minecraft:item",
           "name": "cobblemon:master_ball",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:ability_patch",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:exp_candy_xl",
-          "weight": 1,
+          "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_ingot",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 2
+                "min": 2,
+                "max": 4
               }
             }
           ]
@@ -30,45 +32,44 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:nether_star",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:ability_patch",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/medicine_ultra_rare",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/ev_ultra_rare",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_ultra_rare",
           "weight": 1
         },
         {
-          "type": "minecraft:item",
-          "name": "minecraft:netherite_ingot",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:rare_candy",
-          "weight": 4,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 5,
-                "max": 10
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:book",
-          "weight": 4,
-          "functions": [
-            {
-              "function": "minecraft:enchant_randomly"
-            }
-          ]
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/tools_ultra_rare",
+          "weight": 1
         }
       ]
     }
