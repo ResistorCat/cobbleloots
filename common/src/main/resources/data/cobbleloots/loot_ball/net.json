@@ -1,0 +1,67 @@
+{
+  "name": {
+    "text": "Net Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/net",
+  "texture": "cobblemon:textures/poke_balls/net_ball.png",
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_river"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_swamp"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_river"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_swamp"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_river"
+      },
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_swamp"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_ocean",
+        "poke_rod": ["cobblemon:net_rod"]
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_river",
+        "poke_rod": ["cobblemon:net_rod"]
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_swamp",
+        "poke_rod": ["cobblemon:net_rod"]
+      }
+    ]
+  }
+}
