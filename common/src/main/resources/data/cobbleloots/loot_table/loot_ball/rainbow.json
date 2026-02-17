@@ -1,4 +1,5 @@
 {
+  "type": "chest",
   "pools": [
     {
       "rolls": 1,
@@ -6,7 +7,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:black_banner",
-          "weight": 8,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -54,7 +55,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:firework_rocket",
-          "weight": 8,
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -67,20 +68,10 @@
                   {
                     "shape": "large_ball",
                     "colors": [
-                      16711680,
-                      16753920,
-                      16776960,
-                      8439583,
-                      2437522,
-                      8991416
+                      16711680, 16753920, 16776960, 8439583, 2437522, 8991416
                     ],
                     "fade_colors": [
-                      16711680,
-                      16753920,
-                      16776960,
-                      8439583,
-                      2437522,
-                      8991416
+                      16711680, 16753920, 16776960, 8439583, 2437522, 8991416
                     ],
                     "has_trail": true,
                     "has_twinkle": true
@@ -101,47 +92,126 @@
         },
         {
           "type": "minecraft:item",
+          "name": "cobblemon:strawberry_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:berry_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:love_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:star_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:clover_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:flower_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:ribbon_sweet",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
           "name": "minecraft:totem_of_undying",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1
-            }
-          ]
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:exp_candy_xs",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1
-            }
-          ]
+          "name": "cobblemon:prism_scale",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:exp_candy_s",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1
-            }
-          ]
+          "name": "cobblemon:destiny_knot",
+          "weight": 2
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:exp_candy_m",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": 1
-            }
-          ]
+          "name": "cobblemon:dawn_stone",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_uncommon",
+          "weight": 2
         }
       ]
     }
