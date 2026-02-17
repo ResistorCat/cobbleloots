@@ -1,0 +1,73 @@
+{
+  "name": {
+    "text": "Citrine Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/citrine",
+  "texture": "cobblemon:textures/poke_balls/citrine_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_desert"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_badlands"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_savanna"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_desert"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_badlands"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_savanna"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_desert",
+        "poke_rod": [
+          "cobblemon:citrine_rod"
+        ]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_badlands",
+        "poke_rod": [
+          "cobblemon:citrine_rod"
+        ]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_savanna",
+        "poke_rod": [
+          "cobblemon:citrine_rod"
+        ]
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_desert"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_badlands"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_savanna"
+      }
+    ]
+  }
+}
