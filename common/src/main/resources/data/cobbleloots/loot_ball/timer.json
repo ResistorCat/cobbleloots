@@ -1,0 +1,41 @@
+{
+  "name": {
+    "text": "Timer Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/timer",
+  "texture": "cobblemon:textures/poke_balls/timer_ball.png",
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 30,
+        "dimension": ["minecraft:the_nether"]
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_badlands"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 30,
+        "dimension": ["minecraft:the_nether"]
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_badlands"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_badlands",
+        "poke_rod": ["cobblemon:timer_rod"]
+      },
+      {
+        "weight": 3,
+        "biome": "#cobblemon:is_badlands"
+      }
+    ]
+  }
+}

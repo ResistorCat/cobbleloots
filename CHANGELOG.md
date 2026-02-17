@@ -20,6 +20,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - **Rare**: Rare, with more valuable loot tables.
     - **Ultra Rare**: Very rare, with the most valuable loot tables.
   - Ball variants from Poké Ball were split into standalone files.
+  - Added 6 new loot balls; Lure, Dusk, Quick, Timer, Nest and Net.
   - **Common Loot Balls**:
     - **Poké**: Can now be found everywhere, spawns in all biomes and can be fished with any rod (or with a _poké rod_ for higher chances).
     - (NEW) **Azure**: Can now be found from generation and spawning sources in oceans, coasts and rivers. It can be fished with any rod in those biomes (or with an _azure rod_ for higher chances).
@@ -39,6 +40,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - (NEW) **Nest**: Can be found from generation and spawning sources in forests and swamps. It can be fished with any rod in those biomes (or with a _nest rod_ for higher chances).
     - (NEW) **Net**: Can be found from generation and spawning sources in oceans, swamps and rivers. It can be fished with any rod in those biomes (or with a _net rod_ for higher chances).
     - (NEW) **Quick**: Can be found from generation and spawning sources in plains and sky biomes, and in the end dimension. It can be fished (only in the overworld) with any rod in those biomes (or with a _quick rod_ for higher chances).
+    - (NEW) **Timer**: Can be found from generation and spawning sources in badlands biomes and in the nether dimension. It can be fished (only in the overworld) with any rod in those biomes (or with a _timer rod_ for higher chances).
   - **Rare Loot Balls**:
     - **Ultra**: Can now be found everywhere, spawns in all biomes and can be fished with an _ultra rod_.
     - **Luxury**: Can now be found everywhere in the end dimension from generation and spawning sources. It can't be fished.
