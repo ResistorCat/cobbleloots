@@ -48,7 +48,9 @@ ITEM_TEXTURE_MAPPINGS = {
     "light_gray_banner": "item/banner.png",
     "clock": "item/clock_00.png",
     "x_special_attack": "item/battle_items/x_sp_atk.png",
-    "x_special_defense": "item/battle_items/x_sp_def.png",
+    # Note: Cobblemon team misspelled the item name as "defence" instead of "defense", so this fixes the texture name
+    "x_special_defence": "item/battle_items/x_sp_def.png",
+    "x_defence": "item/battle_items/x_defense.png",
 }
 
 
