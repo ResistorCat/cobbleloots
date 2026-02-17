@@ -6,18 +6,18 @@
   },
   "loot_table": "cobbleloots:loot_ball/luxury",
   "texture": "cobblemon:textures/poke_balls/luxury_ball.png",
-  "xp": 25,
+  "xp": 10,
   "sources": {
     "generation": [
       {
         "weight": 5,
-        "biome": "cobbleloots:loot_ball/luxury"
+        "dimension": ["minecraft:the_end"]
       }
     ],
     "spawning": [
       {
         "weight": 5,
-        "biome": "cobbleloots:loot_ball/luxury"
+        "dimension": ["minecraft:the_end"]
       }
     ]
   }
