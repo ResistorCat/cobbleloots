@@ -2,35 +2,43 @@
   "name": [
     {
       "color": "#E40303",
-      "text": "R"
+      "text": "R",
+      "bold": true
     },
     {
       "color": "#F76501",
-      "text": "a"
+      "text": "a",
+      "bold": true
     },
     {
       "color": "#FFB600",
-      "text": "i"
+      "text": "i",
+      "bold": true
     },
     {
       "color": "#DBDD05",
-      "text": "n"
+      "text": "n",
+      "bold": true
     },
     {
       "color": "#249021",
-      "text": "b"
+      "text": "b",
+      "bold": true
     },
     {
       "color": "#0063A2",
-      "text": "o"
+      "text": "o",
+      "bold": true
     },
     {
       "color": "#750787",
-      "text": "w"
+      "text": "w",
+      "bold": true
     },
     {
       "color": "#FFFFFF",
-      "text": " Loot Ball"
+      "text": " Loot Ball",
+      "bold": true
     }
   ],
   "loot_table": "cobbleloots:loot_ball/rainbow",
@@ -39,30 +47,32 @@
   "sources": {
     "generation": [
       {
-        "weight": 10,
-        "biome": "cobbleloots:loot_ball/rainbow"
+        "weight": 35,
+        "biome": "#cobbleloots:loot_ball/rainbow"
       }
     ],
     "spawning": [
       {
-        "weight": 20,
+        "weight": 35,
         "light": {
           "sky": {
             "min": 7
           }
         },
-        "biome": "cobbleloots:loot_ball/rainbow"
+        "time": {
+          "value": {
+            "min": 0,
+            "max": 13000
+          },
+          "period": 24000
+        },
+        "biome": "#cobbleloots:loot_ball/rainbow"
       }
     ],
     "fishing": [
       {
-        "weight": 2,
-        "biome": "cobbleloots:loot_ball/rainbow",
-        "poke_rod": [
-          "cobblemon:ultra_rod",
-          "cobblemon:master_rod",
-          "cobblemon:ancient_ultra_rod"
-        ]
+        "weight": 3,
+        "biome": "#cobbleloots:loot_ball/rainbow"
       }
     ]
   }
