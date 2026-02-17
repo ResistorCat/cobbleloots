@@ -13,6 +13,7 @@
     "minecraft:old_growth_birch_forest",
     "minecraft:mangrove_swamp",
     "minecraft:wooded_badlands",
-    "minecraft:deep_dark"
+    "minecraft:deep_dark",
+    "#cobblemon:is_spooky"
   ]
 }
