@@ -16,6 +16,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Loot Ball Balance Overhaul**: All loot tables and loot ball definitions were reworked to be more balanced.
   - Split basic ball variants from Poké Ball into standalone files:
     - **Poké**: Can now be found everywhere, spawns in all biomes and can be fished with any rod (or with a _poké rod_ for higher chances).
+    - **Azure**: Can now be found from generation and spawning sources in oceans, coasts and rivers. It can be fished with any rod in those biomes (or with an _azure rod_ for higher chances).
 - **Opening Effects**: Added special effects when opening loot balls:
   - Display the received item floating above the loot ball.
   - Particle effects on open (customizable via config).
