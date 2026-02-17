@@ -6,18 +6,29 @@
   },
   "loot_table": "cobbleloots:loot_ball/heal",
   "texture": "cobblemon:textures/poke_balls/heal_ball.png",
-  "xp": 10,
+  "xp": 5,
   "sources": {
     "generation": [
       {
-        "weight": 10,
+        "weight": 30,
         "dimension": ["minecraft:overworld"]
       }
     ],
     "spawning": [
       {
-        "weight": 10,
+        "weight": 30,
         "dimension": ["minecraft:overworld"]
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 3,
+        "dimension": ["minecraft:overworld"]
+      },
+      {
+        "weight": 30,
+        "dimension": ["minecraft:overworld"],
+        "poke_rod": ["cobblemon:heal_rod"]
       }
     ]
   }
