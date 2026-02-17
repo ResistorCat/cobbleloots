@@ -1,0 +1,50 @@
+{
+  "name": {
+    "text": "Slate Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/slate",
+  "texture": "cobblemon:textures/poke_balls/slate_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_cave"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_volcanic"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_cave"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_volcanic"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_cave"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_volcanic"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_cave",
+        "poke_rod": ["cobblemon:slate_rod"]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_volcanic",
+        "poke_rod": ["cobblemon:slate_rod"]
+      }
+    ]
+  }
+}

@@ -20,6 +20,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
     - **Citrine**: Can now be found from generation and spawning sources in deserts, badlands and savannas. It can be fished with any rod in those biomes (or with a _citrine rod_ for higher chances).
     - **Verdant**: Can now be found from generation and spawning sources in forests and plains. It can be fished with any rod in those biomes (or with a _verdant rod_ for higher chances).
     - **Roseate**: Can now be found from generation and spawning sources in floral and lush biomes. It can be fished with any rod in those biomes (or with a _roseate rod_ for higher chances).
+    - **Slate**: Can now be found from generation and spawning sources in caves and volcanic biomes. It can be fished with any rod in those biomes (or with a _slate rod_ for higher chances).
 - **Opening Effects**: Added special effects when opening loot balls:
   - Display the received item floating above the loot ball.
   - Particle effects on open (customizable via config).
