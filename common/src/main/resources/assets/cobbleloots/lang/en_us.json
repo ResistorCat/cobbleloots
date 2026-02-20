@@ -14,7 +14,7 @@
   "item.cobbleloots.loot_ball.custom_texture.lore": "A loot ball with a custom texture!",
   "item.cobbleloots.loot_ball.tooltip.1": "A mysterious ball that contains loot!",
   "item.cobbleloots.dowsing_machine": "Dowsing Machine",
-  "item.cobbleloots.dowsing_machine.chunks": "A hidden loot ball was detected within 2 chunks!",
+  "item.cobbleloots.dowsing_machine.chunks": "A hidden loot ball was detected within a 2-chunk radius!",
   "item.cobbleloots.dowsing_machine.near": "A hidden loot ball is near!",
   "item.cobbleloots.dowsing_machine.not_found": "No hidden loot balls found!",
   "item.cobbleloots.dowsing_machine.tooltip": "Right click to search for HIDDEN loot balls within a 2-chunk radius",
@@ -23,7 +23,7 @@
   "stat.cobbleloots.loot_ball.total_opened": "Loot balls opened",
   "stat.cobbleloots.loot_ball.open": "Loot ball open fanfare",
   "event.cobbleloots.loot_ball.spawn.special": "A special loot ball has spawned!",
-  
+
   "cobbleloots.midnightconfig.title": "Cobbleloots Settings",
 
   "cobbleloots.midnightconfig.category.xp": "Experience",
@@ -79,7 +79,7 @@
   "cobbleloots.midnightconfig.survival_drop_automatic.tooltip": "If enabled, loot balls will drop as items automatically when their uses are exhausted (unless destroyed).",
   "cobbleloots.midnightconfig.survival_destroy_looted": "Destroy Looted Balls",
   "cobbleloots.midnightconfig.survival_destroy_looted.tooltip": "If enabled, loot balls are completely destroyed (vanish) when their uses are exhausted. Overrides drop automatic.",
-  
+
   "cobbleloots.midnightconfig.category.defaults": "Loot Ball Defaults",
   "cobbleloots.midnightconfig.defaults_uses": "Default Uses",
   "cobbleloots.midnightconfig.defaults_uses.tooltip": "Default number of times a loot ball can be opened.",
