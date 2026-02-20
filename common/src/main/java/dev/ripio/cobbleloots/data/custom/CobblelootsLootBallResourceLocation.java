@@ -68,9 +68,6 @@ public class CobblelootsLootBallResourceLocation {
         boolean pathMatches = this.path.equals("*") || this.path.equals(path);
         boolean variantMatches = this.variant.equals("*") || this.variant.equals(variant);
 
-        Cobbleloots.LOGGER.info("[DEBUG] Matching loot ball pattern {} against {}:{}:{}} - namespaceMatches: {}, pathMatches: {}, variantMatches: {}",
-            this, namespace, path, variant, namespaceMatches, pathMatches, variantMatches);
-
         if (this.path.equals("*")) {
             return namespaceMatches;
         }
