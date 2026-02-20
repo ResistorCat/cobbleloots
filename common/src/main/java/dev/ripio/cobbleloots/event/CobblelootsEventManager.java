@@ -6,6 +6,8 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
+import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
+
 import static dev.ripio.cobbleloots.event.custom.CobblelootsLootBallEvents.generateLootBallOnChunk;
 import static dev.ripio.cobbleloots.event.custom.CobblelootsLootBallEvents.spawnLootBallNearRandomPlayer;
 
@@ -29,6 +31,9 @@ public class CobblelootsEventManager {
   }
 
   public static void onServerTick(MinecraftServer server) {
+    // Check if loot ball client data needs refreshing after a reload
+    CobblelootsDataProvider.checkAndRefreshClientData(server);
+
     // Initialize the loot ball spawn tick
     if (lootBallSpawnTick == 0)
       lootBallSpawnTick = server.getTickCount() + getLootBallCooldown();

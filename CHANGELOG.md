@@ -74,6 +74,11 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - Updated Reference page with updated biome tag information.
   - Added a new Configuration page with updated information about the configuration system.
 
+### Bug Fixes
+
+- Fixed a bug where disabled loot balls were not being disabled after a `/reload` command and only after a server restart.
+- Fixed a bug where reloading loot balls with `/reload` would not refresh loot ball client data on existing entities.
+
 ## a2.1.0
 
 ### Changes

@@ -53,6 +53,7 @@ import static dev.ripio.cobbleloots.util.math.CobblelootsMath.weightedRandomEntr
 public class CobblelootsDataProvider {
   private static final Map<ResourceLocation, CobblelootsLootBallData> lootBallsData = new HashMap<>();
   private static final List<CobblelootsLootBallResourceLocation> disabledLootBalls = new ArrayList<>();
+  private static volatile boolean pendingClientDataRefresh = false;
 
   public static void addLootBallData(ResourceLocation id, JsonElement json) {
     DataResult<CobblelootsLootBallData> result = LOOT_BALL_DATA_CODEC.parse(JsonOps.INSTANCE, json);
@@ -523,6 +524,35 @@ public class CobblelootsDataProvider {
     removeLootBallData(cachedLootBalls);
 
     Cobbleloots.LOGGER.info("Loaded {} Loot Ball data definitions.", lootBallsData.size());
+
+    // Flag that existing entities need their client data refreshed
+    pendingClientDataRefresh = true;
+  }
+
+  /**
+   * Checks if a client data refresh is pending and processes it.
+   * Should be called from the server tick to ensure server context is available.
+   *
+   * @param server The Minecraft server instance
+   */
+  public static void checkAndRefreshClientData(MinecraftServer server) {
+    if (!pendingClientDataRefresh)
+      return;
+    pendingClientDataRefresh = false;
+
+    int count = 0;
+    for (ServerLevel level : server.getAllLevels()) {
+      for (Entity entity : level.getAllEntities()) {
+        if (entity instanceof CobblelootsLootBall lootBall) {
+          lootBall.updateLootBallClientData();
+          count++;
+        }
+      }
+    }
+
+    if (count > 0) {
+      Cobbleloots.LOGGER.info("Refreshed client data for {} loot ball entities.", count);
+    }
   }
 
   /**
