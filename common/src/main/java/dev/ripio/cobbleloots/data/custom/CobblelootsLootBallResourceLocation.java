@@ -1,6 +1,5 @@
 package dev.ripio.cobbleloots.data.custom;
 
-import dev.ripio.cobbleloots.Cobbleloots;
 import net.minecraft.resources.ResourceLocation;
 
 public class CobblelootsLootBallResourceLocation {

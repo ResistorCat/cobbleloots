@@ -30,8 +30,6 @@ import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import static dev.ripio.cobbleloots.entity.CobblelootsEntities.getLootBallEntityType;
 
 public class CobblelootsLootBallEvents {
-  private static final String TEXT_EVENT_LOOT_BALL_SPAWN_SPECIAL = "event.cobbleloots.loot_ball.spawn.special";
-
   public static boolean generateLootBallOnChunk(ServerLevel level, LevelChunk levelChunk, RandomSource randomSource) {
     // STEP: Check chance for loot ball generation attempt
     if (randomSource.nextFloat() > CobblelootsConfig.generation_chance)

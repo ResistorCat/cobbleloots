@@ -5,7 +5,6 @@ import dev.ripio.cobbleloots.item.CobblelootsItems;
 import dev.ripio.cobbleloots.item.custom.CobblelootsLootBallItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
