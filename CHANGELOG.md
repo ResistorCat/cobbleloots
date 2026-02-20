@@ -62,6 +62,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **Localization**:
   - Added full localization support for configuration keys (`en_us.json`).
   - Added translation keys for new messages.
+  - Added Brazilian Portuguese (`pt_br.json`) translation. Initial base keys contributed by [PrincessStelllar](https://github.com/PrincessStelllar) via [PR #21](https://github.com/ResistorCat/cobbleloots/pull/21).
 - **Dependencies**:
   - Switched internal configuration library to **MidnightLib** for better cross-platform support.
 - **Updated Biome Filters**: Biome filters now accept:
