@@ -110,7 +110,7 @@
   "cobbleloots.midnightconfig.fishing_disabled_dimensions.tooltip": "List of dimension IDs where fishing loot balls is disabled.",
 
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions": "Disabled Dimensions (Archaeology)",
-  "cobbleloots.midnightconfig.archaeology_disabled_dimensions.tooltip": "List of dimension IDs where archaeology loot falls is disabled.",
+  "cobbleloots.midnightconfig.archaeology_disabled_dimensions.tooltip": "List of dimension IDs where archaeology loot balls is disabled.",
 
   "subtitles.cobbleloots.loot_ball_open": "Loot ball fanfare"
 }
