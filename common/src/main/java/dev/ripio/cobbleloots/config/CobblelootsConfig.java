@@ -12,98 +12,125 @@ import java.util.List;
 import java.util.Map;
 
 public class CobblelootsConfig extends MidnightConfig {
-    public static final String CATEGORY_XP = "xp";
-    public static final String CATEGORY_BONUS = "bonus";
-    public static final String CATEGORY_GENERATION = "generation";
-    public static final String CATEGORY_SPAWNING = "spawning";
-    public static final String CATEGORY_SURVIVAL = "survival";
-    public static final String CATEGORY_DEFAULTS = "defaults";
-    public static final String CATEGORY_DISABLED = "disabled";
-    public static final String CATEGORY_FISHING = "fishing";
+    // Categories
+    public static final String CATEGORY_GAMEPLAY = "gameplay";
+    public static final String CATEGORY_CREATIVE = "creative";
+    public static final String CATEGORY_SOURCES = "sources";
 
-    // XP
-    @Entry(category = CATEGORY_XP)
-    public static boolean xp_enabled = true;
+    ////////////////
+    /// Gameplay ///
+    ////////////////
 
-    // Bonus
-    @Entry(category = CATEGORY_BONUS)
-    public static boolean bonus_enabled = true;
-    @Entry(category = CATEGORY_BONUS)
-    public static float bonus_chance = 0.1F;
-    @Entry(category = CATEGORY_BONUS)
-    public static float bonus_multiplier = 2F;
-    @Entry(category = CATEGORY_BONUS)
-    public static boolean bonus_invisible = true;
+    @Comment(category = CATEGORY_GAMEPLAY, centered = true)
+    public static String gameplay_comment;
+
+    // Loot Ball
+    @Comment(category = CATEGORY_GAMEPLAY, centered = true)
+    public static String loot_ball_comment;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static CobblelootsLootBallEmptyBehavior loot_ball_empty_behavior = CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static float loot_ball_bonus_chance = 0.1F;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static float loot_ball_bonus_multiplier = 2.0F;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static boolean loot_ball_bonus_invisible = true;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static boolean loot_ball_effects_enabled = true;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static boolean loot_ball_xp_enabled = true;
+
+    // TODO: Multiplayer
+    @Comment(category = CATEGORY_GAMEPLAY, centered = true)
+    public static String multiplayer_comment;
+
+    // Data pack
+    @Comment(category = CATEGORY_GAMEPLAY, centered = true)
+    public static String data_pack_comment;
+    @Entry(category = CATEGORY_GAMEPLAY)
+    public static List<String> data_pack_disabled_loot_balls = new ArrayList<>();
+
+    ////////////////
+    /// Creative ///
+    ////////////////
+
+    @Comment(category = CATEGORY_CREATIVE, centered = true)
+    public static String creative_comment;
+
+    // Loot Ball
+    @Comment(category = CATEGORY_CREATIVE, centered = true)
+    public static String creative_loot_ball_comment;
+    @Entry(category = CATEGORY_CREATIVE)
+    public static int loot_ball_default_xp = 0;
+    @Entry(category = CATEGORY_CREATIVE)
+    public static int loot_ball_default_uses = 1;
+    @Entry(category = CATEGORY_CREATIVE)
+    public static float loot_ball_default_multiplier = 1.0F;
+    @Entry(category = CATEGORY_CREATIVE)
+    public static int loot_ball_default_player_cooldown = 0;
+    @Entry(category = CATEGORY_CREATIVE)
+    public static int loot_ball_default_despawn_tick = 0;
+
+    ///////////////
+    /// Sources ///
+    ///////////////
+
+    @Comment(category = CATEGORY_SOURCES, centered = true)
+    public static String sources_comment;
 
     // Generation
-    @Entry(category = CATEGORY_GENERATION)
+    @Comment(category = CATEGORY_SOURCES, centered = true)
+    public static String generation_comment;
+    @Entry(category = CATEGORY_SOURCES)
     public static boolean generation_enabled = true;
-    @Entry(category = CATEGORY_GENERATION)
+    @Entry(category = CATEGORY_SOURCES)
     public static float generation_chance = 0.0513F;
-    @Entry(category = CATEGORY_GENERATION)
-    public static int generation_attempts = 2;
-    @Entry(category = CATEGORY_GENERATION)
+    @Entry(category = CATEGORY_SOURCES)
+    public static int generation_attempts_per_chunk = 2;
+    @Entry(category = CATEGORY_SOURCES)
     public static int generation_chunk_cap = 4;
-
-    // Fishing
-    @Entry(category = CATEGORY_FISHING)
-    public static boolean fishing_enabled = true;
-    @Entry(category = CATEGORY_FISHING)
-    public static float fishing_chance = 0.01F;
-    @Entry(category = CATEGORY_FISHING)
-    public static float fishing_luck_of_the_sea_multiplier = 1.25F;
-    @Entry(category = CATEGORY_FISHING)
-    public static boolean fishing_despawn_enabled = true;
-    @Entry(category = CATEGORY_FISHING)
-    public static int fishing_despawn_time = 24000;
+    @Entry(category = CATEGORY_SOURCES, idMode = 1)
+    public static List<ResourceLocation> generation_disabled_dimensions = new ArrayList<>();
 
     // Spawning
-    @Entry(category = CATEGORY_SPAWNING)
+    @Comment(category = CATEGORY_SOURCES, centered = true)
+    public static String spawning_comment;
+    @Entry(category = CATEGORY_SOURCES)
     public static boolean spawning_enabled = true;
-    @Entry(category = CATEGORY_SPAWNING)
+    @Entry(category = CATEGORY_SOURCES)
     public static float spawning_chance = 0.25F;
-    @Entry(category = CATEGORY_SPAWNING)
+    @Entry(category = CATEGORY_SOURCES)
     public static int spawning_cooldown_min = 6000;
-    @Entry(category = CATEGORY_SPAWNING)
+    @Entry(category = CATEGORY_SOURCES)
     public static int spawning_cooldown_max = 36000;
-    @Entry(category = CATEGORY_SPAWNING)
-    public static boolean spawning_despawn_enabled = true;
-    @Entry(category = CATEGORY_SPAWNING)
+    @Entry(category = CATEGORY_SOURCES)
     public static int spawning_despawn_time = 24000;
+    @Entry(category = CATEGORY_SOURCES, idMode = 1)
+    public static List<ResourceLocation> spawning_disabled_dimensions = new ArrayList<>();
 
-    // Survival
-    @Entry(category = CATEGORY_SURVIVAL)
-    public static boolean survival_drop_enabled = true;
-    @Entry(category = CATEGORY_SURVIVAL)
-    public static boolean survival_drop_automatic = true;
-    @Entry(category = CATEGORY_SURVIVAL)
-    public static boolean survival_destroy_looted = false;
+    // Fishing
+    @Comment(category = CATEGORY_SOURCES, centered = true)
+    public static String fishing_comment;
+    @Entry(category = CATEGORY_SOURCES)
+    public static boolean fishing_enabled = true;
+    @Entry(category = CATEGORY_SOURCES)
+    public static float fishing_chance = 0.01F;
+    @Entry(category = CATEGORY_SOURCES)
+    public static float fishing_luck_of_the_sea_multiplier = 1.25F;
+    @Entry(category = CATEGORY_SOURCES)
+    public static int fishing_despawn_time = 24000;
+    @Entry(category = CATEGORY_SOURCES, idMode = 1)
+    public static List<ResourceLocation> fishing_disabled_dimensions = new ArrayList<>();
 
-    // Defaults
-    @Entry(category = CATEGORY_DEFAULTS)
-    public static int defaults_uses = 1;
-    @Entry(category = CATEGORY_DEFAULTS)
-    public static float defaults_multiplier = 1.0F;
-    @Entry(category = CATEGORY_DEFAULTS)
-    public static int defaults_xp = 0;
-    @Entry(category = CATEGORY_DEFAULTS)
-    public static int defaults_player_timer = 0;
-    @Entry(category = CATEGORY_DEFAULTS)
-    public static int defaults_despawn_tick = 0;
-    @Entry(category = CATEGORY_DEFAULTS)
-    public static boolean defaults_effects_enabled = true;
+    // TODO: Archaeology (future)
+    @Comment(category = CATEGORY_SOURCES, centered = true)
+    public static String archaeology_comment;
+    @Entry(category = CATEGORY_SOURCES, idMode = 1)
+    public static List<ResourceLocation> archaeology_disabled_dimensions = new ArrayList<>();
 
-    // Disabled Dimensions/Features (Lists)
-    @Entry(category = CATEGORY_DISABLED)
-    public static List<String> disabled_dimensions_generation = new ArrayList<>();
-    @Entry(category = CATEGORY_DISABLED)
-    public static List<String> disabled_dimensions_spawning = new ArrayList<>();
-    @Entry(category = CATEGORY_DISABLED)
-    public static List<String> disabled_dimensions_fishing = new ArrayList<>();
-    @Entry(category = CATEGORY_DISABLED)
-    public static List<String> disabled_dimensions_archaeology = new ArrayList<>();
-    @Entry(category = CATEGORY_DISABLED)
-    public static List<String> disabled_loot_balls = new ArrayList<>();
+    /////////////////
+    /// Migration ///
+    /////////////////
 
     public static void init() {
         init(Path.of("config/cobbleloots/cobbleloots.yaml"));
@@ -122,23 +149,27 @@ public class CobblelootsConfig extends MidnightConfig {
                 // Helper to safely get values
                 // We manually map old keys to new static fields
                 if (fileMap.containsKey("loot_ball.xp.enabled"))
-                    xp_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.xp.enabled").toString());
-
-                if (fileMap.containsKey("loot_ball.bonus.enabled"))
-                    bonus_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.bonus.enabled").toString());
-                if (fileMap.containsKey("loot_ball.bonus.chance"))
-                    bonus_chance = Float.parseFloat(fileMap.get("loot_ball.bonus.chance").toString());
+                    loot_ball_xp_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.xp.enabled").toString());
+                if (fileMap.containsKey("loot_ball.bonus.chance")) {
+                    loot_ball_bonus_chance = Float.parseFloat(fileMap.get("loot_ball.bonus.chance").toString());
+                    if (fileMap.containsKey("loot_ball.bonus.enabled"))
+                        loot_ball_bonus_chance = Boolean.parseBoolean(fileMap.get("loot_ball.bonus.enabled").toString())
+                                ? loot_ball_bonus_chance
+                                : 0;
+                }
                 if (fileMap.containsKey("loot_ball.bonus.multiplier"))
-                    bonus_multiplier = Float.parseFloat(fileMap.get("loot_ball.bonus.multiplier").toString());
+                    loot_ball_bonus_multiplier = Float.parseFloat(fileMap.get("loot_ball.bonus.multiplier").toString());
                 if (fileMap.containsKey("loot_ball.bonus.invisible"))
-                    bonus_invisible = Boolean.parseBoolean(fileMap.get("loot_ball.bonus.invisible").toString());
+                    loot_ball_bonus_invisible = Boolean
+                            .parseBoolean(fileMap.get("loot_ball.bonus.invisible").toString());
 
                 if (fileMap.containsKey("loot_ball.generation.enabled"))
                     generation_enabled = Boolean.parseBoolean(fileMap.get("loot_ball.generation.enabled").toString());
                 if (fileMap.containsKey("loot_ball.generation.chance"))
                     generation_chance = Float.parseFloat(fileMap.get("loot_ball.generation.chance").toString());
                 if (fileMap.containsKey("loot_ball.generation.attempts"))
-                    generation_attempts = Integer.parseInt(fileMap.get("loot_ball.generation.attempts").toString());
+                    generation_attempts_per_chunk = Integer
+                            .parseInt(fileMap.get("loot_ball.generation.attempts").toString());
                 if (fileMap.containsKey("loot_ball.generation.chunk_cap"))
                     generation_chunk_cap = Integer.parseInt(fileMap.get("loot_ball.generation.chunk_cap").toString());
 
@@ -150,55 +181,76 @@ public class CobblelootsConfig extends MidnightConfig {
                     spawning_cooldown_min = Integer.parseInt(fileMap.get("loot_ball.spawning.cooldown.min").toString());
                 if (fileMap.containsKey("loot_ball.spawning.cooldown.max"))
                     spawning_cooldown_max = Integer.parseInt(fileMap.get("loot_ball.spawning.cooldown.max").toString());
-
-                if (fileMap.containsKey("loot_ball.spawning.despawn.enabled"))
-                    spawning_despawn_enabled = Boolean
-                            .parseBoolean(fileMap.get("loot_ball.spawning.despawn.enabled").toString());
-                if (fileMap.containsKey("loot_ball.spawning.despawn.time"))
+                if (fileMap.containsKey("loot_ball.spawning.despawn.time")) {
                     spawning_despawn_time = Integer.parseInt(fileMap.get("loot_ball.spawning.despawn.time").toString());
+                    if (fileMap.containsKey("loot_ball.spawning.despawn.enabled")) {
+                        spawning_despawn_time = Boolean.parseBoolean(
+                                fileMap.get("loot_ball.spawning.despawn.enabled").toString()) ? spawning_despawn_time
+                                        : 0;
+                    }
+                }
 
-                if (fileMap.containsKey("loot_ball.survival.drop.enabled"))
-                    survival_drop_enabled = Boolean
-                            .parseBoolean(fileMap.get("loot_ball.survival.drop.enabled").toString());
-                if (fileMap.containsKey("loot_ball.survival.drop.automatic"))
-                    survival_drop_automatic = Boolean
-                            .parseBoolean(fileMap.get("loot_ball.survival.drop.automatic").toString());
-                if (fileMap.containsKey("loot_ball.survival.destroy_looted"))
-                    survival_destroy_looted = Boolean
-                            .parseBoolean(fileMap.get("loot_ball.survival.destroy_looted").toString());
+                // Migrate old boolean keys to new enum
+                {
+                    boolean dropEnabled = true;
+                    boolean dropAutomatic = true;
+                    boolean destroyEmpty = false;
+                    if (fileMap.containsKey("loot_ball.survival.drop.enabled"))
+                        dropEnabled = Boolean.parseBoolean(fileMap.get("loot_ball.survival.drop.enabled").toString());
+                    if (fileMap.containsKey("loot_ball.survival.drop.automatic"))
+                        dropAutomatic = Boolean
+                                .parseBoolean(fileMap.get("loot_ball.survival.drop.automatic").toString());
+                    if (fileMap.containsKey("loot_ball.survival.destroy_looted"))
+                        destroyEmpty = Boolean
+                                .parseBoolean(fileMap.get("loot_ball.survival.destroy_looted").toString());
+
+                    if (destroyEmpty) {
+                        loot_ball_empty_behavior = CobblelootsLootBallEmptyBehavior.DESTROY;
+                    } else if (dropEnabled && dropAutomatic) {
+                        loot_ball_empty_behavior = CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC;
+                    } else if (dropEnabled) {
+                        loot_ball_empty_behavior = CobblelootsLootBallEmptyBehavior.DROP_MANUAL;
+                    } else {
+                        loot_ball_empty_behavior = CobblelootsLootBallEmptyBehavior.KEEP;
+                    }
+                }
 
                 if (fileMap.containsKey("loot_ball.defaults.uses"))
-                    defaults_uses = Integer.parseInt(fileMap.get("loot_ball.defaults.uses").toString());
+                    loot_ball_default_uses = Integer.parseInt(fileMap.get("loot_ball.defaults.uses").toString());
                 if (fileMap.containsKey("loot_ball.defaults.multiplier"))
-                    defaults_multiplier = Float.parseFloat(fileMap.get("loot_ball.defaults.multiplier").toString());
+                    loot_ball_default_multiplier = Float
+                            .parseFloat(fileMap.get("loot_ball.defaults.multiplier").toString());
                 if (fileMap.containsKey("loot_ball.defaults.xp"))
-                    defaults_xp = Integer.parseInt(fileMap.get("loot_ball.defaults.xp").toString());
+                    loot_ball_default_xp = Integer.parseInt(fileMap.get("loot_ball.defaults.xp").toString());
                 if (fileMap.containsKey("loot_ball.defaults.player_timer"))
-                    defaults_player_timer = Integer.parseInt(fileMap.get("loot_ball.defaults.player_timer").toString());
+                    loot_ball_default_player_cooldown = Integer
+                            .parseInt(fileMap.get("loot_ball.defaults.player_timer").toString());
                 if (fileMap.containsKey("loot_ball.defaults.despawn_tick"))
-                    defaults_despawn_tick = Integer.parseInt(fileMap.get("loot_ball.defaults.despawn_tick").toString());
+                    loot_ball_default_despawn_tick = Integer
+                            .parseInt(fileMap.get("loot_ball.defaults.despawn_tick").toString());
                 if (fileMap.containsKey("loot_ball.defaults.effects_enabled"))
-                    defaults_effects_enabled = Boolean
+                    loot_ball_effects_enabled = Boolean
                             .parseBoolean(fileMap.get("loot_ball.defaults.effects_enabled").toString());
 
-                // Handle Lists (converting ResourceLocation strings if needed, though they are
-                // stored as Strings now)
+                // Handle Lists
                 if (fileMap.containsKey("loot_ball.disabled.loot_balls"))
-                    disabled_loot_balls = parseStringList(fileMap.get("loot_ball.disabled.loot_balls"));
+                    data_pack_disabled_loot_balls = parseStringList(
+                            fileMap.get("loot_ball.disabled.loot_balls"));
 
                 if (fileMap.containsKey("loot_ball.disabled.dimensions.generation"))
-                    disabled_dimensions_generation = parseStringList(
+                    generation_disabled_dimensions = parseResourceLocationList(
                             fileMap.get("loot_ball.disabled.dimensions.generation"));
 
                 if (fileMap.containsKey("loot_ball.disabled.dimensions.spawning"))
-                    disabled_dimensions_spawning = parseStringList(
+                    spawning_disabled_dimensions = parseResourceLocationList(
                             fileMap.get("loot_ball.disabled.dimensions.spawning"));
 
                 if (fileMap.containsKey("loot_ball.disabled.dimensions.fishing"))
-                    disabled_dimensions_fishing = parseStringList(fileMap.get("loot_ball.disabled.dimensions.fishing"));
+                    fishing_disabled_dimensions = parseResourceLocationList(
+                            fileMap.get("loot_ball.disabled.dimensions.fishing"));
 
                 if (fileMap.containsKey("loot_ball.disabled.dimensions.archaeology"))
-                    disabled_dimensions_archaeology = parseStringList(
+                    archaeology_disabled_dimensions = parseResourceLocationList(
                             fileMap.get("loot_ball.disabled.dimensions.archaeology"));
 
                 Cobbleloots.LOGGER.info("Legacy config migrated successfully.");
@@ -227,6 +279,17 @@ public class CobblelootsConfig extends MidnightConfig {
         return new ArrayList<>();
     }
 
+    private static List<ResourceLocation> parseResourceLocationList(Object obj) {
+        if (obj instanceof List) {
+            List<ResourceLocation> list = new ArrayList<>();
+            for (Object item : (List<?>) obj) {
+                list.add(ResourceLocation.parse(item.toString()));
+            }
+            return list;
+        }
+        return new ArrayList<>();
+    }
+
     // Helper from old class to flatten map for easier key access
     private static Map<String, Object> flatten(Map<String, Object> map, String prefix) {
         Map<String, Object> flat = new java.util.HashMap<>();
@@ -239,128 +302,5 @@ public class CobblelootsConfig extends MidnightConfig {
             }
         }
         return flat;
-    }
-
-    // Adaptor methods for code compatibility - keeping old getters
-    public static boolean getBooleanConfig(String key) {
-        switch (key) {
-            case "loot_ball.xp.enabled":
-                return xp_enabled;
-            case "loot_ball.bonus.enabled":
-                return bonus_enabled;
-            case "loot_ball.bonus.invisible":
-                return bonus_invisible;
-            case "loot_ball.generation.enabled":
-                return generation_enabled;
-            case "loot_ball.spawning.enabled":
-                return spawning_enabled;
-            case "loot_ball.spawning.despawn.enabled":
-                return spawning_despawn_enabled;
-            case "loot_ball.survival.drop.enabled":
-                return survival_drop_enabled;
-            case "loot_ball.survival.drop.automatic":
-                return survival_drop_automatic;
-            case "loot_ball.survival.destroy_looted":
-                return survival_destroy_looted;
-            case "loot_ball.fishing.enabled":
-                return fishing_enabled;
-            case "loot_ball.fishing.despawn.enabled":
-                return fishing_despawn_enabled;
-            case "loot_ball.defaults.effects_enabled":
-                return defaults_effects_enabled;
-            default:
-                throw new IllegalArgumentException("Unknown boolean config key: " + key);
-        }
-    }
-
-    public static int getIntConfig(String key) {
-        switch (key) {
-            case "loot_ball.generation.attempts":
-                return generation_attempts;
-            case "loot_ball.generation.chunk_cap":
-                return generation_chunk_cap;
-            case "loot_ball.spawning.cooldown.min":
-                return spawning_cooldown_min;
-            case "loot_ball.spawning.cooldown.max":
-                return spawning_cooldown_max;
-            case "loot_ball.spawning.despawn.time":
-                return spawning_despawn_time;
-            case "loot_ball.fishing.despawn.time":
-                return fishing_despawn_time;
-            case "loot_ball.defaults.uses":
-                return defaults_uses;
-            case "loot_ball.defaults.xp":
-                return defaults_xp;
-            default:
-                throw new IllegalArgumentException("Unknown int config key: " + key);
-        }
-    }
-
-    public static float getFloatConfig(String key) {
-        switch (key) {
-            case "loot_ball.bonus.chance":
-                return bonus_chance;
-            case "loot_ball.bonus.multiplier":
-                return bonus_multiplier;
-            case "loot_ball.generation.chance":
-                return generation_chance;
-            case "loot_ball.spawning.chance":
-                return spawning_chance;
-            case "loot_ball.defaults.multiplier":
-                return defaults_multiplier;
-            case "loot_ball.fishing.chance":
-                return fishing_chance;
-            case "loot_ball.fishing.luck_of_the_sea_multiplier":
-                return fishing_luck_of_the_sea_multiplier;
-            default:
-                throw new IllegalArgumentException("Unknown float config key: " + key);
-        }
-    }
-
-    public static long getLongConfig(String key) {
-        switch (key) {
-            case "loot_ball.defaults.player_timer":
-                return (long) defaults_player_timer;
-            case "loot_ball.defaults.despawn_tick":
-                return (long) defaults_despawn_tick;
-            default:
-                throw new IllegalArgumentException("Unknown long config key: " + key);
-        }
-    }
-
-    public static List<ResourceLocation> getResourceLocationList(String key) {
-        List<String> stringList;
-        switch (key) {
-            case "loot_ball.disabled.dimensions.generation":
-                stringList = disabled_dimensions_generation;
-                break;
-            case "loot_ball.disabled.dimensions.spawning":
-                stringList = disabled_dimensions_spawning;
-                break;
-            case "loot_ball.disabled.dimensions.fishing":
-                stringList = disabled_dimensions_fishing;
-                break;
-            case "loot_ball.disabled.dimensions.archaeology":
-                stringList = disabled_dimensions_archaeology;
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown config key for ResourceLocation list: " + key);
-        }
-        List<ResourceLocation> list = new ArrayList<>();
-        for (String s : stringList) {
-            try {
-                list.add(ResourceLocation.parse(s));
-            } catch (Exception e) {
-                Cobbleloots.LOGGER.warn("Invalid ResourceLocation in config {}: {}", key, s);
-            }
-        }
-        return list;
-    }
-
-    public static List<String> getStringList(String key) {
-        if ("loot_ball.disabled.loot_balls".equals(key)) {
-            return disabled_loot_balls;
-        }
-        throw new IllegalArgumentException("Unknown config key for String list: " + key);
     }
 }

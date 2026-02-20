@@ -8,6 +8,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
+import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallResourceLocation;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
@@ -23,7 +24,9 @@ import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -480,14 +483,8 @@ public class CobblelootsDataProvider {
 
     // Load disabled loot balls from config
     disabledLootBalls.clear();
-    List<String> disabledLootBallsStrings = CobblelootsConfig.disabled_loot_balls;
-    for (String disabledString : disabledLootBallsStrings) {
-      try {
-        disabledLootBalls.add(new CobblelootsLootBallResourceLocation(disabledString));
-      } catch (IllegalArgumentException e) {
-        Cobbleloots.LOGGER.warn("Invalid format for disabled loot ball location in config: '{}'", disabledString);
-      }
-    }
+    disabledLootBalls.addAll(CobblelootsConfig.data_pack_disabled_loot_balls.stream()
+        .map(CobblelootsLootBallResourceLocation::new).toList());
 
     // Load loot balls
     for (ResourceLocation id : resourceManager
@@ -506,7 +503,7 @@ public class CobblelootsDataProvider {
       }
 
       if (isDisabled) {
-        cachedLootBalls.remove(normalizedId);
+        Cobbleloots.LOGGER.info("Loot ball {} is disabled", normalizedId);
         continue;
       }
 
@@ -540,19 +537,19 @@ public class CobblelootsDataProvider {
 
     switch (sourceType) {
       case GENERATION:
-        if (CobblelootsConfig.disabled_dimensions_generation.contains(dimensionId))
+        if (CobblelootsConfig.generation_disabled_dimensions.contains(dimensionId))
           return true;
         break;
       case SPAWNING:
-        if (CobblelootsConfig.disabled_dimensions_spawning.contains(dimensionId))
+        if (CobblelootsConfig.spawning_disabled_dimensions.contains(dimensionId))
           return true;
         break;
       case FISHING:
-        if (CobblelootsConfig.disabled_dimensions_fishing.contains(dimensionId))
+        if (CobblelootsConfig.fishing_disabled_dimensions.contains(dimensionId))
           return true;
         break;
       case ARCHAEOLOGY:
-        if (CobblelootsConfig.disabled_dimensions_archaeology.contains(dimensionId))
+        if (CobblelootsConfig.archaeology_disabled_dimensions.contains(dimensionId))
           return true;
         break;
       default:

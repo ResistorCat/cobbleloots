@@ -53,27 +53,26 @@ This document outlines the changes and fixes made in each version of the CobbleL
 
 ### Technical Changes
 
-- **In-Game Configuration**: Implemented full in-game configuration support using MidnightLib.
-  - Users can now edit mod settings directly from the game menu (Fabric via ModMenu, NeoForge via Mods menu).
-  - All configuration options are accessible and categorized for better usability.
-- **Legacy Config Migration**: Added an automatic migration system for existing `cobbleloots.yaml` files.
-  - On first launch with the new version, old configuration values will be preserved and migrated to the new format.
-  - The old `cobbleloots.yaml` file will be renamed to `cobbleloots.yaml.old` after successful migration.
+- **Configuration Overhaul**: All configurations options were refactored to use a new configuration system.
+  - Implemented full in-game configuration support for Fabric via **ModMenu** and NeoForge via Mods menu.
+  - Server OPs can now edit the configuration in-game using `/midnightconfig cobbleloots <key> <value>`.
+  - On first launch with this version, old configuration values will be preserved and migrated to the new format.
+    - The old `cobbleloots.yaml` file will be renamed to `cobbleloots.yaml.old` after successful migration.
+  - Check the new [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more information.
 - **Localization**:
   - Added full localization support for configuration keys (`en_us.json`).
   - Added translation keys for new messages.
 - **Dependencies**:
-  - Switched internal configuration library to MidnightLib for better cross-platform support.
-- **Cleanup**: Removed unused `xp_amount` configuration key to avoid confusion.
+  - Switched internal configuration library to **MidnightLib** for better cross-platform support.
 - **Updated Biome Filters**: Biome filters now accept:
   - _Biome keys_: `"minecraft:swamp"`
   - _Biome tags_: `"#cobblemon:is_swamp"`
   - _Biome dicts_: `{"id": "#c:is_ocean", "required": false}`
   - _Lists_: Mix of any of the above
-- **New Configuration**: Added `loot_ball.defaults.effects_enabled` to toggle opening effects.
 - **Updated Documentation**: Updated the mod documentation.
   - New and updated pages for all loot balls, showing general information, loot table and obtaining methods.
   - Updated Reference page with updated biome tag information.
+  - Added a new Configuration page with updated information about the configuration system.
 
 ## a2.1.0
 

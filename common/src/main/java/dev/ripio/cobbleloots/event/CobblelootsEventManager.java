@@ -17,7 +17,7 @@ public class CobblelootsEventManager {
     // If loot ball generation is enabled, try to generate a loot ball in the chunk
     if (CobblelootsConfig.generation_enabled) {
       int count = 0;
-      int attempts = CobblelootsConfig.generation_attempts;
+      int attempts = CobblelootsConfig.generation_attempts_per_chunk;
       int chunkCap = CobblelootsConfig.generation_chunk_cap;
       for (int i = 0; i < attempts; i++) {
         if (count >= chunkCap)

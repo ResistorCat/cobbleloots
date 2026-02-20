@@ -93,7 +93,7 @@ public class CobblelootsLootBallEvents {
 
     // STEP: Attempt spawn at given pos
     CobblelootsLootBall lootBall = spawnLootBall(level, randomChunk, pos, randomSource, CobblelootsSourceType.SPAWNING);
-    if (lootBall != null && CobblelootsConfig.spawning_despawn_enabled) {
+    if (lootBall != null && CobblelootsConfig.spawning_despawn_time > 0) {
       // Set despawn timer
       lootBall.setDespawnTick(level.getGameTime() + CobblelootsConfig.spawning_despawn_time);
     }
@@ -153,11 +153,11 @@ public class CobblelootsLootBallEvents {
     lootBall.setVariantId(variant);
 
     // STEP: Check random chance to be invisible and have a multiplier
-    if (CobblelootsConfig.bonus_enabled && randomSource.nextFloat() < CobblelootsConfig.bonus_chance) {
-      if (CobblelootsConfig.bonus_invisible) {
+    if (randomSource.nextFloat() < CobblelootsConfig.loot_ball_bonus_chance) {
+      if (CobblelootsConfig.loot_ball_bonus_invisible) {
         lootBall.setInvisible(true);
       }
-      lootBall.setMultiplier(CobblelootsConfig.bonus_multiplier);
+      lootBall.setMultiplier(CobblelootsConfig.loot_ball_bonus_multiplier);
     }
 
     return lootBall;

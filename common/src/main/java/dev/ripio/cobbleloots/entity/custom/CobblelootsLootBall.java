@@ -1,6 +1,7 @@
 package dev.ripio.cobbleloots.entity.custom;
 
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
+import dev.ripio.cobbleloots.config.CobblelootsLootBallEmptyBehavior;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
@@ -106,11 +107,11 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TEXT_TOGGLE_SPARKS = "entity.cobbleloots.loot_ball.toggle.sparks";
 
   // Game balance constants
-  private static final float DEFAULT_MULTIPLIER = CobblelootsConfig.defaults_multiplier;
-  private static final int DEFAULT_USES = CobblelootsConfig.defaults_uses;
-  private static final long DEFAULT_DESPAWN_TICK = CobblelootsConfig.defaults_despawn_tick;
-  private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.defaults_player_timer;
-  private static final int DEFAULT_XP = CobblelootsConfig.defaults_xp;
+  private static final float DEFAULT_MULTIPLIER = CobblelootsConfig.loot_ball_default_multiplier;
+  private static final int DEFAULT_USES = CobblelootsConfig.loot_ball_default_uses;
+  private static final long DEFAULT_DESPAWN_TICK = CobblelootsConfig.loot_ball_default_despawn_tick;
+  private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.loot_ball_default_player_cooldown;
+  private static final int DEFAULT_XP = CobblelootsConfig.loot_ball_default_xp;
 
   // Variables
   protected final Map<UUID, Long> openers = new HashMap<>();
@@ -256,7 +257,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
     // In survival mode, we drop the loot ball item itself without any loot
     if (!serverPlayer.isCreative()
-        && CobblelootsConfig.survival_drop_enabled) {
+        && (CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DROP_MANUAL
+            || CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC)) {
       this.spawnAtLocation(this.getSurvivalLootBallItem());
     }
 
@@ -740,7 +742,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   private void awardExperienceIfEnabled(ServerPlayer serverPlayer) {
-    if (CobblelootsConfig.xp_enabled) {
+    if (CobblelootsConfig.loot_ball_xp_enabled) {
       if (this.getXP() > 0) {
         serverPlayer.giveExperiencePoints(this.getXP());
       }
@@ -1127,7 +1129,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         this.playSound(CobblelootsLootBallSounds.getLidOpenSound());
 
         // Spawn particles if enabled
-        if (CobblelootsConfig.defaults_effects_enabled) {
+        if (CobblelootsConfig.loot_ball_effects_enabled) {
           spawnOpeningParticles();
         }
       } else if (currentTicks == LOOT_BALL_OPENING_DROP_TICK) {
@@ -1143,20 +1145,18 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       this.setInvisible(this.wasInvisible);
       this.setDisplayItem(ItemStack.EMPTY);
       this.playSound(CobblelootsLootBallSounds.getLidCloseSound());
-      // Destroy the loot ball if it has no uses left and config enabled
-      if (CobblelootsConfig.survival_destroy_looted) {
+
+      // Handle empty loot ball based on configured behavior
+      if (CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DESTROY) {
         if (!this.isInfinite() && this.getRemainingUses() <= 0) {
           this.discard();
           return;
         }
-      }
-      // Try to drop if automatic mode is enabled
-      if (CobblelootsConfig.survival_drop_enabled && CobblelootsConfig.survival_drop_automatic) {
+      } else if (CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC) {
         if (!this.isInfinite() && this.getRemainingUses() <= 0) {
-          // Drop the loot ball item itself
-          this.discard();
           this.spawnAtLocation(this.getSurvivalLootBallItem());
           this.playSound(SoundEvents.ITEM_FRAME_REMOVE_ITEM);
+          this.discard();
         }
       }
     }

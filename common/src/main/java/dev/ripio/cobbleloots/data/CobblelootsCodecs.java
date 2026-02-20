@@ -65,7 +65,7 @@ public class CobblelootsCodecs {
                                         Codec.unboundedMap(Codec.STRING, LOOT_BALL_VARIANT_DATA_CODEC)
                                                         .optionalFieldOf("variants", Map.of())
                                                         .forGetter(CobblelootsLootBallData::getVariants),
-                                        Codec.INT.optionalFieldOf("xp", CobblelootsConfig.defaults_xp)
+                                        Codec.INT.optionalFieldOf("xp", CobblelootsConfig.loot_ball_default_xp)
                                                         .forGetter(CobblelootsLootBallData::getXp))
                                         .apply(instance, CobblelootsLootBallData::new));
 

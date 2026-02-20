@@ -39,7 +39,7 @@ public class CobblelootsFishingEvents {
 
         if (lootBall != null) {
             // Apply despawn delay if enabled
-            if (CobblelootsConfig.fishing_despawn_enabled) {
+            if (CobblelootsConfig.fishing_despawn_time > 0) {
                 lootBall.setDespawnTick(level.getGameTime() + CobblelootsConfig.fishing_despawn_time);
             }
 

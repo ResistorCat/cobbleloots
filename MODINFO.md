@@ -72,12 +72,13 @@ Some of these features are continuously being refined, but the data system is de
 
 ## Mod configuration ⚙️
 
-You can customize many of the mod's features in the config file. The config file is located in the `config/cobbleloots` folder of your Minecraft instance, and is named `cobbleloots.yaml`. You can edit it with any text editor.
-Key configurable aspects include:
+The mod configuration is powered by **MidnightLib** and supports in-game editing:
 
-- Default loot ball properties.
-- Survival mode drop behavior.
-- Disabling loot balls in specific dimensions.
+- **Fabric**: Edit via **ModMenu**.
+- **NeoForge**: Edit via the Mods menu.
+- **Command**: Server OPs can use `/midnightconfig cobbleloots <key> <value>`.
+
+The config file is located in the `config` folder of your Minecraft instance. Check the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more information.
 
 ---
 
