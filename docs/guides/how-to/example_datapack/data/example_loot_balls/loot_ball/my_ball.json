@@ -1,0 +1,63 @@
+{
+  "name": {
+    "text": "Mapmaker Ball",
+    "color": "green",
+    "bold": true
+  },
+  "loot_table": "example_loot_balls:loot_ball/simple",
+  "texture": "cobbleloots:textures/loot_ball/rainbow.png",
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 25,
+        "biome": "#cobblemon:is_swamp",
+        "date": {
+          "from": "10-01",
+          "to": "11-01"
+        }
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_forest",
+        "light": {
+          "block": { "max": 7 },
+          "sky": { "max": 10 }
+        },
+        "time": {
+          "value": { "min": 13000, "max": 23000 },
+          "period": 24000
+        }
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_forest",
+        "poke_rod": ["cobblemon:nest_rod"]
+      },
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_forest"
+      }
+    ]
+  },
+  "variants": {
+    "default": {
+      "name": { "text": "Default" },
+      "loot_table": "example_loot_balls:loot_ball/simple",
+      "texture": "cobbleloots:textures/loot_ball/rainbow.png"
+    },
+    "rare": {
+      "name": { "text": "Rare", "color": "gold", "bold": true },
+      "loot_table": "example_loot_balls:loot_ball/rare",
+      "texture": "cobblemon:textures/poke_balls/ultra_ball.png"
+    }
+  }
+}
