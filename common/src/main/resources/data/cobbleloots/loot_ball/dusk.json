@@ -1,0 +1,100 @@
+{
+  "name": {
+    "text": "Dusk Loot Ball",
+    "color": "dark_green",
+    "bold": true
+  },
+  "loot_table": "cobbleloots:loot_ball/dusk",
+  "texture": "cobblemon:textures/poke_balls/dusk_ball.png",
+  "xp": 10,
+  "sources": {
+    "generation": [
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_spooky"
+      },
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_deep_dark"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_spooky",
+        "light": {
+          "block": {
+            "max": 5
+          },
+          "sky": {
+            "max": 5
+          }
+        }
+      },
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_deep_dark",
+        "light": {
+          "block": {
+            "max": 5
+          },
+          "sky": {
+            "max": 5
+          }
+        }
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 1,
+        "biome": "#cobblemon:is_spooky",
+        "time": {
+          "value": {
+            "min": 13000,
+            "max": 23000
+          },
+          "period": 24000
+        }
+      },
+      {
+        "weight": 1,
+        "biome": "#cobblemon:is_deep_dark",
+        "time": {
+          "value": {
+            "min": 13000,
+            "max": 23000
+          },
+          "period": 24000
+        }
+      },
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_spooky",
+        "time": {
+          "value": {
+            "min": 13000,
+            "max": 23000
+          },
+          "period": 24000
+        },
+        "poke_rod": [
+          "cobblemon:dusk_rod"
+        ]
+      },
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_deep_dark",
+        "time": {
+          "value": {
+            "min": 13000,
+            "max": 23000
+          },
+          "period": 24000
+        },
+        "poke_rod": [
+          "cobblemon:dusk_rod"
+        ]
+      }
+    ]
+  }
+}

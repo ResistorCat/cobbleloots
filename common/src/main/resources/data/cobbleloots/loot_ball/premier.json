@@ -1,0 +1,33 @@
+{
+  "name": {
+    "text": "Premier Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/premier",
+  "texture": "cobblemon:textures/poke_balls/premier_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_mountain"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_mountain"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_mountain"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_mountain",
+        "poke_rod": ["cobblemon:premier_rod"]
+      }
+    ]
+  }
+}

@@ -1,24 +1,13 @@
 {
+  "type": "minecraft:chest",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:book",
-          "weight": 3,
-          "functions": [
-            {
-              "function": "minecraft:enchant_with_levels",
-              "levels": 30,
-              "treasure": true
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:deep_sea_tooth",
-          "weight": 3,
+          "name": "cobblemon:dive_ball",
+          "weight": 10,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -32,36 +21,29 @@
         {
           "type": "minecraft:item",
           "name": "cobblemon:deep_sea_scale",
-          "weight": 3,
+          "weight": 4,
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
+              "count": 1
             }
           ]
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:tide_armor_trim_smithing_template",
-          "weight": 4
+          "name": "cobblemon:deep_sea_tooth",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:mystic_water",
-          "weight": 8
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:damp_rock",
-          "weight": 8
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:sea_lantern",
-          "weight": 8,
+          "name": "minecraft:prismarine_shard",
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -74,45 +56,43 @@
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:water_stone",
-          "weight": 8,
+          "name": "minecraft:prismarine_crystals",
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
               "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:kelpsy_berry",
-          "weight": 8,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4,
-                "max": 8
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:dive_ball",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
+                "min": 2,
                 "max": 4
               }
             }
           ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:mystic_water",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/medicine_uncommon",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/ev_uncommon",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_uncommon",
+          "weight": 1
         }
       ]
     }

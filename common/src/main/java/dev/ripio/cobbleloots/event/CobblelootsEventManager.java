@@ -5,7 +5,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.LevelChunk;
 
-import static dev.ripio.cobbleloots.config.CobblelootsConfig.*;
+import dev.ripio.cobbleloots.config.CobblelootsConfig;
+import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
+
 import static dev.ripio.cobbleloots.event.custom.CobblelootsLootBallEvents.generateLootBallOnChunk;
 import static dev.ripio.cobbleloots.event.custom.CobblelootsLootBallEvents.spawnLootBallNearRandomPlayer;
 
@@ -15,21 +17,29 @@ public class CobblelootsEventManager {
 
   public static void onChunkGenerate(ServerLevel level, LevelChunk levelChunk) {
     // If loot ball generation is enabled, try to generate a loot ball in the chunk
-    if (getBooleanConfig(LOOT_BALL_GENERATION_ENABLED)) {
+    if (CobblelootsConfig.generation_enabled) {
       int count = 0;
-      for (int i = 0; i < getIntConfig(LOOT_BALL_GENERATION_ATTEMPTS); i++) {
-        if (count >= getIntConfig(LOOT_BALL_GENERATION_CHUNK_CAP)) break;
-        if (generateLootBallOnChunk(level, levelChunk, randomSource)) count++;
+      int attempts = CobblelootsConfig.generation_attempts_per_chunk;
+      int chunkCap = CobblelootsConfig.generation_chunk_cap;
+      for (int i = 0; i < attempts; i++) {
+        if (count >= chunkCap)
+          break;
+        if (generateLootBallOnChunk(level, levelChunk, randomSource))
+          count++;
       }
     }
   }
 
   public static void onServerTick(MinecraftServer server) {
+    // Check if loot ball client data needs refreshing after a reload
+    CobblelootsDataProvider.checkAndRefreshClientData(server);
+
     // Initialize the loot ball spawn tick
-    if (lootBallSpawnTick == 0) lootBallSpawnTick = server.getTickCount() + getLootBallCooldown();
+    if (lootBallSpawnTick == 0)
+      lootBallSpawnTick = server.getTickCount() + getLootBallCooldown();
 
     // Every lootBallSpawnCooldown ticks, try to spawn a loot ball
-    if (server.getTickCount() > lootBallSpawnTick && getBooleanConfig(LOOT_BALL_SPAWNING_ENABLED)) {
+    if (server.getTickCount() > lootBallSpawnTick && CobblelootsConfig.spawning_enabled) {
       spawnLootBallNearRandomPlayer(server, randomSource);
       // Reset the cooldown to a new random value
       lootBallSpawnTick = server.getTickCount() + getLootBallCooldown();
@@ -37,8 +47,9 @@ public class CobblelootsEventManager {
   }
 
   private static long getLootBallCooldown() {
-    return CobblelootsEventManager.randomSource.nextIntBetweenInclusive(getIntConfig(LOOT_BALL_SPAWNING_COOLDOWN_MIN), getIntConfig(LOOT_BALL_SPAWNING_COOLDOWN_MAX));
+    int minCooldown = CobblelootsConfig.spawning_cooldown_min;
+    int maxCooldown = CobblelootsConfig.spawning_cooldown_max;
+    return CobblelootsEventManager.randomSource.nextIntBetweenInclusive(minCooldown, maxCooldown);
   }
-
 
 }

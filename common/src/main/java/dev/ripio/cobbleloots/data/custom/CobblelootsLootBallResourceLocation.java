@@ -1,6 +1,5 @@
 package dev.ripio.cobbleloots.data.custom;
 
-import dev.ripio.cobbleloots.Cobbleloots;
 import net.minecraft.resources.ResourceLocation;
 
 public class CobblelootsLootBallResourceLocation {
@@ -67,9 +66,6 @@ public class CobblelootsLootBallResourceLocation {
         boolean namespaceMatches = this.namespace.equals("*") || this.namespace.equals(namespace);
         boolean pathMatches = this.path.equals("*") || this.path.equals(path);
         boolean variantMatches = this.variant.equals("*") || this.variant.equals(variant);
-
-        Cobbleloots.LOGGER.info("[DEBUG] Matching loot ball pattern {} against {}:{}:{}} - namespaceMatches: {}, pathMatches: {}, variantMatches: {}",
-            this, namespace, path, variant, namespaceMatches, pathMatches, variantMatches);
 
         if (this.path.equals("*")) {
             return namespaceMatches;

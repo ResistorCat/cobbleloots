@@ -1,9 +1,6 @@
 package dev.ripio.cobbleloots.item.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
-import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.component.DataComponents;

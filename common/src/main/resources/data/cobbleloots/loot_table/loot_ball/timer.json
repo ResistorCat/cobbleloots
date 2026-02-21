@@ -1,0 +1,97 @@
+{
+  "type": "chest",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:timer_ball",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:gold_ingot",
+          "weight": 9,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:lagging_tail",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:light_clay",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:grip_claw",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:terrain_extender",
+          "weight": 2,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/medicine_uncommon",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_uncommon",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/tools_uncommon",
+          "weight": 4
+        }
+      ]
+    }
+  ]
+}

@@ -1,106 +1,84 @@
 {
+  "type": "chest",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cobblemon:ability_capsule",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:exp_candy_l",
-          "weight": 1
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:netherite_scrap",
-          "weight": 2,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:pp_max",
-          "weight": 4,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:full_restore",
-          "weight": 4,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 2,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:enchanted_golden_apple",
-          "weight": 6
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:max_elixir",
-          "weight": 6,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:hyper_potion",
-          "weight": 8,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 1,
-                "max": 3
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
           "name": "cobblemon:ultra_ball",
           "weight": 10,
           "functions": [
             {
-              "function": "minecraft:set_count",
+              "function": "set_count",
               "count": {
                 "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "weight": 8,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
                 "max": 4
               }
             }
           ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_scrap",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/medicine_rare",
+          "weight": 8
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/ev_rare",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_rare",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/tools_rare",
+          "weight": 1
         }
       ]
     }

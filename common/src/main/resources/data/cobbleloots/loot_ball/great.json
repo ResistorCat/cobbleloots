@@ -6,16 +6,25 @@
   },
   "loot_table": "cobbleloots:loot_ball/great",
   "texture": "cobblemon:textures/poke_balls/great_ball.png",
-  "xp": 3,
+  "xp": 5,
   "sources": {
     "generation": [
       {
-        "weight": 20
+        "weight": 50
       }
     ],
     "spawning": [
       {
-        "weight": 20
+        "weight": 50
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 5
+      },
+      {
+        "weight": 50,
+        "poke_rod": ["cobblemon:great_rod"]
       }
     ]
   }

@@ -2,26 +2,29 @@ package dev.ripio.cobbleloots.data.custom.filter;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 
 public class CobblelootsSourceFilter {
-    private final int weight;
-    private final TagKey<Structure> structure;
-    private final TagKey<Biome> biome;
-    private final List<ResourceLocation> dimension;
-    private final CobblelootsBlockFilter block;
-    private final TagKey<Fluid> fluid;
-    private final CobblelootsPositionFilter position;
-    private final CobblelootsLightFilter light;
-    private final CobblelootsTimeFilter time;
-    private final CobblelootsWeatherFilter weather;
-    private final CobblelootsDateFilter date;
+  private final int weight;
+  private final TagKey<Structure> structure;
+  private final CobbleloootsBiomeFilter biome;
+  private final List<ResourceLocation> dimension;
+  private final CobblelootsBlockFilter block;
+  private final TagKey<Fluid> fluid;
+  private final CobblelootsPositionFilter position;
+  private final CobblelootsLightFilter light;
+  private final CobblelootsTimeFilter time;
+  private final CobblelootsWeatherFilter weather;
+  private final CobblelootsDateFilter date;
+  private final CobblelootsPokeRodFilter pokeRod;
 
-  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, TagKey<Biome> biome, List<ResourceLocation> dimension, CobblelootsBlockFilter block, TagKey<Fluid> fluid, CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time, CobblelootsWeatherFilter weather, CobblelootsDateFilter date) {
+  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, CobbleloootsBiomeFilter biome,
+      List<ResourceLocation> dimension, CobblelootsBlockFilter block, TagKey<Fluid> fluid,
+      CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time,
+      CobblelootsWeatherFilter weather, CobblelootsDateFilter date, CobblelootsPokeRodFilter pokeRod) {
     this.weight = weight;
     this.structure = structure;
     this.biome = biome;
@@ -33,6 +36,7 @@ public class CobblelootsSourceFilter {
     this.time = time;
     this.weather = weather;
     this.date = date;
+    this.pokeRod = pokeRod;
   }
 
   public int getWeight() {
@@ -43,7 +47,7 @@ public class CobblelootsSourceFilter {
     return structure;
   }
 
-  public TagKey<Biome> getBiome() {
+  public CobbleloootsBiomeFilter getBiome() {
     return biome;
   }
 
@@ -77,6 +81,10 @@ public class CobblelootsSourceFilter {
 
   public CobblelootsDateFilter getDate() {
     return date;
+  }
+
+  public CobblelootsPokeRodFilter getPokeRod() {
+    return pokeRod;
   }
 
 }

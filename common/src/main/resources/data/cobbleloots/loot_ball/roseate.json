@@ -1,0 +1,50 @@
+{
+  "name": {
+    "text": "Roseate Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/roseate",
+  "texture": "cobblemon:textures/poke_balls/roseate_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_floral"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_lush"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_floral"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_lush"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_floral",
+        "poke_rod": ["cobblemon:roseate_rod"]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_lush",
+        "poke_rod": ["cobblemon:roseate_rod"]
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_floral"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_lush"
+      }
+    ]
+  }
+}

@@ -26,8 +26,8 @@ theme:
         icon: material/brightness-4
         name: Switch to system preference
   language: en
-  logo: assets/logo.png
-  favicon: assets/favicon.png
+  logo: assets/halloween-logo.png
+  favicon: assets/ball/model/pumpkin.png
   features:
     - navigation.tabs
     - navigation.sections
@@ -43,10 +43,14 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/ResistorCat
     - icon: fontawesome/brands/discord
-      link: https://discord.gg/2YGJXxHtBX
+      link: https://discord.gg/kbykWUH5dV
 markdown_extensions:
   - admonition
   - tables
   - attr_list
   - pymdownx.highlight
   - pymdownx.superfences
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg

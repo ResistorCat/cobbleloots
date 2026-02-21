@@ -1,6 +1,7 @@
 package dev.ripio.cobbleloots.entity.custom;
 
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
+import dev.ripio.cobbleloots.config.CobblelootsLootBallEmptyBehavior;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
@@ -47,7 +48,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   // Animations
   public final AnimationState openingAnimationState = new AnimationState();
-  private static final int LOOT_BALL_OPENING_TICKS = 50;
+  public static final int LOOT_BALL_OPENING_TICKS = 50;
   private static final int LOOT_BALL_OPENING_DROP_TICK = 25;
 
   // Particle effects
@@ -60,15 +61,25 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private boolean isOpening = false;
   private ServerPlayer pendingOpener = null;
   private boolean wasInvisible = false;
-  private static final EntityDataAccessor<Integer> OPENING_TICKS = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.INT);
+  private static final EntityDataAccessor<Integer> OPENING_TICKS = SynchedEntityData.defineId(CobblelootsLootBall.class,
+      EntityDataSerializers.INT);
 
   // Synched Entity Data (Server <-> Client)
-  private static final EntityDataAccessor<Boolean> SPARKS = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.BOOLEAN);
-  private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.BOOLEAN);
-  private static final EntityDataAccessor<String> CUSTOM_TEXTURE = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
-  private static final EntityDataAccessor<String> LOOT_BALL_DATA_ID = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
-  private static final EntityDataAccessor<String> VARIANT_ID = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
-  private static final EntityDataAccessor<CompoundTag> LOOT_BALL_CLIENT_DATA = SynchedEntityData.defineId(CobblelootsLootBall.class, EntityDataSerializers.COMPOUND_TAG);
+  private static final EntityDataAccessor<Boolean> SPARKS = SynchedEntityData.defineId(CobblelootsLootBall.class,
+      EntityDataSerializers.BOOLEAN);
+  private static final EntityDataAccessor<Boolean> INVISIBLE = SynchedEntityData.defineId(CobblelootsLootBall.class,
+      EntityDataSerializers.BOOLEAN);
+  private static final EntityDataAccessor<String> CUSTOM_TEXTURE = SynchedEntityData.defineId(CobblelootsLootBall.class,
+      EntityDataSerializers.STRING);
+  private static final EntityDataAccessor<String> LOOT_BALL_DATA_ID = SynchedEntityData
+      .defineId(CobblelootsLootBall.class, EntityDataSerializers.STRING);
+  private static final EntityDataAccessor<String> VARIANT_ID = SynchedEntityData.defineId(CobblelootsLootBall.class,
+      EntityDataSerializers.STRING);
+  private static final EntityDataAccessor<CompoundTag> LOOT_BALL_CLIENT_DATA = SynchedEntityData
+      .defineId(CobblelootsLootBall.class, EntityDataSerializers.COMPOUND_TAG);
+  private static final EntityDataAccessor<ItemStack> DISPLAY_ITEM = SynchedEntityData.defineId(
+      CobblelootsLootBall.class,
+      EntityDataSerializers.ITEM_STACK);
 
   // NBT Tags
   public static final String TAG_SPARKS = "Sparks";
@@ -96,11 +107,11 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private static final String TEXT_TOGGLE_SPARKS = "entity.cobbleloots.loot_ball.toggle.sparks";
 
   // Game balance constants
-  private static final float DEFAULT_MULTIPLIER = CobblelootsConfig.getFloatConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_MULTIPLIER);
-  private static final int DEFAULT_USES = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_USES);
-  private static final long DEFAULT_DESPAWN_TICK = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_DESPAWN_TICK);
-  private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.getLongConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_PLAYER_TIMER);
-  private static final int DEFAULT_XP = CobblelootsConfig.getIntConfig(CobblelootsConfig.LOOT_BALL_DEFAULTS_XP);
+  private static final float DEFAULT_MULTIPLIER = CobblelootsConfig.loot_ball_default_multiplier;
+  private static final int DEFAULT_USES = CobblelootsConfig.loot_ball_default_uses;
+  private static final long DEFAULT_DESPAWN_TICK = CobblelootsConfig.loot_ball_default_despawn_tick;
+  private static final long DEFAULT_PLAYER_TIMER = CobblelootsConfig.loot_ball_default_player_cooldown;
+  private static final int DEFAULT_XP = CobblelootsConfig.loot_ball_default_xp;
 
   // Variables
   protected final Map<UUID, Long> openers = new HashMap<>();
@@ -116,7 +127,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
    * Constructs a new CobblelootsLootBall entity.
    *
    * @param entityType The entity type
-   * @param level The level where the entity exists
+   * @param level      The level where the entity exists
    */
   public CobblelootsLootBall(EntityType<? extends LivingEntity> entityType, Level level) {
     super(entityType, level);
@@ -245,7 +256,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     }
 
     // In survival mode, we drop the loot ball item itself without any loot
-    if (!serverPlayer.isCreative() && CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DROP_ENABLED)) {
+    if (!serverPlayer.isCreative()
+        && (CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DROP_MANUAL
+            || CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC)) {
       this.spawnAtLocation(this.getSurvivalLootBallItem());
     }
 
@@ -266,6 +279,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     builder.define(OPENING_TICKS, 0);
 
     builder.define(LOOT_BALL_CLIENT_DATA, new CompoundTag());
+    builder.define(DISPLAY_ITEM, ItemStack.EMPTY);
   }
 
   @Override
@@ -419,20 +433,17 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   private void readNumericalValuesFromTag(CompoundTag compoundTag) {
     // Read with appropriate defaults
-    this.uses = compoundTag.contains(TAG_USES) ?
-                compoundTag.getInt(TAG_USES) : DEFAULT_USES;
+    this.uses = compoundTag.contains(TAG_USES) ? compoundTag.getInt(TAG_USES) : DEFAULT_USES;
 
-    this.multiplier = compoundTag.contains(TAG_MULTIPLIER) ?
-                      compoundTag.getFloat(TAG_MULTIPLIER) : DEFAULT_MULTIPLIER;
+    this.multiplier = compoundTag.contains(TAG_MULTIPLIER) ? compoundTag.getFloat(TAG_MULTIPLIER) : DEFAULT_MULTIPLIER;
 
-    this.despawnTick = compoundTag.contains(TAG_DESPAWN_TICK) ?
-                       compoundTag.getLong(TAG_DESPAWN_TICK) : DEFAULT_DESPAWN_TICK;
+    this.despawnTick = compoundTag.contains(TAG_DESPAWN_TICK) ? compoundTag.getLong(TAG_DESPAWN_TICK)
+        : DEFAULT_DESPAWN_TICK;
 
-    this.playerTimer = compoundTag.contains(TAG_PLAYER_TIMER) ?
-                       compoundTag.getLong(TAG_PLAYER_TIMER) : DEFAULT_PLAYER_TIMER;
+    this.playerTimer = compoundTag.contains(TAG_PLAYER_TIMER) ? compoundTag.getLong(TAG_PLAYER_TIMER)
+        : DEFAULT_PLAYER_TIMER;
 
-    this.xp = compoundTag.contains(TAG_XP) ?
-              compoundTag.getInt(TAG_XP) : DEFAULT_XP;
+    this.xp = compoundTag.contains(TAG_XP) ? compoundTag.getInt(TAG_XP) : DEFAULT_XP;
   }
 
   @Override
@@ -525,7 +536,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     if (tableLocation == null) {
       // Get loot table from loot ball data
       CobblelootsLootBallData lootBallData = this.getLootBallData();
-      if (lootBallData == null) return CobblelootsDefinitions.EMPTY_LOCATION;
+      if (lootBallData == null)
+        return CobblelootsDefinitions.EMPTY_LOCATION;
 
       CobblelootsLootBallVariantData variantData = this.getVariantData();
 
@@ -534,7 +546,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
         // Use variant loot table if available
         tableLocation = variantData.getLootTable();
       } else if (lootBallData.getLootTable() != null &&
-                 !lootBallData.getLootTable().equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
+          !lootBallData.getLootTable().equals(CobblelootsDefinitions.EMPTY_LOCATION)) {
         // Fallback to loot ball data loot table
         tableLocation = lootBallData.getLootTable();
       } else {
@@ -549,7 +561,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // --- CobblelootsLootBall methods ---
   /**
    * Attempts to open the loot ball for a server player.
-   * This checks various conditions like cooldown and if the player already opened it.
+   * This checks various conditions like cooldown and if the player already opened
+   * it.
    */
   private void tryOpen(ServerPlayer serverPlayer) {
     // Validate opening state
@@ -560,9 +573,18 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     // Generate loot
     this.unpackLootTable(serverPlayer);
 
+    // Get the first item to display
+    ItemStack displayItem = ItemStack.EMPTY;
+    for (ItemStack item : this.itemStacks) {
+      if (!item.isEmpty()) {
+        displayItem = item.copy();
+        break;
+      }
+    }
+
     // Start opening sequence if there's loot to give
     if (!this.isEmpty()) {
-      startOpeningAnimation(serverPlayer);
+      startOpeningAnimation(serverPlayer, displayItem);
     } else {
       // Notify player that loot ball is empty
       serverPlayer.sendSystemMessage(cobblelootsText(TEXT_INFO_NO_LOOT).withStyle(ChatFormatting.GRAY), true);
@@ -571,6 +593,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   /**
    * Checks if the player can open this loot ball right now.
+   * 
    * @return true if opening can proceed, false otherwise
    */
   private boolean canPlayerOpenLootBall(ServerPlayer serverPlayer) {
@@ -597,7 +620,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   /**
-   * Handle the case where a player tries to open a loot ball they've already opened
+   * Handle the case where a player tries to open a loot ball they've already
+   * opened
    */
   private boolean handleAlreadyOpenedError(ServerPlayer serverPlayer) {
     // Check for cooldown timer
@@ -626,15 +650,17 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   /**
    * Starts the opening animation sequence for the loot ball
    */
-  private void startOpeningAnimation(ServerPlayer serverPlayer) {
+  private void startOpeningAnimation(ServerPlayer serverPlayer, ItemStack displayItem) {
     this.pendingOpener = serverPlayer;
     this.isOpening = true;
     this.wasInvisible = this.isInvisible();
     this.setInvisible(false);
     this.setOpeningTicks(LOOT_BALL_OPENING_TICKS);
+    this.setDisplayItem(displayItem);
+
     if (this.getDespawnTick() > 0L) {
       // If a despawn tick is set, extend it to allow for opening
-      this.setDespawnTick(this.level().getGameTime() + LOOT_BALL_OPENING_TICKS*5);
+      this.setDespawnTick(this.level().getGameTime() + LOOT_BALL_OPENING_TICKS * 5);
     }
   }
 
@@ -646,7 +672,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     this.getEntityData().set(OPENING_TICKS, i);
   }
 
-  private int getOpeningTicks() {
+  public int getOpeningTicks() {
     return this.getEntityData().get(OPENING_TICKS);
   }
 
@@ -657,6 +683,9 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
     // Give items to player
     deliverItemsToPlayer(serverPlayer);
+
+    // Stop displaying the item as it has been received
+    this.setDisplayItem(ItemStack.EMPTY);
 
     // Give experience points if enabled
     awardExperienceIfEnabled(serverPlayer);
@@ -701,19 +730,19 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     Component message;
     if (this.getMultiplier() > 1.0f) {
       message = cobblelootsText(TEXT_OPEN_SUCCESS_BONUS,
-                                String.valueOf(this.getMultiplier()),
-                                item.getHoverName().getString(),
-                                String.valueOf(item.getCount())).withStyle(ChatFormatting.AQUA);
+          String.valueOf(this.getMultiplier()),
+          item.getHoverName().getString(),
+          String.valueOf(item.getCount())).withStyle(ChatFormatting.AQUA);
     } else {
       message = cobblelootsText(TEXT_OPEN_SUCCESS,
-                                item.getHoverName().getString(),
-                                String.valueOf(item.getCount())).withStyle(ChatFormatting.AQUA);
+          item.getHoverName().getString(),
+          String.valueOf(item.getCount())).withStyle(ChatFormatting.AQUA);
     }
     serverPlayer.sendSystemMessage(message, true);
   }
 
   private void awardExperienceIfEnabled(ServerPlayer serverPlayer) {
-    if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_XP_ENABLED)) {
+    if (CobblelootsConfig.loot_ball_xp_enabled) {
       if (this.getXP() > 0) {
         serverPlayer.giveExperiencePoints(this.getXP());
       }
@@ -764,7 +793,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   public String getLootBallDataId() {
     return this.getEntityData().get(LOOT_BALL_DATA_ID);
   }
-  
+
   public String getVariantId() {
     return this.getEntityData().get(VARIANT_ID);
   }
@@ -773,7 +802,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   public CobblelootsLootBallData getLootBallData() {
     // Try to parse the current id
     ResourceLocation dataLocation = ResourceLocation.tryParse(this.getLootBallDataId());
-    if (dataLocation == null) return null;
+    if (dataLocation == null)
+      return null;
     // Return the loot ball data if found
     return CobblelootsDataProvider.getLootBallData(dataLocation);
   }
@@ -782,7 +812,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   public CobblelootsLootBallVariantData getVariantData() {
     // Try to get loot ball data
     CobblelootsLootBallData lootBallData = this.getLootBallData();
-    if (lootBallData == null) return null;
+    if (lootBallData == null)
+      return null;
     // Return the variant data if found
     return lootBallData.getVariants().get(this.getVariantId());
   }
@@ -940,20 +971,26 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // --- Private methods ---
   private void toggleVisibility(ServerPlayer serverPlayer) {
     serverPlayer.sendSystemMessage(cobblelootsText(TEXT_TOGGLE_VISIBILITY).withStyle(ChatFormatting.AQUA), true);
-    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleInvisibilitySound(), SoundSource.BLOCKS, 0.5f, 1.0f);
+    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleInvisibilitySound(), SoundSource.BLOCKS, 0.5f,
+        1.0f);
     this.setInvisible(!this.isInvisible());
   }
 
   private void toggleSparks(ServerPlayer serverPlayer) {
     serverPlayer.sendSystemMessage(cobblelootsText(TEXT_TOGGLE_SPARKS).withStyle(ChatFormatting.AQUA), true);
-    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleSparksSound(this.hasSparks()), SoundSource.BLOCKS, 0.5f, 1.0f);
+    serverPlayer.playNotifySound(CobblelootsLootBallSounds.getToggleSparksSound(this.hasSparks()), SoundSource.BLOCKS,
+        0.5f, 1.0f);
     this.setSparks(!this.hasSparks());
   }
 
   private void setLootBallItem(ItemStack itemStack, ServerPlayer serverPlayer) {
     this.setItem(0, itemStack);
-    if (!serverPlayer.isCreative()) serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-    serverPlayer.sendSystemMessage(cobblelootsText(TEXT_SET_ITEM, itemStack.getHoverName().getString(), String.valueOf(itemStack.getCount())).withStyle(ChatFormatting.AQUA), true);
+    if (!serverPlayer.isCreative())
+      serverPlayer.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+    serverPlayer.sendSystemMessage(
+        cobblelootsText(TEXT_SET_ITEM, itemStack.getHoverName().getString(), String.valueOf(itemStack.getCount()))
+            .withStyle(ChatFormatting.AQUA),
+        true);
     serverPlayer.playNotifySound(CobblelootsLootBallSounds.getSetItemSound(), SoundSource.BLOCKS, 0.5f, 1.0f);
     this.setChanged();
   }
@@ -1090,6 +1127,11 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       if (currentTicks == LOOT_BALL_OPENING_TICKS) {
         // Start opening animation and play sound
         this.playSound(CobblelootsLootBallSounds.getLidOpenSound());
+
+        // Spawn particles if enabled
+        if (CobblelootsConfig.loot_ball_effects_enabled) {
+          spawnOpeningParticles();
+        }
       } else if (currentTicks == LOOT_BALL_OPENING_DROP_TICK) {
         // Give loot at the specific tick
         this.open(this.pendingOpener);
@@ -1098,25 +1140,23 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       // Decrement opening tick counter
       this.setOpeningTicks(currentTicks - 1);
     } else if (currentTicks == 0 && this.pendingOpener != null) {
-      // Animation finished - reset state
       this.pendingOpener = null;
       this.isOpening = false;
       this.setInvisible(this.wasInvisible);
+      this.setDisplayItem(ItemStack.EMPTY);
       this.playSound(CobblelootsLootBallSounds.getLidCloseSound());
-      // Destroy the loot ball if it has no uses left and config enabled
-      if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DESTROY_LOOTED)) {
+
+      // Handle empty loot ball based on configured behavior
+      if (CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DESTROY) {
         if (!this.isInfinite() && this.getRemainingUses() <= 0) {
           this.discard();
           return;
         }
-      }
-      // Try to drop if automatic mode is enabled
-      if (CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DROP_ENABLED) && CobblelootsConfig.getBooleanConfig(CobblelootsConfig.LOOT_BALL_SURVIVAL_DROP_AUTOMATIC)) {
+      } else if (CobblelootsConfig.loot_ball_empty_behavior == CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC) {
         if (!this.isInfinite() && this.getRemainingUses() <= 0) {
-          // Drop the loot ball item itself
-          this.discard();
           this.spawnAtLocation(this.getSurvivalLootBallItem());
           this.playSound(SoundEvents.ITEM_FRAME_REMOVE_ITEM);
+          this.discard();
         }
       }
     }
@@ -1125,5 +1165,30 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   @Override
   public ItemStack getPickResult() {
     return this.getCreativeLootBallItem();
+  }
+
+  public void setDisplayItem(ItemStack item) {
+    this.getEntityData().set(DISPLAY_ITEM, item);
+  }
+
+  public ItemStack getDisplayItem() {
+    return this.getEntityData().get(DISPLAY_ITEM);
+  }
+
+  private void spawnOpeningParticles() {
+    if (this.level().isClientSide())
+      return;
+
+    // White sparkles rising like a fountain
+    ((net.minecraft.server.level.ServerLevel) this.level()).sendParticles(
+        ParticleTypes.FIREWORK,
+        this.getX(), this.getY() + 0.5, this.getZ(),
+        10, 0.2, 0.2, 0.2, 0.1);
+
+    // Some happy villager particles
+    ((net.minecraft.server.level.ServerLevel) this.level()).sendParticles(
+        ParticleTypes.HAPPY_VILLAGER,
+        this.getX(), this.getY() + 0.5, this.getZ(),
+        5, 0.3, 0.3, 0.3, 0.1);
   }
 }

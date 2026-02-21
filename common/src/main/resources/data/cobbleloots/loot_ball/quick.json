@@ -1,0 +1,58 @@
+{
+  "name": {
+    "text": "Quick Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/quick",
+  "texture": "cobblemon:textures/poke_balls/quick_ball.png",
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 30,
+        "dimension": ["minecraft:the_end"]
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_plains"
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_sky"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 30,
+        "dimension": ["minecraft:the_end"]
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_plains"
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_sky"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 3,
+        "biome": "#cobblemon:is_plains"
+      },
+      {
+        "weight": 3,
+        "biome": "#cobblemon:is_sky"
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_plains",
+        "poke_rod": ["cobblemon:quick_rod"]
+      },
+      {
+        "weight": 30,
+        "biome": "#cobblemon:is_sky",
+        "poke_rod": ["cobblemon:quick_rod"]
+      }
+    ]
+  }
+}

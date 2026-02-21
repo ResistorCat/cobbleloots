@@ -1,17 +1,99 @@
 {
+  "type": "chest",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "cobblemon:rare_candy",
-          "weight": 1
+          "name": "cobblemon:lure_ball",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:nautilus_shell",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:relic_coin",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
+              }
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:water_stone",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:water_gem",
+          "weight": 4,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:pokerod_smithing_template",
+          "weight": 7,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "cobblemon:prism_scale",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1
+            }
+          ]
         },
         {
           "type": "minecraft:item",
           "name": "minecraft:book",
-          "weight": 2,
+          "weight": 3,
           "functions": [
             {
               "function": "minecraft:enchant_randomly"
@@ -20,74 +102,33 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:heart_of_the_sea",
-          "weight": 2
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:gold_ingot",
-          "weight": 4,
+          "name": "cobblemon:lure_rod",
+          "weight": 3,
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 3,
-                "max": 6
-              }
+              "function": "minecraft:enchant_with_levels",
+              "levels": 30
             }
           ]
         },
         {
           "type": "minecraft:item",
-          "name": "cobblemon:icy_rock",
-          "weight": 6
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:ice_stone",
-          "weight": 6
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:cod",
-          "weight": 8,
+          "name": "cobblemon:relic_coin_pouch",
+          "weight": 2,
           "functions": [
             {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 4,
-                "max": 6
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "minecraft:salmon",
-          "weight": 8,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
-              "count": {
-                "min": 6,
-                "max": 8
-              }
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "cobblemon:lure_ball",
-          "weight": 10,
-          "functions": [
-            {
-              "function": "minecraft:set_count",
+              "function": "set_count",
               "count": {
                 "min": 1,
-                "max": 4
+                "max": 3
               }
             }
           ]
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/candy_uncommon",
+          "weight": 1
         }
       ]
     }

@@ -10,16 +10,50 @@
   "sources": {
     "generation": [
       {
-        "weight": 30,
-        "biome": "cobbleloots:loot_ball/dive",
+        "weight": 40,
+        "biome": "#cobblemon:is_deep_ocean",
+        "fluid": "minecraft:water"
+      },
+      {
+        "weight": 20,
+        "biome": "#cobblemon:is_ocean",
         "fluid": "minecraft:water"
       }
     ],
     "spawning": [
       {
-        "weight": 30,
-        "biome": "cobbleloots:loot_ball/dive",
+        "weight": 40,
+        "biome": "#cobblemon:is_deep_ocean",
         "fluid": "minecraft:water"
+      },
+      {
+        "weight": 20,
+        "biome": "#cobblemon:is_ocean",
+        "fluid": "minecraft:water"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 40,
+        "biome": "#cobblemon:is_deep_ocean",
+        "poke_rod": [
+          "cobblemon:dive_rod"
+        ]
+      },
+      {
+        "weight": 20,
+        "biome": "#cobblemon:is_ocean",
+        "poke_rod": [
+          "cobblemon:dive_rod"
+        ]
+      },
+      {
+        "weight": 4,
+        "biome": "#cobblemon:is_deep_ocean"
+      },
+      {
+        "weight": 2,
+        "biome": "#cobblemon:is_ocean"
       }
     ]
   }

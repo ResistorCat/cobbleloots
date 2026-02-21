@@ -6,7 +6,7 @@
   },
   "loot_table": "cobbleloots:loot_ball/master",
   "texture": "cobblemon:textures/poke_balls/master_ball.png",
-  "xp": 50,
+  "xp": 100,
   "sources": {
     "generation": [
       {
@@ -17,6 +17,13 @@
       {
         "weight": 1
       }
+    ],
+    "fishing": [
+      {
+        "weight": 1,
+        "poke_rod": ["cobblemon:master_rod"]
+      }
     ]
   }
 }
+

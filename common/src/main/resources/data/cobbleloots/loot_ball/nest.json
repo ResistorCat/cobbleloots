@@ -1,0 +1,50 @@
+{
+  "name": {
+    "text": "Nest Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/nest",
+  "texture": "cobblemon:textures/poke_balls/nest_ball.png",
+  "xp": 5,
+  "sources": {
+    "generation": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_swamp"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_swamp"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_forest"
+      },
+      {
+        "weight": 5,
+        "biome": "#cobblemon:is_swamp"
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_swamp",
+        "poke_rod": ["cobblemon:nest_rod"]
+      },
+      {
+        "weight": 50,
+        "biome": "#cobblemon:is_forest",
+        "poke_rod": ["cobblemon:nest_rod"]
+      }
+    ]
+  }
+}

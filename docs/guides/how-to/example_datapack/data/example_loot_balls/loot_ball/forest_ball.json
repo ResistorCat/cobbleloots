@@ -1,0 +1,33 @@
+{
+  "name": {
+    "text": "Forest Ball"
+  },
+  "loot_table": "example_loot_balls:loot_ball/simple",
+  "texture": "cobblemon:textures/poke_balls/nest_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_forest"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_forest"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_forest",
+        "poke_rod": ["cobblemon:nest_rod"]
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_forest"
+      }
+    ]
+  }
+}

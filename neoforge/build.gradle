@@ -35,6 +35,9 @@ repositories {
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
 
+    modImplementation "eu.midnightdust:midnightlib:$rootProject.midnightlib_version_neoforge"
+    shadowBundle "eu.midnightdust:midnightlib:$rootProject.midnightlib_version_neoforge"
+
     modImplementation("com.cobblemon:neoforge:$rootProject.cobblemon_version")
     implementation("thedarkcolour:kotlinforforge-neoforge:$rootProject.neoforge_kotlin_version") {
         exclude group: "net.neoforged.fancymodloader", module: "loader"

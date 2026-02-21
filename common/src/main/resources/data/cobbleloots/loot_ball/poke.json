@@ -8,150 +8,22 @@
   "sources": {
     "generation": [
       {
-        "weight": 100,
-        "structure": "cobbleloots:empty",
-        "biome": "cobbleloots:empty",
-        "dimension": [],
-        "block": {
-          "spawn": "cobbleloots:empty",
-          "base": "cobbleloots:empty"
-        },
-        "fluid": "cobbleloots:empty",
-        "position": {
-          "x": {
-            "min": -2147483647,
-            "max": 2147483647
-          },
-          "y": {
-            "min": -2147483647,
-            "max": 2147483647
-          },
-          "z": {
-            "min": -2147483647,
-            "max": 2147483647
-          }
-        },
-        "time": {
-          "value": {
-            "min": 0,
-            "max": 2147483647
-          },
-          "period": 24000
-        },
-        "weather": {
-          "rain": true,
-          "thunder": true,
-          "clear": true
-        },
-        "date": {
-          "from": "01-01",
-          "to": "12-31"
-        }
+        "weight": 100
       }
     ],
     "spawning": [
       {
+        "weight": 100
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 10
+      },
+      {
         "weight": 100,
-        "structure": "cobbleloots:empty",
-        "biome": "cobbleloots:empty",
-        "dimension": [],
-        "block": {
-          "spawn": "cobbleloots:empty",
-          "base": "cobbleloots:empty"
-        },
-        "fluid": "cobbleloots:empty",
-        "position": {
-          "x": {
-            "min": -2147483647,
-            "max": 2147483647
-          },
-          "y": {
-            "min": -2147483647,
-            "max": 2147483647
-          },
-          "z": {
-            "min": -2147483647,
-            "max": 2147483647
-          }
-        },
-        "light": {
-          "block": {
-            "min": 0,
-            "max": 15
-          },
-          "sky": {
-            "min": 0,
-            "max": 15
-          }
-        },
-        "time": {
-          "value": {
-            "min": 0,
-            "max": 2147483647
-          },
-          "period": 24000
-        },
-        "weather": {
-          "rain": true,
-          "thunder": true,
-          "clear": true
-        },
-        "date": {
-          "from": "01-01",
-          "to": "12-31"
-        }
+        "poke_rod": ["cobblemon:poke_rod"]
       }
     ]
-  },
-  "variants": {
-    "poke": {
-      "name": {
-        "text": "Poké Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/poke",
-      "texture": "cobblemon:textures/poke_balls/poke_ball.png"
-    },
-    "azure": {
-      "name": {
-        "text": "Azure Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/azure",
-      "texture": "cobblemon:textures/poke_balls/azure_ball.png"
-    },
-    "citrine": {
-      "name": {
-        "text": "Citrine Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/citrine",
-      "texture": "cobblemon:textures/poke_balls/citrine_ball.png"
-    },
-    "premier": {
-      "name": {
-        "text": "Premier Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/premier",
-      "texture": "cobblemon:textures/poke_balls/premier_ball.png"
-    },
-    "roseate": {
-      "name": {
-        "text": "Roseate Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/roseate",
-      "texture": "cobblemon:textures/poke_balls/roseate_ball.png"
-    },
-    "slate": {
-      "name": {
-        "text": "Slate Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/slate",
-      "texture": "cobblemon:textures/poke_balls/slate_ball.png"
-    },
-    "verdant": {
-      "name": {
-        "text": "Verdant Loot Ball"
-      },
-      "loot_table": "cobbleloots:loot_ball/verdant",
-      "texture": "cobblemon:textures/poke_balls/verdant_ball.png"
-    }
   }
 }

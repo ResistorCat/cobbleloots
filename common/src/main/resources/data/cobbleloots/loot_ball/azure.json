@@ -1,0 +1,73 @@
+{
+  "name": {
+    "text": "Azure Loot Ball"
+  },
+  "loot_table": "cobbleloots:loot_ball/azure",
+  "texture": "cobblemon:textures/poke_balls/azure_ball.png",
+  "xp": 1,
+  "sources": {
+    "generation": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_coast"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_river"
+      }
+    ],
+    "spawning": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_coast"
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_river"
+      }
+    ],
+    "fishing": [
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_ocean",
+        "poke_rod": [
+          "cobblemon:azure_rod"
+        ]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_coast",
+        "poke_rod": [
+          "cobblemon:azure_rod"
+        ]
+      },
+      {
+        "weight": 80,
+        "biome": "#cobblemon:is_river",
+        "poke_rod": [
+          "cobblemon:azure_rod"
+        ]
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_coast"
+      },
+      {
+        "weight": 8,
+        "biome": "#cobblemon:is_river"
+      }
+    ]
+  }
+}

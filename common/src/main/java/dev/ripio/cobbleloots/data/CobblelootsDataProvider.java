@@ -8,6 +8,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
+import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallResourceLocation;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
@@ -15,6 +16,7 @@ import dev.ripio.cobbleloots.data.custom.filter.CobblelootsBlockFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsDateFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsLightFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsPositionFilter;
+import dev.ripio.cobbleloots.data.custom.filter.CobbleloootsBiomeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsSourceFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsTimeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsWeatherFilter;
@@ -22,11 +24,14 @@ import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -43,12 +48,12 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static dev.ripio.cobbleloots.data.CobblelootsCodecs.LOOT_BALL_DATA_CODEC;
-import static dev.ripio.cobbleloots.util.CobblelootsDefinitions.EMPTY_BIOME_TAG;
 import static dev.ripio.cobbleloots.util.math.CobblelootsMath.weightedRandomEntry;
 
 public class CobblelootsDataProvider {
   private static final Map<ResourceLocation, CobblelootsLootBallData> lootBallsData = new HashMap<>();
   private static final List<CobblelootsLootBallResourceLocation> disabledLootBalls = new ArrayList<>();
+  private static volatile boolean pendingClientDataRefresh = false;
 
   public static void addLootBallData(ResourceLocation id, JsonElement json) {
     DataResult<CobblelootsLootBallData> result = LOOT_BALL_DATA_CODEC.parse(JsonOps.INSTANCE, json);
@@ -112,7 +117,7 @@ public class CobblelootsDataProvider {
       }
       // Process source filters
       for (CobblelootsSourceFilter filter : sourceFilters) {
-        if (processSourceFilter(level, levelChunk, pos, filter, sourceType)) {
+        if (processSourceFilter(level, levelChunk, pos, filter, sourceType, null, null)) {
           // Add loot ball
           filtered.put(id, filter.getWeight());
         }
@@ -133,6 +138,49 @@ public class CobblelootsDataProvider {
     return null;
   }
 
+  public static Map.Entry<ResourceLocation, CobblelootsLootBallData> getRandomLootBallData(ServerLevel level,
+      LevelChunk levelChunk,
+      BlockPos pos, CobblelootsSourceType sourceType, @Nullable ServerPlayer player, @Nullable ItemStack tool) {
+    Map<ResourceLocation, Integer> filtered = new HashMap<>();
+
+    // Loop through all loot balls
+    for (ResourceLocation id : getExistingLootBallIds()) {
+      CobblelootsLootBallData data = getLootBallData(id);
+      if (data == null)
+        continue;
+
+      CobblelootsLootBallSources sourcesData = data.getSources();
+      if (sourcesData == null)
+        continue;
+
+      List<CobblelootsSourceFilter> sourceFilters;
+      switch (sourceType) {
+        case GENERATION -> sourceFilters = sourcesData.getGeneration();
+        case SPAWNING -> sourceFilters = sourcesData.getSpawning();
+        case FISHING -> sourceFilters = sourcesData.getFishing();
+        case ARCHAEOLOGY -> sourceFilters = sourcesData.getArchaeology();
+        default -> throw new IllegalStateException("Unexpected sourceType value: " + sourceType);
+      }
+
+      for (CobblelootsSourceFilter filter : sourceFilters) {
+        if (processSourceFilter(level, levelChunk, pos, filter, sourceType, player, tool)) {
+          // Add loot ball
+          filtered.put(id, filter.getWeight());
+        }
+      }
+    }
+
+    if (!filtered.isEmpty()) {
+      Map.Entry<ResourceLocation, Integer> weightEntry = weightedRandomEntry(filtered);
+      if (weightEntry != null) {
+        ResourceLocation key = weightEntry.getKey();
+        CobblelootsLootBallData value = getLootBallData(key);
+        return new AbstractMap.SimpleEntry<>(key, value);
+      }
+    }
+    return null;
+  }
+
   /**
    * Processes all filters in a source filter to determine if a loot ball can
    * spawn
@@ -148,93 +196,62 @@ public class CobblelootsDataProvider {
    */
   public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
       CobblelootsSourceFilter source, CobblelootsSourceType sourceType) {
-    if (level == null || pos == null || source == null) {
-      // Cobbleloots.LOGGER.info("[DEBUG] processSourceFilter: Null parameter
-      // received. Level: {}, Pos: {}, Source: {}",
-      // level, pos, source);
+    return processSourceFilter(level, chunk, pos, source, sourceType, null, null);
+  }
+
+  public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
+      CobblelootsSourceFilter source, CobblelootsSourceType sourceType, @Nullable ServerPlayer player,
+      @Nullable ItemStack tool) {
+    if (level == null || pos == null || source == null)
       return false;
-    }
 
     // Check if dimension is disabled for this source type
-    if (isDimensionDisabled(level, sourceType)) {
+    if (isDimensionDisabled(level, sourceType))
       return false;
-    }
 
     // Check structure if specified
-    if (!checkStructureFilter(level, pos, source.getStructure())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Structure filter failed for source: {} at
-      // pos: {}", source, pos);
+    if (!checkStructureFilter(level, pos, source.getStructure()))
       return false;
-    }
 
     // Check biome if specified
-    if (!checkBiomeFilter(level, pos, source.getBiome())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Biome filter failed for source: {} at pos:
-      // {}. Biome at pos: {}", source, pos,
-      // level.getBiome(pos).unwrapKey().map(Object::toString).orElse("unknown"));
+    if (!checkBiomeFilter(level, pos, source.getBiome()))
       return false;
-    }
 
     // Check dimension if specified
-    if (!checkDimensionFilter(level, source.getDimension())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Dimension filter failed for source: {}.
-      // Expected: {}, Actual: {}", source,
-      // source.getDimension(), level.dimension().location());
+    if (!checkDimensionFilter(level, source.getDimension()))
       return false;
-    }
 
     // Check blocks if specified
-    if (!checkBlockFilter(level, chunk, pos, source.getBlock())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Block filter failed for source: {} at pos:
-      // {}.", source, pos);
+    if (!checkBlockFilter(level, chunk, pos, source.getBlock()))
       return false;
-    }
 
     // Check fluid if specified
-    if (!checkFluidFilter(level, chunk, pos, source.getFluid())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Fluid filter failed for source: {} at pos:
-      // {}.", source, pos);
+    if (!checkFluidFilter(level, chunk, pos, source.getFluid()))
       return false;
-    }
 
     // Check position if specified
-    if (!checkPositionFilter(pos, source.getPosition())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Position filter failed for source: {} at
-      // pos: {}", source, pos);
+    if (!checkPositionFilter(pos, source.getPosition()))
       return false;
-    }
 
     // Check light if specified (only for SPAWNING source type)
-    if (sourceType == CobblelootsSourceType.SPAWNING && !checkLightFilter(level, pos, source.getLight())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Light filter failed for source: {} at pos:
-      // {}. BlockLight: {}, SkyLight: {}",
-      // source, pos, level.getBrightness(LightLayer.BLOCK, pos),
-      // level.getBrightness(LightLayer.SKY, pos));
+    if (sourceType == CobblelootsSourceType.SPAWNING && !checkLightFilter(level, pos, source.getLight()))
       return false;
-    }
 
     // Check time if specified
-    if (!checkTimeFilter(level, source.getTime())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Time filter failed for source: {}. Current
-      // game time: {}", source, level.getGameTime());
+    if (!checkTimeFilter(level, source.getTime()))
       return false;
-    }
 
     // Check weather if specified
-    if (!checkWeatherFilter(level, source.getWeather())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Weather filter failed for source: {}.
-      // IsRaining: {}, IsThundering: {}", source, level.isRaining(),
-      // level.isThundering());
+    if (!checkWeatherFilter(level, source.getWeather()))
       return false;
-    }
 
     // Check date if specified
-    if (!checkDateFilter(source.getDate())) {
+    if (!checkDateFilter(source.getDate()))
       return false;
-    }
 
-    // Cobbleloots.LOGGER.info("[DEBUG] All filters passed for source: {} at pos:
-    // {}", source, pos);
+    // Check poke rod if specified (only for FISHING source type)
+    if (sourceType == CobblelootsSourceType.FISHING && !checkPokeRodFilter(player, tool, source.getPokeRod()))
+      return false;
 
     // All filters passed
     return true;
@@ -258,16 +275,16 @@ public class CobblelootsDataProvider {
   }
 
   /**
-   * Checks if the position is in a biome matching the tag.
-   * 
-   * @return true if the position is in the biome, false otherwise
+   * Checks if the position is in a biome matching the filter.
+   *
+   * @return true if the position matches the biome filter, false otherwise
    */
-  private static boolean checkBiomeFilter(ServerLevel level, BlockPos pos, TagKey<Biome> biomeTag) {
-    if (biomeTag == null || biomeTag.equals(EMPTY_BIOME_TAG)) {
+  private static boolean checkBiomeFilter(ServerLevel level, BlockPos pos, CobbleloootsBiomeFilter biomeFilter) {
+    if (biomeFilter == null || biomeFilter.isEmpty()) {
       return true; // No filter specified, so it passes
     }
 
-    return level.getBiome(pos).is(biomeTag);
+    return biomeFilter.test(level, pos);
   }
 
   /**
@@ -405,21 +422,26 @@ public class CobblelootsDataProvider {
     return dateFilter.test();
   }
 
+  /**
+   * Checks if the current poke rod meets the criteria.
+   *
+   * @return true if the poke rod matches the filter, false otherwise
+   */
+  private static boolean checkPokeRodFilter(@Nullable ServerPlayer player, @Nullable ItemStack tool,
+      @Nullable dev.ripio.cobbleloots.data.custom.filter.CobblelootsPokeRodFilter filter) {
+    if (filter == null)
+      return true;
+    return filter.test(null, null, null, player, tool);
+  }
+
   public static void onReload(ResourceManager resourceManager) {
     // Cache data
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 
     // Load disabled loot balls from config
     disabledLootBalls.clear();
-    List<String> disabledLootBallsStrings = CobblelootsConfig
-        .getStringList(CobblelootsConfig.LOOT_BALL_DISABLED_LOOT_BALLS);
-    for (String disabledString : disabledLootBallsStrings) {
-      try {
-        disabledLootBalls.add(new CobblelootsLootBallResourceLocation(disabledString));
-      } catch (IllegalArgumentException e) {
-        Cobbleloots.LOGGER.warn("Invalid format for disabled loot ball location in config: '{}'", disabledString);
-      }
-    }
+    disabledLootBalls.addAll(CobblelootsConfig.data_pack_disabled_loot_balls.stream()
+        .map(CobblelootsLootBallResourceLocation::new).toList());
 
     // Load loot balls
     for (ResourceLocation id : resourceManager
@@ -438,7 +460,7 @@ public class CobblelootsDataProvider {
       }
 
       if (isDisabled) {
-        cachedLootBalls.remove(normalizedId);
+        Cobbleloots.LOGGER.info("Loot ball {} is disabled", normalizedId);
         continue;
       }
 
@@ -458,6 +480,35 @@ public class CobblelootsDataProvider {
     removeLootBallData(cachedLootBalls);
 
     Cobbleloots.LOGGER.info("Loaded {} Loot Ball data definitions.", lootBallsData.size());
+
+    // Flag that existing entities need their client data refreshed
+    pendingClientDataRefresh = true;
+  }
+
+  /**
+   * Checks if a client data refresh is pending and processes it.
+   * Should be called from the server tick to ensure server context is available.
+   *
+   * @param server The Minecraft server instance
+   */
+  public static void checkAndRefreshClientData(MinecraftServer server) {
+    if (!pendingClientDataRefresh)
+      return;
+    pendingClientDataRefresh = false;
+
+    int count = 0;
+    for (ServerLevel level : server.getAllLevels()) {
+      for (Entity entity : level.getAllEntities()) {
+        if (entity instanceof CobblelootsLootBall lootBall) {
+          lootBall.updateLootBallClientData();
+          count++;
+        }
+      }
+    }
+
+    if (count > 0) {
+      Cobbleloots.LOGGER.info("Refreshed client data for {} loot ball entities.", count);
+    }
   }
 
   /**
@@ -469,29 +520,28 @@ public class CobblelootsDataProvider {
    */
   private static boolean isDimensionDisabled(ServerLevel level, CobblelootsSourceType sourceType) {
     ResourceLocation dimensionId = level.dimension().location();
-    List<ResourceLocation> disabledDimensions;
 
     switch (sourceType) {
       case GENERATION:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_GENERATION);
+        if (CobblelootsConfig.generation_disabled_dimensions.contains(dimensionId))
+          return true;
         break;
       case SPAWNING:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_SPAWNING);
+        if (CobblelootsConfig.spawning_disabled_dimensions.contains(dimensionId))
+          return true;
         break;
       case FISHING:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_FISHING);
+        if (CobblelootsConfig.fishing_disabled_dimensions.contains(dimensionId))
+          return true;
         break;
       case ARCHAEOLOGY:
-        disabledDimensions = CobblelootsConfig
-            .getResourceLocationList(CobblelootsConfig.LOOT_BALL_DISABLED_DIMENSIONS_ARCHAEOLOGY);
+        if (CobblelootsConfig.archaeology_disabled_dimensions.contains(dimensionId))
+          return true;
         break;
       default:
         return false;
     }
 
-    return disabledDimensions != null && disabledDimensions.contains(dimensionId);
+    return false;
   }
 }

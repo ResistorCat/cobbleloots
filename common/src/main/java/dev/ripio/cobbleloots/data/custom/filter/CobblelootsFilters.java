@@ -7,6 +7,8 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 
+import com.mojang.datafixers.util.Either;
+
 import java.util.List;
 
 public class CobblelootsFilters {
@@ -36,6 +38,46 @@ public class CobblelootsFilters {
 	private static final CobblelootsBlockFilter DEFAULT_BLOCK_FILTER = new CobblelootsBlockFilter(
 			CobblelootsDefinitions.EMPTY_BLOCK_TAG, CobblelootsDefinitions.EMPTY_BLOCK_TAG);
 	private static final CobblelootsDateFilter DEFAULT_DATE_FILTER = new CobblelootsDateFilter("", "");
+	private static final CobblelootsPokeRodFilter DEFAULT_POKE_ROD_FILTER = new CobblelootsPokeRodFilter(List.of());
+
+	/**
+	 * Codec for serializing and deserializing CobbleloootsBiomeEntry objects.
+	 * Supports two input formats:
+	 * - A string (e.g., "minecraft:swamp" or "#cobblemon:is_swamp") -> creates
+	 * entry with required=true
+	 * - An object (e.g., {"id": "#c:is_ocean", "required": false})
+	 */
+	private static final Codec<CobbleloootsBiomeEntry> BIOME_ENTRY_OBJECT_CODEC = RecordCodecBuilder.create(
+			instance -> instance.group(
+					Codec.STRING.fieldOf("id").forGetter(CobbleloootsBiomeEntry::id),
+					Codec.BOOL.optionalFieldOf("required", true).forGetter(CobbleloootsBiomeEntry::required))
+					.apply(instance, CobbleloootsBiomeEntry::new));
+
+	private static final Codec<CobbleloootsBiomeEntry> BIOME_ENTRY_CODEC = Codec.either(
+			Codec.STRING,
+			BIOME_ENTRY_OBJECT_CODEC).xmap(
+					either -> either.map(
+							str -> new CobbleloootsBiomeEntry(str, true),
+							obj -> obj),
+					entry -> entry.required() ? Either.left(entry.id()) : Either.right(entry));
+
+	/**
+	 * Codec for serializing and deserializing CobbleloootsBiomeFilter objects.
+	 * Supports multiple input formats:
+	 * - A single string (e.g., "minecraft:swamp") -> wraps in list with one entry
+	 * - A single object (e.g., {"id": "#c:is_ocean", "required": false}) -> wraps
+	 * in list with one entry
+	 * - A list of mixed strings and objects
+	 */
+	public static final Codec<CobbleloootsBiomeFilter> BIOME_FILTER_CODEC = Codec.either(
+			BIOME_ENTRY_CODEC,
+			BIOME_ENTRY_CODEC.listOf()).xmap(
+					either -> either.map(
+							entry -> new CobbleloootsBiomeFilter(List.of(entry)),
+							list -> new CobbleloootsBiomeFilter(list)),
+					filter -> filter.entries().size() == 1 && filter.entries().get(0).required()
+							? Either.left(filter.entries().get(0))
+							: Either.right(filter.entries()));
 
 	/**
 	 * Codec for serializing and deserializing CobblelootsBlockFilter objects.
@@ -213,6 +255,8 @@ public class CobblelootsFilters {
 					Codec.STRING.optionalFieldOf("to", "").forGetter(CobblelootsDateFilter::getTo))
 					.apply(instance, CobblelootsDateFilter::new));
 
+	public static final Codec<CobblelootsPokeRodFilter> POKE_ROD_FILTER_CODEC = CobblelootsPokeRodFilter.CODEC;
+
 	/**
 	 * Codec for serializing and deserializing CobblelootsSourceFilter objects.
 	 * This codec handles the various filters applied to loot balls, including
@@ -251,9 +295,7 @@ public class CobblelootsFilters {
 							.optionalFieldOf("structure",
 									CobblelootsDefinitions.EMPTY_STRUCTURE_TAG)
 							.forGetter(CobblelootsSourceFilter::getStructure),
-					TagKey.codec(Registries.BIOME)
-							.optionalFieldOf("biome",
-									CobblelootsDefinitions.EMPTY_BIOME_TAG)
+					BIOME_FILTER_CODEC.optionalFieldOf("biome", CobbleloootsBiomeFilter.EMPTY)
 							.forGetter(CobblelootsSourceFilter::getBiome),
 					ResourceLocation.CODEC.listOf().optionalFieldOf("dimension", List.of())
 							.forGetter(CobblelootsSourceFilter::getDimension),
@@ -272,6 +314,8 @@ public class CobblelootsFilters {
 					WEATHER_FILTER_CODEC.optionalFieldOf("weather", DEFAULT_WEATHER_FILTER)
 							.forGetter(CobblelootsSourceFilter::getWeather),
 					DATE_FILTER_CODEC.optionalFieldOf("date", DEFAULT_DATE_FILTER)
-							.forGetter(CobblelootsSourceFilter::getDate))
+							.forGetter(CobblelootsSourceFilter::getDate),
+					POKE_ROD_FILTER_CODEC.optionalFieldOf("poke_rod", DEFAULT_POKE_ROD_FILTER)
+							.forGetter(CobblelootsSourceFilter::getPokeRod))
 					.apply(instance, CobblelootsSourceFilter::new));
 }
