@@ -96,6 +96,14 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+    // Relocate and strip MidnightLib to avoid split-package conflicts with other mods that bundle it.
+    relocate 'eu.midnightdust', 'dev.ripio.cobbleloots.shadow.midnightdust'
+    exclude 'eu/midnightdust/core/**'
+    exclude 'midnightlib.mixins.json'
+    exclude 'midnightlib-neoforge.mixins.json'
+    exclude 'fabric.mod.json'
+    exclude 'META-INF/jars/**'
+    exclude 'META-INF/jarjar/**'
 }
 
 remapJar {
