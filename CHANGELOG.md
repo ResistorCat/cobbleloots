@@ -2,6 +2,12 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## b2.2.1
+
+### Bug Fixes
+
+- Fixed a NeoForge crash when another mod (e.g. Farming for Blockheads) also bundles MidnightLib, causing a split-package module resolution error.
+
 ## b2.2.0
 
 ### Gameplay Changes
