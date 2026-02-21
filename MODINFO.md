@@ -1,4 +1,4 @@
-# Cobblemon: CobbleLoots
+# Cobbleloots: Loot Balls and More!
 
 Cobbleloots is a mod for Cobblemon that adds different ways to obtain items based on the original Pokémon video games.
 
@@ -6,7 +6,7 @@ Cobbleloots is a mod for Cobblemon that adds different ways to obtain items base
 
 <!-- TOC -->
 
-- [Cobblemon: CobbleLoots](#cobblemon-cobbleloots)
+- [Cobbleloots: Loot Balls and More!](#cobbleloots-loot-balls-and-more)
 - [Features](#features)
   - [Loot Balls 💎](#loot-balls-)
     - [Obtaining Loot Balls](#obtaining-loot-balls)
