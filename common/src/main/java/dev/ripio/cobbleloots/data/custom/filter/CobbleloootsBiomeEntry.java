@@ -7,8 +7,9 @@ package dev.ripio.cobbleloots.data.custom.filter;
  *
  * @param id       The biome identifier - either a ResourceLocation string or a
  *                 tag prefixed with #
- * @param required If true (default), this biome must match. If false, failing
- *                 to match doesn't fail the filter.
+ * @param required If true (default), loading will fail if this entry is not
+ *                 found. Set to false for entries from mods that may not be
+ *                 installed or tags defined in other datapacks.
  */
 public record CobbleloootsBiomeEntry(String id, boolean required) {
 

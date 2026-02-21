@@ -11,17 +11,20 @@ import net.minecraft.world.level.biome.Biome;
 import java.util.List;
 
 /**
- * A biome filter that supports multiple biome entries with flexible matching
- * logic.
- * 
+ * A biome filter that supports multiple biome entries.
+ *
  * <p>
  * Matching logic:
  * <ul>
- * <li>All entries with {@code required=true} must match (AND logic)</li>
- * <li>If there are entries with {@code required=false}, at least one must match
- * (OR logic among optional entries)</li>
- * <li>Empty filter always passes</li>
+ * <li>If the biome at the position matches <b>any</b> entry, the filter
+ * passes.</li>
+ * <li>Empty filter always passes.</li>
  * </ul>
+ * </p>
+ * <p>
+ * The {@code required} field on each entry controls whether loading should fail
+ * if the biome/tag is not found (e.g. from an uninstalled mod), following the
+ * Minecraft tag convention. It does not affect runtime matching.
  * </p>
  *
  * @param entries The list of biome entries to check
@@ -38,7 +41,7 @@ public record CobbleloootsBiomeFilter(List<CobbleloootsBiomeEntry> entries) {
      *
      * @param level The server level
      * @param pos   The block position to check
-     * @return true if the biome matches the filter criteria, false otherwise
+     * @return true if the biome matches any entry, false otherwise
      */
     public boolean test(ServerLevel level, BlockPos pos) {
         if (entries == null || entries.isEmpty()) {
@@ -46,32 +49,14 @@ public record CobbleloootsBiomeFilter(List<CobbleloootsBiomeEntry> entries) {
         }
 
         Holder<Biome> biomeHolder = level.getBiome(pos);
-        boolean hasOptionalEntries = false;
-        boolean anyOptionalMatched = false;
 
         for (CobbleloootsBiomeEntry entry : entries) {
-            boolean matches = matchesBiome(level, biomeHolder, entry);
-
-            if (entry.required()) {
-                // Required entries must all match
-                if (!matches) {
-                    return false;
-                }
-            } else {
-                // Track optional entries
-                hasOptionalEntries = true;
-                if (matches) {
-                    anyOptionalMatched = true;
-                }
+            if (matchesBiome(level, biomeHolder, entry)) {
+                return true;
             }
         }
 
-        // If there are optional entries, at least one must match
-        if (hasOptionalEntries && !anyOptionalMatched) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
