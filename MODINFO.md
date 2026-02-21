@@ -39,7 +39,7 @@ Loot balls are categorized into tiers that determine their rarity and loot quali
 
 Check out the [documentation](https://resistorcat.github.io/cobbleloots/) to learn how to use the mod objects and features in your custom maps. If you still have questions, feel free to ask on my discord server.
 
-> **Note**: The documentation is a work in progress, and some features may not be fully documented yet. If you need help with a specific feature, please reach out on my [Discord server](https://discord.gg/2YGJXxHtBX).
+> **Note**: The documentation is a work in progress, and some features may not be fully documented yet. If you need help with a specific feature, please reach out on my [Discord server](https://discord.gg/kbykWUH5dV).
 
 ### Custom Loot Balls 🎁
 
