@@ -202,100 +202,56 @@ public class CobblelootsDataProvider {
   public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
       CobblelootsSourceFilter source, CobblelootsSourceType sourceType, @Nullable ServerPlayer player,
       @Nullable ItemStack tool) {
-    if (level == null || pos == null || source == null) {
-      // Cobbleloots.LOGGER.info("[DEBUG] processSourceFilter: Null parameter
-      // received. Level: {}, Pos: {}, Source: {}",
-      // level, pos, source);
+    if (level == null || pos == null || source == null)
       return false;
-    }
 
     // Check if dimension is disabled for this source type
-    if (isDimensionDisabled(level, sourceType)) {
+    if (isDimensionDisabled(level, sourceType))
       return false;
-    }
 
     // Check structure if specified
-    if (!checkStructureFilter(level, pos, source.getStructure())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Structure filter failed for source: {} at
-      // pos: {}", source, pos);
+    if (!checkStructureFilter(level, pos, source.getStructure()))
       return false;
-    }
 
     // Check biome if specified
-    if (!checkBiomeFilter(level, pos, source.getBiome())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Biome filter failed for source: {} at pos:
-      // {}. Biome at pos: {}", source, pos,
-      // level.getBiome(pos).unwrapKey().map(Object::toString).orElse("unknown"));
+    if (!checkBiomeFilter(level, pos, source.getBiome()))
       return false;
-    }
 
     // Check dimension if specified
-    if (!checkDimensionFilter(level, source.getDimension())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Dimension filter failed for source: {}.
-      // Expected: {}, Actual: {}", source,
-      // source.getDimension(), level.dimension().location());
+    if (!checkDimensionFilter(level, source.getDimension()))
       return false;
-    }
 
     // Check blocks if specified
-    if (!checkBlockFilter(level, chunk, pos, source.getBlock())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Block filter failed for source: {} at pos:
-      // {}.", source, pos);
+    if (!checkBlockFilter(level, chunk, pos, source.getBlock()))
       return false;
-    }
 
     // Check fluid if specified
-    if (!checkFluidFilter(level, chunk, pos, source.getFluid())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Fluid filter failed for source: {} at pos:
-      // {}.", source, pos);
+    if (!checkFluidFilter(level, chunk, pos, source.getFluid()))
       return false;
-    }
 
     // Check position if specified
-    if (!checkPositionFilter(pos, source.getPosition())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Position filter failed for source: {} at
-      // pos: {}", source, pos);
+    if (!checkPositionFilter(pos, source.getPosition()))
       return false;
-    }
 
     // Check light if specified (only for SPAWNING source type)
-    if (sourceType == CobblelootsSourceType.SPAWNING && !checkLightFilter(level, pos, source.getLight())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Light filter failed for source: {} at pos:
-      // {}. BlockLight: {}, SkyLight: {}",
-      // source, pos, level.getBrightness(LightLayer.BLOCK, pos),
-      // level.getBrightness(LightLayer.SKY, pos));
+    if (sourceType == CobblelootsSourceType.SPAWNING && !checkLightFilter(level, pos, source.getLight()))
       return false;
-    }
 
     // Check time if specified
-    if (!checkTimeFilter(level, source.getTime())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Time filter failed for source: {}. Current
-      // game time: {}", source, level.getGameTime());
+    if (!checkTimeFilter(level, source.getTime()))
       return false;
-    }
 
     // Check weather if specified
-    if (!checkWeatherFilter(level, source.getWeather())) {
-      // Cobbleloots.LOGGER.info("[DEBUG] Weather filter failed for source: {}.
-      // IsRaining: {}, IsThundering: {}", source, level.isRaining(),
-      // level.isThundering());
+    if (!checkWeatherFilter(level, source.getWeather()))
       return false;
-    }
 
     // Check date if specified
-    if (!checkDateFilter(source.getDate())) {
+    if (!checkDateFilter(source.getDate()))
       return false;
-    }
 
     // Check poke rod if specified (only for FISHING source type)
-    if (sourceType == CobblelootsSourceType.FISHING) {
-      if (!checkPokeRodFilter(player, tool, source.getPokeRod())) {
-        return false;
-      }
-    }
-
-    // Cobbleloots.LOGGER.info("[DEBUG] All filters passed for source: {} at pos:
-    // {}", source, pos);
+    if (sourceType == CobblelootsSourceType.FISHING && !checkPokeRodFilter(player, tool, source.getPokeRod()))
+      return false;
 
     // All filters passed
     return true;
