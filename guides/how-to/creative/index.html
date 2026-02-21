@@ -1,0 +1,2994 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="How to edit Loot Balls in Creative mode, commands, and testing tips.">
+      
+      
+      
+        <link rel="canonical" href="https://resistorcat.github.io/cobbleloots/guides/how-to/creative/">
+      
+      
+        <link rel="prev" href="../../configuration/">
+      
+      
+        <link rel="next" href="../datapack/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/ball/model/pumpkin.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+    
+    
+      
+        <title>Editing Loot Balls in Creative mode - Cobbleloots Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#editing-loot-balls-in-creative-mode" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Cobbleloots Documentation" class="md-header__button md-logo" aria-label="Cobbleloots Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/halloween-logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Cobbleloots Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Editing Loot Balls in Creative mode
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ResistorCat/cobbleloots" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+    
+  
+  Cobbleloots Documentation
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../configuration/" class="md-tabs__link">
+          
+  
+  
+  Guides
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../loot_balls/" class="md-tabs__link">
+          
+  
+  
+  Loot balls
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/biome_tags/" class="md-tabs__link">
+          
+  
+  
+  Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Cobbleloots Documentation" class="md-nav__button md-logo" aria-label="Cobbleloots Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/halloween-logo.png" alt="logo">
+
+    </a>
+    Cobbleloots Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ResistorCat/cobbleloots" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Cobbleloots Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97s-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1s.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How to
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Editing Loot Balls in Creative mode
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Editing Loot Balls in Creative mode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creative-mode-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creative Mode Tab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creative-interaction-behaviors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👆 Creative Interaction Behaviors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👆 Creative Interaction Behaviors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#right-click-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Right-Click Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#punch-left-click-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Punch (Left-Click) Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pick-block-middle-click" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pick Block (Middle-Click)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#giving-loot-ball-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎁 Giving Loot Ball Items
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎁 Giving Loot Ball Items">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimal-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimal examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summoning-loot-ball-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🪄 Summoning Loot Ball Entities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🪄 Summoning Loot Ball Entities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewing-and-editing-loot-ball-nbt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Viewing and Editing Loot Ball NBT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Viewing and Editing Loot Ball NBT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inspecting-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modifying data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nbt-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 NBT Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 NBT Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identification-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identification Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gameplay-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gameplay Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loot-table-tags-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loot Table Tags (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internal-tags-read-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Tags (read-only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapmaking-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗺️ Mapmaking Utilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗺️ Mapmaking Utilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placing-pre-configured-loot-balls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placing pre-configured Loot Balls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infinite-loot-balls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infinite Loot Balls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden-loot-balls-with-sparks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hidden Loot Balls with Sparks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timed-loot-balls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timed Loot Balls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-loot-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Loot Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-loot-balls-for-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Named Loot Balls for Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creative-config-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Creative Config Defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Troubleshooting Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../datapack/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 4H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Making a Datapack for Loot Balls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loot balls
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Loot balls
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 1.4-.41 2.71-1.12 3.8L12 22.21 6.12 12.8A6.95 6.95 0 0 1 5 9a7 7 0 0 1 7-7m0 1.5A5.5 5.5 0 0 0 6.59 8h2.58c.41-1.17 1.52-2 2.83-2s2.42.83 2.83 2h2.58A5.5 5.5 0 0 0 12 3.5m0 8.5a2.99 2.99 0 0 1-2.83-2H6.59c.13.69.38 1.34.75 1.91l.04.09A5.51 5.51 0 0 0 12 14.5c1.94 0 3.64-1 4.62-2.5l.04-.09c.37-.57.62-1.22.75-1.91h-2.58A2.99 2.99 0 0 1 12 12m0-4.5A1.5 1.5 0 0 0 10.5 9a1.5 1.5 0 0 0 1.5 1.5A1.5 1.5 0 0 0 13.5 9 1.5 1.5 0 0 0 12 7.5"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Loot Balls
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tier 1 common
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tier 1 common
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/azure/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Azure Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/citrine/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Citrine Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/poke/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Poké Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/premier/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Premier Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/roseate/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Roseate Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/slate/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Slate Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-1-common/verdant/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Verdant Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tier 2 uncommon
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tier 2 uncommon
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/dive/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Dive Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/great/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Great Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/heal/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Heal Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/lure/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Lure Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/nest/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Nest Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/net/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Net Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/pumpkin/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Pumpkin Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/quick/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/rainbow/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Rainbow Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/safari/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Safari Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-2-uncommon/timer/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Timer Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tier 3 rare
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tier 3 rare
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-3-rare/dusk/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Dusk Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-3-rare/luxury/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Luxury Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-3-rare/ultra/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Ultra Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tier 4 ultra rare
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tier 4 ultra rare
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../loot_balls/tier-4-ultra-rare/master/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2c-4.08 0-7.45 3.05-7.94 7h4.07c.44-1.73 2.01-3 3.87-3s3.43 1.27 3.87 3h4.07c-.49-3.95-3.86-7-7.94-7m0 16c4.08 0 7.45-3.05 7.94-7h-4.07c-.44 1.73-2.01 3-3.87 3s-3.43-1.27-3.87-3H4.06c.49 3.95 3.86 7 7.94 7m0-10a2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2 2 2 0 0 0-2-2"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Master Loot Ball
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../reference/biome_tags/" class="md-nav__link">
+        
+  
+  
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14 6-3.75 5 2.85 3.8-1.6 1.2C9.81 13.75 7 10 7 10l-6 8h22z"/></svg>
+  
+  <span class="md-ellipsis">
+    
+  
+    Biome Tags
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creative-mode-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creative Mode Tab
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creative-interaction-behaviors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        👆 Creative Interaction Behaviors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="👆 Creative Interaction Behaviors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#right-click-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Right-Click Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#punch-left-click-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Punch (Left-Click) Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pick-block-middle-click" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pick Block (Middle-Click)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#giving-loot-ball-items" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🎁 Giving Loot Ball Items
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🎁 Giving Loot Ball Items">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimal-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minimal examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summoning-loot-ball-entities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🪄 Summoning Loot Ball Entities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🪄 Summoning Loot Ball Entities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#viewing-and-editing-loot-ball-nbt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔍 Viewing and Editing Loot Ball NBT
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🔍 Viewing and Editing Loot Ball NBT">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inspecting-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#modifying-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Modifying data
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nbt-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📋 NBT Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📋 NBT Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#identification-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Identification Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gameplay-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gameplay Tags
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#loot-table-tags-advanced" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Loot Table Tags (Advanced)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internal-tags-read-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal Tags (read-only)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mapmaking-utilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🗺️ Mapmaking Utilities
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🗺️ Mapmaking Utilities">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#placing-pre-configured-loot-balls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Placing pre-configured Loot Balls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#infinite-loot-balls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Infinite Loot Balls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidden-loot-balls-with-sparks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hidden Loot Balls with Sparks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timed-loot-balls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timed Loot Balls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-loot-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Loot Tables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#named-loot-balls-for-distribution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Named Loot Balls for Distribution
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creative-config-defaults" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ⚙️ Creative Config Defaults
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        🔧 Troubleshooting Tips
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="editing-loot-balls-in-creative-mode">Editing Loot Balls in Creative mode</h1>
+<p>This guide covers all the tools available for working with Loot Balls in Creative mode, including commands, interactions, NBT editing, and mapmaking utilities. Whether you're testing loot tables or building custom maps, this page has everything you need.</p>
+<h2 id="creative-mode-tab">Creative Mode Tab</h2>
+<p>In Creative mode, open the <strong>Cobbleloots</strong> item group tab to find pre-configured Loot Ball items for every ball type. These items come with their texture already set, so you can place them directly into the world.</p>
+<p>The creative tab includes:</p>
+<ul>
+<li><strong>Normal Balls</strong> — Poké, Citrine, Verdant, Azure, Roseate, Slate, Premier, Great, Ultra, Safari, Fast, Level, Lure, Heavy, Love, Friend, Moon, Sport, Park, Net, Dive, Nest, Repeat, Timer, Luxury, Dusk, Heal, Quick, Dream, Beast, Master, and Cherish.</li>
+<li><strong>Ancient Balls</strong> — Ancient Poké, Ancient Citrine, Ancient Verdant, Ancient Azure, Ancient Roseate, Ancient Slate, Ancient Ivory, Ancient Great, Ancient Ultra, Ancient Feather, Ancient Wing, Ancient Jet, Ancient Heavy, Ancient Leaden, Ancient Gigaton, and Ancient Origin.</li>
+<li><strong>Special Balls</strong> — Rainbow and Pumpkin (with custom Cobbleloots textures).</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Creative tab items only have a <code>Texture</code> set — they don't include <code>LootBallData</code> or <code>Variant</code> by default. This means they display the correct ball appearance, but won't produce any loot when opened in Survival mode. To make them functional, set the <code>LootBallData</code> field (see <a href="#nbt-reference">NBT Reference</a> below).</p>
+</div>
+<hr />
+<h2 id="creative-interaction-behaviors">👆 Creative Interaction Behaviors</h2>
+<p>In Creative mode, right-clicking and punching Loot Ball entities behave differently from Survival:</p>
+<h3 id="right-click-interactions">Right-Click Interactions</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Action</th>
+<th>Feedback</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Empty hand</strong></td>
+<td>Toggles entity visibility (invisible ↔ visible)</td>
+<td>Potion drink sound + status message</td>
+</tr>
+<tr>
+<td><strong>Honeycomb</strong> on an <strong>invisible</strong> Loot Ball</td>
+<td>Toggles spark particles on/off</td>
+<td>Wax on/off sound + status message</td>
+</tr>
+<tr>
+<td><strong>Any other item</strong></td>
+<td>Sets the Loot Ball's content to that item (type + count)</td>
+<td>Insert sound + confirmation message</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Setting an item manually overrides the loot table. The Loot Ball will give exactly that item when opened, ignoring any <code>LootBallData</code> loot table.</p>
+</div>
+<h3 id="punch-left-click-interactions">Punch (Left-Click) Interactions</h3>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Empty hand</strong> in Creative</td>
+<td>Drops the current item content (if any), then destroys the entity</td>
+</tr>
+<tr>
+<td><strong>Holding an item</strong></td>
+<td>No effect (attack is blocked)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In Survival mode, empty Loot Balls can only be punched when they have 0 remaining uses. In Creative, you can always punch them to destroy and recover contents.</p>
+</div>
+<h3 id="pick-block-middle-click">Pick Block (Middle-Click)</h3>
+<p><strong>Middle-clicking</strong> a Loot Ball entity copies it to your inventory as an item, preserving <strong>all</strong> entity properties: <code>LootBallData</code>, <code>Variant</code>, <code>Texture</code>, <code>Sparks</code>, <code>Invisible</code>, <code>Uses</code>, <code>Multiplier</code>, <code>DespawnTick</code>, <code>PlayerTimer</code>, and <code>XP</code>. This is the best way to duplicate a fully configured Loot Ball.</p>
+<hr />
+<h2 id="giving-loot-ball-items">🎁 Giving Loot Ball Items</h2>
+<p>Give yourself a configured Loot Ball item using the <code>/give</code> command with <code>minecraft:custom_data</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">give</span><span class="w"> </span><span class="nv">@p</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="p">[</span><span class="na">minecraft:custom_data</span><span class="p">={</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/poke&quot;</span><span class="p">,</span><span class="na">Variant</span><span class="p">:</span><span class="s2">&quot;verdant&quot;</span><span class="p">,</span><span class="na">Texture</span><span class="p">:</span><span class="s2">&quot;cobblemon:textures/poke_balls/verdant_ball.png&quot;</span><span class="p">}]</span><span class="w"> </span><span class="mf">1</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When using <code>/give</code>, always include the <code>Texture</code> field. Items don't automatically resolve their texture from <code>LootBallData</code>/<code>Variant</code> the way entities do, which can cause a missing texture if omitted.</p>
+</div>
+<h3 id="minimal-examples">Minimal examples</h3>
+<p>A simple Poke Ball (no variant):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">give</span><span class="w"> </span><span class="nv">@p</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="p">[</span><span class="na">minecraft:custom_data</span><span class="p">={</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/poke&quot;</span><span class="p">,</span><span class="na">Texture</span><span class="p">:</span><span class="s2">&quot;cobblemon:textures/poke_balls/poke_ball.png&quot;</span><span class="p">}]</span><span class="w"> </span><span class="mf">1</span>
+</code></pre></div>
+<p>A texture-only decorative ball (no loot data):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">give</span><span class="w"> </span><span class="nv">@p</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="p">[</span><span class="na">minecraft:custom_data</span><span class="p">={</span><span class="na">Texture</span><span class="p">:</span><span class="s2">&quot;cobbleloots:textures/loot_ball/pumpkin.png&quot;</span><span class="p">}]</span><span class="w"> </span><span class="mf">1</span>
+</code></pre></div>
+<hr />
+<h2 id="summoning-loot-ball-entities">🪄 Summoning Loot Ball Entities</h2>
+<p>Summon a Loot Ball entity directly into the world. For entities, NBT fields go directly in the entity data (no <code>minecraft:custom_data</code> wrapper):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/poke&quot;</span><span class="p">,</span><span class="na">Variant</span><span class="p">:</span><span class="s2">&quot;verdant&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>Entities automatically resolve their texture from <code>LootBallData</code> and <code>Variant</code>, so you don't need to include the <code>Texture</code> field unless you want to override it.</p>
+<h3 id="examples">Examples</h3>
+<p>Summon a loot ball that's invisible with spark particles:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/ultra&quot;</span><span class="p">,</span><span class="na">Invisible</span><span class="p">:</span><span class="m m-Byte">1b</span><span class="p">,</span><span class="na">Sparks</span><span class="p">:</span><span class="m m-Byte">1b</span><span class="p">}</span>
+</code></pre></div>
+<p>Summon a loot ball with custom gameplay overrides:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/master&quot;</span><span class="p">,</span><span class="na">Uses</span><span class="p">:</span><span class="mf">-1</span><span class="p">,</span><span class="na">Multiplier</span><span class="p">:</span><span class="mf">3.0f</span><span class="p">,</span><span class="na">XP</span><span class="p">:</span><span class="mf">100</span><span class="p">,</span><span class="na">PlayerTimer</span><span class="p">:</span><span class="mi">6000</span><span class="na">L</span><span class="p">}</span>
+</code></pre></div>
+<p>Summon a loot ball with a custom texture override:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/poke&quot;</span><span class="p">,</span><span class="na">Texture</span><span class="p">:</span><span class="s2">&quot;cobblemon:textures/poke_balls/beast_ball.png&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>Summon a loot ball with a direct loot table (bypassing loot ball data):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootTable</span><span class="p">:</span><span class="s2">&quot;minecraft:chests/end_city_treasure&quot;</span><span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="viewing-and-editing-loot-ball-nbt">🔍 Viewing and Editing Loot Ball NBT</h2>
+<p>Use Minecraft's <code>/data</code> commands to inspect and modify Loot Ball entities in real time.</p>
+<h3 id="inspecting-data">Inspecting data</h3>
+<p>Get the full NBT data of the nearest Loot Ball:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">get</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span>
+</code></pre></div>
+<p>Get a specific field:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">get</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">LootBallData</span>
+</code></pre></div>
+<h3 id="modifying-data">Modifying data</h3>
+<p>Change the loot ball type:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">LootBallData</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="s2">&quot;cobbleloots:loot_ball/great&quot;</span>
+</code></pre></div>
+<p>Make a loot ball invisible:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">Invisible</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="m m-Byte">1b</span>
+</code></pre></div>
+<p>Set infinite uses:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">Uses</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="mf">-1</span>
+</code></pre></div>
+<p>Set a loot multiplier:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">Multiplier</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="mf">5.0f</span>
+</code></pre></div>
+<p>Set a player cooldown (in ticks):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">PlayerTimer</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="err">12000</span><span class="vc">L</span>
+</code></pre></div>
+<p>Set experience points reward:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">XP</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="mf">50</span>
+</code></pre></div>
+<p>Set a despawn tick (the absolute game tick at which the entity is removed):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">DespawnTick</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="err">0</span><span class="vc">L</span>
+</code></pre></div>
+<p>Override the texture:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">data</span><span class="w"> </span><span class="kc">modify</span><span class="w"> </span><span class="kc">entity</span><span class="w"> </span><span class="nv">@n</span><span class="p">[</span><span class="na">type</span><span class="p">=</span><span class="nt">cobbleloots:loot_ball</span><span class="p">]</span><span class="w"> </span><span class="kc">Texture</span><span class="w"> </span><span class="kc">set</span><span class="w"> </span><span class="kc">value</span><span class="w"> </span><span class="s2">&quot;cobblemon:textures/poke_balls/love_ball.png&quot;</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Be careful with <code>/data modify</code> commands — incorrect values can break the entity. Always back up your world before experimenting.</p>
+</div>
+<hr />
+<h2 id="nbt-reference">📋 NBT Reference</h2>
+<p>All NBT tags available on a <code>cobbleloots:loot_ball</code> entity:</p>
+<h3 id="identification-tags">Identification Tags</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LootBallData</code></td>
+<td><code>string</code></td>
+<td>Resource location of the loot ball data definition (e.g. <code>cobbleloots:loot_ball/poke</code>). Determines loot table, texture, and variants.</td>
+<td><code>""</code> (empty)</td>
+</tr>
+<tr>
+<td><code>Variant</code></td>
+<td><code>string</code></td>
+<td>Variant key within the loot ball data (e.g. <code>verdant</code>, <code>citrine</code>). Each variant can override the texture and loot table.</td>
+<td><code>""</code> (empty)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="visual-tags">Visual Tags</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Texture</code></td>
+<td><code>string</code></td>
+<td>Custom texture resource path. Overrides the texture from <code>LootBallData</code>/<code>Variant</code> when set.</td>
+<td><code>""</code> (empty)</td>
+</tr>
+<tr>
+<td><code>Invisible</code></td>
+<td><code>boolean</code></td>
+<td>Whether the entity is invisible. Invisible loot balls are hidden but can show spark particles.</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>Sparks</code></td>
+<td><code>boolean</code></td>
+<td>Whether to display electric spark particles (only visible when the entity is invisible).</td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="gameplay-tags">Gameplay Tags</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Uses</code></td>
+<td><code>int</code></td>
+<td>Remaining number of times this loot ball can be opened. Set to <code>-1</code> for infinite uses.</td>
+<td>Config: <code>loot_ball_default_uses</code> (1)</td>
+</tr>
+<tr>
+<td><code>Multiplier</code></td>
+<td><code>float</code></td>
+<td>Multiplier applied to item counts when loot is given. For example, <code>2.0f</code> doubles the quantity.</td>
+<td>Config: <code>loot_ball_default_multiplier</code> (1.0)</td>
+</tr>
+<tr>
+<td><code>XP</code></td>
+<td><code>int</code></td>
+<td>Experience points awarded to the player when they open the loot ball. Requires <code>loot_ball_xp_enabled</code> in config.</td>
+<td>Config: <code>loot_ball_default_xp</code> (0)</td>
+</tr>
+<tr>
+<td><code>PlayerTimer</code></td>
+<td><code>long</code></td>
+<td>Cooldown in ticks before the same player can open this loot ball again. Only applies if <code>Uses</code> allows multiple openings.</td>
+<td>Config: <code>loot_ball_default_player_cooldown</code> (0)</td>
+</tr>
+<tr>
+<td><code>DespawnTick</code></td>
+<td><code>long</code></td>
+<td>Absolute game tick at which the entity will be removed. Set to <code>0</code> to disable despawning. Spawned loot balls set this automatically.</td>
+<td>Config: <code>loot_ball_default_despawn_tick</code> (0)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="loot-table-tags-advanced">Loot Table Tags (Advanced)</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LootTable</code></td>
+<td><code>string</code></td>
+<td>Direct loot table resource location (e.g. <code>minecraft:chests/village/village_plains_house</code>). Overrides any loot table from <code>LootBallData</code>.</td>
+</tr>
+<tr>
+<td><code>LootTableSeed</code></td>
+<td><code>long</code></td>
+<td>Seed for the loot table RNG. Set to <code>0</code> for random seed.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="internal-tags-read-only">Internal Tags (read-only)</h3>
+<table>
+<thead>
+<tr>
+<th>Tag</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Openers</code></td>
+<td><code>list</code></td>
+<td>List of players who have opened this loot ball, with UUIDs and timestamps. Used for per-player tracking.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Tags stored on <strong>items</strong> use <code>minecraft:custom_data</code> as a wrapper. Tags stored on <strong>entities</strong> (via <code>/summon</code> or <code>/data</code>) go directly in the entity NBT. When placing a Loot Ball item, its <code>custom_data</code> tags are read into the entity automatically.</p>
+</div>
+<hr />
+<h2 id="mapmaking-utilities">🗺️ Mapmaking Utilities</h2>
+<h3 id="placing-pre-configured-loot-balls">Placing pre-configured Loot Balls</h3>
+<p>The Loot Ball item can be placed directly on blocks (right-click on a surface). When placed:</p>
+<ul>
+<li>The item's <code>minecraft:custom_data</code> is transferred to the entity.</li>
+<li>The entity faces away from the player (180° offset).</li>
+<li>A placement sound plays and a game event is emitted.</li>
+</ul>
+<p>This makes it easy to set up Loot Balls in custom maps: configure items with <code>/give</code>, then place them where you want.</p>
+<h3 id="infinite-loot-balls">Infinite Loot Balls</h3>
+<p>For map features like repeatable rewards, set <code>Uses</code> to <code>-1</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/great&quot;</span><span class="p">,</span><span class="na">Uses</span><span class="p">:</span><span class="mf">-1</span><span class="p">,</span><span class="na">PlayerTimer</span><span class="p">:</span><span class="mi">72000</span><span class="na">L</span><span class="p">}</span>
+</code></pre></div>
+<p>This creates a Loot Ball that can be opened unlimited times, with a 1-hour cooldown per player (72000 ticks).</p>
+<h3 id="hidden-loot-balls-with-sparks">Hidden Loot Balls with Sparks</h3>
+<p>Create invisible loot balls that hint at their location with particle effects:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/ultra&quot;</span><span class="p">,</span><span class="na">Invisible</span><span class="p">:</span><span class="m m-Byte">1b</span><span class="p">,</span><span class="na">Sparks</span><span class="p">:</span><span class="m m-Byte">1b</span><span class="p">,</span><span class="na">Multiplier</span><span class="p">:</span><span class="mf">2.0f</span><span class="p">}</span>
+</code></pre></div>
+<p>To create a completely hidden loot ball (no particles):</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/master&quot;</span><span class="p">,</span><span class="na">Invisible</span><span class="p">:</span><span class="m m-Byte">1b</span><span class="p">,</span><span class="na">Sparks</span><span class="p">:</span><span class="m m-Byte">0b</span><span class="p">}</span>
+</code></pre></div>
+<h3 id="timed-loot-balls">Timed Loot Balls</h3>
+<p>Create loot balls that disappear after a set time. The <code>DespawnTick</code> uses the <strong>absolute game tick</strong>, so you need to calculate: <code>current_game_tick + desired_duration</code>.</p>
+<p>For a loot ball that despawns after 10 minutes (12000 ticks), you can use a command block or function with time calculations, or set it relative to the current time:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/poke&quot;</span><span class="p">,</span><span class="na">DespawnTick</span><span class="p">:</span><span class="mi">12000</span><span class="na">L</span><span class="p">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>DespawnTick</code> is an <strong>absolute</strong> game tick, not a duration. A value of <code>12000L</code> means the entity despawns when the world's game time reaches tick 12000. For dynamic timing, use a function or command block to compute <code>current_tick + duration</code>.</p>
+</div>
+<h3 id="custom-loot-tables">Custom Loot Tables</h3>
+<p>You can assign any Minecraft loot table to a Loot Ball by using the direct <code>LootTable</code> tag:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">summon</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="p">{</span><span class="na">LootTable</span><span class="p">:</span><span class="s2">&quot;minecraft:chests/ancient_city&quot;</span><span class="p">,</span><span class="na">Texture</span><span class="p">:</span><span class="s2">&quot;cobblemon:textures/poke_balls/dusk_ball.png&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>This bypasses the Cobbleloots data pack system entirely and uses vanilla (or modded) loot tables directly.</p>
+<h3 id="named-loot-balls-for-distribution">Named Loot Balls for Distribution</h3>
+<p>Create named items with lore for easy identification in chests or shops:</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">give</span><span class="w"> </span><span class="nv">@p</span><span class="w"> </span><span class="nf">cobbleloots:loot_ball</span><span class="p">[</span><span class="na">minecraft:custom_data</span><span class="p">={</span><span class="na">LootBallData</span><span class="p">:</span><span class="s2">&quot;cobbleloots:loot_ball/poke&quot;</span><span class="p">,</span><span class="na">Variant</span><span class="p">:</span><span class="s2">&quot;verdant&quot;</span><span class="p">,</span><span class="na">Texture</span><span class="p">:</span><span class="s2">&quot;cobblemon:textures/poke_balls/verdant_ball.png&quot;</span><span class="p">},</span><span class="na">minecraft:custom_name</span><span class="p">=</span><span class="s1">&#39;{&quot;text&quot;:&quot;Verdant Loot Ball&quot;,&quot;color&quot;:&quot;green&quot;,&quot;italic&quot;:false}&#39;</span><span class="p">,</span><span class="na">minecraft:lore</span><span class="p">=[</span><span class="na">&#39;</span><span class="p">{</span><span class="na">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;A rare loot ball found in forests&quot;</span><span class="p">,</span><span class="na">&quot;color&quot;</span><span class="p">:</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span><span class="na">&quot;italic&quot;</span><span class="p">:</span><span class="nt">false</span><span class="p">}</span><span class="err">&#39;</span><span class="p">]]</span><span class="w"> </span><span class="mf">1</span>
+</code></pre></div>
+<hr />
+<h2 id="creative-config-defaults">⚙️ Creative Config Defaults</h2>
+<p>The mod's configuration has a <strong>Creative</strong> category that controls the default values for newly spawned loot ball entities. These act as the baseline when a tag is not explicitly set:</p>
+<table>
+<thead>
+<tr>
+<th>Config Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loot_ball_default_uses</code></td>
+<td>Default remaining uses</td>
+<td><code>1</code></td>
+</tr>
+<tr>
+<td><code>loot_ball_default_multiplier</code></td>
+<td>Default loot multiplier</td>
+<td><code>1.0</code></td>
+</tr>
+<tr>
+<td><code>loot_ball_default_xp</code></td>
+<td>Default XP reward</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>loot_ball_default_player_cooldown</code></td>
+<td>Default player cooldown (ticks)</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>loot_ball_default_despawn_tick</code></td>
+<td>Default despawn tick</td>
+<td><code>0</code> (disabled)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>These config defaults affect all newly created loot ball entities — both naturally spawned and summoned via commands. Override them per-entity using NBT tags.</p>
+</div>
+<hr />
+<h2 id="troubleshooting-tips">🔧 Troubleshooting Tips</h2>
+<ul>
+<li>🖼️ <strong>Textures not showing on items</strong>: Always include the <code>Texture</code> field in <code>/give</code> commands. Items don't auto-resolve textures from <code>LootBallData</code> like entities do.</li>
+<li>🚫 <strong>Loot Ball won't open in Survival</strong>: Check the <code>Uses</code> count (0 = exhausted), player cooldown (<code>PlayerTimer</code>), and that the loot ball has a valid <code>LootBallData</code> or <code>LootTable</code> set. Empty loot balls (no loot table or items) won't open.</li>
+<li>⚙️ <strong>Commands not working</strong>: Ensure you have operator permissions. Creative mode interactions only work while in Creative game mode.</li>
+<li>🐛 <strong>Entity not spawning</strong>: Verify the entity type is <code>cobbleloots:loot_ball</code> and the mod is loaded. Check server logs for errors.</li>
+<li>🔄 <strong>Pick block not working</strong>: Make sure you are in Creative mode. Pick block copies all entity data, including visibility and gameplay properties.</li>
+<li>📦 <strong>Set item not working</strong>: You must right-click while holding an item. If you're holding a honeycomb and the loot ball is invisible, it will toggle sparks instead of setting the item.</li>
+</ul>
+<hr />
+<div class="admonition info">
+<p class="admonition-title">AI-Generated Content Disclaimer</p>
+<p>This guide was created with the assistance of AI tools. There may be some errors or inaccuracies.</p>
+</div>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 21, 2026 00:07:25 UTC">February 21, 2026</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 21, 2026 00:07:25 UTC">February 21, 2026</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Configuration
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../datapack/" class="md-footer__link md-footer__link--next" aria-label="Next: Making a Datapack for Loot Balls">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Making a Datapack for Loot Balls
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/ResistorCat" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://discord.gg/kbykWUH5dV" target="_blank" rel="noopener" title="discord.gg" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M492.5 69.8c-.2-.3-.4-.6-.8-.7-38.1-17.5-78.4-30-119.7-37.1-.4-.1-.8 0-1.1.1s-.6.4-.8.8c-5.5 9.9-10.5 20.2-14.9 30.6-44.6-6.8-89.9-6.8-134.4 0-4.5-10.5-9.5-20.7-15.1-30.6-.2-.3-.5-.6-.8-.8s-.7-.2-1.1-.2C162.5 39 122.2 51.5 84.1 69c-.3.1-.6.4-.8.7C7.1 183.5-13.8 294.6-3.6 404.2c0 .3.1.5.2.8s.3.4.5.6c44.4 32.9 94 58 146.8 74.2.4.1.8.1 1.1 0s.7-.4.9-.7c11.3-15.4 21.4-31.8 30-48.8.1-.2.2-.5.2-.8s0-.5-.1-.8-.2-.5-.4-.6-.4-.3-.7-.4c-15.8-6.1-31.2-13.4-45.9-21.9-.3-.2-.5-.4-.7-.6s-.3-.6-.3-.9 0-.6.2-.9.3-.5.6-.7c3.1-2.3 6.2-4.7 9.1-7.1.3-.2.6-.4.9-.4s.7 0 1 .1c96.2 43.9 200.4 43.9 295.5 0 .3-.1.7-.2 1-.2s.7.2.9.4c2.9 2.4 6 4.9 9.1 7.2.2.2.4.4.6.7s.2.6.2.9-.1.6-.3.9-.4.5-.6.6c-14.7 8.6-30 15.9-45.9 21.8-.2.1-.5.2-.7.4s-.3.4-.4.7-.1.5-.1.8.1.5.2.8c8.8 17 18.8 33.3 30 48.8.2.3.6.6.9.7s.8.1 1.1 0c52.9-16.2 102.6-41.3 147.1-74.2.2-.2.4-.4.5-.6s.2-.5.2-.8c12.3-126.8-20.5-236.9-86.9-334.5zm-302 267.7c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.4 59.2-52.8 59.2m195.4 0c-29 0-52.8-26.6-52.8-59.2s23.4-59.2 52.8-59.2c29.7 0 53.3 26.8 52.8 59.2 0 32.7-23.2 59.2-52.8 59.2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
