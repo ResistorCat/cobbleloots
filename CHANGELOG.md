@@ -74,6 +74,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
   - New and updated pages for all loot balls, showing general information, loot table and obtaining methods.
   - Updated Reference page with updated biome tag information.
   - Added a new Configuration page with updated information about the configuration system.
+  - Updated the mod guides and examples to reflect the new changes.
 
 ### Bug Fixes
 
