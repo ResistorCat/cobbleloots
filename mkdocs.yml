@@ -26,8 +26,8 @@ theme:
         icon: material/brightness-4
         name: Switch to system preference
   language: en
-  logo: assets/logo.png
-  favicon: assets/favicon.png
+  logo: assets/halloween-logo.png
+  favicon: assets/ball/model/pumpkin.png
   features:
     - navigation.tabs
     - navigation.sections
