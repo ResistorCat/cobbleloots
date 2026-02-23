@@ -2,6 +2,12 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## b2.2.2
+
+### Bug Fixes
+
+- Fixed NeoForge dedicated server crash caused by client-only config screen registration (`IConfigScreenFactory`) being loaded on the server side.
+
 ## b2.2.1
 
 ### Bug Fixes
