@@ -12,6 +12,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.getLootBallEntityType;
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.registerEntities;
@@ -34,9 +35,11 @@ public final class CobblelootsNeoForge {
         registerEntities(modEventBus);
         registerItems(modEventBus);
 
-        // Register config screen
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class,
-                (container, screen) -> MidnightConfig.getScreen(screen, Cobbleloots.MOD_ID));
+        // Register config screen (client only)
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modContainer.registerExtensionPoint(IConfigScreenFactory.class,
+                    (container, screen) -> MidnightConfig.getScreen(screen, Cobbleloots.MOD_ID));
+        }
     }
 
     @EventBusSubscriber(modid = Cobbleloots.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
