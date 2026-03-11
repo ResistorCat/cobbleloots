@@ -9,7 +9,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * A structure filter that supports multiple structure entries.
@@ -26,6 +28,12 @@ import java.util.List;
  * @param entries The list of structure entries to check
  */
 public record CobblelootsStructureFilter(List<CobblelootsStructureEntry> entries) {
+
+    private static final Set<String> warnedMissingEntries = new HashSet<>();
+
+    public static void clearValidationWarnings() {
+        warnedMissingEntries.clear();
+    }
 
     public static final CobblelootsStructureFilter EMPTY = new CobblelootsStructureFilter(List.of());
 
@@ -46,6 +54,27 @@ public record CobblelootsStructureFilter(List<CobblelootsStructureEntry> entries
     private boolean matchesStructure(ServerLevel level, BlockPos pos, CobblelootsStructureEntry entry) {
         if (entry.id() == null || entry.id().isEmpty()) {
             return true;
+        }
+
+        if (entry.required()) {
+            if (entry.isTag()) {
+                ResourceLocation tagLocation = ResourceLocation.parse(entry.getTagLocation());
+                TagKey<Structure> structureTag = TagKey.create(Registries.STRUCTURE, tagLocation);
+                if (level.registryAccess().registryOrThrow(Registries.STRUCTURE).getTag(structureTag).isEmpty()) {
+                    if (warnedMissingEntries.add(entry.id())) {
+                        Cobbleloots.LOGGER.warn("Missing required structure tag '{}'. Skipping entry.", entry.id());
+                    }
+                    return false;
+                }
+            } else {
+                ResourceLocation structureId = ResourceLocation.parse(entry.id());
+                if (!level.registryAccess().registryOrThrow(Registries.STRUCTURE).containsKey(structureId)) {
+                    if (warnedMissingEntries.add(entry.id())) {
+                        Cobbleloots.LOGGER.warn("Missing required structure '{}'. Skipping entry.", entry.id());
+                    }
+                    return false;
+                }
+            }
         }
 
         try {

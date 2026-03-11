@@ -8,7 +8,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import dev.ripio.cobbleloots.Cobbleloots;
 
 /**
  * A biome filter that supports multiple biome entries.
@@ -30,6 +34,12 @@ import java.util.List;
  * @param entries The list of biome entries to check
  */
 public record CobbleloootsBiomeFilter(List<CobbleloootsBiomeEntry> entries) {
+
+    private static final Set<String> warnedMissingEntries = new HashSet<>();
+
+    public static void clearValidationWarnings() {
+        warnedMissingEntries.clear();
+    }
 
     /**
      * Creates an empty biome filter that always passes.
@@ -59,23 +69,41 @@ public record CobbleloootsBiomeFilter(List<CobbleloootsBiomeEntry> entries) {
         return false;
     }
 
-    /**
-     * Checks if a biome holder matches a single biome entry.
-     */
     private boolean matchesBiome(ServerLevel level, Holder<Biome> biomeHolder, CobbleloootsBiomeEntry entry) {
         if (entry.id() == null || entry.id().isEmpty()) {
             return true;
         }
 
-        if (entry.isTag()) {
-            // Parse as biome tag
-            ResourceLocation tagLocation = ResourceLocation.parse(entry.getTagLocation());
-            TagKey<Biome> biomeTag = TagKey.create(Registries.BIOME, tagLocation);
-            return biomeHolder.is(biomeTag);
+        if (entry.required()) {
+            if (entry.isTag()) {
+                ResourceLocation tagLocation = ResourceLocation.parse(entry.getTagLocation());
+                TagKey<Biome> biomeTag = TagKey.create(Registries.BIOME, tagLocation);
+                if (level.registryAccess().registryOrThrow(Registries.BIOME).getTag(biomeTag).isEmpty()) {
+                    if (warnedMissingEntries.add(entry.id())) {
+                        Cobbleloots.LOGGER.warn("Missing required biome tag '{}'. Skipping entry.", entry.id());
+                    }
+                    return false;
+                }
+                return biomeHolder.is(biomeTag);
+            } else {
+                ResourceLocation biomeId = ResourceLocation.parse(entry.id());
+                if (!level.registryAccess().registryOrThrow(Registries.BIOME).containsKey(biomeId)) {
+                    if (warnedMissingEntries.add(entry.id())) {
+                        Cobbleloots.LOGGER.warn("Missing required biome '{}'. Skipping entry.", entry.id());
+                    }
+                    return false;
+                }
+                return biomeHolder.is(biomeId);
+            }
         } else {
-            // Parse as biome key
-            ResourceLocation biomeId = ResourceLocation.parse(entry.id());
-            return biomeHolder.is(biomeId);
+            if (entry.isTag()) {
+                ResourceLocation tagLocation = ResourceLocation.parse(entry.getTagLocation());
+                TagKey<Biome> biomeTag = TagKey.create(Registries.BIOME, tagLocation);
+                return biomeHolder.is(biomeTag);
+            } else {
+                ResourceLocation biomeId = ResourceLocation.parse(entry.id());
+                return biomeHolder.is(biomeId);
+            }
         }
     }
 

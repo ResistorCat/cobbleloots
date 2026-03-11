@@ -431,6 +431,10 @@ public class CobblelootsDataProvider {
   }
 
   public static void onReload(ResourceManager resourceManager) {
+    // Clear filter validation warnings caches
+    CobbleloootsBiomeFilter.clearValidationWarnings();
+    CobblelootsStructureFilter.clearValidationWarnings();
+
     // Cache data
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 

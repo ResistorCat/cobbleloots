@@ -11,6 +11,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
 ### Bug Fixes
 
 - Fixed structure filter not working with non-tag inputs.
+- Fixed biome filter not reading the `required` field.
 
 ## b2.2.1
 
