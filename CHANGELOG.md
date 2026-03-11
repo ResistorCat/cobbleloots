@@ -2,6 +2,16 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## b2.3.0
+
+### Changes
+
+- The `structure` field in the loot ball source filter now supports multiple input formats. It can now accept a string (structure ID or tag), an object with an `id` field (structure ID or tag), or an array of strings (multiple structures).
+
+### Bug Fixes
+
+- Fixed structure filter not working with non-tag inputs.
+
 ## b2.2.1
 
 ### Bug Fixes

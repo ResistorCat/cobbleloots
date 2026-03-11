@@ -121,15 +121,42 @@ Controls the probability of this rule being selected when multiple loot balls ma
 
 ### Structure
 
-Restricts spawning to inside a specific structure. The position must be within a piece of the matching structure.
+Restricts spawning to inside specific structures. The position must be within a piece of the matching structure. Supports multiple input formats.
 
-| Field       | Type               | Default   | Description                                        |
-| ----------- | ------------------ | --------- | -------------------------------------------------- |
-| `structure` | String (block tag) | _not set_ | A structure tag. Uses the `#namespace:tag` format. |
+**Simple format** — a single string (structure ID or structure tag):
 
 ```json
 { "weight": 10, "structure": "#minecraft:village" }
 ```
+
+**Object format** — allows setting the `required` flag:
+
+```json
+{
+  "weight": 10,
+  "structure": { "id": "#minecraft:village", "required": false }
+}
+```
+
+**List format** — combine multiple entries:
+
+```json
+{
+  "weight": 10,
+  "structure": [
+    "#minecraft:village",
+    "minecraft:end_city",
+    { "id": "#cobbleloots:custom_structures", "required": false }
+  ]
+}
+```
+
+#### Structure entry fields
+
+| Field      | Type    | Default | Description                                                                                                                                                                                                                                                     |
+| ---------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`       | String  | —       | A structure ID (e.g. `minecraft:end_city`) or a structure tag (e.g. `#minecraft:village`). Tags start with `#`.                                                                                                                                                          |
+| `required` | Boolean | `true`  | Whether loading should fail if this entry is not found. Set to `false` for entries from mods that may not be installed or tags defined in other datapacks. A tag that fails to load can still be referenced. Simple string entries are always `required: true`. |
 
 !!! info
     If omitted, the loot ball can appear anywhere regardless of structures.
