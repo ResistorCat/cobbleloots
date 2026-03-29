@@ -13,11 +13,13 @@ Cobbleloots is a mod for Cobblemon that adds different ways to obtain items base
   - [Mapmaking 🗺️](#mapmaking-)
     - [Custom Loot Balls 🎁](#custom-loot-balls-)
   - [Mod configuration ⚙️](#mod-configuration-)
+- [FAQ](#faq)
+  - [How do I make loot balls give loot to every player, not just the first one?](#how-do-i-make-loot-balls-give-loot-to-every-player-not-just-the-first-one)
 - [Planned Features](#planned-features)
   - [Commands 🛠️](#commands-)
   - [Hidden Items 🔍](#hidden-items-)
   - [Fake Items 🪤](#fake-items-)
-<!-- TOC -->
+  <!-- TOC -->
 
 ---
 
@@ -75,6 +77,26 @@ The mod configuration is powered by **MidnightLib** and supports in-game editing
 - **Command**: Server OPs can use `/midnightconfig cobbleloots <key> <value>`.
 
 The config file is located in the `config` folder of your Minecraft instance. Check the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more information.
+
+---
+
+# FAQ
+
+## How do I make loot balls give loot to every player, not just the first one?
+
+This is a common setup for servers where you want all players to be able to collect loot from the same ball.
+
+You need two things:
+
+1. **Infinite uses** — Set the `uses` NBT tag on the loot ball to `-1`. A loot ball with `-1` uses is **infinite** and works on a **per-player** basis: each player gets their own loot independently.
+2. **Player cooldown** _(optional)_ — Set the `PlayerTimer` NBT tag to a number of ticks. This is the cooldown before a player can collect from the same ball again. If omitted (or set to `0`), each player can only ever collect once.
+
+To apply this **globally to all new loot balls**, update the default configuration values:
+
+- Set `loot_ball_default_uses` to `-1` → all newly spawned/generated loot balls will have infinite uses.
+- Set `loot_ball_default_player_cooldown` to the desired cooldown in ticks (e.g., `72000` = 1 hour) → players can reclaim after that time. Set to `0` to allow each player to collect exactly once, with no reclaim.
+
+See the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more details.
 
 ---
 

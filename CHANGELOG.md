@@ -21,6 +21,12 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - Fixed structure filter not working with non-tag inputs.
 - Fixed biome filter not reading the `required` field.
 
+## b2.2.2
+
+### Bug Fixes
+
+- Fixed NeoForge dedicated server crash caused by client-only config screen registration (`IConfigScreenFactory`) being loaded on the server side.
+
 ## b2.2.1
 
 ### Bug Fixes
