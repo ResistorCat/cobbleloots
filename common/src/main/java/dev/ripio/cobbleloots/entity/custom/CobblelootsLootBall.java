@@ -40,6 +40,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 import static dev.ripio.cobbleloots.util.CobblelootsUtils.cobblelootsText;
+import dev.ripio.cobbleloots.network.CobblelootsLootBallOpenScreenPayload;
+import dev.ripio.cobbleloots.network.CobblelootsNetworkSender;
 
 public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   // Inventory
@@ -199,6 +201,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   private void handleCreativeModeInteraction(ServerPlayer serverPlayer, ItemStack handStack) {
+    if (serverPlayer.isShiftKeyDown()) {
+      // Shift + empty hand opens the loot ball GUI
+      CompoundTag fullData = new CompoundTag();
+      this.saveWithoutId(fullData);
+      CobblelootsNetworkSender.sendLootBallOpenScreen(serverPlayer, new CobblelootsLootBallOpenScreenPayload(this.getId(), fullData));
+      return;
+    }
+
     if (handStack.isEmpty()) {
       // Empty hand in creative mode toggles visibility
       this.toggleVisibility(serverPlayer);
@@ -664,7 +674,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
     }
   }
 
-  private long getPlayerTimer() {
+  public long getPlayerTimer() {
     return this.playerTimer;
   }
 
@@ -966,6 +976,14 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
     // Default to configured value if no specific XP is set
     return this.xp;
+  }
+
+  public void setXp(int xp) {
+    this.xp = xp;
+  }
+
+  public void setPlayerTimer(long timer) {
+    this.playerTimer = timer;
   }
 
   // --- Private methods ---

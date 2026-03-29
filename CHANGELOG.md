@@ -6,7 +6,15 @@ This document outlines the changes and fixes made in each version of the CobbleL
 
 ### Changes
 
-- The `structure` field in the loot ball source filter now supports multiple input formats. It can now accept a string (structure ID or tag), an object with an `id` field (structure ID or tag), or an array of strings (multiple structures).
+- **In-Game Creative GUI**: Added a creative-mode GUI for editing loot ball properties (Type, Variant, Uses, Cooldowns, etc.) directly in the game.
+- **Documentation**: Updated guide for using the Creative GUI under `docs/guides/how-to/creative.md`.
+- **Structure Filter Enhancement**: The `structure` field in the loot ball source filter now supports multiple input formats (string ID, object ID, or array of IDs).
+- **Localization**: Updated English (`en_us`) and Brazilian Portuguese (`pt_br`) translations with new GUI strings.
+
+### Technical Changes
+
+- **Networking Overhaul**: Implemented cross-platform (Fabric/NeoForge) networking for loot ball updates and custom packet payloads.
+- **NeoForge Refactoring**: Updated `CobblelootsNeoForge` to resolve `@EventBusSubscriber` deprecations and correctly register payload handlers using NeoForge's `RegisterPayloadHandlersEvent`.
 
 ### Bug Fixes
 

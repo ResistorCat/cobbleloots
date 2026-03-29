@@ -1,6 +1,6 @@
 # Project Planning
 
-## Version b2.3.0: Archaeology Update (ETA: 2026-03-21)
+## Version b2.3.0: GUI Update (ETA: 2026-03)
 
 ### Task: Fix Structure Filter not working for Loot Ball Sources
 
@@ -11,24 +11,16 @@
 - [x] Fix structure filter.
       **DoD**: Structure filter works correctly.
 
-### Task: Fix Texture Loading for Custom Data on Loot Ball Item (not entity)
-
-**Description**: Resolve issue where items with `LootBallData` NBT tag fail to load textures without the `Texture` NBT workaround.
-**Steps**:
-
-- [ ] Investigate client-server sync for the `LootBallData` NBT tag.
-- [ ] Ensure necessary data is available on the client for the custom model predicate to work.
-- [ ] Remove dependency on the `Texture` NBT workaround.
-      **DoD**: Loot ball items render correctly based solely on `LootBallData`.
-
 ### Task: In-Game Creative GUI
 
 **Description**: Create a creative-mode GUI for editing loot balls directly in the game.
 **Steps**:
 
-- [ ] Design and implement the GUI layout.
-- [ ] Add data binding to read from and write to loot ball NBT/data.
+- [x] Design and implement the GUI layout.
+- [x] Add data binding to read from and write to loot ball NBT/data.
       **DoD**: GUI opens successfully in creative mode, and saves changes to the loot ball entity/block.
+
+## Version b2.4.0: Archaeology Update (ETA: 2026-05)
 
 ### Task: Loot Ball Announcer
 
@@ -99,7 +91,7 @@
 
 ---
 
-## Version b2.4.0: Hidden Items and Fake Items
+## Version b2.5.0: Hidden Items and Fake Items (ETA: ?)
 
 ### Task: Hidden Items Mechanics
 

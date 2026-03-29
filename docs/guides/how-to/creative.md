@@ -31,12 +31,15 @@ In Creative mode, right-clicking and punching Loot Ball entities behave differen
 
 | Condition                                   | Action                                                   | Feedback                            |
 | ------------------------------------------- | -------------------------------------------------------- | ----------------------------------- |
-| **Empty hand**                              | Toggles entity visibility (invisible ↔ visible)          | Potion drink sound + status message |
+| **Empty hand + Sneak**                      | Opens the **Creative GUI** to edit all loot ball properties | Opens UI                            |
+| **Empty hand (no sneak)**                   | Toggles entity visibility (invisible ↔ visible)          | Potion drink sound + status message |
 | **Honeycomb** on an **invisible** Loot Ball | Toggles spark particles on/off                           | Wax on/off sound + status message   |
 | **Any other item**                          | Sets the Loot Ball's content to that item (type + count) | Insert sound + confirmation message |
 
 !!! tip
     Setting an item manually overrides the loot table. The Loot Ball will give exactly that item when opened, ignoring any `LootBallData` loot table.
+    
+    *Note: The **Creative GUI** (opened via Sneak + Right-Click with an empty hand) is the recommended way to configure loot balls. It allows you to modify the LootBallData, variants, textures, uses, item drops, and other properties easily without using commands.*
 
 ### Punch (Left-Click) Interactions
 

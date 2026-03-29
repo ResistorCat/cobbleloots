@@ -12,6 +12,13 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import dev.ripio.cobbleloots.network.CobblelootsLootBallUpdatePayload;
+import dev.ripio.cobbleloots.network.CobblelootsLootBallOpenScreenPayload;
+import dev.ripio.cobbleloots.network.CobblelootsNetwork;
+import dev.ripio.cobbleloots.network.CobblelootsClientNetwork;
+import net.minecraft.server.level.ServerPlayer;
 
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.getLootBallEntityType;
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.registerEntities;
@@ -39,7 +46,31 @@ public final class CobblelootsNeoForge {
                 (container, screen) -> MidnightConfig.getScreen(screen, Cobbleloots.MOD_ID));
     }
 
-    @EventBusSubscriber(modid = Cobbleloots.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = Cobbleloots.MOD_ID)
+    public static class CobblelootsModEvents {
+        @SubscribeEvent
+        public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
+            final PayloadRegistrar registrar = event.registrar("1");
+            registrar.playToServer(
+                CobblelootsLootBallUpdatePayload.ID, 
+                CobblelootsLootBallUpdatePayload.CODEC, 
+                (payload, context) -> {
+                    if (context.player() instanceof ServerPlayer sp) {
+                        CobblelootsNetwork.handleLootBallUpdate(payload, sp);
+                    }
+                }
+            );
+            registrar.playToClient(
+                CobblelootsLootBallOpenScreenPayload.ID, 
+                CobblelootsLootBallOpenScreenPayload.CODEC, 
+                (payload, context) -> {
+                    CobblelootsClientNetwork.handleLootBallOpenScreen(payload);
+                }
+            );
+        }
+    }
+
+    @EventBusSubscriber(modid = Cobbleloots.MOD_ID, value = Dist.CLIENT)
     public static class CobblelootsClientEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
