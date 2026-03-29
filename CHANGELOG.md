@@ -9,7 +9,7 @@ This document outlines the changes and fixes made in each version of the CobbleL
 - **In-Game Creative GUI**: Added a creative-mode GUI for editing loot ball properties (Type, Variant, Uses, Cooldowns, etc.) directly in the game.
 - **Documentation**: Updated guide for using the Creative GUI under `docs/guides/how-to/creative.md`.
 - **Structure Filter Enhancement**: The `structure` field in the loot ball source filter now supports multiple input formats (string ID, object ID, or array of IDs).
-- **Localization**: Updated English (`en_us`) and Brazilian Portuguese (`pt_br`) translations with new GUI strings.
+- **Localization**: Updated English (`en_us`), Brazilian Portuguese (`pt_br`) and Spanish (Ecuador) (`es_ec`) translations with new GUI strings. Spanish (Ecuador) contributed by [wajo21x](https://github.com/wajo21x).
 
 ### Technical Changes
 

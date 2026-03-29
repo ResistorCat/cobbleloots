@@ -1,4 +1,31 @@
 {
+  "gui.cobbleloots.loot_ball.title": "Editar Botínbola",
+  "gui.cobbleloots.loot_ball.save": "Guardar",
+  "gui.cobbleloots.loot_ball.save.success": "¡Datos de la botínbola actualizados con éxito!",
+  "gui.cobbleloots.loot_ball.cancel": "Cancelar",
+  "gui.cobbleloots.loot_ball.btn.from_hand": "Obtener de Mano",
+  "gui.cobbleloots.loot_ball.field.data": "Tipo",
+  "gui.cobbleloots.loot_ball.field.variant": "Variante",
+  "gui.cobbleloots.loot_ball.field.texture": "Textura",
+  "gui.cobbleloots.loot_ball.field.invisible": "Invisible",
+  "gui.cobbleloots.loot_ball.field.sparks": "Chispas",
+  "gui.cobbleloots.loot_ball.field.uses": "Usos",
+  "gui.cobbleloots.loot_ball.field.multiplier": "Mult.",
+  "gui.cobbleloots.loot_ball.field.xp": "XP",
+  "gui.cobbleloots.loot_ball.field.playertimer": "Temporizador de Jugador",
+  "gui.cobbleloots.loot_ball.field.despawntick": "Tick de Desaparición",
+  "gui.cobbleloots.loot_ball.field.item": "ID de Objeto",
+  "gui.cobbleloots.loot_ball.field.itemcount": "Cant.",
+  "gui.cobbleloots.loot_ball.tooltip.data": "La definición del tipo base de la botínbola.",
+  "gui.cobbleloots.loot_ball.tooltip.variant": "La variante del tipo base, puede sobrescribir la textura y la tabla de botín.",
+  "gui.cobbleloots.loot_ball.tooltip.texture": "ResourceLocation para la textura. Sobrescribe cualquier textura de tipo o variante si se establece.",
+  "gui.cobbleloots.loot_ball.tooltip.uses": "Cantidad de veces que esta botínbola se puede abrir. Ponlo en -1 para usos infinitos.",
+  "gui.cobbleloots.loot_ball.tooltip.multiplier": "Multiplicador aplicado a los objetos soltados. Ejemplo: 2.0 = el doble de objetos.",
+  "gui.cobbleloots.loot_ball.tooltip.xp": "Puntos de experiencia al abrirse.",
+  "gui.cobbleloots.loot_ball.tooltip.playertimer": "Tiempo de reutilización en ticks antes de que un jugador específico pueda volver a abrir esta bola (20 ticks = 1s).",
+  "gui.cobbleloots.loot_ball.tooltip.despawntick": "Tick absoluto del mundo cuando esta bola debe desaparecer. 0 = nunca.",
+  "gui.cobbleloots.loot_ball.tooltip.item": "Objeto específico que soltará esta bola (ej. \"minecraft:diamond\"). Sobrescribe la tabla de botín.",
+  "gui.cobbleloots.loot_ball.tooltip.from_hand": "Copia el objeto que tienes actualmente en tu mano principal a estos campos.",
   "entity.cobbleloots.loot_ball": "Botínbola",
   "entity.cobbleloots.loot_ball.error.is_opening": "¡No puedes abrir una botínbola mientras se está abriendo!",
   "entity.cobbleloots.loot_ball.error.already_opened": "¡Esta botínbola ya fue abierta!",
@@ -23,33 +50,27 @@
   "stat.cobbleloots.loot_ball.total_opened": "Botínbolas abiertas",
   "stat.cobbleloots.loot_ball.open": "Fanfarria de apertura de botínbola",
   "event.cobbleloots.loot_ball.spawn.special": "¡Ha aparecido una botínbola especial!",
-
   "cobbleloots.midnightconfig.title": "Configuración de Cobbleloots",
-
   "cobbleloots.midnightconfig.category.gameplay": "Jugabilidad",
   "cobbleloots.midnightconfig.gameplay_comment": "Configuraciones de jugabilidad",
   "cobbleloots.midnightconfig.loot_ball_comment": "Configuraciones de botínbola",
   "cobbleloots.midnightconfig.multiplayer_comment": "Configuraciones de multijugador (WIP)",
   "cobbleloots.midnightconfig.data_pack_comment": "Configuraciones de data pack",
-
   "cobbleloots.midnightconfig.category.creative": "Creativo",
   "cobbleloots.midnightconfig.creative_comment": "Configuraciones de creativo",
   "cobbleloots.midnightconfig.creative_loot_ball_comment": "Configuraciones de botínbola",
-
   "cobbleloots.midnightconfig.category.sources": "Fuentes",
   "cobbleloots.midnightconfig.sources_comment": "Configuraciones de fuentes",
   "cobbleloots.midnightconfig.generation_comment": "Configuraciones de generación",
   "cobbleloots.midnightconfig.spawning_comment": "Configuraciones de aparición",
   "cobbleloots.midnightconfig.fishing_comment": "Configuraciones de pesca",
   "cobbleloots.midnightconfig.archaeology_comment": "Configuraciones de arqueología (Aún no implementado)",
-
   "cobbleloots.midnightconfig.loot_ball_empty_behavior": "Comportamiento al Vaciarse",
   "cobbleloots.midnightconfig.loot_ball_empty_behavior.tooltip": "Determina qué ocurre cuando una botínbola se queda sin usos.",
   "cobbleloots.midnightconfig.enum.CobblelootsLootBallEmptyBehavior.DESTROY": "Destruir",
   "cobbleloots.midnightconfig.enum.CobblelootsLootBallEmptyBehavior.DROP_AUTOMATIC": "Soltar Automáticamente",
   "cobbleloots.midnightconfig.enum.CobblelootsLootBallEmptyBehavior.DROP_MANUAL": "Soltar Manualmente (Golpear)",
   "cobbleloots.midnightconfig.enum.CobblelootsLootBallEmptyBehavior.KEEP": "Mantener Vacía",
-
   "cobbleloots.midnightconfig.loot_ball_bonus_chance": "Probabilidad de Botínbola Bonus",
   "cobbleloots.midnightconfig.loot_ball_bonus_chance.tooltip": "Probabilidad (0.0 - 1.0) de que cualquier botínbola sea una bonus.",
   "cobbleloots.midnightconfig.loot_ball_bonus_multiplier": "Multiplicador Bonus",
@@ -62,7 +83,6 @@
   "cobbleloots.midnightconfig.loot_ball_xp_enabled.tooltip": "Si está activado, las botínbolas pueden otorgar XP al jugador al abrirse.",
   "cobbleloots.midnightconfig.data_pack_disabled_loot_balls": "Botínbolas Deshabilitadas",
   "cobbleloots.midnightconfig.data_pack_disabled_loot_balls.tooltip": "Lista de IDs de botínbolas (e.g., 'cobbleloots:loot_ball/poke') para deshabilitar.",
-
   "cobbleloots.midnightconfig.loot_ball_default_xp": "XP Predeterminada",
   "cobbleloots.midnightconfig.loot_ball_default_xp.tooltip": "Cantidad predeterminada de XP contenida en una nueva botínbola.",
   "cobbleloots.midnightconfig.loot_ball_default_uses": "Usos Predeterminados",
@@ -73,7 +93,6 @@
   "cobbleloots.midnightconfig.loot_ball_default_player_cooldown.tooltip": "Tiempo predeterminado en ticks para que un jugador vuelva a abrir una botínbola de múltiples usos. (0 = Deshabilitado, no se puede reabrir).",
   "cobbleloots.midnightconfig.loot_ball_default_despawn_tick": "Tick de Desaparición Predeterminado",
   "cobbleloots.midnightconfig.loot_ball_default_despawn_tick.tooltip": "Tiempo predeterminado en ticks antes de desaparecer (0 = Nunca).",
-
   "cobbleloots.midnightconfig.generation_enabled": "Activar Generación",
   "cobbleloots.midnightconfig.generation_enabled.tooltip": "Interruptor principal para la generación mundial de Botínbolas.",
   "cobbleloots.midnightconfig.generation_chance": "Probabilidad de Generación",
@@ -84,7 +103,6 @@
   "cobbleloots.midnightconfig.generation_chunk_cap.tooltip": "Número máximo de botínbolas permitidas por chunk.",
   "cobbleloots.midnightconfig.generation_disabled_dimensions": "Dimensiones Deshabilitadas (Generación)",
   "cobbleloots.midnightconfig.generation_disabled_dimensions.tooltip": "Lista de IDs de dimensiones donde la generación está deshabilitada.",
-
   "cobbleloots.midnightconfig.spawning_enabled": "Activar Aparición",
   "cobbleloots.midnightconfig.spawning_enabled.tooltip": "Interruptor principal para la aparición dinámica de botínbolas.",
   "cobbleloots.midnightconfig.spawning_chance": "Probabilidad de Aparición",
@@ -97,7 +115,6 @@
   "cobbleloots.midnightconfig.spawning_despawn_time.tooltip": "Tiempo (en ticks) antes de que una botínbola generada desaparezca. 0 para desactivar.",
   "cobbleloots.midnightconfig.spawning_disabled_dimensions": "Dimensiones Deshabilitadas (Aparición)",
   "cobbleloots.midnightconfig.spawning_disabled_dimensions.tooltip": "Lista de IDs de dimensiones donde la aparición está deshabilitada.",
-
   "cobbleloots.midnightconfig.fishing_enabled": "Activar Pesca",
   "cobbleloots.midnightconfig.fishing_enabled.tooltip": "Si está activado, los jugadores pueden pescar botínbolas.",
   "cobbleloots.midnightconfig.fishing_chance": "Probabilidad de Pesca",
@@ -108,9 +125,7 @@
   "cobbleloots.midnightconfig.fishing_despawn_time.tooltip": "Tiempo (en ticks) antes de que una botínbola obtenida por pesca desaparezca. 0 para desactivar.",
   "cobbleloots.midnightconfig.fishing_disabled_dimensions": "Dimensiones Deshabilitadas (Pesca)",
   "cobbleloots.midnightconfig.fishing_disabled_dimensions.tooltip": "Lista de IDs de dimensiones donde las botínbolas por pesca están deshabilitadas.",
-
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions": "Dimensiones Deshabilitadas (Arqueología)",
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions.tooltip": "Lista de IDs de dimensiones donde las botínbolas por arqueología están deshabilitadas.",
-
   "subtitles.cobbleloots.loot_ball_open": "Fanfarria de botínbola"
 }
