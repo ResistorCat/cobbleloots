@@ -17,8 +17,8 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import dev.ripio.cobbleloots.network.CobblelootsLootBallUpdatePayload;
 import dev.ripio.cobbleloots.network.CobblelootsLootBallOpenScreenPayload;
 import dev.ripio.cobbleloots.network.CobblelootsNetwork;
-import dev.ripio.cobbleloots.network.CobblelootsClientNetwork;
 import net.minecraft.server.level.ServerPlayer;
+import net.neoforged.fml.loading.FMLEnvironment;
 
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.getLootBallEntityType;
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.registerEntities;
@@ -41,9 +41,11 @@ public final class CobblelootsNeoForge {
         registerEntities(modEventBus);
         registerItems(modEventBus);
 
-        // Register config screen
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class,
-                (container, screen) -> MidnightConfig.getScreen(screen, Cobbleloots.MOD_ID));
+        // Register config screen (Client-only)
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            modContainer.registerExtensionPoint(IConfigScreenFactory.class,
+                    (container, screen) -> MidnightConfig.getScreen(screen, Cobbleloots.MOD_ID));
+        }
     }
 
     @EventBusSubscriber(modid = Cobbleloots.MOD_ID)
@@ -64,7 +66,9 @@ public final class CobblelootsNeoForge {
                 CobblelootsLootBallOpenScreenPayload.ID, 
                 CobblelootsLootBallOpenScreenPayload.CODEC, 
                 (payload, context) -> {
-                    CobblelootsClientNetwork.handleLootBallOpenScreen(payload);
+                    if (FMLEnvironment.dist == Dist.CLIENT) {
+                        dev.ripio.cobbleloots.network.CobblelootsClientNetwork.handleLootBallOpenScreen(payload);
+                    }
                 }
             );
         }
