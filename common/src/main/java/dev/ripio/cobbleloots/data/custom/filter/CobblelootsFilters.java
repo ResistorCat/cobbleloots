@@ -80,6 +80,46 @@ public class CobblelootsFilters {
 							: Either.right(filter.entries()));
 
 	/**
+	 * Codec for serializing and deserializing CobblelootsStructureEntry objects.
+	 * Supports two input formats:
+	 * - A string (e.g., "minecraft:village" or "#minecraft:village") -> creates
+	 * entry with required=true
+	 * - An object (e.g., {"id": "#minecraft:village", "required": false})
+	 */
+	private static final Codec<CobblelootsStructureEntry> STRUCTURE_ENTRY_OBJECT_CODEC = RecordCodecBuilder.create(
+			instance -> instance.group(
+					Codec.STRING.fieldOf("id").forGetter(CobblelootsStructureEntry::id),
+					Codec.BOOL.optionalFieldOf("required", true).forGetter(CobblelootsStructureEntry::required))
+					.apply(instance, CobblelootsStructureEntry::new));
+
+	private static final Codec<CobblelootsStructureEntry> STRUCTURE_ENTRY_CODEC = Codec.either(
+			Codec.STRING,
+			STRUCTURE_ENTRY_OBJECT_CODEC).xmap(
+					either -> either.map(
+							str -> new CobblelootsStructureEntry(str, true),
+							obj -> obj),
+					entry -> entry.required() ? Either.left(entry.id()) : Either.right(entry));
+
+	/**
+	 * Codec for serializing and deserializing CobblelootsStructureFilter objects.
+	 * Supports multiple input formats:
+	 * - A single string (e.g., "minecraft:village") -> wraps in list with one entry
+	 * - A single object (e.g., {"id": "#minecraft:village", "required": false}) -> wraps
+	 * in list with one entry
+	 * - A list of mixed strings and objects
+	 */
+	public static final Codec<CobblelootsStructureFilter> STRUCTURE_FILTER_CODEC = Codec.either(
+			STRUCTURE_ENTRY_CODEC,
+			STRUCTURE_ENTRY_CODEC.listOf()).xmap(
+					either -> either.map(
+							entry -> new CobblelootsStructureFilter(List.of(entry)),
+							list -> new CobblelootsStructureFilter(list)),
+					filter -> filter.entries().size() == 1 && filter.entries().get(0).required()
+							? Either.left(filter.entries().get(0))
+							: Either.right(filter.entries()));
+
+
+	/**
 	 * Codec for serializing and deserializing CobblelootsBlockFilter objects.
 	 * This codec handles the block-based filtering for loot balls.
 	 * 
@@ -266,7 +306,7 @@ public class CobblelootsFilters {
 	 * The codec creates a record with the following fields:
 	 * - "weight": An integer representing the weight of the filter, defaults to
 	 * DEFAULT_WEIGHT if not specified
-	 * - "structure": A TagKey for the structure, defaults to EMPTY_STRUCTURE_TAG if
+	 * - "structure": A CobblelootsStructureFilter for structure-based filtering, defaults to EMPTY if
 	 * not specified
 	 * - "biome": A TagKey for the biome, defaults to EMPTY_BIOME_TAG if not
 	 * specified
@@ -291,9 +331,7 @@ public class CobblelootsFilters {
 			instance -> instance.group(
 					Codec.INT.optionalFieldOf("weight", DEFAULT_WEIGHT)
 							.forGetter(CobblelootsSourceFilter::getWeight),
-					TagKey.codec(Registries.STRUCTURE)
-							.optionalFieldOf("structure",
-									CobblelootsDefinitions.EMPTY_STRUCTURE_TAG)
+					STRUCTURE_FILTER_CODEC.optionalFieldOf("structure", CobblelootsStructureFilter.EMPTY)
 							.forGetter(CobblelootsSourceFilter::getStructure),
 					BIOME_FILTER_CODEC.optionalFieldOf("biome", CobbleloootsBiomeFilter.EMPTY)
 							.forGetter(CobblelootsSourceFilter::getBiome),

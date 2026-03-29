@@ -2,14 +2,13 @@ package dev.ripio.cobbleloots.data.custom.filter;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Fluid;
 
 import java.util.List;
 
 public class CobblelootsSourceFilter {
   private final int weight;
-  private final TagKey<Structure> structure;
+  private final CobblelootsStructureFilter structure;
   private final CobbleloootsBiomeFilter biome;
   private final List<ResourceLocation> dimension;
   private final CobblelootsBlockFilter block;
@@ -21,7 +20,7 @@ public class CobblelootsSourceFilter {
   private final CobblelootsDateFilter date;
   private final CobblelootsPokeRodFilter pokeRod;
 
-  public CobblelootsSourceFilter(int weight, TagKey<Structure> structure, CobbleloootsBiomeFilter biome,
+  public CobblelootsSourceFilter(int weight, CobblelootsStructureFilter structure, CobbleloootsBiomeFilter biome,
       List<ResourceLocation> dimension, CobblelootsBlockFilter block, TagKey<Fluid> fluid,
       CobblelootsPositionFilter position, CobblelootsLightFilter light, CobblelootsTimeFilter time,
       CobblelootsWeatherFilter weather, CobblelootsDateFilter date, CobblelootsPokeRodFilter pokeRod) {
@@ -43,7 +42,7 @@ public class CobblelootsSourceFilter {
     return weight;
   }
 
-  public TagKey<Structure> getStructure() {
+  public CobblelootsStructureFilter getStructure() {
     return structure;
   }
 

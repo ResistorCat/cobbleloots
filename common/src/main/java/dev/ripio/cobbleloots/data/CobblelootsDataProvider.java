@@ -18,6 +18,7 @@ import dev.ripio.cobbleloots.data.custom.filter.CobblelootsLightFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsPositionFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobbleloootsBiomeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsSourceFilter;
+import dev.ripio.cobbleloots.data.custom.filter.CobblelootsStructureFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsTimeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsWeatherFilter;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
@@ -34,8 +35,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.block.state.BlockState;
@@ -263,15 +262,12 @@ public class CobblelootsDataProvider {
    * @return true if the position is within a piece of the structure, false
    *         otherwise
    */
-  private static boolean checkStructureFilter(ServerLevel level, BlockPos pos, TagKey<Structure> structureTag) {
-    if (structureTag == null || structureTag.equals(CobblelootsDefinitions.EMPTY_STRUCTURE_TAG)) {
+  private static boolean checkStructureFilter(ServerLevel level, BlockPos pos, CobblelootsStructureFilter structureFilter) {
+    if (structureFilter == null || structureFilter.isEmpty()) {
       return true; // No filter specified, so it passes
     }
 
-    StructureStart structureStart = level.structureManager().getStructureWithPieceAt(pos,
-        holder -> holder.is(structureTag));
-
-    return structureStart != null && structureStart.isValid();
+    return structureFilter.test(level, pos);
   }
 
   /**
@@ -435,6 +431,10 @@ public class CobblelootsDataProvider {
   }
 
   public static void onReload(ResourceManager resourceManager) {
+    // Clear filter validation warnings caches
+    CobbleloootsBiomeFilter.clearValidationWarnings();
+    CobblelootsStructureFilter.clearValidationWarnings();
+
     // Cache data
     List<ResourceLocation> cachedLootBalls = getExistingLootBallIds();
 
