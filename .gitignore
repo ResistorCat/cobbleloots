@@ -133,3 +133,15 @@ __pycache__/
 
 # Todos
 TODO.md
+
+# Worktrees
+.worktrees/
+
+# Node / Agent Artifacts
+node_modules/
+.wrangler/
+.pr_body.md
+.release_notes.md
+.compiler_error.log
+.agent_error.log
+
