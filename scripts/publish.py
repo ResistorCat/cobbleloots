@@ -1,8 +1,4 @@
-#!/usr/bin/env python3
-"""
-Publisher utilities for Cobbleloots.
-"""
-
+import os
 import subprocess
 import typer
 from rich import print
@@ -21,11 +17,25 @@ from modrinth import (
 from curseforge import upload_to_curseforge
 
 
+def should_auto_confirm() -> bool:
+    return os.environ.get("CI", "").lower() in ("true", "1") or os.environ.get("NON_INTERACTIVE", "").lower() in ("true", "1")
+
+
+def ask_confirm(prompt: str, default: bool = True, yes: bool = False) -> bool:
+    if yes or should_auto_confirm():
+        return True
+    return typer.confirm(prompt, default=default)
+
+
 app = typer.Typer()
 
 
 @app.command()
-def build(fabric: bool = True, neoforge: bool = True) -> None:
+def build(
+    fabric: bool = True,
+    neoforge: bool = True,
+    yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompts."),
+) -> None:
     """
     Build the mod for Fabric and/or NeoForge.
     """
@@ -36,7 +46,7 @@ def build(fabric: bool = True, neoforge: bool = True) -> None:
     print(
         f"[blue]Building {mod_properties.mod_name} v{mod_properties.mod_version} ({mod_properties.mod_version_type})...[/blue]"
     )
-    confirm = typer.confirm("Do you want to continue?", default=True)
+    confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
     if not confirm:
         print("[yellow]Build cancelled.[/yellow]")
         raise typer.Exit()
@@ -65,7 +75,12 @@ def build(fabric: bool = True, neoforge: bool = True) -> None:
 
 
 @app.command()
-def publish(modrinth: bool = True, curseforge: bool = True) -> None:
+def publish(
+    modrinth: bool = True,
+    curseforge: bool = True,
+    yes: bool = typer.Option(False, "--yes", "-y", help="Skip confirmation prompts."),
+    skip_build: bool = typer.Option(False, "--skip-build", help="Skip building before publishing."),
+) -> None:
     """
     Publish the mod to Modrinth and/or CurseForge.
     """
@@ -73,13 +88,14 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
     mod_properties = load_mod_properties()
 
     # Build the mod before publishing
-    build()
+    if not skip_build:
+        build(yes=yes)
 
     # Load changelog
     changelog = load_changelog(mod_properties.mod_version_type)
     if changelog:
         print(f"[blue]Changelog loaded:[/blue]\n{changelog}")
-        confirm = typer.confirm("Do you want to continue?", default=True)
+        confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
         if not confirm:
             print("[yellow]Publish cancelled.[/yellow]")
             raise typer.Exit()
@@ -91,7 +107,7 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
     modinfo = load_modinfo()
     if modinfo:
         print(f"[blue]Mod info loaded:[/blue]\n{modinfo}")
-        confirm = typer.confirm("Do you want to continue?", default=True)
+        confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
         if not confirm:
             print("[yellow]Publish cancelled.[/yellow]")
             raise typer.Exit()
@@ -134,7 +150,7 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
                     f"[red]Exception occurred while publishing Fabric version: {e}[/red]"
                 )
             finally:
-                confirm = typer.confirm("Do you want to continue?", default=True)
+                confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
                 if not confirm:
                     print("[yellow]Publish cancelled.[/yellow]")
                     raise typer.Exit()
@@ -164,7 +180,7 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
                     f"[red]Exception occurred while publishing NeoForge version: {e}[/red]"
                 )
             finally:
-                confirm = typer.confirm("Do you want to continue?", default=True)
+                confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
                 if not confirm:
                     print("[yellow]Publish cancelled.[/yellow]")
                     raise typer.Exit()
@@ -184,9 +200,10 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
     # Publish
     if curseforge:
         # Ask to continue
-        confirm = typer.confirm(
+        confirm = ask_confirm(
             f"Do you want to publish version {mod_properties.mod_version} to CurseForge?",
             default=True,
+            yes=yes,
         )
         if not confirm:
             print("[yellow]Publish cancelled.[/yellow]")
@@ -217,7 +234,7 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
                     f"[red]Exception occurred while publishing Fabric version: {e}[/red]"
                 )
             finally:
-                confirm = typer.confirm("Do you want to continue?", default=True)
+                confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
                 if not confirm:
                     print("[yellow]Publish cancelled.[/yellow]")
                     raise typer.Exit()
@@ -247,7 +264,7 @@ def publish(modrinth: bool = True, curseforge: bool = True) -> None:
                     f"[red]Exception occurred while publishing NeoForge version: {e}[/red]"
                 )
             finally:
-                confirm = typer.confirm("Do you want to continue?", default=True)
+                confirm = ask_confirm("Do you want to continue?", default=True, yes=yes)
                 if not confirm:
                     print("[yellow]Publish cancelled.[/yellow]")
                     raise typer.Exit()
