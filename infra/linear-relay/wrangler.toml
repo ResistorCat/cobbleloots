@@ -1,0 +1,15 @@
+name = "cobbleloots-linear-relay"
+main = "src/index.ts"
+compatibility_date = "2024-12-30"
+
+[vars]
+GITHUB_OWNER = "ResistorCat"
+GITHUB_REPO = "cobbleloots"
+AGENT_LABEL = "agent:run"
+AGENT_ASSIGNEE_NAME = "Agent"
+
+# Configurar mediante `wrangler secret put <SECRET_NAME>`:
+# - LINEAR_WEBHOOK_SECRET
+# - LINEAR_API_KEY
+# - GITHUB_PAT
+
