@@ -1,0 +1,17 @@
+{
+  "name": "cobbleloots-linear-relay",
+  "version": "1.0.0",
+  "description": "Serverless Webhook Relay for Linear and GitHub Actions Software Factory",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241230.0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.100.0"
+  }
+}
+
