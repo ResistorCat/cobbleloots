@@ -115,12 +115,17 @@ The body of the PR **MUST** include exactly these four sections:
 ### 4.3 CI Verification Gate
 All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows/gradle-ci.yml`) before they can be merged.
 
+### 4.4 Linear Issue Conventions
+Linear issues created or managed by agents or contributors must adhere to:
+- **Title format**: `[<REPO>] <título descriptivo en español>` (e.g., `[Cobbleloots] Añadir MCP de Linear`).
+- **Tags / Labels**: Must use the proper workspace tag (`Feature`, `Bug`, `Improvement`).
+- Refer to [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md) for the complete specification and ticket template.
+
 ---
 
 ## 5. Reference Documents in `.agents/`
 - [`.agents/rules/minecraft-loaders.md`](file:///.agents/rules/minecraft-loaders.md): Pinned loader versions and platform registration guides.
 - [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md): Multi-loader patterns and common code guidelines.
-- [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): PR template used by the agent software factory.
 - [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): Mandatory PR template for agent and contributor pull requests.
-- [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): Recommended structure for Linear tickets.
+- [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): Recommended structure and conventions for Linear tickets.
 
