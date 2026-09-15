@@ -115,11 +115,18 @@ The body of the PR **MUST** include exactly these four sections:
 ### 4.3 CI Verification Gate
 All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows/gradle-ci.yml`) before they can be merged.
 
-### 4.4 Linear Issue Conventions
-Linear issues created or managed by agents or contributors must adhere to:
-- **Title format**: `[<REPO>] <título descriptivo en español>` (e.g., `[Cobbleloots] Añadir MCP de Linear`).
+### 4.4 Task Management & Linear as Single Source of Truth
+- **Sole Source of Truth**: All tasks, bugs, features, and backlog items are managed exclusively in **Linear** (Team: `RipioDev`, Project: `[Mod] Cobbleloots`).
+- **Do NOT use GitHub Issues**: Agents must never query `gh issue list` or manage tasks in GitHub Issues. GitHub Issues is disabled/ignored.
+- **Linear Tooling & MCP**: Inspect and update tasks via Linear MCP tools (`get_issue`, `save_issue`, `list_issues`). If the MCP server is not mounted in the session, launch it with `node .agents/linear-mcp.mjs`.
+- **Title format**: `[<REPO>] <título descriptivo en español>` (e.g., `[Cobbleloots] Reiniciar loot balls que ya fueron abiertas`).
 - **Tags / Labels**: Must use the proper workspace tag (`Feature`, `Bug`, `Improvement`).
-- Refer to [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md) for the complete specification and ticket template.
+- **Issue Body**: Follow [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md) for acceptance criteria, suggested files, and technical constraints.
+
+### 4.5 Agent Tooling & Windows Execution Guidelines
+- **PowerShell Backtick Escaping**: Never pass multi-line markdown containing backticks (` `) inside double-quoted PowerShell commands; PowerShell treats backticks as escape characters. Always write content to temporary files and use flags like `gh pr create --body-file <file>`.
+- **Node.js Environment**: Node.js is located at `C:\nvm4w\nodejs` (junction to `C:\Users\franc\AppData\Local\nvm\v24.15.0`).
+- **Deep Directory Deletion**: For deeply nested directories (e.g., `.gradle` cache or worktrees exceeding Windows `MAX_PATH`), use Node.js `fs.rmSync(dir, { recursive: true, force: true })` rather than PowerShell `Remove-Item`.
 
 ---
 
