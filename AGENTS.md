@@ -121,5 +121,6 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 - [`.agents/rules/minecraft-loaders.md`](file:///.agents/rules/minecraft-loaders.md): Pinned loader versions and platform registration guides.
 - [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md): Multi-loader patterns and common code guidelines.
 - [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): PR template used by the agent software factory.
+- [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): Mandatory PR template for agent and contributor pull requests.
 - [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): Recommended structure for Linear tickets.
 

@@ -1,6 +1,7 @@
 # Plantilla Recomendada para Tickets de Linear (Agent-Ready)
 
 Utiliza esta estructura al crear tickets en Linear para maximizar la tasa de éxito de la Software Factory y los agentes autónomos.
+Utiliza esta estructura al crear tickets en Linear para maximizar la tasa de éxito al resolverlos con asistentes de IA o desarrollo en equipo.
 
 ---
 
