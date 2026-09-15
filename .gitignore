@@ -133,3 +133,7 @@ __pycache__/
 
 # Todos
 TODO.md
+
+# Worktrees
+.worktrees/
+
