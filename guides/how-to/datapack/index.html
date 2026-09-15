@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/ball/model/pumpkin.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -2383,9 +2383,9 @@
 </code></pre></div>
 <p><code>pack.mcmeta</code> for Minecraft 1.21.1 (pack_format <code>48</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;pack&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;pack_format&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My custom Loot Balls for Cobbleloots&quot;</span>
+<span class="w">  </span><span class="nt">"pack"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"pack_format"</span><span class="p">:</span><span class="w"> </span><span class="mi">48</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My custom Loot Balls for Cobbleloots"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2484,10 +2484,10 @@
 </tbody>
 </table>
 <p>Each source type holds a <strong>list of source rules</strong>. Each rule defines conditions for that loot ball to appear in that context. If <strong>any</strong> rule in a source type passes all its filters, the loot ball becomes a candidate (weighted random selection).</p>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;sources&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;generation&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;spawning&quot;</span><span class="p">:</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;fishing&quot;</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span>
+<div class="highlight"><pre><span></span><code><span class="nt">"sources"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"generation"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"spawning"</span><span class="p">:</span><span class="w">   </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"fishing"</span><span class="p">:</span><span class="w">    </span><span class="p">[</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="err">rule</span><span class="w"> </span><span class="err">...</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
@@ -2599,7 +2599,7 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
@@ -2609,21 +2609,21 @@
 <h3 id="structure">Structure</h3>
 <p>Restricts spawning to inside specific structures. The position must be within a piece of the matching structure. Supports multiple input formats.</p>
 <p><strong>Simple format</strong> — a single string (structure ID or structure tag):</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;structure&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#minecraft:village&quot;</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nt">"structure"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#minecraft:village"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p><strong>Object format</strong> — allows setting the <code>required</code> flag:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;structure&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#minecraft:village&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"structure"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#minecraft:village"</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>List format</strong> — combine multiple entries:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;structure&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="s2">&quot;#minecraft:village&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;minecraft:end_city&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobbleloots:custom_structures&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"structure"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"#minecraft:village"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"minecraft:end_city"</span><span class="p">,</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobbleloots:custom_structures"</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2660,21 +2660,21 @@
 <h3 id="biome">Biome</h3>
 <p>Restricts spawning to specific biomes. Supports multiple input formats.</p>
 <p><strong>Simple format</strong> — a single string (biome ID or biome tag):</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobblemon:is_forest&quot;</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobblemon:is_forest"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p><strong>Object format</strong> — allows setting the <code>required</code> flag:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobbleloots:loot_ball/pumpkin&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobbleloots:loot_ball/pumpkin"</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p><strong>List format</strong> — combine multiple entries:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">    </span><span class="s2">&quot;#cobblemon:is_ocean&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="s2">&quot;#cobblemon:is_river&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobbleloots:loot_ball/pumpkin&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;required&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">"#cobblemon:is_ocean"</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">"#cobblemon:is_river"</span><span class="p">,</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobbleloots:loot_ball/pumpkin"</span><span class="p">,</span><span class="w"> </span><span class="nt">"required"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">}</span>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2728,9 +2728,9 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;minecraft:the_end&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">"dimension"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"minecraft:the_end"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dimension&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;minecraft:overworld&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;minecraft:the_nether&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="nt">"dimension"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"minecraft:overworld"</span><span class="p">,</span><span class="w"> </span><span class="s2">"minecraft:the_nether"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -2764,10 +2764,10 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;block&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;spawn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cobbleloots:loot_ball_spawnable&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;base&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cobbleloots:loot_ball_base&quot;</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"block"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"spawn"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cobbleloots:loot_ball_spawnable"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"base"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cobbleloots:loot_ball_base"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2797,9 +2797,9 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobblemon:is_deep_ocean&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;fluid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:water&quot;</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">40</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobblemon:is_deep_ocean"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"fluid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:water"</span>
 <span class="p">}</span>
 </code></pre></div>
 <div class="admonition info">
@@ -2840,9 +2840,9 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;y&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">-64</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"position"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"y"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">-64</span><span class="p">,</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2879,11 +2879,11 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobblemon:is_spooky&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;light&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;block&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;sky&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobblemon:is_spooky"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"light"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"block"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"sky"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2920,10 +2920,10 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">13000</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;period&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"time"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"value"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">13000</span><span class="p">,</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">23000</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"period"</span><span class="p">:</span><span class="w"> </span><span class="mi">24000</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -2995,11 +2995,11 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;weather&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;rain&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;thunder&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;clear&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"weather"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"rain"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"thunder"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"clear"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -3036,8 +3036,8 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;date&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;to&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;11-01&quot;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"date"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10-01"</span><span class="p">,</span><span class="w"> </span><span class="nt">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"11-01"</span><span class="w"> </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>This example restricts the loot ball to the <strong>Halloween season</strong> (October 1 – November 1).</p>
@@ -3066,14 +3066,14 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;poke_rod&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cobblemon:great_rod&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;cobblemon:ultra_rod&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="nt">"poke_rod"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"cobblemon:great_rod"</span><span class="p">,</span><span class="w"> </span><span class="s2">"cobblemon:ultra_rod"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <div class="admonition tip">
 <p class="admonition-title">Common pattern</p>
 <p>Most shipped loot balls use <strong>two fishing rules</strong>: one with a specific rod (high weight), and one without (low weight, any rod). This lets the loot ball be fished anywhere but gives a bonus when using the matching rod:
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;fishing&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobblemon:is_forest&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;poke_rod&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cobblemon:nest_rod&quot;</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
-<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;biome&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;#cobblemon:is_forest&quot;</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="nt">"fishing"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobblemon:is_forest"</span><span class="p">,</span><span class="w"> </span><span class="nt">"poke_rod"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"cobblemon:nest_rod"</span><span class="p">]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="nt">"biome"</span><span class="p">:</span><span class="w"> </span><span class="s2">"#cobblemon:is_forest"</span><span class="w"> </span><span class="p">}</span>
 <span class="p">]</span>
 </code></pre></div></p>
 </div>
@@ -3115,16 +3115,16 @@
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code><span class="nt">&quot;variants&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;default&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Standard&quot;</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;loot_table&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_ns:loot_ball/standard&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;texture&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cobblemon:textures/poke_balls/poke_ball.png&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">"variants"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Standard"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"loot_table"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_ns:loot_ball/standard"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"texture"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cobblemon:textures/poke_balls/poke_ball.png"</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;shiny&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Shiny&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;color&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;gold&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;bold&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
-<span class="w">    </span><span class="nt">&quot;loot_table&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_ns:loot_ball/shiny_rewards&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;texture&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cobblemon:textures/poke_balls/premier_ball.png&quot;</span>
+<span class="w">  </span><span class="nt">"shiny"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Shiny"</span><span class="p">,</span><span class="w"> </span><span class="nt">"color"</span><span class="p">:</span><span class="w"> </span><span class="s2">"gold"</span><span class="p">,</span><span class="w"> </span><span class="nt">"bold"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">"loot_table"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my_ns:loot_ball/shiny_rewards"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"texture"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cobblemon:textures/poke_balls/premier_ball.png"</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -3132,20 +3132,20 @@
 <h2 id="loot-tables">Loot Tables</h2>
 <p>Loot tables use the standard <a href="https://minecraft.wiki/w/Loot_table">Minecraft loot table format</a>. Place them at <code>data/&lt;namespace&gt;/loot_table/loot_ball/&lt;name&gt;.json</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:chest&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;pools&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:chest"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"pools"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;rolls&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;entries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:item&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:diamond&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="nt">"rolls"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">"entries"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:item"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:diamond"</span><span class="p">,</span><span class="w"> </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">},</span>
 <span class="w">        </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:item&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:gold_ingot&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;weight&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;functions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="nt">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:item"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:gold_ingot"</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"weight"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">"functions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">            </span><span class="p">{</span>
-<span class="w">              </span><span class="nt">&quot;function&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;minecraft:set_count&quot;</span><span class="p">,</span>
-<span class="w">              </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span>
+<span class="w">              </span><span class="nt">"function"</span><span class="p">:</span><span class="w"> </span><span class="s2">"minecraft:set_count"</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">"count"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"min"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="nt">"max"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="p">}</span>
 <span class="w">            </span><span class="p">}</span>
 <span class="w">          </span><span class="p">]</span>
 <span class="w">        </span><span class="p">}</span>
@@ -3379,7 +3379,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.footer", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
