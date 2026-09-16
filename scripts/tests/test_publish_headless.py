@@ -139,7 +139,7 @@ def test_modrinth_metadata_display_name_and_featured(monkeypatch, tmp_path):
     # Check non-release version
     props_beta = ModProperties(**{**props.model_dump(), "mod_version_type": "beta"})
     upload_to_modrinth(jar_file, props_beta, "neoforge", "changelog text")
-    assert captured_metadata["name"] == "Cobbleloots v2.3.0 [1.21.1] [Neoforge]"
+    assert captured_metadata["name"] == "Cobbleloots v2.3.0 [1.21.1] [NeoForge]"
     assert captured_metadata["featured"] is False
 
 
@@ -195,3 +195,62 @@ def test_curseforge_metadata_display_name(monkeypatch, tmp_path):
     upload_to_curseforge(jar_file, props, "fabric", "changelog text")
     assert captured_metadata is not None
     assert captured_metadata["displayName"] == "Cobbleloots v2.3.0 [1.21.1] [Fabric]"
+
+    upload_to_curseforge(jar_file, props, "neoforge", "changelog text")
+    assert captured_metadata["displayName"] == "Cobbleloots v2.3.0 [1.21.1] [NeoForge]"
+
+
+def test_publish_exit_code_on_upload_error(monkeypatch, tmp_path):
+    import publish
+
+    props = ModProperties(
+        mod_id="cobbleloots",
+        mod_version="2.3.0",
+        mod_version_type="release",
+        mod_name="Cobbleloots",
+        mod_description="desc",
+        mod_authors="author",
+        mod_license="MIT",
+        mod_logo="logo.png",
+        mod_homepage="https://example.com",
+        mod_source="https://example.com",
+        mod_issues="https://example.com",
+        mod_discord="https://example.com",
+        mod_modrinth="https://example.com",
+        mod_curseforge="https://example.com",
+        maven_group="dev.ripio",
+        archives_name="cobbleloots",
+        enabled_platforms="fabric,neoforge",
+        minecraft_version="1.21.1",
+        cobblemon_target_version="1.7.0",
+        fabric_loader_target_version="0.17.2",
+        neoforge_target_version="21",
+        cobblemon_version="1.7.3+1.21.1",
+        fabric_loader_version="0.17.2",
+        fabric_api_version="0.116.6+1.21.1",
+        fabric_kotlin_version="1.13.6",
+        neoforge_version="21.1.182",
+        neoforge_kotlin_version="5.10.0",
+    )
+
+    monkeypatch.setattr(publish, "load_mod_properties", lambda: props)
+    monkeypatch.setattr(publish, "build", lambda yes=False: None)
+    monkeypatch.setattr(publish, "load_changelog", lambda vt: "Changelog content")
+    monkeypatch.setattr(publish, "load_modinfo", lambda: "Modinfo content")
+
+    mock_ver = MagicMock()
+    mock_ver.status_code = 404
+    monkeypatch.setattr(publish, "fetch_modrinth_version", lambda v: mock_ver)
+
+    fake_fabric_jar = tmp_path / "fabric.jar"
+    fake_fabric_jar.write_bytes(b"PK")
+    monkeypatch.setattr(publish, "get_artifact_path", lambda p, l: fake_fabric_jar)
+
+    # Simulate upload failure
+    mock_fail_resp = MagicMock()
+    mock_fail_resp.status_code = 500
+    monkeypatch.setattr(publish, "upload_to_modrinth", lambda *args, **kwargs: mock_fail_resp)
+
+    result = runner.invoke(app, ["publish", "--yes", "--no-curseforge"])
+    assert result.exit_code == 1
+    assert "Publishing encountered errors." in result.output

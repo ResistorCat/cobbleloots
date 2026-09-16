@@ -31,6 +31,9 @@ def get_curseforge_credentials() -> dict:
     return {"token": token, "project_id": project_id}
 
 
+LOADER_NAMES = {"fabric": "Fabric", "neoforge": "NeoForge"}
+
+
 def upload_to_curseforge(
     file_path: Path, mod_properties: ModProperties, mod_loader: str, mod_changelog: str
 ) -> requests.Response:
@@ -56,10 +59,11 @@ def upload_to_curseforge(
     project_id = credentials["project_id"]
 
     # Prepare request data
+    loader_name = LOADER_NAMES.get(mod_loader.lower(), mod_loader.title())
     metadata = {
         "changelog": mod_changelog,
         "changelogType": "markdown",
-        "displayName": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{mod_loader.title()}]",
+        "displayName": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{loader_name}]",
         "gameVersions": [
             CURSEFORGE_VERSION_IDS[mod_properties.minecraft_version],
             CURSEFORGE_VERSION_IDS[mod_loader],

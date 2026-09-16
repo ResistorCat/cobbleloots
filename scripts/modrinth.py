@@ -12,6 +12,9 @@ from models import ModProperties
 MODRINTH_API_URL = "https://api.modrinth.com/v2"
 
 
+LOADER_NAMES = {"fabric": "Fabric", "neoforge": "NeoForge"}
+
+
 def upload_to_modrinth(
     file_path: Path, mod_properties: ModProperties, mod_loader: str, mod_changelog: str
 ) -> requests.Response:
@@ -40,8 +43,9 @@ def upload_to_modrinth(
         raise Exception("MODRINTH_PROJECT_ID environment variable not set.")
 
     # Prepare request data
+    loader_name = LOADER_NAMES.get(mod_loader.lower(), mod_loader.title())
     metadata = {
-        "name": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{mod_loader.title()}]",
+        "name": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{loader_name}]",
         "version_number": f"{mod_properties.mod_version}",
         "changelog": mod_changelog,
         "dependencies": [

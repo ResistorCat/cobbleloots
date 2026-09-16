@@ -127,6 +127,8 @@ def publish(
         print("[red]Error: Mod info is empty or could not be loaded.[/red]")
         raise typer.Exit(code=1)
 
+    has_errors = False
+
     # Publish
     if modrinth:
         # Check if version already exists on Modrinth
@@ -135,6 +137,7 @@ def publish(
             print(
                 f"[red]Error: Version {mod_properties.mod_version} already exists on Modrinth.[/red]"
             )
+            has_errors = True
         else:
             # Publish Fabric version
             print("[blue]Publishing Fabric version to Modrinth...[/blue]")
@@ -151,10 +154,12 @@ def publish(
                     print("[green]Fabric version published successfully![/green]")
                 else:
                     print("[red]Failed to publish Fabric version.[/red]")
+                    has_errors = True
             except Exception as e:
                 print(
                     f"[red]Exception occurred while publishing Fabric version: {e}[/red]"
                 )
+                has_errors = True
             finally:
                 if not should_auto_confirm(yes):
                     confirm = typer.confirm("Do you want to continue?", default=True)
@@ -176,10 +181,12 @@ def publish(
                     print("[green]NeoForge version published successfully![/green]")
                 else:
                     print("[red]Failed to publish NeoForge version.[/red]")
+                    has_errors = True
             except Exception as e:
                 print(
                     f"[red]Exception occurred while publishing NeoForge version: {e}[/red]"
                 )
+                has_errors = True
             finally:
                 if not should_auto_confirm(yes):
                     confirm = typer.confirm("Do you want to continue?", default=True)
@@ -200,6 +207,7 @@ def publish(
                 print("[green]Mod info updated successfully![/green]")
             except Exception as e:
                 print(f"[red]Exception occurred while updating mod info: {e}[/red]")
+                has_errors = True
 
     # Publish
     if curseforge:
@@ -228,10 +236,12 @@ def publish(
                     print("[green]Fabric version published successfully![/green]")
                 else:
                     print("[red]Failed to publish Fabric version.[/red]")
+                    has_errors = True
             except Exception as e:
                 print(
                     f"[red]Exception occurred while publishing Fabric version: {e}[/red]"
                 )
+                has_errors = True
             finally:
                 if not should_auto_confirm(yes):
                     confirm = typer.confirm("Do you want to continue?", default=True)
@@ -240,7 +250,7 @@ def publish(
                         raise typer.Exit()
 
             # Publish NeoForge version
-            print("[blue]Publishing NeoForge version to Modrinth...[/blue]")
+            print("[blue]Publishing NeoForge version to CurseForge...[/blue]")
             neoforge_path = get_artifact_path(mod_properties, "neoforge")
             if not neoforge_path.exists():
                 print(f"[red]Error: NeoForge build not found at {neoforge_path}[/red]")
@@ -253,10 +263,12 @@ def publish(
                     print("[green]NeoForge version published successfully![/green]")
                 else:
                     print("[red]Failed to publish NeoForge version.[/red]")
+                    has_errors = True
             except Exception as e:
                 print(
                     f"[red]Exception occurred while publishing NeoForge version: {e}[/red]"
                 )
+                has_errors = True
             finally:
                 if not should_auto_confirm(yes):
                     confirm = typer.confirm("Do you want to continue?", default=True)
@@ -264,19 +276,9 @@ def publish(
                         print("[yellow]Publish cancelled.[/yellow]")
                         raise typer.Exit()
 
-        # Update modinfo on Modrinth
-        print("[blue]Updating modinfo on Modrinth...[/blue]")
-        if not should_auto_confirm(yes):
-            confirm = typer.confirm("Do you want to continue?", default=True)
-            if not confirm:
-                print("[yellow]Update cancelled.[/yellow]")
-                raise typer.Exit()
-        if modinfo:
-            try:
-                response = upload_modinfo_to_modrinth(modinfo)
-                print("[green]Mod info updated successfully![/green]")
-            except Exception as e:
-                print(f"[red]Exception occurred while updating mod info: {e}[/red]")
+    if has_errors:
+        print("[red]Publishing encountered errors.[/red]")
+        raise typer.Exit(code=1)
 
     print("[green]Publish process completed![/green]")
 
