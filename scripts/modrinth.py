@@ -41,7 +41,7 @@ def upload_to_modrinth(
 
     # Prepare request data
     metadata = {
-        "name": f"{mod_properties.mod_id.title()} v{mod_properties.mod_version} ~ {mod_loader.title()}",
+        "name": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{mod_loader.title()}]",
         "version_number": f"{mod_properties.mod_version}",
         "changelog": mod_changelog,
         "dependencies": [
@@ -51,7 +51,7 @@ def upload_to_modrinth(
         "game_versions": [f"{mod_properties.minecraft_version}"],
         "version_type": f"{mod_properties.mod_version_type}",
         "loaders": [mod_loader],
-        "featured": True,
+        "featured": (mod_properties.mod_version_type == "release"),
         "project_id": f"{project_id}",
         "file_parts": ["jarfile"],
         "primary_file": "jarfile",

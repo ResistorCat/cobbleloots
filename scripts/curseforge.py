@@ -59,7 +59,7 @@ def upload_to_curseforge(
     metadata = {
         "changelog": mod_changelog,
         "changelogType": "markdown",
-        "displayName": f"{mod_properties.mod_id.title()} v{mod_properties.mod_version} ~ {mod_loader.title()}",
+        "displayName": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{mod_loader.title()}]",
         "gameVersions": [
             CURSEFORGE_VERSION_IDS[mod_properties.minecraft_version],
             CURSEFORGE_VERSION_IDS[mod_loader],
