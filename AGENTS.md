@@ -118,7 +118,7 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 ### 4.4 Task Management & Linear as Single Source of Truth
 - **Sole Source of Truth**: All tasks, bugs, features, and backlog items are managed exclusively in **Linear** (Team: `RipioDev`, Project: `[Mod] Cobbleloots`).
 - **Do NOT use GitHub Issues**: Agents must never query `gh issue list` or manage tasks in GitHub Issues. GitHub Issues is disabled/ignored.
-- **Linear Tooling & MCP**: Inspect and update tasks via Linear MCP tools (`get_issue`, `save_issue`, `list_issues`). If the MCP server is not mounted in the session, launch it with `node .agents/plugins/linear/linear-mcp.mjs`.
+- **Linear Tooling & MCP**: Inspect and update tasks via Linear MCP tools (`get_issue`, `save_issue`, `list_issues`). The workspace automatically mounts Linear MCP via the workspace plugin at [`.agents/plugins/linear/`](file:///.agents/plugins/linear/) using the bridge script [`.agents/plugins/linear/linear-mcp.mjs`](file:///.agents/plugins/linear/linear-mcp.mjs). Requires `LINEAR_API_KEY` configured in the system environment variables or in the project root `.env` file.
 - **Title format**: `[<REPO>] <título descriptivo en español>` (e.g., `[Cobbleloots] Reiniciar loot balls que ya fueron abiertas`).
 - **Tags / Labels**: Must use the proper workspace tag (`Feature`, `Bug`, `Improvement`).
 - **Issue Body**: Follow [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md) for acceptance criteria, suggested files, and technical constraints.

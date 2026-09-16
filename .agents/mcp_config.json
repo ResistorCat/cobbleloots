@@ -2,7 +2,7 @@
   "mcpServers": {
     "linear": {
       "command": "node",
-      "args": ["linear-mcp.mjs"]
+      "args": [".agents/plugins/linear/linear-mcp.mjs"]
     }
   }
 }
