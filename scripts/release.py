@@ -68,10 +68,8 @@ def parse_conventional_commit(message: str) -> dict | None:
     has_exclamation = bool(match.group(3))
     description = match.group(4).strip()
 
-    is_breaking = (
-        has_exclamation
-        or ("BREAKING CHANGE:" in message)
-        or ("BREAKING-CHANGE:" in message)
+    is_breaking = has_exclamation or bool(
+        re.search(r"BREAKING[ -]CHANGE:\s*", message, re.IGNORECASE)
     )
 
     return {
@@ -206,6 +204,26 @@ def _find_baseline_commit() -> str | None:
     return None
 
 
+def get_latest_tag_on_branch() -> str | None:
+    """
+    Returns the most recent tag reachable from HEAD on the current branch.
+    """
+    try:
+        res = subprocess.run(
+            ["git", "describe", "--tags", "--abbrev=0"],
+            cwd=ROOT_PATH,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        tag = res.stdout.strip()
+        if tag and res.returncode == 0:
+            return tag
+    except Exception:
+        pass
+    return None
+
+
 def get_commits_since_last_tag(base_tag: str | None) -> list[dict]:
     """
     Extracts and parses all commits since the specified base tag or baseline commit.
@@ -213,8 +231,12 @@ def get_commits_since_last_tag(base_tag: str | None) -> list[dict]:
     if base_tag:
         git_range = f"{base_tag}..HEAD"
     else:
-        baseline = _find_baseline_commit()
-        git_range = f"{baseline}..HEAD" if baseline else "HEAD"
+        latest_tag = get_latest_tag_on_branch()
+        if latest_tag:
+            git_range = f"{latest_tag}..HEAD"
+        else:
+            baseline = _find_baseline_commit()
+            git_range = f"{baseline}..HEAD" if baseline else "HEAD"
 
     try:
         res = subprocess.run(
@@ -314,49 +336,74 @@ def determine_next_version(
     Returns: (version, channel, tag)
     """
     core_version = base_version.lstrip("vba").split("-")[0]
-    major, minor, patch = map(int, core_version.split("."))
+    base_major, base_minor, base_patch = map(int, core_version.split("."))
 
-    if bump == "major":
-        major += 1
-        minor = 0
-        patch = 0
-    elif bump == "minor":
-        minor += 1
-        patch = 0
-    elif bump == "patch":
-        patch += 1
-
-    target_core = f"{major}.{minor}.{patch}"
     branch_lower = branch.lower().strip()
-
     if branch_lower in ("main", "master", "release"):
         channel = "release"
-        version = target_core
-        tag = f"v{version}"
     elif "beta" in branch_lower:
         channel = "beta"
-        highest = 0
-        pattern = re.compile(rf"^v?{re.escape(target_core)}-beta\.(\d+)$")
-        for t in existing_tags:
-            m = pattern.match(t.strip())
-            if m:
-                highest = max(highest, int(m.group(1)))
-        version = f"{target_core}-beta.{highest + 1}"
-        tag = f"v{version}"
     elif "alpha" in branch_lower:
         channel = "alpha"
-        highest = 0
-        pattern = re.compile(rf"^v?{re.escape(target_core)}-alpha\.(\d+)$")
+    else:
+        channel = "release"
+
+    # Inspect existing pre-release tags for the active channel
+    prerelease_tags = []
+    if channel in ("beta", "alpha"):
+        pattern = re.compile(rf"^v?(\d+)\.(\d+)\.(\d+)-{channel}\.(\d+)$")
         for t in existing_tags:
             m = pattern.match(t.strip())
             if m:
-                highest = max(highest, int(m.group(1)))
-        version = f"{target_core}-alpha.{highest + 1}"
+                prerelease_tags.append(
+                    (
+                        int(m.group(1)),
+                        int(m.group(2)),
+                        int(m.group(3)),
+                        int(m.group(4)),
+                        t.strip(),
+                    )
+                )
+
+    if prerelease_tags:
+        latest_pre = max(prerelease_tags, key=lambda x: (x[0], x[1], x[2], x[3]))
+        pre_core = (latest_pre[0], latest_pre[1], latest_pre[2])
+
+        if bump == "major":
+            major = max(base_major, pre_core[0]) + 1
+            target_core = f"{major}.0.0"
+            next_count = 1
+        else:
+            # For patch or minor, retain the core version of the current pre-release cycle
+            target_core = f"{pre_core[0]}.{pre_core[1]}.{pre_core[2]}"
+            counts = [x[3] for x in prerelease_tags if (x[0], x[1], x[2]) == pre_core]
+            next_count = max(counts) + 1 if counts else 1
+
+        version = f"{target_core}-{channel}.{next_count}"
         tag = f"v{version}"
     else:
-        channel = "release"
-        version = target_core
-        tag = f"v{version}"
+        major = base_major
+        minor = base_minor
+        patch = base_patch
+
+        if bump == "major":
+            major += 1
+            minor = 0
+            patch = 0
+        elif bump == "minor":
+            minor += 1
+            patch = 0
+        elif bump == "patch":
+            patch += 1
+
+        target_core = f"{major}.{minor}.{patch}"
+
+        if channel == "release":
+            version = target_core
+            tag = f"v{version}"
+        else:
+            version = f"{target_core}-{channel}.1"
+            tag = f"v{version}"
 
     return version, channel, tag
 
@@ -515,9 +562,12 @@ def main(
             pass
 
     tags = get_git_tags()
+    latest_branch_tag = get_latest_tag_on_branch()
     base_version, base_tag = get_base_version_and_tag(tags, base_default)
 
-    commits = get_commits_since_last_tag(base_tag)
+    # Anchor commit search to the most recent reachable tag on active branch
+    anchor_tag = latest_branch_tag or base_tag
+    commits = get_commits_since_last_tag(anchor_tag)
     bump = calculate_version_bump(commits)
 
     if bump is None:
@@ -529,9 +579,9 @@ def main(
         base_version, bump, active_branch, tags
     )
     changelog_section = format_changelog_section(new_version, commits)
-    write_release_notes(changelog_section)
 
     if not is_dry_run:
+        write_release_notes(changelog_section)
         update_gradle_properties(new_version, new_channel)
         prepend_changelog(changelog_section)
         print(

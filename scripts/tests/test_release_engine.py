@@ -38,6 +38,8 @@ def test_parse_conventional_commit():
     assert parse_conventional_commit("feat(common)!: major change\n\nBREAKING CHANGE: api changed") == {
         "type": "feat", "scope": "common", "breaking": True, "description": "major change"
     }
+    assert parse_conventional_commit("feat: some change\n\nbreaking-change: lowercase hyphenated")["breaking"] is True
+    assert parse_conventional_commit("fix: some change\n\nBREAKING CHANGE: with space")["breaking"] is True
     # Non-conventional commit message returns None
     assert parse_conventional_commit("random non conventional commit message") is None
 
@@ -166,6 +168,64 @@ def test_cli_help():
     assert "--check" in result.output
 
 
+def test_determine_next_version_beta_patch_retention():
+    # When a pre-release tag like v2.4.0-beta.1 exists, patch bump must retain 2.4.0 core version and increment to beta.2
+    assert determine_next_version("2.3.0", "patch", "beta", existing_tags=["v2.4.0-beta.1"]) == (
+        "2.4.0-beta.2",
+        "beta",
+        "v2.4.0-beta.2",
+    )
+    # Major bump advances core version to next major (3.0.0-beta.1)
+    assert determine_next_version("2.3.0", "major", "beta", existing_tags=["v2.4.0-beta.1"]) == (
+        "3.0.0-beta.1",
+        "beta",
+        "v3.0.0-beta.1",
+    )
+
+
+def test_pre_release_anchor_tag_prevents_re_release_loop(monkeypatch, tmp_path):
+    out_file = tmp_path / "github_output.txt"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+
+    # Mock git describe returning an existing beta tag on the active branch
+    monkeypatch.setattr("release.get_latest_tag_on_branch", lambda: "v2.4.0-beta.1")
+    monkeypatch.setattr("release.get_git_tags", lambda: ["v2.3.0", "v2.4.0-beta.1"])
+
+    # Commits since v2.4.0-beta.1 are only tooling/non-mod commits
+    def mock_get_commits(anchor_tag):
+        assert anchor_tag == "v2.4.0-beta.1"
+        return [
+            {"type": "docs", "breaking": False, "is_mod": False, "files": ["docs/faq.md"]},
+            {"type": "chore", "breaking": False, "is_mod": False, "files": [".agents/rules.md"]},
+        ]
+
+    monkeypatch.setattr("release.get_commits_since_last_tag", mock_get_commits)
+
+    result = runner.invoke(app, ["--branch", "beta", "--dry-run"])
+    assert result.exit_code == 0
+    assert "No mod changes detected. Release not required." in result.output
+    content = out_file.read_text(encoding="utf-8")
+    assert "has_release=false" in content
+
+
+def test_dry_run_does_not_write_release_notes(monkeypatch, tmp_path):
+    out_file = tmp_path / "github_output.txt"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+
+    # Mock commits that have a mod bump
+    monkeypatch.setattr("release.get_commits_since_last_tag", lambda tag: [
+        {"type": "feat", "scope": "lootball", "breaking": False, "is_mod": True, "description": "new ball", "files": ["common/Item.java"]}
+    ])
+
+    notes_file = tmp_path / ".release_notes.md"
+    monkeypatch.setattr("release.ROOT_PATH", tmp_path)
+
+    result = runner.invoke(app, ["--branch", "main", "--dry-run"])
+    assert result.exit_code == 0
+    assert "[DRY-RUN]" in result.output
+    assert not notes_file.exists()
+
+
 def test_cli_dry_run_current_repo(monkeypatch, tmp_path):
     out_file = tmp_path / "github_output.txt"
     monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
@@ -174,4 +234,5 @@ def test_cli_dry_run_current_repo(monkeypatch, tmp_path):
     assert "No mod changes detected. Release not required." in result.output
     content = out_file.read_text(encoding="utf-8")
     assert "has_release=false" in content
+
 
