@@ -27,10 +27,10 @@ FOOTERS = {
 
 def load_env() -> None:
     """
-    Load environment variables from the .env file.
+    Load environment variables from the .env file if it exists.
     """
     if not ENV_PATH.exists():
-        raise FileNotFoundError(f"{ENV_PATH} does not exist.")
+        return
 
     with ENV_PATH.open() as f:
         for line in f:

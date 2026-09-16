@@ -1,10 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class ModProperties(BaseModel):
     """
     Model for mod properties loaded from gradle.properties.
     """
+    model_config = ConfigDict(extra="ignore")
 
     mod_id: str
     mod_version: str
@@ -33,4 +34,4 @@ class ModProperties(BaseModel):
     fabric_kotlin_version: str
     neoforge_version: str
     neoforge_kotlin_version: str
-    modmenu_version: str
+    modmenu_version: str = ""
