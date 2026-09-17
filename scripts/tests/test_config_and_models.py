@@ -6,7 +6,7 @@ import sys
 # Add scripts directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from config import load_env, load_mod_properties
+from config import load_env
 from models import ModProperties
 
 
