@@ -8,7 +8,7 @@
 
 **Tech Stack:** Minecraft 1.21.1, Architectury Loom, Brigadier, Java 21, Fabric API 0.116.6, NeoForge 21.1.182.
 
-**Spec:** [`docs/superpowers/specs/2026-09-17-loot-ball-reset-command-design.md`](file:///C:/Users/franc/GitHub/cobbleloots/.worktrees/ripio/dev-5-cobbleloots-reiniciar-loot-balls-que-ya-fueron-abiertas/docs/superpowers/specs/2026-09-17-loot-ball-reset-command-design.md)
+**Spec:** [`/.superpowers/specs/2026-09-17-loot-ball-reset-command-design.md`](file:///C:/Users/franc/GitHub/cobbleloots/.worktrees/ripio/dev-5-cobbleloots-reiniciar-loot-balls-que-ya-fueron-abiertas/.superpowers/specs/2026-09-17-loot-ball-reset-command-design.md)
 
 ## Global Constraints
 - Target Minecraft 1.21.1, Java 21.
