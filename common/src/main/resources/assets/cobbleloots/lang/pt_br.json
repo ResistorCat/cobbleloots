@@ -139,5 +139,14 @@
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions": "Dimensões Desativadas (Arqueologia)",
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions.tooltip": "Lista de IDs de dimensões onde a arqueologia de bolas de saque está desativada.",
 
-  "subtitles.cobbleloots.loot_ball_open": "Fanfarra da Bola de Saque"
+  "subtitles.cobbleloots.loot_ball_open": "Fanfarra da Bola de Saque",
+
+  "commands.cobbleloots.reset.loot_ball.all.success": "Todas as loot balls foram redefinidas para %s (%s balls carregadas redefinidas).",
+  "commands.cobbleloots.reset.loot_ball.target.success": "A loot ball apontada foi redefinida para %s.",
+  "commands.cobbleloots.reset.loot_ball.entity.success": "%s loot balls selecionadas foram redefinidas para %s.",
+  "commands.cobbleloots.reset.loot_ball.undo.success": "A redefinição de loot balls foi revertida para %s.",
+  "commands.cobbleloots.reset.loot_ball.undo.no_change": "Nenhuma ação de redefinição anterior encontrada para desfazer para %s.",
+  "commands.cobbleloots.reset.loot_ball.target.not_found": "Nenhuma loot ball encontrada na linha de visão dentro de 16 blocos.",
+  "commands.cobbleloots.reset.loot_ball.entity.none_matched": "Nenhuma loot ball correspondeu ao seletor de entidades.",
+  "commands.cobbleloots.reset.loot_ball.player_required": "É necessário um jogador para executar este comando sem alvos explícitos."
 }

@@ -139,5 +139,14 @@
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions": "Disabled Dimensions (Archaeology)",
   "cobbleloots.midnightconfig.archaeology_disabled_dimensions.tooltip": "List of dimension IDs where archaeology loot balls is disabled.",
 
-  "subtitles.cobbleloots.loot_ball_open": "Loot ball fanfare"
+  "subtitles.cobbleloots.loot_ball_open": "Loot ball fanfare",
+
+  "commands.cobbleloots.reset.loot_ball.all.success": "Reset all loot balls for %s (%s loaded balls reset).",
+  "commands.cobbleloots.reset.loot_ball.target.success": "Reset targeted loot ball for %s.",
+  "commands.cobbleloots.reset.loot_ball.entity.success": "Reset %s selected loot balls for %s.",
+  "commands.cobbleloots.reset.loot_ball.undo.success": "Reverted loot ball reset for %s.",
+  "commands.cobbleloots.reset.loot_ball.undo.no_change": "No previous reset action found to undo for %s.",
+  "commands.cobbleloots.reset.loot_ball.target.not_found": "No loot ball found in line of sight within 16 blocks.",
+  "commands.cobbleloots.reset.loot_ball.entity.none_matched": "No loot balls matched the entity selector.",
+  "commands.cobbleloots.reset.loot_ball.player_required": "A player is required to execute this command without explicit targets."
 }
