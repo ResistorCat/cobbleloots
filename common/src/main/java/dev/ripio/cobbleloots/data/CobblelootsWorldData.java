@@ -78,9 +78,14 @@ public class CobblelootsWorldData extends SavedData {
         boolean changed = false;
         for (UUID uuid : players) {
             if (this.previousPlayerResetTimestamps.containsKey(uuid)) {
-                this.playerResetTimestamps.put(uuid, this.previousPlayerResetTimestamps.get(uuid));
-                this.playerRestoreUses.put(uuid, this.previousPlayerRestoreUses.getOrDefault(uuid, true));
-                changed = true;
+                Long prevTs = this.previousPlayerResetTimestamps.get(uuid);
+                Boolean prevRu = this.previousPlayerRestoreUses.getOrDefault(uuid, true);
+                if (!Objects.equals(this.playerResetTimestamps.get(uuid), prevTs)
+                        || !Objects.equals(this.playerRestoreUses.get(uuid), prevRu)) {
+                    this.playerResetTimestamps.put(uuid, prevTs);
+                    this.playerRestoreUses.put(uuid, prevRu);
+                    changed = true;
+                }
             } else if (this.playerResetTimestamps.remove(uuid) != null) {
                 this.playerRestoreUses.remove(uuid);
                 changed = true;
