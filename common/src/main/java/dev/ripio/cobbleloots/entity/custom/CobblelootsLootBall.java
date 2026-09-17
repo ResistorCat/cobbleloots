@@ -3,6 +3,7 @@ package dev.ripio.cobbleloots.entity.custom;
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.config.CobblelootsLootBallEmptyBehavior;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
+import dev.ripio.cobbleloots.data.CobblelootsWorldData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
 import dev.ripio.cobbleloots.item.CobblelootsItems;
@@ -607,6 +608,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
    * @return true if opening can proceed, false otherwise
    */
   private boolean canPlayerOpenLootBall(ServerPlayer serverPlayer) {
+    this.reconcileResetState(serverPlayer);
+
     // Check if loot ball is already being opened
     if (this.isOpening) {
       serverPlayer.sendSystemMessage(cobblelootsText(TEXT_ERROR_IS_OPENING).withStyle(ChatFormatting.RED), true);
@@ -778,6 +781,39 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
 
   public void addOpener(ServerPlayer serverPlayer) {
     this.openers.put(serverPlayer.getUUID(), this.level().getGameTime());
+  }
+
+  public void reconcileResetState(ServerPlayer player) {
+    if (player == null || player.getServer() == null) return;
+    UUID uuid = player.getUUID();
+    if (this.openers.containsKey(uuid)) {
+      long lastOpen = this.openers.get(uuid);
+      CobblelootsWorldData worldData = CobblelootsWorldData.get(player.getServer());
+      long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
+      if (effectiveReset > lastOpen) {
+        this.openers.remove(uuid);
+        if (worldData.shouldRestoreUses(uuid) && !this.isInfinite() && this.getRemainingUses() <= 0) {
+          this.setRemainingUses(DEFAULT_USES);
+        }
+        this.setChanged();
+      }
+    }
+  }
+
+  public void resetForPlayer(UUID playerUuid, boolean restoreUses) {
+    this.openers.remove(playerUuid);
+    if (restoreUses && !this.isInfinite() && this.getRemainingUses() <= 0) {
+      this.setRemainingUses(DEFAULT_USES);
+    }
+    this.setChanged();
+  }
+
+  public void resetForAll(boolean restoreUses) {
+    this.openers.clear();
+    if (restoreUses && !this.isInfinite() && this.getRemainingUses() <= 0) {
+      this.setRemainingUses(DEFAULT_USES);
+    }
+    this.setChanged();
   }
 
   public int getRemainingUses() {
