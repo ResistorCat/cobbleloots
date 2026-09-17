@@ -14,11 +14,13 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
+import dev.ripio.cobbleloots.neoforge.command.CobblelootsCommandsNeoForge;
 import dev.ripio.cobbleloots.network.CobblelootsLootBallUpdatePayload;
 import dev.ripio.cobbleloots.network.CobblelootsLootBallOpenScreenPayload;
 import dev.ripio.cobbleloots.network.CobblelootsNetwork;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
 
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.getLootBallEntityType;
 import static dev.ripio.cobbleloots.entity.neoforge.CobblelootsEntitiesImpl.registerEntities;
@@ -40,6 +42,8 @@ public final class CobblelootsNeoForge {
         registerSounds(modEventBus);
         registerEntities(modEventBus);
         registerItems(modEventBus);
+
+        NeoForge.EVENT_BUS.register(CobblelootsCommandsNeoForge.class);
 
         // Register config screen (Client-only)
         if (FMLEnvironment.dist == Dist.CLIENT) {
