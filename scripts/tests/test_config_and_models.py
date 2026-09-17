@@ -51,3 +51,14 @@ def test_mod_properties_ignores_extra_fields():
     }
     props = ModProperties(**data)
     assert props.mod_id == "cobbleloots"
+
+
+def test_constants_definitions():
+    import constants
+    assert constants.LOADER_NAMES == {"fabric": "Fabric", "neoforge": "NeoForge"}
+    assert constants.CURSEFORGE_API_URL == "https://minecraft.curseforge.com/api"
+    assert constants.MODRINTH_API_URL == "https://api.modrinth.com/v2"
+    assert "1.21.1" in constants.CURSEFORGE_VERSION_IDS
+    assert "release" in constants.FOOTERS
+    assert constants.MODRINTH_COBBLEMON_PROJECT_ID == "MdwFAVRL"
+    assert constants.CURSEFORGE_COBBLEMON_PROJECT_ID == 687131

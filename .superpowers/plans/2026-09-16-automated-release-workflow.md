@@ -8,7 +8,7 @@
 
 **Tech Stack:** Python 3.12 (standard library, `typer`, `rich`, `pydantic`, `requests`, `pytest`), Gradle 8 / Architectury Loom, GitHub Actions, Git.
 
-**Spec:** [`docs/superpowers/specs/2026-09-16-automated-release-workflow-design.md`](file:///docs/superpowers/specs/2026-09-16-automated-release-workflow-design.md)
+**Spec:** [`.superpowers/specs/2026-09-16-automated-release-workflow-design.md`](file:///.superpowers/specs/2026-09-16-automated-release-workflow-design.md)
 
 ## Global Constraints
 - Target Minecraft version: `1.21.1`, Java 21, Cobblemon `1.7.x`
