@@ -2,14 +2,18 @@
 API interactions with Modrinth.
 """
 
-import requests
 import json
 import os
 from pathlib import Path
+import requests
+
+from constants import (
+    LOADER_NAMES,
+    MODRINTH_API_URL,
+    MODRINTH_COBBLEMON_PROJECT_ID,
+    MODRINTH_FABRIC_API_PROJECT_ID,
+)
 from models import ModProperties
-
-
-MODRINTH_API_URL = "https://api.modrinth.com/v2"
 
 
 def upload_to_modrinth(
@@ -40,18 +44,21 @@ def upload_to_modrinth(
         raise Exception("MODRINTH_PROJECT_ID environment variable not set.")
 
     # Prepare request data
+    loader_name = LOADER_NAMES.get(mod_loader.lower(), mod_loader.title())
     metadata = {
-        "name": f"{mod_properties.mod_id.title()} v{mod_properties.mod_version} ~ {mod_loader.title()}",
+        "name": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{loader_name}]",
         "version_number": f"{mod_properties.mod_version}",
         "changelog": mod_changelog,
         "dependencies": [
-            # Cobblemon
-            {"project_id": "MdwFAVRL", "dependency_type": "required"}
+            {
+                "project_id": MODRINTH_COBBLEMON_PROJECT_ID,
+                "dependency_type": "required",
+            }
         ],
         "game_versions": [f"{mod_properties.minecraft_version}"],
         "version_type": f"{mod_properties.mod_version_type}",
         "loaders": [mod_loader],
-        "featured": True,
+        "featured": (mod_properties.mod_version_type == "release"),
         "project_id": f"{project_id}",
         "file_parts": ["jarfile"],
         "primary_file": "jarfile",
@@ -60,8 +67,10 @@ def upload_to_modrinth(
     # Add Fabric API dependency if the mod loader is fabric
     if mod_loader == "fabric":
         metadata["dependencies"].append(
-            # Fabric API
-            {"project_id": "P7dR8mSH", "dependency_type": "required"}
+            {
+                "project_id": MODRINTH_FABRIC_API_PROJECT_ID,
+                "dependency_type": "required",
+            }
         )
 
     # Make the request

@@ -2,15 +2,21 @@
 API interactions with CurseForge.
 """
 
-import requests
 import json
 import os
 from pathlib import Path
+import requests
+
+from constants import (
+    CURSEFORGE_API_URL,
+    CURSEFORGE_COBBLEMON_PROJECT_ID,
+    CURSEFORGE_COBBLEMON_SLUG,
+    CURSEFORGE_FABRIC_API_PROJECT_ID,
+    CURSEFORGE_FABRIC_API_SLUG,
+    CURSEFORGE_VERSION_IDS,
+    LOADER_NAMES,
+)
 from models import ModProperties
-from config import CURSEFORGE_VERSION_IDS
-
-
-CURSEFORGE_API_URL = "https://minecraft.curseforge.com/api"
 
 
 def get_curseforge_credentials() -> dict:
@@ -56,10 +62,11 @@ def upload_to_curseforge(
     project_id = credentials["project_id"]
 
     # Prepare request data
+    loader_name = LOADER_NAMES.get(mod_loader.lower(), mod_loader.title())
     metadata = {
         "changelog": mod_changelog,
         "changelogType": "markdown",
-        "displayName": f"{mod_properties.mod_id.title()} v{mod_properties.mod_version} ~ {mod_loader.title()}",
+        "displayName": f"Cobbleloots v{mod_properties.mod_version} [{mod_properties.minecraft_version}] [{loader_name}]",
         "gameVersions": [
             CURSEFORGE_VERSION_IDS[mod_properties.minecraft_version],
             CURSEFORGE_VERSION_IDS[mod_loader],
@@ -70,7 +77,11 @@ def upload_to_curseforge(
         "releaseType": f"{mod_properties.mod_version_type}",
         "relations": {
             "projects": [
-                {"slug": "cobblemon", "projectID": 687131, "type": "requiredDependency"}
+                {
+                    "slug": CURSEFORGE_COBBLEMON_SLUG,
+                    "projectID": CURSEFORGE_COBBLEMON_PROJECT_ID,
+                    "type": "requiredDependency",
+                }
             ]
         },
     }
@@ -78,8 +89,11 @@ def upload_to_curseforge(
     # Add Fabric API dependency if the mod loader is fabric
     if mod_loader == "fabric":
         metadata["relations"]["projects"].append(
-            # Fabric API
-            {"slug": "fabric-api", "projectID": 306612, "type": "requiredDependency"}
+            {
+                "slug": CURSEFORGE_FABRIC_API_SLUG,
+                "projectID": CURSEFORGE_FABRIC_API_PROJECT_ID,
+                "type": "requiredDependency",
+            }
         )
 
     # Make the request

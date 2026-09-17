@@ -1,0 +1,127 @@
+name: Release Automation
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+      - alpha
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run mode (verify build and calculation without committing or publishing)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Automated Multi-Channel Release
+    runs-on: ubuntu-latest
+
+    env:
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx5g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=false"
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle Cache & Toolchain
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python Dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run Semantic Versioning Analysis
+        id: versioning
+        run: |
+          DRY_RUN_ARG=""
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            DRY_RUN_ARG="--dry-run"
+          fi
+          python scripts/release.py --branch ${{ github.ref_name }} $DRY_RUN_ARG
+
+      - name: Check Release Requirement
+        if: steps.versioning.outputs.has_release != 'true'
+        run: |
+          echo "No mod changes detected requiring a release. Exiting cleanly."
+
+      - name: Compile Mod JARs
+        if: steps.versioning.outputs.has_release == 'true'
+        run: |
+          chmod +x ./gradlew
+          ./gradlew remapJar --stacktrace
+
+      - name: Check Dry Run
+        if: steps.versioning.outputs.has_release == 'true' && inputs.dry_run == true
+        run: |
+          echo "=== DRY RUN SUMMARY ==="
+          echo "Target Version: ${{ steps.versioning.outputs.mod_version }}"
+          echo "Target Channel: ${{ steps.versioning.outputs.mod_version_type }}"
+          echo "Tag: ${{ steps.versioning.outputs.tag }}"
+          if [ -f .release_notes.md ]; then
+            cat .release_notes.md
+          fi
+          echo "Dry run completed. No git commits or external releases made."
+
+      - name: Commit & Tag Release
+        if: steps.versioning.outputs.has_release == 'true' && inputs.dry_run != true
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          git add gradle.properties CHANGELOG.md
+          git commit -m "chore(release): ${{ steps.versioning.outputs.tag }} [skip ci]"
+          git tag -a "${{ steps.versioning.outputs.tag }}" -m "Release ${{ steps.versioning.outputs.tag }}"
+          git push origin ${{ github.ref_name }} ${{ steps.versioning.outputs.tag }}
+
+      - name: Create GitHub Release
+        if: steps.versioning.outputs.has_release == 'true' && inputs.dry_run != true
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          PRERELEASE_FLAG=""
+          if [ "${{ steps.versioning.outputs.is_prerelease }}" = "true" ]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+          gh release create "${{ steps.versioning.outputs.tag }}" \
+            --title "Cobbleloots ${{ steps.versioning.outputs.tag }} [${{ steps.versioning.outputs.minecraft_version }}]" \
+            --notes-file ".release_notes.md" \
+            $PRERELEASE_FLAG \
+            fabric/build/libs/cobbleloots-fabric-${{ steps.versioning.outputs.minecraft_version }}-${{ steps.versioning.outputs.mod_version }}.jar \
+            neoforge/build/libs/cobbleloots-neoforge-${{ steps.versioning.outputs.minecraft_version }}-${{ steps.versioning.outputs.mod_version }}.jar
+
+      - name: Publish to Modrinth and CurseForge
+        if: steps.versioning.outputs.has_release == 'true' && inputs.dry_run != true
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          MODRINTH_PROJECT_ID: ${{ secrets.MODRINTH_PROJECT_ID }}
+          CURSEFORGE_PROJECT_ID: ${{ secrets.CURSEFORGE_PROJECT_ID }}
+        run: |
+          if [ -z "$MODRINTH_TOKEN" ] || [ -z "$CURSEFORGE_TOKEN" ]; then
+            echo "Error: Required secrets MODRINTH_TOKEN or CURSEFORGE_TOKEN are missing."
+            exit 1
+          fi
+          python scripts/publish.py publish --yes

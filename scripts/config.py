@@ -4,33 +4,19 @@ Common configuration settings for the scripts.
 
 import os
 from pathlib import Path
+from constants import CURSEFORGE_VERSION_IDS, FOOTERS
 from models import ModProperties
 
 ROOT_PATH = Path(__file__).parent.parent
 ENV_PATH = ROOT_PATH / ".env"
 
-CURSEFORGE_VERSION_IDS = {
-    "1.21.1": 11779,
-    "fabric": 7499,
-    "neoforge": 10150,
-    "server": 9639,
-    "client": 9638,
-    "java-21": 11135,
-}
-
-FOOTERS = {
-    "alpha": "> Alpha versions may contain bugs and **unfinished features**. Use them at your own risk. If you find any issues, please report them on the Discord server.",
-    "beta": "> Beta versions may contain bugs. Please report any issues you find on the Discord server.",
-    "release": "> Please report any issues you find on the Discord server.",
-}
-
 
 def load_env() -> None:
     """
-    Load environment variables from the .env file.
+    Load environment variables from the .env file if it exists.
     """
     if not ENV_PATH.exists():
-        raise FileNotFoundError(f"{ENV_PATH} does not exist.")
+        return
 
     with ENV_PATH.open() as f:
         for line in f:

@@ -21,8 +21,8 @@ subprojects {
     apply plugin: 'org.jetbrains.kotlin.jvm'
 
     base {
-        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
-        archivesName = "$rootProject.archives_name-$project.name"
+        // Set up a suffixed format for the mod jar names, e.g. `cobbleloots-fabric-1.21.1`.
+        archivesName = "$rootProject.archives_name-$project.name-$rootProject.minecraft_version"
     }
 
     repositories {
