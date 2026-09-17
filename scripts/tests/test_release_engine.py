@@ -236,3 +236,50 @@ def test_cli_dry_run_current_repo(monkeypatch, tmp_path):
     assert "has_release=false" in content
 
 
+def test_determine_next_version_ignores_old_prerelease_tags_after_stable_release():
+    # With base_version="2.4.0" (stable released), existing pre-release tags like v2.4.0-beta.1
+    # belong to the past cycle and must not resurrect. A new minor bump on beta must start 2.5.0-beta.1.
+    version, channel, tag = determine_next_version(
+        "2.4.0", "minor", "beta", existing_tags=["v2.4.0-beta.1", "v2.4.0"]
+    )
+    assert version == "2.5.0-beta.1"
+    assert channel == "beta"
+    assert tag == "v2.5.0-beta.1"
+
+
+def test_graduation_on_main_uses_stable_base_tag(monkeypatch, tmp_path):
+    out_file = tmp_path / "github_output.txt"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+
+    # Existing tags in repo: v2.3.0 (stable) and v2.4.0-beta.1 (prerelease)
+    monkeypatch.setattr("release.get_git_tags", lambda: ["v2.3.0", "v2.4.0-beta.1"])
+    # Latest tag reachable on main branch is v2.4.0-beta.1 from the merged PR
+    monkeypatch.setattr("release.get_latest_tag_on_branch", lambda: "v2.4.0-beta.1")
+
+    # On main, commits since base_tag (v2.3.0) must be inspected, NOT latest_branch_tag (v2.4.0-beta.1)
+    def mock_get_commits(anchor_tag):
+        assert anchor_tag == "v2.3.0"
+        return [
+            {
+                "type": "feat",
+                "scope": "lootball",
+                "breaking": False,
+                "is_mod": True,
+                "description": "add new ball",
+                "files": ["common/Item.java"],
+            }
+        ]
+
+    monkeypatch.setattr("release.get_commits_since_last_tag", mock_get_commits)
+
+    result = runner.invoke(app, ["--branch", "main", "--dry-run"])
+    assert result.exit_code == 0
+    assert "Release calculated: v2.4.0" in result.output
+    content = out_file.read_text(encoding="utf-8")
+    assert "has_release=true" in content
+    assert "mod_version=2.4.0" in content
+    assert "tag=v2.4.0" in content
+    assert "is_prerelease=false" in content
+
+
+

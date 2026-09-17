@@ -348,22 +348,25 @@ def determine_next_version(
     else:
         channel = "release"
 
-    # Inspect existing pre-release tags for the active channel
+    base_tuple = (base_major, base_minor, base_patch)
+
+    # Inspect existing pre-release tags for the active channel that belong to an ongoing cycle
     prerelease_tags = []
     if channel in ("beta", "alpha"):
         pattern = re.compile(rf"^v?(\d+)\.(\d+)\.(\d+)-{channel}\.(\d+)$")
         for t in existing_tags:
             m = pattern.match(t.strip())
             if m:
-                prerelease_tags.append(
-                    (
-                        int(m.group(1)),
-                        int(m.group(2)),
-                        int(m.group(3)),
-                        int(m.group(4)),
-                        t.strip(),
-                    )
+                pre_major, pre_minor, pre_patch, pre_count = (
+                    int(m.group(1)),
+                    int(m.group(2)),
+                    int(m.group(3)),
+                    int(m.group(4)),
                 )
+                if (pre_major, pre_minor, pre_patch) > base_tuple:
+                    prerelease_tags.append(
+                        (pre_major, pre_minor, pre_patch, pre_count, t.strip())
+                    )
 
     if prerelease_tags:
         latest_pre = max(prerelease_tags, key=lambda x: (x[0], x[1], x[2], x[3]))
@@ -565,8 +568,18 @@ def main(
     latest_branch_tag = get_latest_tag_on_branch()
     base_version, base_tag = get_base_version_and_tag(tags, base_default)
 
-    # Anchor commit search to the most recent reachable tag on active branch
-    anchor_tag = latest_branch_tag or base_tag
+    branch_lower = active_branch.lower().strip()
+    is_stable_channel = branch_lower in ("main", "master", "release")
+
+    # On stable branches (main), anchor to the latest stable tag (base_tag)
+    # to evaluate all commits in the cycle and allow graduation.
+    # On pre-release branches (beta/alpha), anchor to the latest reachable tag on the branch
+    # to avoid re-release loops on non-mod commits.
+    if is_stable_channel:
+        anchor_tag = base_tag
+    else:
+        anchor_tag = latest_branch_tag or base_tag
+
     commits = get_commits_since_last_tag(anchor_tag)
     bump = calculate_version_bump(commits)
 
