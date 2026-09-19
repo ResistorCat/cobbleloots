@@ -5,10 +5,14 @@ on:
     branches:
       - main
       - master
+      - beta
+      - alpha
   push:
     branches:
       - main
       - master
+      - beta
+      - alpha
 
 permissions:
   contents: read
@@ -36,7 +40,7 @@ jobs:
       - name: Setup Gradle Cache & Toolchain
         uses: gradle/actions/setup-gradle@v4
         with:
-          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' }}
+          cache-read-only: ${{ github.ref != 'refs/heads/main' && github.ref != 'refs/heads/master' && github.ref != 'refs/heads/beta' && github.ref != 'refs/heads/alpha' }}
 
       - name: Make Gradle Wrapper Executable
         run: chmod +x ./gradlew

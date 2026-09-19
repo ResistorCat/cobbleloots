@@ -3,6 +3,7 @@ package dev.ripio.cobbleloots.entity.custom;
 import dev.ripio.cobbleloots.config.CobblelootsConfig;
 import dev.ripio.cobbleloots.config.CobblelootsLootBallEmptyBehavior;
 import dev.ripio.cobbleloots.data.CobblelootsDataProvider;
+import dev.ripio.cobbleloots.data.CobblelootsWorldData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallVariantData;
 import dev.ripio.cobbleloots.item.CobblelootsItems;
@@ -607,6 +608,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
    * @return true if opening can proceed, false otherwise
    */
   private boolean canPlayerOpenLootBall(ServerPlayer serverPlayer) {
+    this.reconcileResetState(serverPlayer);
+
     // Check if loot ball is already being opened
     if (this.isOpening) {
       serverPlayer.sendSystemMessage(cobblelootsText(TEXT_ERROR_IS_OPENING).withStyle(ChatFormatting.RED), true);
@@ -773,11 +776,57 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   public boolean isOpener(ServerPlayer serverPlayer) {
-    return this.openers.containsKey(serverPlayer.getUUID());
+    if (serverPlayer == null) {
+      return false;
+    }
+    UUID uuid = serverPlayer.getUUID();
+    Long lastOpen = this.openers.get(uuid);
+    if (lastOpen == null) {
+      return false;
+    }
+    if (serverPlayer.getServer() == null) {
+      return true;
+    }
+    CobblelootsWorldData worldData = CobblelootsWorldData.get(serverPlayer.getServer());
+    long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
+    return lastOpen > effectiveReset;
   }
 
   public void addOpener(ServerPlayer serverPlayer) {
     this.openers.put(serverPlayer.getUUID(), this.level().getGameTime());
+  }
+
+  public void reconcileResetState(ServerPlayer player) {
+    if (player == null || player.getServer() == null) {
+      return;
+    }
+    UUID uuid = player.getUUID();
+    CobblelootsWorldData worldData = CobblelootsWorldData.get(player.getServer());
+    long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
+    if (effectiveReset <= 0) {
+      return;
+    }
+    Long lastOpen = this.openers.get(uuid);
+    if (lastOpen != null && effectiveReset > lastOpen) {
+      this.restoreUsesIfDepleted(worldData.shouldRestoreUses(uuid));
+    }
+  }
+
+  public void resetForPlayer(UUID playerUuid, boolean restoreUses) {
+    this.openers.remove(playerUuid);
+    this.restoreUsesIfDepleted(restoreUses);
+  }
+
+  public void resetForAll(boolean restoreUses) {
+    this.openers.clear();
+    this.restoreUsesIfDepleted(restoreUses);
+  }
+
+  private void restoreUsesIfDepleted(boolean restoreUses) {
+    if (restoreUses && !this.isInfinite() && this.getRemainingUses() <= 0) {
+      this.setRemainingUses(DEFAULT_USES);
+      this.setChanged();
+    }
   }
 
   public int getRemainingUses() {

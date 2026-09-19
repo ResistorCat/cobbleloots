@@ -4,6 +4,7 @@ import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.network.CobblelootsLootBallOpenScreenPayload;
 import dev.ripio.cobbleloots.network.CobblelootsLootBallUpdatePayload;
 import dev.ripio.cobbleloots.network.CobblelootsNetwork;
+import dev.ripio.cobbleloots.fabric.command.CobblelootsCommandsFabric;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -32,6 +33,7 @@ public final class CobblelootsFabric implements ModInitializer {
         });
 
         Cobbleloots.init();
+        CobblelootsCommandsFabric.registerCommands();
         registerReloadListeners();
         registerSounds();
         registerEntities();
