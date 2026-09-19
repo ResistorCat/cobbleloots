@@ -807,7 +807,7 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       return;
     }
     Long lastOpen = this.openers.get(uuid);
-    if (lastOpen == null || effectiveReset > lastOpen) {
+    if (lastOpen != null && effectiveReset > lastOpen) {
       this.restoreUsesIfDepleted(worldData.shouldRestoreUses(uuid));
     }
   }
