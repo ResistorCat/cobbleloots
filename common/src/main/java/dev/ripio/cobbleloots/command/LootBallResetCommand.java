@@ -133,14 +133,7 @@ public class LootBallResetCommand {
         int affectedCount = 0;
         for (ServerLevel level : server.getAllLevels()) {
             for (Entity entity : level.getAllEntities()) {
-                if (entity instanceof CobblelootsLootBall ball) {
-                    if (targets.targetAll) {
-                        ball.resetForAll(restoreUses);
-                    } else {
-                        for (UUID uuid : targets.uuids) {
-                            ball.resetForPlayer(uuid, restoreUses);
-                        }
-                    }
+                if (entity instanceof CobblelootsLootBall) {
                     affectedCount++;
                 }
             }

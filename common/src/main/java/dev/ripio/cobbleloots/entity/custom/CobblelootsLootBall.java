@@ -776,7 +776,20 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   public boolean isOpener(ServerPlayer serverPlayer) {
-    return this.openers.containsKey(serverPlayer.getUUID());
+    if (serverPlayer == null) {
+      return false;
+    }
+    UUID uuid = serverPlayer.getUUID();
+    Long lastOpen = this.openers.get(uuid);
+    if (lastOpen == null) {
+      return false;
+    }
+    if (serverPlayer.getServer() == null) {
+      return true;
+    }
+    CobblelootsWorldData worldData = CobblelootsWorldData.get(serverPlayer.getServer());
+    long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
+    return lastOpen > effectiveReset;
   }
 
   public void addOpener(ServerPlayer serverPlayer) {
@@ -788,17 +801,15 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
       return;
     }
     UUID uuid = player.getUUID();
-    if (!this.openers.containsKey(uuid)) {
-      return;
-    }
-    long lastOpen = this.openers.get(uuid);
     CobblelootsWorldData worldData = CobblelootsWorldData.get(player.getServer());
     long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
-    if (effectiveReset <= lastOpen) {
+    if (effectiveReset <= 0) {
       return;
     }
-    this.openers.remove(uuid);
-    this.restoreUsesIfDepleted(worldData.shouldRestoreUses(uuid));
+    Long lastOpen = this.openers.get(uuid);
+    if (lastOpen == null || effectiveReset > lastOpen) {
+      this.restoreUsesIfDepleted(worldData.shouldRestoreUses(uuid));
+    }
   }
 
   public void resetForPlayer(UUID playerUuid, boolean restoreUses) {
@@ -814,8 +825,8 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   private void restoreUsesIfDepleted(boolean restoreUses) {
     if (restoreUses && !this.isInfinite() && this.getRemainingUses() <= 0) {
       this.setRemainingUses(DEFAULT_USES);
+      this.setChanged();
     }
-    this.setChanged();
   }
 
   public int getRemainingUses() {
