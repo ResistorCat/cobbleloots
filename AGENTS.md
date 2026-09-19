@@ -63,8 +63,11 @@ GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx5g -Dorg.gradle.daemon=false -Dorg.gradle.
 1. **Common First**: Always implement game logic, items, blocks, and data in `common/`. Only touch `fabric/` or `neoforge/` if an API requires loader-specific hooks.
 2. **Data-Driven Design**: Loot tables, ball definitions, and structures must remain data-driven via JSON files located in `common/src/main/resources/data/cobbleloots/`.
 3. **Architectury Abstractions**: Use `@ExpectPlatform` or Architectury registry delegates (`DeferredRegister`, `RegistrySupplier`) for features that require platform-specific implementations. Refer to [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md).
-4. **Preserve Documentation**: Maintain comments, license headers, and documentation in `docs/`.
-5. **No Direct Edits to `CHANGELOG.md`**: Do not edit `CHANGELOG.md` in individual feature/bugfix PRs. The changelog is generated automatically at release time to prevent git merge conflicts.
+4. **Preserve Documentation & Superpowers Directory Isolation**: Maintain comments, license headers, and documentation in `docs/`. Never place agent planning, brainstorming, specs, or superpowers artifacts inside `docs/` because `docs/` is compiled by MkDocs for user-facing documentation. All superpowers specs and plans **MUST** be committed under `.superpowers/specs/` and `.superpowers/plans/` respectively.
+5. **No Direct Edits to `CHANGELOG.md` & Changelog Fragments**: Do not edit `CHANGELOG.md` directly in individual feature/bugfix PRs. Instead, create a player-facing release note fragment under `.changelog/<linear-issue-id>.md` (e.g. `.changelog/DEV-5.md`). The release workflow automatically merges all fragments into `CHANGELOG.md` and deletes them at release time. If a PR has no player/gameplay impact (e.g. tooling or internal refactor only), the fragment may be omitted.
+6. **Feature PR Target Branch**: Pull requests for new features (`feat(...)`) MUST target the `alpha` branch (`origin/alpha`).
+7. **Early Returns Convention**: Always prefer early returns and guard clauses over deeply nested `if-else` blocks to maximize code clarity and maintainability.
+8. **Documentation Invariant**: Whenever a feature, command, configuration option, or game mechanic is added, modified, or deprecated, the corresponding user-facing documentation in `docs/` and `MODINFO.md` MUST be updated in the same PR. Never leave new features undocumented.
 
 ---
 

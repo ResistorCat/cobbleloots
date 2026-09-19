@@ -13,10 +13,10 @@ Cobbleloots is a mod for Cobblemon that adds different ways to obtain items base
   - [Mapmaking 🗺️](#mapmaking-)
     - [Custom Loot Balls 🎁](#custom-loot-balls-)
   - [Mod configuration ⚙️](#mod-configuration-)
+  - [Commands 🛠️](#commands-)
 - [FAQ](#faq)
   - [How do I make loot balls give loot to every player, not just the first one?](#how-do-i-make-loot-balls-give-loot-to-every-player-not-just-the-first-one)
 - [Planned Features](#planned-features)
-  - [Commands 🛠️](#commands-)
   - [Hidden Items 🔍](#hidden-items-)
   - [Fake Items 🪤](#fake-items-)
   <!-- TOC -->
@@ -78,6 +78,17 @@ The mod configuration is powered by **MidnightLib** and supports in-game editing
 
 The config file is located in the `config` folder of your Minecraft instance. Check the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more information.
 
+## Commands 🛠️
+
+Cobbleloots provides in-game commands to help server operators and mapmakers manage loot balls:
+
+- **`/cobbleloots reset loot_ball target [player] [restore_uses]`**: Resets the loot ball in your line of sight (within 16 blocks) for yourself or targeted player(s).
+- **`/cobbleloots reset loot_ball all [player] [restore_uses]`**: Globally resets all loot balls in the world (with automatic persistence for unloaded chunks).
+- **`/cobbleloots reset loot_ball entity <selector> [player] [restore_uses]`**: Resets specific loot balls matching an entity selector.
+- **`/cobbleloots reset loot_ball undo [player]`**: Reverts the last reset action performed.
+
+Check out the full [Commands Reference](https://resistorcat.github.io/cobbleloots/reference/commands/) for detailed arguments, permissions, and examples.
+
 ---
 
 # FAQ
@@ -101,10 +112,6 @@ See the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configu
 ---
 
 # Planned Features
-
-## Commands 🛠️
-
-Commands to help mapmakers and server owners to manage the mod features.
 
 ## Hidden Items 🔍
 

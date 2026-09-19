@@ -447,6 +447,91 @@ def format_changelog_section(version: str, commits: list[dict]) -> str:
     return "\n\n".join(sections) + "\n"
 
 
+def get_changelog_fragments(
+    changelog_dir: Path | None = None,
+) -> list[tuple[Path, str]]:
+    """
+    Finds and reads all fragment markdown files in .changelog/,
+    excluding README.md and hidden files.
+    Returns a list of (path, content).
+    """
+    target_dir = changelog_dir or (ROOT_PATH / ".changelog")
+    if not target_dir.exists():
+        return []
+
+    fragments = []
+    for f in sorted(target_dir.glob("*.md")):
+        if f.name.lower() == "readme.md" or f.name.startswith("."):
+            continue
+        content = f.read_text(encoding="utf-8").strip()
+        if content:
+            fragments.append((f, content))
+    return fragments
+
+
+def format_changelog_from_fragments(version: str, fragment_contents: list[str]) -> str:
+    """
+    Merges fragment contents into a single release section under ## {version}.
+    Groups sections by '### <Header>' across fragments while preserving preferred order.
+    """
+    preferred_order = [
+        "Gameplay Changes",
+        "Changes",
+        "Technical Changes",
+        "Bug Fixes",
+    ]
+    sections: dict[str, list[str]] = {}
+
+    for content in fragment_contents:
+        lines = content.splitlines()
+        current_header = "Changes"
+        current_lines: list[str] = []
+
+        for line in lines:
+            if line.startswith("### "):
+                if current_lines:
+                    text = "\n".join(current_lines).strip()
+                    if text:
+                        sections.setdefault(current_header, []).append(text)
+                    current_lines = []
+                current_header = line.replace("### ", "").strip()
+            else:
+                current_lines.append(line)
+
+        if current_lines:
+            text = "\n".join(current_lines).strip()
+            if text:
+                sections.setdefault(current_header, []).append(text)
+
+    result: list[str] = [f"## {version}"]
+
+    seen_headers = set()
+    for header in preferred_order:
+        if header in sections:
+            seen_headers.add(header)
+            joined_content = "\n".join(sections[header]).strip()
+            result.append(f"### {header}\n\n{joined_content}")
+
+    for header, contents in sections.items():
+        if header not in seen_headers:
+            joined_content = "\n".join(contents).strip()
+            result.append(f"### {header}\n\n{joined_content}")
+
+    return "\n\n".join(result) + "\n"
+
+
+def consume_changelog_fragments(fragment_paths: list[Path]) -> None:
+    """
+    Deletes the processed fragment files.
+    """
+    for p in fragment_paths:
+        try:
+            if p.exists():
+                p.unlink()
+        except Exception as e:
+            print(f"Warning: could not delete fragment {p}: {e}")
+
+
 def update_gradle_properties(
     new_version: str, new_channel: str, path: Path | None = None
 ) -> None:
@@ -591,12 +676,21 @@ def main(
     new_version, new_channel, new_tag = determine_next_version(
         base_version, bump, active_branch, tags
     )
-    changelog_section = format_changelog_section(new_version, commits)
+
+    fragments = get_changelog_fragments()
+    if fragments:
+        changelog_section = format_changelog_from_fragments(
+            new_version, [content for _, content in fragments]
+        )
+    else:
+        changelog_section = format_changelog_section(new_version, commits)
 
     if not is_dry_run:
         write_release_notes(changelog_section)
         update_gradle_properties(new_version, new_channel)
         prepend_changelog(changelog_section)
+        if fragments:
+            consume_changelog_fragments([path for path, _ in fragments])
         print(
             f"Release prepared: {new_tag} ({new_channel}) - updated gradle.properties and CHANGELOG.md"
         )
