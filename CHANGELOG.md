@@ -2,6 +2,25 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## 2.4.0-alpha.1
+
+### Features
+- **loaders**: register commands on Fabric and NeoForge
+- **commands**: implement LootBallResetCommand and CobblelootsCommands
+- **lang**: add reset command localization keys
+- **entity**: add reset hooks and lazy reconciliation in CobblelootsLootBall
+- **data**: implement CobblelootsWorldData for reset persistence
+
+### Bug Fixes
+- **entity**: prevent reconcileResetState from restoring uses when lastOpen is null
+- **entity**: preserve openers with timestamp gating so undo works
+- **data**: ensure idempotency in undoPlayers and restore trailing newline in es_ec.json
+
+### Technical Changes
+- **lang**: clarify undo.no_change scope in i18n messages
+- address review feedback on i18n consistency, DRY, and early returns
+- **gradle**: include minecraft version in archive jar names
+
 ## b2.3.0
 
 ### Changes
