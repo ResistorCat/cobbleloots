@@ -133,7 +133,7 @@
   "commands.cobbleloots.reset.loot_ball.target.success": "Se reinició la botínbola apuntada para %s.",
   "commands.cobbleloots.reset.loot_ball.entity.success": "Se reiniciaron %s botínbolas seleccionadas para %s.",
   "commands.cobbleloots.reset.loot_ball.undo.success": "Se revirtió el reinicio de botínbolas para %s.",
-  "commands.cobbleloots.reset.loot_ball.undo.no_change": "No se encontró ninguna acción previa de reinicio para deshacer para %s.",
+  "commands.cobbleloots.reset.loot_ball.undo.no_change": "No se encontró ningún reinicio de mundo previo para deshacer para %s. ('undo' solo revierte reinicios de mundo desde 'all'; los reinicios directos como 'target' y 'entity' son permanentes).",
   "commands.cobbleloots.reset.loot_ball.target.not_found": "No se encontró ninguna botínbola en la línea de visión dentro de 16 bloques.",
   "commands.cobbleloots.reset.loot_ball.entity.none_matched": "Ninguna botínbola coincidió con el selector de entidades.",
   "commands.cobbleloots.reset.loot_ball.player_required": "Se requiere un jugador para ejecutar este comando sin objetivos explícitos."
