@@ -66,6 +66,7 @@ GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx5g -Dorg.gradle.daemon=false -Dorg.gradle.
 4. **Preserve Documentation & Superpowers Directory Isolation**: Maintain comments, license headers, and documentation in `docs/`. Never place agent planning, brainstorming, specs, or superpowers artifacts inside `docs/` because `docs/` is compiled by MkDocs for user-facing documentation. All superpowers specs and plans **MUST** be committed under `.superpowers/specs/` and `.superpowers/plans/` respectively.
 5. **No Direct Edits to `CHANGELOG.md`**: Do not edit `CHANGELOG.md` in individual feature/bugfix PRs. The changelog is generated automatically at release time to prevent git merge conflicts.
 6. **Feature PR Target Branch**: Pull requests for new features (`feat(...)`) MUST target the `alpha` branch (`origin/alpha`).
+7. **Early Returns Convention**: Always prefer early returns and guard clauses over deeply nested `if-else` blocks to maximize code clarity and maintainability.
 
 ---
 

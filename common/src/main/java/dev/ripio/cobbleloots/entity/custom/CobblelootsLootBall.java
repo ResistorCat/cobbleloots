@@ -784,32 +784,34 @@ public class CobblelootsLootBall extends CobblelootsBaseContainerEntity {
   }
 
   public void reconcileResetState(ServerPlayer player) {
-    if (player == null || player.getServer() == null) return;
-    UUID uuid = player.getUUID();
-    if (this.openers.containsKey(uuid)) {
-      long lastOpen = this.openers.get(uuid);
-      CobblelootsWorldData worldData = CobblelootsWorldData.get(player.getServer());
-      long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
-      if (effectiveReset > lastOpen) {
-        this.openers.remove(uuid);
-        if (worldData.shouldRestoreUses(uuid) && !this.isInfinite() && this.getRemainingUses() <= 0) {
-          this.setRemainingUses(DEFAULT_USES);
-        }
-        this.setChanged();
-      }
+    if (player == null || player.getServer() == null) {
+      return;
     }
+    UUID uuid = player.getUUID();
+    if (!this.openers.containsKey(uuid)) {
+      return;
+    }
+    long lastOpen = this.openers.get(uuid);
+    CobblelootsWorldData worldData = CobblelootsWorldData.get(player.getServer());
+    long effectiveReset = worldData.getEffectiveResetTimestamp(uuid);
+    if (effectiveReset <= lastOpen) {
+      return;
+    }
+    this.openers.remove(uuid);
+    this.restoreUsesIfDepleted(worldData.shouldRestoreUses(uuid));
   }
 
   public void resetForPlayer(UUID playerUuid, boolean restoreUses) {
     this.openers.remove(playerUuid);
-    if (restoreUses && !this.isInfinite() && this.getRemainingUses() <= 0) {
-      this.setRemainingUses(DEFAULT_USES);
-    }
-    this.setChanged();
+    this.restoreUsesIfDepleted(restoreUses);
   }
 
   public void resetForAll(boolean restoreUses) {
     this.openers.clear();
+    this.restoreUsesIfDepleted(restoreUses);
+  }
+
+  private void restoreUsesIfDepleted(boolean restoreUses) {
     if (restoreUses && !this.isInfinite() && this.getRemainingUses() <= 0) {
       this.setRemainingUses(DEFAULT_USES);
     }

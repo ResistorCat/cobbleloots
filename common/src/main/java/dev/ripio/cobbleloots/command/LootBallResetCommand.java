@@ -304,18 +304,7 @@ public class LootBallResetCommand {
         CobblelootsWorldData worldData = CobblelootsWorldData.get(server);
         boolean changed = targets.targetAll ? worldData.undoAll() : worldData.undoPlayers(targets.uuids);
 
-        if (changed) {
-            Cobbleloots.LOGGER.info(
-                    "{} executed '/cobbleloots reset loot_ball undo' for {}: success.",
-                    executorName, targets.description
-            );
-            source.sendSuccess(
-                    () -> Component.translatable("commands.cobbleloots.reset.loot_ball.undo.success", targets.description)
-                            .withStyle(ChatFormatting.GREEN),
-                    false
-            );
-            return 1;
-        } else {
+        if (!changed) {
             Cobbleloots.LOGGER.info(
                     "{} executed '/cobbleloots reset loot_ball undo' for {}: no change.",
                     executorName, targets.description
@@ -326,5 +315,16 @@ public class LootBallResetCommand {
             );
             return 0;
         }
+
+        Cobbleloots.LOGGER.info(
+                "{} executed '/cobbleloots reset loot_ball undo' for {}: success.",
+                executorName, targets.description
+        );
+        source.sendSuccess(
+                () -> Component.translatable("commands.cobbleloots.reset.loot_ball.undo.success", targets.description)
+                        .withStyle(ChatFormatting.GREEN),
+                false
+        );
+        return 1;
     }
 }
