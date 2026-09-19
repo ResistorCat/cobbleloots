@@ -206,8 +206,7 @@ def publish(
                 response = upload_modinfo_to_modrinth(modinfo)
                 print("[green]Mod info updated successfully![/green]")
             except Exception as e:
-                print(f"[red]Exception occurred while updating mod info: {e}[/red]")
-                has_errors = True
+                print(f"[yellow]Warning: Could not update mod info on Modrinth: {e}[/yellow]")
 
     # Publish
     if curseforge:

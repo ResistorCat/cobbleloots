@@ -16,6 +16,9 @@ from release import (
     prepend_changelog,
     write_release_notes,
     write_github_output,
+    get_changelog_fragments,
+    format_changelog_from_fragments,
+    consume_changelog_fragments,
     app,
 )
 
@@ -280,6 +283,113 @@ def test_graduation_on_main_uses_stable_base_tag(monkeypatch, tmp_path):
     assert "mod_version=2.4.0" in content
     assert "tag=v2.4.0" in content
     assert "is_prerelease=false" in content
+
+
+def test_get_changelog_fragments(tmp_path):
+    changelog_dir = tmp_path / ".changelog"
+    changelog_dir.mkdir()
+
+    # Ignored files
+    (changelog_dir / "README.md").write_text("# Readme", encoding="utf-8")
+    (changelog_dir / ".gitkeep").write_text("", encoding="utf-8")
+    (changelog_dir / "empty.md").write_text("   \n  ", encoding="utf-8")
+
+    # Valid fragment files
+    (changelog_dir / "DEV-1.md").write_text("### Changes\n- Feature 1", encoding="utf-8")
+    (changelog_dir / "DEV-2.md").write_text("### Bug Fixes\n- Fix 1", encoding="utf-8")
+
+    fragments = get_changelog_fragments(changelog_dir)
+    assert len(fragments) == 2
+    paths = [f[0].name for f in fragments]
+    assert paths == ["DEV-1.md", "DEV-2.md"]
+    assert fragments[0][1] == "### Changes\n- Feature 1"
+    assert fragments[1][1] == "### Bug Fixes\n- Fix 1"
+
+
+def test_format_changelog_from_fragments():
+    fragment_1 = """### Gameplay Changes
+- **Loot Ball Reset**: Added reset command.
+
+### Bug Fixes
+- Fixed targeting bug.
+"""
+    fragment_2 = """### Gameplay Changes
+- **Fishing Loot**: Added new fishing rods.
+
+### Technical Changes
+- **Networking**: Overhauled packet registry.
+"""
+    fragment_3 = """- Just a plain bullet point change."""
+
+    formatted = format_changelog_from_fragments("2.4.0", [fragment_1, fragment_2, fragment_3])
+
+    assert "## 2.4.0" in formatted
+    assert "### Gameplay Changes" in formatted
+    assert "- **Loot Ball Reset**: Added reset command." in formatted
+    assert "- **Fishing Loot**: Added new fishing rods." in formatted
+    assert "### Changes" in formatted
+    assert "- Just a plain bullet point change." in formatted
+    assert "### Technical Changes" in formatted
+    assert "- **Networking**: Overhauled packet registry." in formatted
+    assert "### Bug Fixes" in formatted
+    assert "- Fixed targeting bug." in formatted
+
+    # Verify section order: Gameplay Changes before Changes, before Technical Changes, before Bug Fixes
+    pos_gameplay = formatted.index("### Gameplay Changes")
+    pos_changes = formatted.index("### Changes")
+    pos_tech = formatted.index("### Technical Changes")
+    pos_fixes = formatted.index("### Bug Fixes")
+    assert pos_gameplay < pos_changes < pos_tech < pos_fixes
+
+
+def test_consume_changelog_fragments(tmp_path):
+    f1 = tmp_path / "DEV-1.md"
+    f2 = tmp_path / "DEV-2.md"
+    f1.write_text("content", encoding="utf-8")
+    f2.write_text("content", encoding="utf-8")
+
+    assert f1.exists() and f2.exists()
+    consume_changelog_fragments([f1, f2])
+    assert not f1.exists()
+    assert not f2.exists()
+
+
+def test_release_engine_uses_fragments_when_present(monkeypatch, tmp_path):
+    out_file = tmp_path / "github_output.txt"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+
+    # Mock commits that trigger a bump
+    monkeypatch.setattr("release.get_commits_since_last_tag", lambda tag: [
+        {"type": "feat", "scope": "lootball", "breaking": False, "is_mod": True, "description": "technical commit", "files": ["common/Item.java"]}
+    ])
+
+    changelog_dir = tmp_path / ".changelog"
+    changelog_dir.mkdir()
+    frag_file = changelog_dir / "DEV-5.md"
+    frag_file.write_text("### Gameplay Changes\n- **Player Feature**: High-level explanation for players.", encoding="utf-8")
+
+    monkeypatch.setattr("release.ROOT_PATH", tmp_path)
+    monkeypatch.setattr("release.get_changelog_fragments", lambda: [(frag_file, frag_file.read_text(encoding="utf-8"))])
+
+    props = tmp_path / "gradle.properties"
+    props.write_text("mod_version=2.3.0\nmod_version_type=release\n", encoding="utf-8")
+    cl_file = tmp_path / "CHANGELOG.md"
+    cl_file.write_text("# CHANGELOG\n\n## 2.3.0\n- Old", encoding="utf-8")
+
+    result = runner.invoke(app, ["--branch", "main"])
+    assert result.exit_code == 0
+    assert "Release prepared: v2.4.0" in result.output
+
+    # Check that release notes use the fragment and NOT the technical commit description
+    notes_file = tmp_path / ".release_notes.md"
+    assert notes_file.exists()
+    notes_content = notes_file.read_text(encoding="utf-8")
+    assert "### Gameplay Changes" in notes_content
+    assert "**Player Feature**: High-level explanation for players." in notes_content
+    assert "technical commit" not in notes_content
+
+    # Check that fragment was consumed (deleted)
+    assert not frag_file.exists()
 
 
 

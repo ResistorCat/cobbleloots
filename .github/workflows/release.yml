@@ -91,7 +91,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
-          git add gradle.properties CHANGELOG.md
+          git add -A .changelog gradle.properties CHANGELOG.md
           git commit -m "chore(release): ${{ steps.versioning.outputs.tag }} [skip ci]"
           git tag -a "${{ steps.versioning.outputs.tag }}" -m "Release ${{ steps.versioning.outputs.tag }}"
           git push origin ${{ github.ref_name }} ${{ steps.versioning.outputs.tag }}

@@ -138,3 +138,6 @@ TODO.md
 # Worktrees
 .worktrees/
 
+# MkDocs
+site/
+

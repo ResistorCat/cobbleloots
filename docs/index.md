@@ -38,6 +38,7 @@ The mod introduces the [**Loot Balls**](loot_balls/index.md), which are entities
 
 ## Reference
 
+- :material-console: [**Commands**](reference/commands.md) — Admin commands to reset loot balls and manage gameplay.
 - :material-terrain: [**Biome Tags**](reference/biome_tags.md) — Custom biome tags defined by Cobbleloots.
 
 !!!tip

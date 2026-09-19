@@ -1,20 +1,45 @@
-name: ci
+name: Documentation CI
+
 on:
   push:
     branches:
       - master
       - main
+  pull_request:
+    branches:
+      - master
+      - main
+      - beta
+      - alpha
+
 permissions:
   contents: write
+
 jobs:
-  deploy:
+  validate:
+    name: Validate Documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          sparse-checkout: |
-            docs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Install MkDocs & Plugins
+        run: pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
+      - name: Build Documentation (Strict)
+        run: mkdocs build --strict
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: validate
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
