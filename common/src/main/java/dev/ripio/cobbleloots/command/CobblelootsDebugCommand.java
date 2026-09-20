@@ -27,6 +27,7 @@ import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Command handler for {@code /cobbleloots debug} subcommands ({@code weights} and {@code check}).
@@ -110,7 +111,7 @@ public class CobblelootsDebugCommand {
                         "commands.cobbleloots.debug.weights.entry",
                         entry.id(),
                         entry.weight(),
-                        entry.percentage()
+                        String.format(Locale.ROOT, "%.1f", entry.percentage())
                 ).withStyle(ChatFormatting.WHITE), false);
             }
         }
