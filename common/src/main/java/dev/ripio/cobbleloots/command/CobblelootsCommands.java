@@ -20,6 +20,10 @@ public class CobblelootsCommands {
         reset.then(lootBall);
         cobbleloots.then(reset);
 
+        LiteralArgumentBuilder<CommandSourceStack> debug = Commands.literal("debug");
+        CobblelootsDebugCommand.register(debug, context);
+        cobbleloots.then(debug);
+
         dispatcher.register(cobbleloots);
     }
 }
