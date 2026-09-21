@@ -97,7 +97,7 @@ public class CobblelootsDebugCommand {
                 report.pos().getX(),
                 report.pos().getY(),
                 report.pos().getZ(),
-                report.biome()
+                report.biome().toString()
         ).withStyle(ChatFormatting.GOLD), false);
 
         if (report.entries().isEmpty()) {
@@ -109,7 +109,7 @@ public class CobblelootsDebugCommand {
             for (LootBallWeightEntry entry : report.entries()) {
                 source.sendSuccess(() -> Component.translatable(
                         "commands.cobbleloots.debug.weights.entry",
-                        entry.id(),
+                        entry.id().toString(),
                         entry.weight(),
                         String.format(Locale.ROOT, "%.1f", entry.percentage())
                 ).withStyle(ChatFormatting.WHITE), false);
@@ -130,7 +130,7 @@ public class CobblelootsDebugCommand {
         ResourceLocation id = ResourceLocationArgument.getId(ctx, "id");
 
         if (CobblelootsDataProvider.getLootBallData(id) == null) {
-            source.sendFailure(Component.translatable("commands.cobbleloots.debug.check.not_found", id).withStyle(ChatFormatting.RED));
+            source.sendFailure(Component.translatable("commands.cobbleloots.debug.check.not_found", id.toString()).withStyle(ChatFormatting.RED));
             return 0;
         }
 
@@ -149,7 +149,7 @@ public class CobblelootsDebugCommand {
 
         source.sendSuccess(() -> Component.translatable(
                 "commands.cobbleloots.debug.check.header",
-                id,
+                id.toString(),
                 sourceType.getName(),
                 pos.getX(),
                 pos.getY(),
@@ -161,7 +161,7 @@ public class CobblelootsDebugCommand {
         if (report.rules().isEmpty()) {
             source.sendSuccess(() -> Component.translatable(
                     "commands.cobbleloots.debug.check.no_rules",
-                    id,
+                    id.toString(),
                     sourceType.getName()
             ).withStyle(ChatFormatting.YELLOW), false);
             source.sendSuccess(() -> Component.translatable(

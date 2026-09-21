@@ -109,7 +109,7 @@ Displays a ranked table of eligible Loot Balls for the target position and biome
 
 ### `check` — Filter Diagnostic Evaluation
 
-Runs a detailed condition-by-condition diagnostic evaluating all configured filters (biome, dimension config, dimension, structure, ground/spawn block, fluid, position, light, time, weather, date, poke rod) with visual `[PASS]` / `[FAIL]` and `✔` / `✖` indicators.
+Runs a detailed condition-by-condition diagnostic evaluating all configured filters (biome, dimension config, dimension, structure, ground/spawn block, fluid, position, light, time, weather, date, poke rod) with visual `[PASS]` / `[FAIL]` and `[+]` / `[-]` indicators.
 
 ```mcfunction
 /cobbleloots debug check <id> [source_type] [pos]
