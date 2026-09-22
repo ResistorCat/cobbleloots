@@ -3,6 +3,7 @@ PLANTILLA OBLIGATORIA DE PULL REQUEST PARA AGENTES
 El título del PR DEBE seguir estrictamente el formato:
 [<linear-issue-id>] <type>(<scope>): <description>
 Ejemplo: [DEV-5] feat(commands): loot balls reset command
+NOTA: El título del PR y su <description> DEBEN estar siempre en INGLÉS (nunca en español).
 -->
 
 ### ¿Qué se hizo?
@@ -39,7 +40,7 @@ Incluir supuestos de diseño tomados no especificados en el ticket, y qué plata
   - [ ] Fabric
   - [ ] NeoForge
 - **Changelog**:
-  - [ ] Fragmento creado en `.changelog/<linear-issue-id>.md` (o N/A si no afecta a jugadores/admins)
+  - [ ] Fragmento creado en inglés en `.changelog/<linear-issue-id>.md` (o N/A si no afecta a jugadores/admins)
 - **Documentación**:
   - [ ] Actualizada en `docs/` y `MODINFO.md` (o N/A si es refactor/tooling interno)
 - **Detalles para el reviewer**:
