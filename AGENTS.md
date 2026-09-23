@@ -119,8 +119,8 @@ The body of the PR **MUST** include exactly these four sections:
 All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows/gradle-ci.yml`) before they can be merged.
 
 ### 4.4 Task Management & Linear as Single Source of Truth
-- **Sole Source of Truth**: All tasks, bugs, features, and backlog items are managed exclusively in **Linear** (Team: `RipioDev`, Project: `[Mod] Cobbleloots`).
-- **Do NOT use GitHub Issues**: Agents must never query `gh issue list` or manage tasks in GitHub Issues. GitHub Issues is disabled/ignored.
+- **Sole Source of Truth for Development**: All development tasks, bugs, features, and backlog items are tracked and managed in **Linear** (Team: `RipioDev`, Project: `[Mod] Cobbleloots`).
+- **Community GitHub Issues Triage**: Because this is a public repository, players and community members may submit bug reports or feedback via GitHub Issues. Agents must check open GitHub issues (`gh issue list`) when triaging pending work. Any legitimate community issue must be triaged, migrated into Linear as a tracked issue (linking back to the GitHub issue), and updated accordingly upon resolution.
 - **Linear Tooling & MCP**: Inspect and update tasks via Linear MCP tools (`get_issue`, `save_issue`, `list_issues`). The workspace automatically mounts Linear MCP via the workspace plugin at [`.agents/plugins/linear/`](file:///.agents/plugins/linear/) using the bridge script [`.agents/plugins/linear/linear-mcp.mjs`](file:///.agents/plugins/linear/linear-mcp.mjs). Requires `LINEAR_API_KEY` configured in the system environment variables or in the project root `.env` file.
 - **Autonomous Creation upon Approval**: Once the user approves the draft, design, or requirements of a Linear ticket (e.g. following `/grill-me`, planning, or refinement), the agent **MUST immediately create the issue in Linear** using `save_issue` (linking team, project, title, label, and full body) without waiting for an additional confirmation or stopping at just displaying the markdown.
 - **Title format**: `[<REPO>] <título descriptivo en español>` (e.g., `[Cobbleloots] Reiniciar loot balls que ya fueron abiertas`).
