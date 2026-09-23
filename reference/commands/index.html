@@ -1797,6 +1797,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#cobbleloots-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /cobbleloots debug
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="/cobbleloots debug">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#weights-loot-ball-spawn-chances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        weights — Loot Ball Spawn Chances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-filter-diagnostic-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check — Filter Diagnostic Evaluation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#quick-reference-examples" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1910,6 +1949,45 @@
     <span class="md-ellipsis">
       
         undo — Revert Last Reset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cobbleloots-debug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        /cobbleloots debug
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="/cobbleloots debug">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#weights-loot-ball-spawn-chances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        weights — Loot Ball Spawn Chances
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-filter-diagnostic-evaluation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check — Filter Diagnostic Evaluation
       
     </span>
   </a>
@@ -2095,6 +2173,73 @@
 <p>The undo system tracks the previous reset timestamp in <code>CobblelootsWorldData</code>. If no previous reset was performed during the current world lifecycle, the command will notify you that there is no action to undo.</p>
 </div>
 <hr />
+<h2 id="cobbleloots-debug"><code>/cobbleloots debug</code></h2>
+<p>Provides diagnostic tools for mapmakers, pack developers, and server administrators to inspect Loot Ball candidate pools, verify spawn probability weights, and evaluate filter conditions in-place.</p>
+<hr />
+<h3 id="weights-loot-ball-spawn-chances"><code>weights</code> — Loot Ball Spawn Chances</h3>
+<p>Displays a ranked table of eligible Loot Balls for the target position and biome, including raw weight and relative percentage chance.</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">cobbleloots</span><span class="w"> </span><span class="kc">debug</span><span class="w"> </span><span class="kc">weights</span><span class="w"> </span><span class="p">[</span><span class="na">source_type</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="na">pos</span><span class="p">]</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>[source_type]</code></td>
+<td style="text-align: left;"><code>String</code></td>
+<td style="text-align: left;"><code>spawning</code></td>
+<td style="text-align: left;">Source type filter (<code>spawning</code>, <code>generation</code>, <code>fishing</code>, <code>archaeology</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[pos]</code></td>
+<td style="text-align: left;"><code>Coordinates</code></td>
+<td style="text-align: left;">Executing position</td>
+<td style="text-align: left;">Block coordinates (<code>~ ~ ~</code> or <code>X Y Z</code>).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="check-filter-diagnostic-evaluation"><code>check</code> — Filter Diagnostic Evaluation</h3>
+<p>Runs a detailed condition-by-condition diagnostic evaluating all configured filters (biome, dimension config, dimension, structure, ground/spawn block, fluid, position, light, time, weather, date, poke rod) with visual <code>[PASS]</code> / <code>[FAIL]</code> and <code>[+]</code> / <code>[-]</code> indicators.</p>
+<div class="highlight"><pre><span></span><code><span class="o">/</span><span class="kc">cobbleloots</span><span class="w"> </span><span class="kc">debug</span><span class="w"> </span><span class="kc">check</span><span class="w"> </span><span class="o">&lt;</span><span class="kc">id</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="na">source_type</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="na">pos</span><span class="p">]</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Argument</th>
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Default</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>&lt;id&gt;</code></td>
+<td style="text-align: left;"><code>ResourceLocation</code></td>
+<td style="text-align: left;"><em>Required</em></td>
+<td style="text-align: left;">Loot Ball ResourceLocation ID (e.g. <code>cobbleloots:loot_ball/poke</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[source_type]</code></td>
+<td style="text-align: left;"><code>String</code></td>
+<td style="text-align: left;"><code>spawning</code></td>
+<td style="text-align: left;">Source type filter (<code>spawning</code>, <code>generation</code>, <code>fishing</code>, <code>archaeology</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>[pos]</code></td>
+<td style="text-align: left;"><code>Coordinates</code></td>
+<td style="text-align: left;">Executing position</td>
+<td style="text-align: left;">Block coordinates (<code>~ ~ ~</code> or <code>X Y Z</code>).</td>
+</tr>
+</tbody>
+</table>
+<hr />
 <h2 id="quick-reference-examples">Quick Reference &amp; Examples</h2>
 <table>
 <thead>
@@ -2132,6 +2277,22 @@
 <td style="text-align: left;">Undo the last global reset</td>
 <td style="text-align: left;"><code>/cobbleloots reset loot_ball undo all</code></td>
 </tr>
+<tr>
+<td style="text-align: left;">Check spawn chances at current position</td>
+<td style="text-align: left;"><code>/cobbleloots debug weights</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Check fishing loot chances at current position</td>
+<td style="text-align: left;"><code>/cobbleloots debug weights fishing</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Test Poke Ball filter conditions at current position</td>
+<td style="text-align: left;"><code>/cobbleloots debug check cobbleloots:loot_ball/poke</code></td>
+</tr>
+<tr>
+<td style="text-align: left;">Test Ultra Ball conditions one block above</td>
+<td style="text-align: left;"><code>/cobbleloots debug check cobbleloots:loot_ball/ultra spawning ~ ~1 ~</code></td>
+</tr>
 </tbody>
 </table>
 <hr />
@@ -2162,7 +2323,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 19, 2026 22:27:56 UTC">September 19, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 21, 2026 23:04:17 UTC">September 21, 2026</span>
   </span>
 
     
