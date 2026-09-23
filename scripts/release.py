@@ -350,6 +350,28 @@ def determine_next_version(
 
     base_tuple = (base_major, base_minor, base_patch)
 
+    parsed_existing = [_parse_semver(t) for t in existing_tags]
+    stable_cores = {
+        (p[0], p[1], p[2])
+        for p in parsed_existing
+        if p is not None and p[3] == 1
+    }
+
+    if channel == "release":
+        # Check if we are graduating an ongoing, unreleased pre-release cycle
+        unreleased_pres = []
+        pattern = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)-(?:alpha|beta)\.(\d+)$")
+        for t in existing_tags:
+            m = pattern.match(t.strip())
+            if m:
+                pre_core = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                if pre_core not in stable_cores and pre_core >= base_tuple:
+                    unreleased_pres.append((pre_core[0], pre_core[1], pre_core[2], t.strip()))
+        if unreleased_pres:
+            latest_unreleased = max(unreleased_pres, key=lambda x: (x[0], x[1], x[2]))
+            target_core = f"{latest_unreleased[0]}.{latest_unreleased[1]}.{latest_unreleased[2]}"
+            return target_core, channel, f"v{target_core}"
+
     # Inspect existing pre-release tags for the active channel that belong to an ongoing cycle
     prerelease_tags = []
     if channel in ("beta", "alpha"):
@@ -363,7 +385,9 @@ def determine_next_version(
                     int(m.group(3)),
                     int(m.group(4)),
                 )
-                if (pre_major, pre_minor, pre_patch) > base_tuple:
+                pre_core = (pre_major, pre_minor, pre_patch)
+                # An ongoing cycle must not have graduated to stable yet, and must be >= base_tuple
+                if pre_core not in stable_cores and pre_core >= base_tuple:
                     prerelease_tags.append(
                         (pre_major, pre_minor, pre_patch, pre_count, t.strip())
                     )

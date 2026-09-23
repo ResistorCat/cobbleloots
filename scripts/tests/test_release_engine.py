@@ -250,6 +250,41 @@ def test_determine_next_version_ignores_old_prerelease_tags_after_stable_release
     assert tag == "v2.5.0-beta.1"
 
 
+def test_determine_next_version_increments_active_prerelease_cycle_without_stable_tag():
+    # When base_version="2.4.0" (derived from v2.4.0-alpha.1) and v2.4.0 stable does not exist,
+    # v2.4.0-alpha.1 belongs to the active cycle and must advance to 2.4.0-alpha.2.
+    version, channel, tag = determine_next_version(
+        "2.4.0", "minor", "alpha", existing_tags=["v2.4.0-alpha.1"]
+    )
+    assert version == "2.4.0-alpha.2"
+    assert channel == "alpha"
+    assert tag == "v2.4.0-alpha.2"
+
+
+def test_determine_next_version_increments_active_prerelease_cycle_with_multiple_tags():
+    # In the current repo, v2.5.0-alpha.1 exists without a v2.5.0 stable tag.
+    # The next release must advance to 2.5.0-alpha.2.
+    version, channel, tag = determine_next_version(
+        "2.5.0", "minor", "alpha", existing_tags=["v2.4.0-alpha.1", "v2.5.0-alpha.1"]
+    )
+    assert version == "2.5.0-alpha.2"
+    assert channel == "alpha"
+    assert tag == "v2.5.0-alpha.2"
+
+
+def test_determine_next_version_graduates_unreleased_prerelease_to_stable():
+    # When graduating to main with v2.5.0-alpha.1 and v2.5.0-alpha.2 existing,
+    # the release version on main must graduate to 2.5.0 (stable).
+    version, channel, tag = determine_next_version(
+        "2.3.0", "minor", "main", existing_tags=["v2.4.0-alpha.1", "v2.5.0-alpha.1", "v2.5.0-alpha.2"]
+    )
+    assert version == "2.5.0"
+    assert channel == "release"
+    assert tag == "v2.5.0"
+
+
+
+
 def test_graduation_on_main_uses_stable_base_tag(monkeypatch, tmp_path):
     out_file = tmp_path / "github_output.txt"
     monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
