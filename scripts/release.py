@@ -409,6 +409,23 @@ def determine_next_version(
         version = f"{target_core}-{channel}.{next_count}"
         tag = f"v{version}"
     else:
+        # Check if we are promoting an unreleased alpha cycle to beta
+        if channel == "beta":
+            unreleased_alphas = []
+            pattern_alpha = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)-alpha\.(\d+)$")
+            for t in existing_tags:
+                m = pattern_alpha.match(t.strip())
+                if m:
+                    alpha_core = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+                    if alpha_core not in stable_cores and alpha_core >= base_tuple:
+                        unreleased_alphas.append((alpha_core[0], alpha_core[1], alpha_core[2]))
+            if unreleased_alphas:
+                latest_alpha_core = max(unreleased_alphas, key=lambda x: (x[0], x[1], x[2]))
+                target_core = f"{latest_alpha_core[0]}.{latest_alpha_core[1]}.{latest_alpha_core[2]}"
+                version = f"{target_core}-beta.1"
+                tag = f"v{version}"
+                return version, channel, tag
+
         major = base_major
         minor = base_minor
         patch = base_patch
