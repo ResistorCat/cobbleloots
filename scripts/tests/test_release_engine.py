@@ -232,6 +232,9 @@ def test_dry_run_does_not_write_release_notes(monkeypatch, tmp_path):
 def test_cli_dry_run_current_repo(monkeypatch, tmp_path):
     out_file = tmp_path / "github_output.txt"
     monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+    monkeypatch.setattr("release.get_git_tags", lambda: ["v2.3.0"])
+    monkeypatch.setattr("release.get_latest_tag_on_branch", lambda: "v2.3.0")
+    monkeypatch.setattr("release.get_commits_since_last_tag", lambda tag: [])
     result = runner.invoke(app, ["--branch", "main", "--dry-run"])
     assert result.exit_code == 0
     assert "No mod changes detected. Release not required." in result.output
@@ -281,6 +284,27 @@ def test_determine_next_version_graduates_unreleased_prerelease_to_stable():
     assert version == "2.5.0"
     assert channel == "release"
     assert tag == "v2.5.0"
+
+
+def test_determine_next_version_promotes_unreleased_alpha_to_beta():
+    # When graduating alpha to beta with v2.5.0-alpha.1 and v2.4.0-alpha.1 existing without stable tag,
+    # beta must inherit the latest alpha core (2.5.0) and start 2.5.0-beta.1.
+    version, channel, tag = determine_next_version(
+        "2.3.0", "minor", "beta", existing_tags=["v2.3.0", "v2.4.0-alpha.1", "v2.5.0-alpha.1"]
+    )
+    assert version == "2.5.0-beta.1"
+    assert channel == "beta"
+    assert tag == "v2.5.0-beta.1"
+
+
+def test_determine_next_version_advances_existing_beta_cycle():
+    # When v2.5.0-beta.1 already exists, the next bump on beta should increment to 2.5.0-beta.2.
+    version, channel, tag = determine_next_version(
+        "2.3.0", "minor", "beta", existing_tags=["v2.3.0", "v2.5.0-alpha.1", "v2.5.0-beta.1"]
+    )
+    assert version == "2.5.0-beta.2"
+    assert channel == "beta"
+    assert tag == "v2.5.0-beta.2"
 
 
 
@@ -394,6 +418,8 @@ def test_release_engine_uses_fragments_when_present(monkeypatch, tmp_path):
     monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
 
     # Mock commits that trigger a bump
+    monkeypatch.setattr("release.get_git_tags", lambda: ["v2.3.0"])
+    monkeypatch.setattr("release.get_latest_tag_on_branch", lambda: "v2.3.0")
     monkeypatch.setattr("release.get_commits_since_last_tag", lambda tag: [
         {"type": "feat", "scope": "lootball", "breaking": False, "is_mod": True, "description": "technical commit", "files": ["common/Item.java"]}
     ])
