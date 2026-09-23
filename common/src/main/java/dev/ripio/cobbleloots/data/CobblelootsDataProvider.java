@@ -12,15 +12,9 @@ import dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallData;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallResourceLocation;
 import dev.ripio.cobbleloots.data.custom.CobblelootsLootBallSources;
-import dev.ripio.cobbleloots.data.custom.filter.CobblelootsBlockFilter;
-import dev.ripio.cobbleloots.data.custom.filter.CobblelootsDateFilter;
-import dev.ripio.cobbleloots.data.custom.filter.CobblelootsLightFilter;
-import dev.ripio.cobbleloots.data.custom.filter.CobblelootsPositionFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobbleloootsBiomeFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsSourceFilter;
 import dev.ripio.cobbleloots.data.custom.filter.CobblelootsStructureFilter;
-import dev.ripio.cobbleloots.data.custom.filter.CobblelootsTimeFilter;
-import dev.ripio.cobbleloots.data.custom.filter.CobblelootsWeatherFilter;
 import dev.ripio.cobbleloots.util.CobblelootsDefinitions;
 import dev.ripio.cobbleloots.util.enums.CobblelootsSourceType;
 import net.minecraft.core.BlockPos;
@@ -31,13 +25,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -195,239 +183,13 @@ public class CobblelootsDataProvider {
    */
   public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
       CobblelootsSourceFilter source, CobblelootsSourceType sourceType) {
-    return processSourceFilter(level, chunk, pos, source, sourceType, null, null);
+    return CobblelootsFilterEvaluator.testFilter(level, chunk, pos, source, sourceType);
   }
 
   public static boolean processSourceFilter(ServerLevel level, LevelChunk chunk, BlockPos pos,
       CobblelootsSourceFilter source, CobblelootsSourceType sourceType, @Nullable ServerPlayer player,
       @Nullable ItemStack tool) {
-    if (level == null || pos == null || source == null)
-      return false;
-
-    // Check if dimension is disabled for this source type
-    if (isDimensionDisabled(level, sourceType))
-      return false;
-
-    // Check structure if specified
-    if (!checkStructureFilter(level, pos, source.getStructure()))
-      return false;
-
-    // Check biome if specified
-    if (!checkBiomeFilter(level, pos, source.getBiome()))
-      return false;
-
-    // Check dimension if specified
-    if (!checkDimensionFilter(level, source.getDimension()))
-      return false;
-
-    // Check blocks if specified
-    if (!checkBlockFilter(level, chunk, pos, source.getBlock()))
-      return false;
-
-    // Check fluid if specified
-    if (!checkFluidFilter(level, chunk, pos, source.getFluid()))
-      return false;
-
-    // Check position if specified
-    if (!checkPositionFilter(pos, source.getPosition()))
-      return false;
-
-    // Check light if specified (only for SPAWNING source type)
-    if (sourceType == CobblelootsSourceType.SPAWNING && !checkLightFilter(level, pos, source.getLight()))
-      return false;
-
-    // Check time if specified
-    if (!checkTimeFilter(level, source.getTime()))
-      return false;
-
-    // Check weather if specified
-    if (!checkWeatherFilter(level, source.getWeather()))
-      return false;
-
-    // Check date if specified
-    if (!checkDateFilter(source.getDate()))
-      return false;
-
-    // Check poke rod if specified (only for FISHING source type)
-    if (sourceType == CobblelootsSourceType.FISHING && !checkPokeRodFilter(player, tool, source.getPokeRod()))
-      return false;
-
-    // All filters passed
-    return true;
-  }
-
-  /**
-   * Checks if the position is within a piece of a structure matching the tag.
-   *
-   * @return true if the position is within a piece of the structure, false
-   *         otherwise
-   */
-  private static boolean checkStructureFilter(ServerLevel level, BlockPos pos, CobblelootsStructureFilter structureFilter) {
-    if (structureFilter == null || structureFilter.isEmpty()) {
-      return true; // No filter specified, so it passes
-    }
-
-    return structureFilter.test(level, pos);
-  }
-
-  /**
-   * Checks if the position is in a biome matching the filter.
-   *
-   * @return true if the position matches the biome filter, false otherwise
-   */
-  private static boolean checkBiomeFilter(ServerLevel level, BlockPos pos, CobbleloootsBiomeFilter biomeFilter) {
-    if (biomeFilter == null || biomeFilter.isEmpty()) {
-      return true; // No filter specified, so it passes
-    }
-
-    return biomeFilter.test(level, pos);
-  }
-
-  /**
-   * Checks if the dimension matches the specified filter.
-   * 
-   * @return true if the dimension matches, false otherwise
-   */
-  private static boolean checkDimensionFilter(ServerLevel level, List<ResourceLocation> dimensionIds) {
-    if (dimensionIds == null || dimensionIds.isEmpty()) {
-      return true; // No filter specified, so it passes
-    }
-
-    return dimensionIds.contains(level.dimension().location());
-  }
-
-  /**
-   * Checks if the position has the correct block state.
-   * 
-   * @return true if the block state matches the filter, false otherwise
-   */
-  private static boolean checkBlockFilter(ServerLevel level, LevelChunk chunk, BlockPos spawnPos,
-      CobblelootsBlockFilter blockFilter) {
-    if (blockFilter == null) {
-      return true; // No filter specified, so it passes
-    }
-
-    LevelChunkSection[] sections = chunk.getSections();
-
-    // Get base block state
-    BlockPos basePos = spawnPos.below();
-    int baseSectionIndex = chunk.getSectionIndex(basePos.getY());
-    if (baseSectionIndex < 0 || baseSectionIndex >= sections.length) {
-      return false; // Base section index is invalid
-    }
-    LevelChunkSection baseSection = sections[baseSectionIndex];
-    BlockState baseBlockState = baseSection.getBlockState(basePos.getX() & 15, basePos.getY() & 15,
-        basePos.getZ() & 15);
-
-    // Get spawn block state
-    int spawnSectionIndex = chunk.getSectionIndex(spawnPos.getY());
-    LevelChunkSection spawnSection = sections[spawnSectionIndex];
-    BlockState spawnBlockState = spawnSection.getBlockState(spawnPos.getX() & 15, spawnPos.getY() & 15,
-        spawnPos.getZ() & 15);
-
-    return blockFilter.isSpawnable(spawnBlockState) && blockFilter.isBase(baseBlockState);
-  }
-
-  /**
-   * Checks if the position has the correct fluid.
-   * 
-   * @return true if the fluid state matches the filter, false otherwise
-   */
-  private static boolean checkFluidFilter(ServerLevel level, LevelChunk chunk, BlockPos pos, TagKey<Fluid> fluidTag) {
-    if (fluidTag == null || fluidTag.equals(CobblelootsDefinitions.EMPTY_FLUID_TAG)) {
-      return true; // No filter specified, so it passes
-    }
-
-    LevelChunkSection[] sections = chunk.getSections();
-    int sectionIndex = chunk.getSectionIndex(pos.getY());
-    LevelChunkSection section = sections[sectionIndex];
-    FluidState fluidState = section.getFluidState(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
-
-    return fluidState.is(fluidTag); // Check if the fluid state matches the tag
-  }
-
-  /**
-   * Checks if the position is within the specified range.
-   * 
-   * @return true if the position is within the range, false otherwise
-   */
-  private static boolean checkPositionFilter(BlockPos pos, CobblelootsPositionFilter positionFilter) {
-    if (positionFilter == null) {
-      return true; // No filter specified, so it passes
-    }
-
-    return positionFilter.isInRange(pos.getX(), pos.getY(), pos.getZ());
-  }
-
-  /**
-   * Checks if the light level at the position meets the criteria.
-   * 
-   * @return true if the light level is within the range, false otherwise
-   */
-  private static boolean checkLightFilter(ServerLevel level, BlockPos pos, CobblelootsLightFilter lightFilter) {
-    if (lightFilter == null) {
-      return true; // No filter specified, so it passes
-    }
-
-    int blockLight = level.getBrightness(LightLayer.BLOCK, pos);
-    int skyLight = level.getBrightness(LightLayer.SKY, pos);
-
-    return lightFilter.isInRange(blockLight, skyLight);
-  }
-
-  /**
-   * Checks if the current time meets the criteria.
-   * 
-   * @return true if the current time is within the range, false otherwise
-   */
-  private static boolean checkTimeFilter(ServerLevel level, CobblelootsTimeFilter timeFilter) {
-    if (timeFilter == null) {
-      return true; // No filter specified, so it passes
-    }
-    long currentTime = level.getDayTime();
-    if (timeFilter.getPeriod() > 0) {
-      currentTime = level.getDayTime() % timeFilter.getPeriod();
-    } else {
-      currentTime = level.getDayTime();
-    }
-    return timeFilter.getValue().isInRange(((int) currentTime));
-  }
-
-  /**
-   * Checks if the current weather meets the criteria.
-   * 
-   * @return true if the current weather matches the filter, false otherwise
-   */
-  private static boolean checkWeatherFilter(ServerLevel level, CobblelootsWeatherFilter weatherFilter) {
-    if (weatherFilter == null) {
-      return true; // No filter specified, so it passes
-    }
-
-    return weatherFilter.isValid(level.isRaining(), level.isThundering());
-  }
-
-  /**
-   * Checks if the current date meets the criteria.
-   * 
-   * @return true if the current date is within the range, false otherwise
-   */
-  private static boolean checkDateFilter(CobblelootsDateFilter dateFilter) {
-    if (dateFilter == null) {
-      return true; // No filter specified, so it passes
-    }
-    return dateFilter.test();
-  }
-
-  /**
-   * Checks if the current poke rod meets the criteria.
-   *
-   * @return true if the poke rod matches the filter, false otherwise
-   */
-  private static boolean checkPokeRodFilter(@Nullable ServerPlayer player, @Nullable ItemStack tool,
-      @Nullable dev.ripio.cobbleloots.data.custom.filter.CobblelootsPokeRodFilter filter) {
-    if (filter == null)
-      return true;
-    return filter.test(null, null, null, player, tool);
+    return CobblelootsFilterEvaluator.testFilter(level, chunk, pos, source, sourceType, player, tool);
   }
 
   public static void onReload(ResourceManager resourceManager) {
@@ -512,36 +274,13 @@ public class CobblelootsDataProvider {
   }
 
   /**
-   * Checks if the dimension is disabled for the specified source type
-   * 
+   * Checks if the dimension is disabled for the specified source type.
+   *
    * @param level      The server level
    * @param sourceType The source type being checked
    * @return true if dimension is disabled, false otherwise
    */
-  private static boolean isDimensionDisabled(ServerLevel level, CobblelootsSourceType sourceType) {
-    ResourceLocation dimensionId = level.dimension().location();
-
-    switch (sourceType) {
-      case GENERATION:
-        if (CobblelootsConfig.generation_disabled_dimensions.contains(dimensionId))
-          return true;
-        break;
-      case SPAWNING:
-        if (CobblelootsConfig.spawning_disabled_dimensions.contains(dimensionId))
-          return true;
-        break;
-      case FISHING:
-        if (CobblelootsConfig.fishing_disabled_dimensions.contains(dimensionId))
-          return true;
-        break;
-      case ARCHAEOLOGY:
-        if (CobblelootsConfig.archaeology_disabled_dimensions.contains(dimensionId))
-          return true;
-        break;
-      default:
-        return false;
-    }
-
-    return false;
+  public static boolean isDimensionDisabled(ServerLevel level, CobblelootsSourceType sourceType) {
+    return CobblelootsFilterEvaluator.isDimensionDisabled(level, sourceType);
   }
 }

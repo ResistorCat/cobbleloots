@@ -86,6 +86,8 @@ Cobbleloots provides in-game commands to help server operators and mapmakers man
 - **`/cobbleloots reset loot_ball all [player] [restore_uses]`**: Globally resets all loot balls in the world (with automatic persistence for unloaded chunks).
 - **`/cobbleloots reset loot_ball entity <selector> [player] [restore_uses]`**: Resets specific loot balls matching an entity selector.
 - **`/cobbleloots reset loot_ball undo [player]`**: Reverts the last reset action performed.
+- **`/cobbleloots debug weights [source_type] [pos]`**: Displays the weighted spawn probability table for candidate loot balls at your position.
+- **`/cobbleloots debug check <id> [source_type] [pos]`**: Evaluates each filter condition for a specific loot ball ID and reports passed/failed checks.
 
 Check out the full [Commands Reference](https://resistorcat.github.io/cobbleloots/reference/commands/) for detailed arguments, permissions, and examples.
 

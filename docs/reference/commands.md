@@ -86,6 +86,43 @@ Reverts the last global or per-player reset action, restoring the previous opene
 
 ---
 
+## `/cobbleloots debug`
+
+Provides diagnostic tools for mapmakers, pack developers, and server administrators to inspect Loot Ball candidate pools, verify spawn probability weights, and evaluate filter conditions in-place.
+
+---
+
+### `weights` — Loot Ball Spawn Chances
+
+Displays a ranked table of eligible Loot Balls for the target position and biome, including raw weight and relative percentage chance.
+
+```mcfunction
+/cobbleloots debug weights [source_type] [pos]
+```
+
+| Argument | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `[source_type]` | `String` | `spawning` | Source type filter (`spawning`, `generation`, `fishing`, `archaeology`). |
+| `[pos]` | `Coordinates` | Executing position | Block coordinates (`~ ~ ~` or `X Y Z`). |
+
+---
+
+### `check` — Filter Diagnostic Evaluation
+
+Runs a detailed condition-by-condition diagnostic evaluating all configured filters (biome, dimension config, dimension, structure, ground/spawn block, fluid, position, light, time, weather, date, poke rod) with visual `[PASS]` / `[FAIL]` and `[+]` / `[-]` indicators.
+
+```mcfunction
+/cobbleloots debug check <id> [source_type] [pos]
+```
+
+| Argument | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `<id>` | `ResourceLocation` | *Required* | Loot Ball ResourceLocation ID (e.g. `cobbleloots:loot_ball/poke`). |
+| `[source_type]` | `String` | `spawning` | Source type filter (`spawning`, `generation`, `fishing`, `archaeology`). |
+| `[pos]` | `Coordinates` | Executing position | Block coordinates (`~ ~ ~` or `X Y Z`). |
+
+---
+
 ## Quick Reference & Examples
 
 | Task | Command |
@@ -97,6 +134,10 @@ Reverts the last global or per-player reset action, restoring the previous opene
 | Reset the targeted ball without replenishing its uses | `/cobbleloots reset loot_ball target @p false` |
 | Undo the last reset for yourself | `/cobbleloots reset loot_ball undo` |
 | Undo the last global reset | `/cobbleloots reset loot_ball undo all` |
+| Check spawn chances at current position | `/cobbleloots debug weights` |
+| Check fishing loot chances at current position | `/cobbleloots debug weights fishing` |
+| Test Poke Ball filter conditions at current position | `/cobbleloots debug check cobbleloots:loot_ball/poke` |
+| Test Ultra Ball conditions one block above | `/cobbleloots debug check cobbleloots:loot_ball/ultra spawning ~ ~1 ~` |
 
 ---
 
