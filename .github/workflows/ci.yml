@@ -5,12 +5,15 @@ on:
     branches:
       - master
       - main
+      - beta
+      - alpha
   pull_request:
     branches:
       - master
       - main
       - beta
       - alpha
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -34,7 +37,14 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: validate
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'push' && (
+        github.ref == 'refs/heads/main' ||
+        github.ref == 'refs/heads/master' ||
+        github.ref == 'refs/heads/beta' ||
+        github.ref == 'refs/heads/alpha'
+      ))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
