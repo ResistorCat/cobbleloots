@@ -10,6 +10,7 @@ Cobbleloots is a mod for Cobblemon that adds different ways to obtain items base
 - [Features](#features)
   - [Loot Balls 💎](#loot-balls-)
     - [Obtaining Loot Balls](#obtaining-loot-balls)
+  - [Valuable Items 💰](#valuable-items-)
   - [Mapmaking 🗺️](#mapmaking-)
     - [Custom Loot Balls 🎁](#custom-loot-balls-)
   - [Mod configuration ⚙️](#mod-configuration-)
@@ -36,6 +37,18 @@ These balls contain useful items for the player. They can grant XP and items whe
 - **Fishing**: Players can catch loot balls when fishing with Cobblemon Poké Rods. Different rods can catch different tiers of loot balls, and using the _Luck of the Sea_ enchantment increases the chance of finding a loot ball.
 
 Loot balls are categorized into tiers that determine their rarity and loot quality: **Common**, **Uncommon**, **Rare**, and **Ultra Rare**.
+
+## Valuable Items 💰
+
+Cobbleloots incorporates 10 classic valuable items from Pokémon that serve as trade goods, rewards, or server economy tokens:
+
+- **Nugget** & **Big Nugget** (`cobbleloots:nugget`, `cobbleloots:big_nugget`)
+- **Pearl**, **Big Pearl** & **Pearl String** (`cobbleloots:pearl`, `cobbleloots:big_pearl`, `cobbleloots:pearl_string`)
+- **Stardust**, **Star Piece** & **Comet Shard** (`cobbleloots:stardust`, `cobbleloots:star_piece`, `cobbleloots:comet_shard`)
+- **Rare Bone** (`cobbleloots:rare_bone`)
+- **Balm Mushroom** (`cobbleloots:balm_mushroom`)
+
+Each item includes custom 16x16 pixel-art textures, immersive tooltips referencing collectors and shops who buy them at high prices, and is available in the Cobbleloots creative mode tab.
 
 ## Mapmaking 🗺️
 
