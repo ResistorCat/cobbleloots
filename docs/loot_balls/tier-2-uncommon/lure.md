@@ -49,7 +49,7 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/lure_ball.png" width="32" height="32" alt="Lure Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Lure Ball</span></div></td>
         <td>1-2</td>
-        <td>20.41%</td>
+        <td>16.39%</td>
         <td></td>
     </tr>
     <tr>
@@ -60,7 +60,7 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">2-6</td>
-        <td style="vertical-align:middle;">20.41%</td>
+        <td style="vertical-align:middle;">16.39%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
@@ -71,55 +71,90 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">1</td>
-        <td style="vertical-align:middle;">16.33%</td>
+        <td style="vertical-align:middle;">13.11%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/pokerod_smithing_template.png" width="32" height="32" alt="Pokerod Smithing Template" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Pokerod Smithing Template</span></div></td>
         <td>1</td>
-        <td>14.29%</td>
+        <td>11.48%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl.png" width="32" height="32" alt="Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Pearl</span></div></td>
+        <td>1-3</td>
+        <td>8.20%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/prism_scale.png" width="32" height="32" alt="Prism Scale" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Prism Scale</span></div></td>
         <td>1</td>
-        <td>10.20%</td>
+        <td>8.20%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Big Pearl</span></div></td>
+        <td>1</td>
+        <td>4.92%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/book.png" width="32" height="32" alt="Book" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Book</span></div></td>
         <td>1</td>
-        <td>6.12%</td>
+        <td>4.92%</td>
         <td>Randomly enchanted</td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/lure_rod.png" width="32" height="32" alt="Lure Rod" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Lure Rod</span></div></td>
         <td>1</td>
-        <td>6.12%</td>
+        <td>4.92%</td>
         <td>Enchanted with 30 levels</td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/rare_bone.png" width="32" height="32" alt="Rare Bone" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Rare Bone</span></div></td>
+        <td>1</td>
+        <td>3.28%</td>
+        <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/relic_coin_pouch.png" width="32" height="32" alt="Relic Coin Pouch" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Relic Coin Pouch</span></div></td>
         <td>1-3</td>
-        <td>4.08%</td>
+        <td>3.28%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Big Pearl</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/rare_bone.png" width="32" height="32" alt="Rare Bone" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Rare Bone</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
+        <td style="vertical-align:middle;">2.19%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/star_piece.png" width="32" height="32" alt="Star Piece" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Star Piece</span></div></td>
+        <td>1-2</td>
+        <td>1.09%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_s.png" width="32" height="32" alt="Exp Candy S" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy S</span></div></td>
         <td>2-3</td>
-        <td>0.68%</td>
+        <td>0.55%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy Xs</span></div></td>
         <td>6-8</td>
-        <td>0.68%</td>
+        <td>0.55%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/rare_candy.png" width="32" height="32" alt="Rare Candy" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Rare Candy</span></div></td>
         <td>1</td>
-        <td>0.68%</td>
+        <td>0.55%</td>
         <td></td>
     </tr>
     </tbody>
