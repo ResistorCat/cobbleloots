@@ -49,7 +49,7 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/luxury_ball.png" width="32" height="32" alt="Luxury Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Luxury Ball</span></div></td>
         <td>1-2</td>
-        <td>20.83%</td>
+        <td>20.00%</td>
         <td></td>
     </tr>
     <tr>
@@ -60,7 +60,7 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">1</td>
-        <td style="vertical-align:middle;">16.67%</td>
+        <td style="vertical-align:middle;">16.00%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
@@ -71,8 +71,14 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">4-12</td>
-        <td style="vertical-align:middle;">16.67%</td>
+        <td style="vertical-align:middle;">16.00%</td>
         <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/shulker_shell.png" width="32" height="32" alt="Shulker Shell" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Shulker Shell</span></div></td>
+        <td>2-4</td>
+        <td>12.00%</td>
+        <td></td>
     </tr>
     <tr>
         <td>
@@ -82,14 +88,8 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">6-8</td>
-        <td style="vertical-align:middle;">12.50%</td>
+        <td style="vertical-align:middle;">12.00%</td>
         <td style="vertical-align:middle;"></td>
-    </tr>
-    <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/shulker_shell.png" width="32" height="32" alt="Shulker Shell" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Shulker Shell</span></div></td>
-        <td>2-4</td>
-        <td>12.50%</td>
-        <td></td>
     </tr>
     <tr>
         <td>
@@ -99,7 +99,7 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">3-4</td>
-        <td style="vertical-align:middle;">6.94%</td>
+        <td style="vertical-align:middle;">6.67%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
@@ -110,19 +110,30 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">3-6</td>
-        <td style="vertical-align:middle;">6.25%</td>
+        <td style="vertical-align:middle;">6.00%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/balm_mushroom.png" width="32" height="32" alt="Balm Mushroom" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Balm Mushroom</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_nugget.png" width="32" height="32" alt="Big Nugget" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Big Nugget</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
+        <td style="vertical-align:middle;">4.00%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/netherite_ingot.png" width="32" height="32" alt="Netherite Ingot" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Netherite Ingot</span></div></td>
         <td>1</td>
-        <td>4.17%</td>
+        <td>4.00%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_s.png" width="32" height="32" alt="Exp Candy S" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy S</span></div></td>
         <td>10-12</td>
-        <td>3.47%</td>
+        <td>3.33%</td>
         <td></td>
     </tr>
     </tbody>

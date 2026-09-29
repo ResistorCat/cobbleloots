@@ -107,6 +107,11 @@
           "type": "minecraft:loot_table",
           "value": "cobbleloots:loot_ball/shared/candy_rare",
           "weight": 5
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/valuable_rare",
+          "weight": 2
         }
       ]
     }
