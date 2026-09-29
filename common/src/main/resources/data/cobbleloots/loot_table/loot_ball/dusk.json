@@ -104,6 +104,11 @@
           "type": "minecraft:loot_table",
           "value": "cobbleloots:loot_ball/shared/tools_rare",
           "weight": 3
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/valuable_rare",
+          "weight": 2
         }
       ]
     }

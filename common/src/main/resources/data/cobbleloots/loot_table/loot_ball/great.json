@@ -79,6 +79,11 @@
           "type": "minecraft:loot_table",
           "value": "cobbleloots:loot_ball/shared/tools_uncommon",
           "weight": 1
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/valuable_uncommon",
+          "weight": 2
         }
       ]
     }
