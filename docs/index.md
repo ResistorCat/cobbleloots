@@ -30,6 +30,16 @@ The mod introduces the [**Loot Balls**](loot_balls/index.md), which are entities
 - :material-circle-slice-6: **Rare** — Ultra, Dusk, and Luxury.
 - :material-circle: **Ultra Rare** — Master.
 
+### Valuable Items
+
+Cobbleloots also includes **10 classic Pokémon valuable items** designed for server economies, trading, and map rewards:
+- **Nuggets**: Nugget, Big Nugget
+- **Pearls**: Pearl, Big Pearl, Pearl String
+- **Stardust & Meteorites**: Stardust, Star Piece, Comet Shard
+- **Curiosities**: Rare Bone, Balm Mushroom
+
+Each item features custom 16x16 pixel-art textures and lore tooltips highlighting their value to collectors and shops.
+
 ## Guides
 
 - :material-cog: [**Configuration**](guides/configuration.md) — All gameplay, creative, and source settings.

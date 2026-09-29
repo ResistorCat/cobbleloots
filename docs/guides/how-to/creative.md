@@ -17,6 +17,7 @@ The creative tab includes:
 - **Normal Balls** — Poké, Citrine, Verdant, Azure, Roseate, Slate, Premier, Great, Ultra, Safari, Fast, Level, Lure, Heavy, Love, Friend, Moon, Sport, Park, Net, Dive, Nest, Repeat, Timer, Luxury, Dusk, Heal, Quick, Dream, Beast, Master, and Cherish.
 - **Ancient Balls** — Ancient Poké, Ancient Citrine, Ancient Verdant, Ancient Azure, Ancient Roseate, Ancient Slate, Ancient Ivory, Ancient Great, Ancient Ultra, Ancient Feather, Ancient Wing, Ancient Jet, Ancient Heavy, Ancient Leaden, Ancient Gigaton, and Ancient Origin.
 - **Special Balls** — Rainbow and Pumpkin (with custom Cobbleloots textures).
+- **Valuable Items** — Nugget, Big Nugget, Pearl, Big Pearl, Pearl String, Stardust, Star Piece, Comet Shard, Rare Bone, and Balm Mushroom.
 
 !!! note
     Creative tab items only have a `Texture` set — they don't include `LootBallData` or `Variant` by default. This means they display the correct ball appearance, but won't produce any loot when opened in Survival mode. To make them functional, set the `LootBallData` field (see [NBT Reference](#nbt-reference) below).

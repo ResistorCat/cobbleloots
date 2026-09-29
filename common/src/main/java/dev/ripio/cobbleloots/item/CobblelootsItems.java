@@ -2,12 +2,14 @@ package dev.ripio.cobbleloots.item;
 
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.ripio.cobbleloots.item.custom.CobblelootsLootBallItem;
+import dev.ripio.cobbleloots.item.custom.CobblelootsValuableItem;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.component.ItemLore;
 
@@ -16,6 +18,7 @@ import static dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall.TAG_LOOT_B
 import static dev.ripio.cobbleloots.entity.custom.CobblelootsLootBall.TAG_VARIANT_ID;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class CobblelootsItems {
   // Items
@@ -26,6 +29,75 @@ public class CobblelootsItems {
   @ExpectPlatform
   public static CobblelootsLootBallItem getLootBallItem() {
     throw new AssertionError();
+  }
+
+  public static CobblelootsValuableItem createValuableItem(Rarity rarity) {
+    return new CobblelootsValuableItem(new Item.Properties().rarity(rarity).stacksTo(64));
+  }
+
+  @ExpectPlatform
+  public static Item getNuggetItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getBigNuggetItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getPearlItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getBigPearlItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getPearlStringItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getStardustItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getStarPieceItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getCometShardItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getRareBoneItem() {
+    throw new AssertionError();
+  }
+
+  @ExpectPlatform
+  public static Item getBalmMushroomItem() {
+    throw new AssertionError();
+  }
+
+  public static List<Supplier<Item>> getValuableItems() {
+    return List.of(
+        CobblelootsItems::getNuggetItem,
+        CobblelootsItems::getBigNuggetItem,
+        CobblelootsItems::getPearlItem,
+        CobblelootsItems::getBigPearlItem,
+        CobblelootsItems::getPearlStringItem,
+        CobblelootsItems::getStardustItem,
+        CobblelootsItems::getStarPieceItem,
+        CobblelootsItems::getCometShardItem,
+        CobblelootsItems::getRareBoneItem,
+        CobblelootsItems::getBalmMushroomItem
+    );
   }
 
   // Creative mode tab
@@ -88,6 +160,11 @@ public class CobblelootsItems {
     // Special Balls
     output.accept(generateStackWithTexture("cobbleloots:textures/loot_ball/rainbow"));
     output.accept(generateStackWithTexture("cobbleloots:textures/loot_ball/pumpkin"));
+
+    // Valuable Items
+    for (Supplier<Item> itemSupplier : getValuableItems()) {
+      output.accept(itemSupplier.get());
+    }
   }
 
   public static void addCreativeTabItems(CreativeModeTab.ItemDisplayParameters params, CreativeModeTab.Output output) {
