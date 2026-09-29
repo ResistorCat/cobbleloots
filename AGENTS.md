@@ -64,7 +64,10 @@ GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx5g -Dorg.gradle.daemon=false -Dorg.gradle.
 2. **Data-Driven Design**: Loot tables, ball definitions, and structures must remain data-driven via JSON files located in `common/src/main/resources/data/cobbleloots/`.
 3. **Architectury Abstractions**: Use `@ExpectPlatform` or Architectury registry delegates (`DeferredRegister`, `RegistrySupplier`) for features that require platform-specific implementations. Refer to [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md).
 4. **Preserve Documentation & Superpowers Directory Isolation**: Maintain comments, license headers, and documentation in `docs/`. Never place agent planning, brainstorming, specs, or superpowers artifacts inside `docs/` because `docs/` is compiled by MkDocs for user-facing documentation. All superpowers specs and plans **MUST** be committed under `.superpowers/specs/` and `.superpowers/plans/` respectively.
-5. **No Direct Edits to `CHANGELOG.md` & Changelog Fragments**: Do not edit `CHANGELOG.md` directly in individual feature/bugfix PRs. Instead, create a player-facing release note fragment under `.changelog/<linear-issue-id>.md` (e.g. `.changelog/DEV-5.md`). The release workflow automatically merges all fragments into `CHANGELOG.md` and deletes them at release time. If a PR has no player/gameplay impact (e.g. tooling or internal refactor only), the fragment may be omitted. **Changelog fragments MUST always be written in English** (using standard headings like `### Added`, `### Changed`, `### Fixed`), matching the language of `CHANGELOG.md`.
+5. **No Direct Edits to `CHANGELOG.md` & Changelog Fragments**: Do not edit `CHANGELOG.md` directly in individual feature/bugfix PRs. Instead, create a player-facing release note fragment under `.changelog/<linear-issue-id>.md` (e.g. `.changelog/DEV-5.md`). The release workflow automatically merges all fragments into `CHANGELOG.md` and deletes them at release time. If a PR has no player/gameplay impact (e.g. tooling or internal refactor only), the fragment may be omitted.
+   - **Language**: Changelog fragments **MUST always be written in English** (using standard headings like `### Added`, `### Changed`, `### Fixed`), matching the language of `CHANGELOG.md`.
+   - **Completeness**: Changelog fragments must be comprehensive and list all notable player-facing and technical changes introduced by the PR (e.g., new language localizations like `es_es`, assets, creative tabs, configuration options), not just the headlining feature.
+   - **Community Attribution**: If a feature, bug report, or improvement was suggested by a community member, the changelog fragment **MUST** include an explicit attribution (e.g., `Suggested by <User> on Discord.`).
 6. **Feature PR Target Branch**: Pull requests for new features (`feat(...)`) MUST target the `alpha` branch (`origin/alpha`).
 7. **Early Returns Convention**: Always prefer early returns and guard clauses over deeply nested `if-else` blocks to maximize code clarity and maintainability.
 8. **Documentation Invariant**: Whenever a feature, command, configuration option, or game mechanic is added, modified, or deprecated, the corresponding user-facing documentation in `docs/` and `MODINFO.md` MUST be updated in the same PR. Never leave new features undocumented.
@@ -132,6 +135,21 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 - **Node.js Environment**: Node.js is located at `C:\nvm4w\nodejs` (junction to `C:\Users\franc\AppData\Local\nvm\v24.15.0`).
 - **Deep Directory Deletion**: For deeply nested directories (e.g., `.gradle` cache or worktrees exceeding Windows `MAX_PATH`), use Node.js `fs.rmSync(dir, { recursive: true, force: true })` rather than PowerShell `Remove-Item`.
 
+### 4.6 Post-Merge, Release & Discord Announcement Protocol
+After a PR is approved and merged into `alpha`, `beta`, or `main`, the agent/developer must follow these standardized steps:
+1. **Monitor CI Workflows**: Verify the completion of `Gradle CI`, `Documentation CI`, and `Release Automation` on GitHub Actions (`gh run list`). Ensure the release tag is generated and changelog fragments are merged into `CHANGELOG.md`.
+2. **Workspace Cleanup**:
+   - Prune git worktrees and remove local worktree directories using Node.js `fs.rmSync` to bypass Windows `MAX_PATH` limitations.
+   - Delete local and remote feature branches (`git branch -d <branch>`, `git push origin --delete <branch>`).
+   - Pull the updated target branch in the main working tree (`git pull origin <branch>`).
+3. **Linear Issue Closure**: Mark the corresponding Linear ticket as **Done** via MCP `save_issue`.
+4. **Discord Release Announcement**:
+   - The release automation generates packages but does not publish to Discord. The agent must prepare a ready-to-copy release announcement for the user.
+   - **Strict Non-Nitro Character Limit**: Standard Discord accounts without Nitro have a strict **2,000-character limit**. All generated announcement markdown (including custom emoji codes and URLs) **MUST strictly be under 2,000 characters** (recommended target: <= 1,800 characters to prevent accidental overflows).
+   - **Custom Emojis & Formatting**: Follow [`.agents/templates/discord-announcement-template.md`](file:///.agents/templates/discord-announcement-template.md), utilizing the server emojis (`<:cobbleloots:...>`, `<:cobblemon:...>`, `<:modrinth:...>`, `<:curseforge:...>`).
+   - **Community Credits**: Explicitly credit community members (e.g. `> _Huge thanks to **<User>** on Discord for suggesting the idea!_`).
+   - **Persistence**: Save a copy locally to `DISCORD.md` (which is git-ignored) and output the text directly in chat inside a markdown code block.
+
 ---
 
 ## 5. Reference Documents in `.agents/`
@@ -139,4 +157,6 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 - [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md): Multi-loader patterns and common code guidelines.
 - [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): Mandatory PR template for agent and contributor pull requests.
 - [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): Recommended structure and conventions for Linear tickets.
+- [`.agents/templates/discord-announcement-template.md`](file:///.agents/templates/discord-announcement-template.md): Template and emoji reference for Discord release announcements.
+
 
