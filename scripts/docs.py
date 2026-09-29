@@ -902,9 +902,7 @@ def generate_biome_tags_doc():
     sections = []
 
     for tag_file in tag_files:
-        tag_id = "cobbleloots:" + str(
-            tag_file.relative_to(BIOME_TAGS_DIR).with_suffix("")
-        )
+        tag_id = f"cobbleloots:{tag_file.relative_to(BIOME_TAGS_DIR).with_suffix('').as_posix()}"
 
         try:
             with tag_file.open("r") as f:

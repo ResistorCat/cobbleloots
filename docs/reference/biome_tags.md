@@ -9,9 +9,9 @@ This page provides a reference for the biome tags defined in Cobbleloots.
 
 ---
 
-## cobbleloots:loot_ball\pumpkin
+## cobbleloots:loot_ball/pumpkin
 
-**ID:** `cobbleloots:loot_ball\pumpkin`
+**ID:** `cobbleloots:loot_ball/pumpkin`
 
 **Included Biomes:**
 
@@ -30,9 +30,9 @@ This page provides a reference for the biome tags defined in Cobbleloots.
 - [minecraft:deep_dark](https://minecraft.wiki/w/Deep_Dark)
 - `#cobblemon:is_spooky`
 
-## cobbleloots:loot_ball\rainbow
+## cobbleloots:loot_ball/rainbow
 
-**ID:** `cobbleloots:loot_ball\rainbow`
+**ID:** `cobbleloots:loot_ball/rainbow`
 
 **Included Biomes:**
 
