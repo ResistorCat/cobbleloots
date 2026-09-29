@@ -301,10 +301,13 @@ Al ejecutar `python scripts/docs.py`:
 
 ### 5.2 Documentación de Usuario y Changelog
 - **`MODINFO.md`**: Actualizar la sección de características documentando la distribución de los objetos valiosos en las Loot Balls y la pesca.
-- **`.changelog/DEV-9.md`**: Fragmento en inglés para el release automation:
+- **`.changelog/DEV-9.md`**: Fragmento exhaustivo en inglés conforme a la regla 5 de AGENTS.md:
   ```markdown
   ### Added
   - Integrated Pokémon valuable items (nuggets, pearls, stardust, comet shards, and more) into Loot Ball and fishing loot tables across all rarity tiers.
+  - Added 4 shared loot sub-tables for valuable items (`valuable_common`, `valuable_uncommon`, `valuable_rare`, and `valuable_ultra_rare`).
+  - Added thematic fishing and ocean drops to Lure and Dive Loot Balls (Pearls, Big Pearls, and Rare Bones).
+  - Extended documentation tooling (`scripts/docs.py`) to resolve and bundle `cobbleloots` namespace item textures and regenerated all 22 Loot Ball documentation pages with updated probabilities and icons.
   ```
 
 ---
@@ -318,3 +321,23 @@ Al ejecutar `python scripts/docs.py`:
 3. **Validación de Datos en Juego:**
    - Comprobación en cliente (`./gradlew :fabric:runClient` o `:neoforge:runClient`) verificando que abrir Loot Balls de cada tier suelte los objetos valiosos esperados.
    - Ejecución de `/cobbleloots debug weights` para validar que los pesos se calculan correctamente.
+
+---
+
+## 7. Protocolo Post-Merge y Publicación (Sección 4.6 de AGENTS.md)
+
+Tras la aprobación y merge de la PR en `alpha`:
+1. **Monitoreo de Workflows de CI**:
+   - Verificar la ejecución exitosa de `Gradle CI`, `Documentation CI` y `Release Automation` en GitHub Actions (`gh run list`).
+   - Confirmar la generación de la nueva versión/tag y la incorporación del fragmento `.changelog/DEV-9.md` en `CHANGELOG.md`.
+2. **Limpieza del Workspace**:
+   - Eliminar el worktree local usando Node.js `fs.rmSync` para prevenir errores de `MAX_PATH` en Windows.
+   - Eliminar las ramas locales y remotas `ripio/dev-9-cobbleloots-integrar-objetos-valiosos-en-las-tablas-de-loot`.
+   - Actualizar la rama `alpha` en el working tree principal (`git pull origin alpha`).
+3. **Cierre de Ticket en Linear**:
+   - Cambiar el estado de DEV-9 a **Done** mediante el MCP `save_issue`.
+4. **Anuncio de Discord**:
+   - Generar el texto del anuncio respetando estrictamente el límite de 2.000 caracteres para cuentas no-Nitro (meta <= 1.800 caracteres).
+   - Utilizar la plantilla `.agents/templates/discord-announcement-template.md` con los emojis personalizados del servidor (`<:cobbleloots:...>`, `<:cobblemon:...>`, etc.).
+   - Persistir una copia en `DISCORD.md` (ignorado en git) y mostrarlo en el chat para el usuario en un bloque de código markdown.
+
