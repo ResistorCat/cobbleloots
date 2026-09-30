@@ -1,12 +1,9 @@
 import { discordChannel } from "eve/channels/discord";
+import { isAuthorizedAdmin } from "../lib/auth-utils";
 
 export default discordChannel({
   onCommand: (_ctx, interaction) => {
-    const adminIds = (process.env.DISCORD_ADMIN_IDS || "")
-      .split(",")
-      .map((id) => id.trim())
-      .filter(Boolean);
-    const isAdmin = adminIds.includes(interaction.user.id);
+    const isAdmin = isAuthorizedAdmin(interaction.user.id);
 
     return {
       auth: {

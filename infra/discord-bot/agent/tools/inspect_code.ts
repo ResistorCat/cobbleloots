@@ -23,12 +23,12 @@ export default defineTool({
   }),
   async execute({ filePath, startLine, endLine }) {
     const repoRoot = getRepoRoot();
-    const normalizedPath = path.normalize(filePath).replace(/^(\.\.(\/|\\|$))+/, "");
-    const targetPath = path.resolve(repoRoot, normalizedPath);
+    const targetPath = path.resolve(repoRoot, filePath);
 
     const isAllowed = ALLOWED_ROOTS.some((root) => {
       const allowedDir = path.resolve(repoRoot, root);
-      return targetPath.startsWith(allowedDir);
+      const rel = path.relative(allowedDir, targetPath);
+      return !rel.startsWith("..") && !path.isAbsolute(rel);
     });
 
     if (!isAllowed) {

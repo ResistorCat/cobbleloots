@@ -18,6 +18,12 @@ describe("Grounding Tools", () => {
     expect(result.error).toBeDefined();
   });
 
+  it("inspect_code should reject paths with partial directory names like common-secrets", async () => {
+    const result = await (inspectCodeTool as any).execute({ filePath: "common-secrets/passwords.txt" }, {} as any);
+    expect(result.error).toBeDefined();
+    expect(result.error).toContain("Access denied");
+  });
+
   it("get_releases should return recent changelog entries", async () => {
     const result = await (getReleasesTool as any).execute({ limit: 2 }, {} as any);
     expect(result.releases).toBeDefined();

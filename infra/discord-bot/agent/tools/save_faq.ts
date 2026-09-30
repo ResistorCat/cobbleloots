@@ -3,16 +3,10 @@ import { always } from "eve/tools/approval";
 import { z } from "zod";
 import { getDb } from "../lib/db";
 import { insertFaq } from "../lib/faq-store";
+import { isAuthorizedAdmin } from "../lib/auth-utils";
 import type Database from "better-sqlite3";
 
-export function isAuthorizedAdmin(principalId: string | undefined): boolean {
-  if (!principalId) return false;
-  const adminIds = (process.env.DISCORD_ADMIN_IDS || "")
-    .split(",")
-    .map((id) => id.trim())
-    .filter(Boolean);
-  return adminIds.includes(principalId);
-}
+export { isAuthorizedAdmin };
 
 export default defineTool({
   description: "Propose saving a frequently asked question and official answer to the global FAQ database. Requires moderator or admin approval before persistence.",
