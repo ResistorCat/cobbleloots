@@ -156,6 +156,7 @@ After a PR is approved and merged into `alpha`, `beta`, or `main`, the agent/dev
 ## 5. Reference Documents in `.agents/`
 - [`.agents/rules/minecraft-loaders.md`](file:///.agents/rules/minecraft-loaders.md): Pinned loader versions and platform registration guides.
 - [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md): Multi-loader patterns and common code guidelines.
+- [`.agents/rules/context-alignment.md`](file:///.agents/rules/context-alignment.md): Guidelines for context continuity, active conversation re-scanning, and anti-anchoring.
 - [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): Mandatory PR template for agent and contributor pull requests.
 - [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): Recommended structure and conventions for Linear tickets.
 - [`.agents/templates/discord-announcement-template.md`](file:///.agents/templates/discord-announcement-template.md): Template and emoji reference for Discord release announcements.
