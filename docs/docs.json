@@ -1,0 +1,121 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Cobbleloots",
+  "theme": "prism",
+  "colors": {
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#1D4ED8"
+  },
+  "favicon": "/assets/ball/model/pumpkin.png",
+  "logo": {
+    "light": "/assets/halloween-logo.png",
+    "dark": "/assets/halloween-logo.png"
+  },
+  "navigation": {
+    "global": {
+      "versions": [
+        {
+          "version": "Stable",
+          "href": "https://docs.ripio.dev/cobbleloots/stable/",
+          "default": true
+        },
+        {
+          "version": "Beta",
+          "href": "https://docs.ripio.dev/cobbleloots/beta/"
+        },
+        {
+          "version": "Alpha",
+          "href": "https://docs.ripio.dev/cobbleloots/alpha/"
+        }
+      ]
+    },
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["index"]
+          },
+          {
+            "group": "Getting Started & Setup",
+            "pages": [
+              "guides/configuration"
+            ]
+          },
+          {
+            "group": "How-To Guides",
+            "pages": [
+              "guides/how-to/creative",
+              "guides/how-to/datapack"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Loot Balls",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["loot_balls/index"]
+          },
+          {
+            "group": "Tier 1: Common",
+            "pages": [
+              "loot_balls/tier-1-common/azure",
+              "loot_balls/tier-1-common/citrine",
+              "loot_balls/tier-1-common/poke",
+              "loot_balls/tier-1-common/premier",
+              "loot_balls/tier-1-common/roseate",
+              "loot_balls/tier-1-common/slate",
+              "loot_balls/tier-1-common/verdant"
+            ]
+          },
+          {
+            "group": "Tier 2: Uncommon",
+            "pages": [
+              "loot_balls/tier-2-uncommon/dive",
+              "loot_balls/tier-2-uncommon/great",
+              "loot_balls/tier-2-uncommon/heal",
+              "loot_balls/tier-2-uncommon/lure",
+              "loot_balls/tier-2-uncommon/nest",
+              "loot_balls/tier-2-uncommon/net",
+              "loot_balls/tier-2-uncommon/pumpkin",
+              "loot_balls/tier-2-uncommon/quick",
+              "loot_balls/tier-2-uncommon/rainbow",
+              "loot_balls/tier-2-uncommon/safari",
+              "loot_balls/tier-2-uncommon/timer"
+            ]
+          },
+          {
+            "group": "Tier 3: Rare",
+            "pages": [
+              "loot_balls/tier-3-rare/dusk",
+              "loot_balls/tier-3-rare/luxury",
+              "loot_balls/tier-3-rare/ultra"
+            ]
+          },
+          {
+            "group": "Tier 4: Ultra Rare",
+            "pages": [
+              "loot_balls/tier-4-ultra-rare/master"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Technical Reference",
+            "pages": [
+              "reference/commands",
+              "reference/biome_tags"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
