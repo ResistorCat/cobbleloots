@@ -105,7 +105,7 @@ cp .env.example .env
 | `DISCORD_BOT_TOKEN` | **Yes** | — | Discord Bot Token from Developer Portal. |
 | `DISCORD_PUBLIC_KEY` | **Yes** | — | Discord Public Key used for interaction webhook verification. |
 | `DISCORD_ADMIN_IDS` | No | `""` | Comma-separated Discord user snowflakes with maintainer/admin permissions. |
-| `DEFAULT_MODEL` | No | `google/gemini-2.5-pro` | Default LLM model string for the agent. |
+| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Default LLM model string for the agent (routes via Vercel AI Gateway). |
 | `DATABASE_PATH` | No | `./data/bot.db` | File path for SQLite database storing FAQs and state (`/app/data/bot.db` in Docker). |
 | `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | GitHub repository identifier for remote release & code queries. |
 | `GITHUB_TOKEN` | No | — | Optional GitHub Personal Access Token for increased API rate limits in production. |
@@ -185,7 +185,7 @@ The assistant is containerized with a multi-stage Dockerfile and designed to run
      DISCORD_PUBLIC_KEY=<your-public-key>
      DISCORD_ADMIN_IDS=<admin-snowflake-ids>
      DATABASE_PATH=/app/data/bot.db
-     DEFAULT_MODEL=google/gemini-2.5-pro
+     DEFAULT_MODEL=mistral/mistral-nemo
      GOOGLE_GENERATIVE_AI_API_KEY=<gemini-api-key>
      GITHUB_TOKEN=<optional-github-pat>
      ```
