@@ -1,10 +1,8 @@
 ---
-title: Editing Loot Balls in Creative mode
-description: How to edit Loot Balls in Creative mode, commands, and testing tips.
-icon: material/brain
+title: "Editing Loot Balls in Creative mode"
+description: "How to edit Loot Balls in Creative mode, commands, and testing tips."
+icon: "wand-magic-sparkles"
 ---
-
-# Editing Loot Balls in Creative mode
 
 This guide covers all the tools available for working with Loot Balls in Creative mode, including commands, interactions, NBT editing, and mapmaking utilities. Whether you're testing loot tables or building custom maps, this page has everything you need.
 
@@ -19,8 +17,9 @@ The creative tab includes:
 - **Special Balls** — Rainbow and Pumpkin (with custom Cobbleloots textures).
 - **Valuable Items** — Nugget, Big Nugget, Pearl, Big Pearl, Pearl String, Stardust, Star Piece, Comet Shard, Rare Bone, and Balm Mushroom.
 
-!!! note
-    Creative tab items only have a `Texture` set — they don't include `LootBallData` or `Variant` by default. This means they display the correct ball appearance, but won't produce any loot when opened in Survival mode. To make them functional, set the `LootBallData` field (see [NBT Reference](#nbt-reference) below).
+<Note>
+  Creative tab items only have a `Texture` set — they don't include `LootBallData` or `Variant` by default. This means they display the correct ball appearance, but won't produce any loot when opened in Survival mode. To make them functional, set the `LootBallData` field (see [NBT Reference](#nbt-reference) below).
+</Note>
 
 ---
 
@@ -30,27 +29,29 @@ In Creative mode, right-clicking and punching Loot Ball entities behave differen
 
 ### Right-Click Interactions
 
-| Condition                                   | Action                                                   | Feedback                            |
-| ------------------------------------------- | -------------------------------------------------------- | ----------------------------------- |
-| **Empty hand + Sneak**                      | Opens the **Creative GUI** to edit all loot ball properties | Opens UI                            |
-| **Empty hand (no sneak)**                   | Toggles entity visibility (invisible ↔ visible)          | Potion drink sound + status message |
-| **Honeycomb** on an **invisible** Loot Ball | Toggles spark particles on/off                           | Wax on/off sound + status message   |
-| **Any other item**                          | Sets the Loot Ball's content to that item (type + count) | Insert sound + confirmation message |
+| Condition | Action | Feedback |
+| --- | --- | --- |
+| **Empty hand + Sneak** | Opens the **Creative GUI** to edit all loot ball properties | Opens UI |
+| **Empty hand (no sneak)** | Toggles entity visibility (invisible ↔ visible) | Potion drink sound + status message |
+| **Honeycomb** on an **invisible** Loot Ball | Toggles spark particles on/off | Wax on/off sound + status message |
+| **Any other item** | Sets the Loot Ball's content to that item (type + count) | Insert sound + confirmation message |
 
-!!! tip
-    Setting an item manually overrides the loot table. The Loot Ball will give exactly that item when opened, ignoring any `LootBallData` loot table.
-    
-    *Note: The **Creative GUI** (opened via Sneak + Right-Click with an empty hand) is the recommended way to configure loot balls. It allows you to modify the LootBallData, variants, textures, uses, item drops, and other properties easily without using commands.*
+<Tip>
+  Setting an item manually overrides the loot table. The Loot Ball will give exactly that item when opened, ignoring any `LootBallData` loot table.
+
+  *Note: The **Creative GUI** (opened via Sneak + Right-Click with an empty hand) is the recommended way to configure loot balls. It allows you to modify the LootBallData, variants, textures, uses, item drops, and other properties easily without using commands.*
+</Tip>
 
 ### Punch (Left-Click) Interactions
 
-| Condition                  | Action                                                            |
-| -------------------------- | ----------------------------------------------------------------- |
+| Condition | Action |
+| --- | --- |
 | **Empty hand** in Creative | Drops the current item content (if any), then destroys the entity |
-| **Holding an item**        | No effect (attack is blocked)                                     |
+| **Holding an item** | No effect (attack is blocked) |
 
-!!! note
-    In Survival mode, empty Loot Balls can only be punched when they have 0 remaining uses. In Creative, you can always punch them to destroy and recover contents.
+<Note>
+  In Survival mode, empty Loot Balls can only be punched when they have 0 remaining uses. In Creative, you can always punch them to destroy and recover contents.
+</Note>
 
 ### Pick Block (Middle-Click)
 
@@ -66,8 +67,9 @@ Give yourself a configured Loot Ball item using the `/give` command with `minecr
 /give @p cobbleloots:loot_ball[minecraft:custom_data={LootBallData:"cobbleloots:loot_ball/poke",Variant:"verdant",Texture:"cobblemon:textures/poke_balls/verdant_ball.png"}] 1
 ```
 
-!!! note
-    When using `/give`, always include the `Texture` field. Items don't automatically resolve their texture from `LootBallData`/`Variant` the way entities do, which can cause a missing texture if omitted.
+<Note>
+  When using `/give`, always include the `Texture` field. Items don't automatically resolve their texture from `LootBallData`/`Variant` the way entities do, which can cause a missing texture if omitted.
+</Note>
 
 ### Minimal examples
 
@@ -191,8 +193,9 @@ Override the texture:
 /data modify entity @n[type=cobbleloots:loot_ball] Texture set value "cobblemon:textures/poke_balls/love_ball.png"
 ```
 
-!!! warning
-    Be careful with `/data modify` commands — incorrect values can break the entity. Always back up your world before experimenting.
+<Warning>
+  Be careful with `/data modify` commands — incorrect values can break the entity. Always back up your world before experimenting.
+</Warning>
 
 ---
 
@@ -202,44 +205,45 @@ All NBT tags available on a `cobbleloots:loot_ball` entity:
 
 ### Identification Tags
 
-| Tag            | Type     | Description                                                                                                                           | Default      |
-| -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Tag | Type | Description | Default |
+| --- | --- | --- | --- |
 | `LootBallData` | `string` | Resource location of the loot ball data definition (e.g. `cobbleloots:loot_ball/poke`). Determines loot table, texture, and variants. | `""` (empty) |
-| `Variant`      | `string` | Variant key within the loot ball data (e.g. `verdant`, `citrine`). Each variant can override the texture and loot table.              | `""` (empty) |
+| `Variant` | `string` | Variant key within the loot ball data (e.g. `verdant`, `citrine`). Each variant can override the texture and loot table. | `""` (empty) |
 
 ### Visual Tags
 
-| Tag         | Type      | Description                                                                                    | Default      |
-| ----------- | --------- | ---------------------------------------------------------------------------------------------- | ------------ |
-| `Texture`   | `string`  | Custom texture resource path. Overrides the texture from `LootBallData`/`Variant` when set.    | `""` (empty) |
-| `Invisible` | `boolean` | Whether the entity is invisible. Invisible loot balls are hidden but can show spark particles. | `false`      |
-| `Sparks`    | `boolean` | Whether to display electric spark particles (only visible when the entity is invisible).       | `true`       |
+| Tag | Type | Description | Default |
+| --- | --- | --- | --- |
+| `Texture` | `string` | Custom texture resource path. Overrides the texture from `LootBallData`/`Variant` when set. | `""` (empty) |
+| `Invisible` | `boolean` | Whether the entity is invisible. Invisible loot balls are hidden but can show spark particles. | `false` |
+| `Sparks` | `boolean` | Whether to display electric spark particles (only visible when the entity is invisible). | `true` |
 
 ### Gameplay Tags
 
-| Tag           | Type    | Description                                                                                                                          | Default                                         |
-| ------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- |
-| `Uses`        | `int`   | Remaining number of times this loot ball can be opened. Set to `-1` for infinite uses.                                               | Config: `loot_ball_default_uses` (1)            |
-| `Multiplier`  | `float` | Multiplier applied to item counts when loot is given. For example, `2.0f` doubles the quantity.                                      | Config: `loot_ball_default_multiplier` (1.0)    |
-| `XP`          | `int`   | Experience points awarded to the player when they open the loot ball. Requires `loot_ball_xp_enabled` in config.                     | Config: `loot_ball_default_xp` (0)              |
-| `PlayerTimer` | `long`  | Cooldown in ticks before the same player can open this loot ball again. Only applies if `Uses` allows multiple openings.             | Config: `loot_ball_default_player_cooldown` (0) |
-| `DespawnTick` | `long`  | Absolute game tick at which the entity will be removed. Set to `0` to disable despawning. Spawned loot balls set this automatically. | Config: `loot_ball_default_despawn_tick` (0)    |
+| Tag | Type | Description | Default |
+| --- | --- | --- | --- |
+| `Uses` | `int` | Remaining number of times this loot ball can be opened. Set to `-1` for infinite uses. | Config: `loot_ball_default_uses` (1) |
+| `Multiplier` | `float` | Multiplier applied to item counts when loot is given. For example, `2.0f` doubles the quantity. | Config: `loot_ball_default_multiplier` (1.0) |
+| `XP` | `int` | Experience points awarded to the player when they open the loot ball. Requires `loot_ball_xp_enabled` in config. | Config: `loot_ball_default_xp` (0) |
+| `PlayerTimer` | `long` | Cooldown in ticks before the same player can open this loot ball again. Only applies if `Uses` allows multiple openings. | Config: `loot_ball_default_player_cooldown` (0) |
+| `DespawnTick` | `long` | Absolute game tick at which the entity will be removed. Set to `0` to disable despawning. Spawned loot balls set this automatically. | Config: `loot_ball_default_despawn_tick` (0) |
 
 ### Loot Table Tags (Advanced)
 
-| Tag             | Type     | Description                                                                                                                               |
-| --------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `LootTable`     | `string` | Direct loot table resource location (e.g. `minecraft:chests/village/village_plains_house`). Overrides any loot table from `LootBallData`. |
-| `LootTableSeed` | `long`   | Seed for the loot table RNG. Set to `0` for random seed.                                                                                  |
+| Tag | Type | Description |
+| --- | --- | --- |
+| `LootTable` | `string` | Direct loot table resource location (e.g. `minecraft:chests/village/village_plains_house`). Overrides any loot table from `LootBallData`. |
+| `LootTableSeed` | `long` | Seed for the loot table RNG. Set to `0` for random seed. |
 
 ### Internal Tags (read-only)
 
-| Tag       | Type   | Description                                                                                              |
-| --------- | ------ | -------------------------------------------------------------------------------------------------------- |
+| Tag | Type | Description |
+| --- | --- | --- |
 | `Openers` | `list` | List of players who have opened this loot ball, with UUIDs and timestamps. Used for per-player tracking. |
 
-!!! info
-    Tags stored on **items** use `minecraft:custom_data` as a wrapper. Tags stored on **entities** (via `/summon` or `/data`) go directly in the entity NBT. When placing a Loot Ball item, its `custom_data` tags are read into the entity automatically.
+<Info>
+  Tags stored on **items** use `minecraft:custom_data` as a wrapper. Tags stored on **entities** (via `/summon` or `/data`) go directly in the entity NBT. When placing a Loot Ball item, its `custom_data` tags are read into the entity automatically.
+</Info>
 
 ---
 
@@ -289,8 +293,9 @@ For a loot ball that despawns after 10 minutes (12000 ticks), you can use a comm
 /summon cobbleloots:loot_ball ~ ~ ~ {LootBallData:"cobbleloots:loot_ball/poke",DespawnTick:12000L}
 ```
 
-!!! note
-    `DespawnTick` is an **absolute** game tick, not a duration. A value of `12000L` means the entity despawns when the world's game time reaches tick 12000. For dynamic timing, use a function or command block to compute `current_tick + duration`.
+<Note>
+  `DespawnTick` is an **absolute** game tick, not a duration. A value of `12000L` means the entity despawns when the world's game time reaches tick 12000. For dynamic timing, use a function or command block to compute `current_tick + duration`.
+</Note>
 
 ### Custom Loot Tables
 
@@ -316,16 +321,17 @@ Create named items with lore for easy identification in chests or shops:
 
 The mod's configuration has a **Creative** category that controls the default values for newly spawned loot ball entities. These act as the baseline when a tag is not explicitly set:
 
-| Config Option                       | Description                     | Default        |
-| ----------------------------------- | ------------------------------- | -------------- |
-| `loot_ball_default_uses`            | Default remaining uses          | `1`            |
-| `loot_ball_default_multiplier`      | Default loot multiplier         | `1.0`          |
-| `loot_ball_default_xp`              | Default XP reward               | `0`            |
-| `loot_ball_default_player_cooldown` | Default player cooldown (ticks) | `0`            |
-| `loot_ball_default_despawn_tick`    | Default despawn tick            | `0` (disabled) |
+| Config Option | Description | Default |
+| --- | --- | --- |
+| `loot_ball_default_uses` | Default remaining uses | `1` |
+| `loot_ball_default_multiplier` | Default loot multiplier | `1.0` |
+| `loot_ball_default_xp` | Default XP reward | `0` |
+| `loot_ball_default_player_cooldown` | Default player cooldown (ticks) | `0` |
+| `loot_ball_default_despawn_tick` | Default despawn tick | `0` (disabled) |
 
-!!! tip
-    These config defaults affect all newly created loot ball entities — both naturally spawned and summoned via commands. Override them per-entity using NBT tags.
+<Tip>
+  These config defaults affect all newly created loot ball entities — both naturally spawned and summoned via commands. Override them per-entity using NBT tags.
+</Tip>
 
 ---
 
@@ -340,5 +346,6 @@ The mod's configuration has a **Creative** category that controls the default va
 
 ---
 
-!!! info "AI-Generated Content Disclaimer"
-    This guide was created with the assistance of AI tools. There may be some errors or inaccuracies.
+<Info>
+  This guide was created with the assistance of AI tools. There may be some errors or inaccuracies.
+</Info>
