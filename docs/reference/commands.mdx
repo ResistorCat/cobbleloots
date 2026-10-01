@@ -1,10 +1,8 @@
 ---
-title: Commands Reference
-description: Reference guide for all in-game commands in Cobbleloots.
-icon: material/console
+title: "Commands Reference"
+description: "Reference guide for all in-game commands in Cobbleloots."
+icon: "terminal"
 ---
-
-# Commands Reference
 
 Cobbleloots provides commands for server operators and mapmakers to manage loot balls, reset player claim history, and configure mod behavior in-game.
 
@@ -14,7 +12,7 @@ All commands require **Operator Permission Level 2** (OP) or higher.
 
 ## `/cobbleloots reset loot_ball`
 
-Resets the opened state of loot balls so that players can open them again. 
+Resets the opened state of loot balls so that players can open them again.
 
 This command supports **lazy reconciliation**: if chunks or entities are currently unloaded, the reset timestamp is stored in the world save data (`CobblelootsWorldData`) and reconciled automatically the moment a player interacts with any loot ball.
 
@@ -31,10 +29,11 @@ Resets the specific loot ball the player is looking at (within a 16-block line o
 | Argument | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `[player]` | `Player \| Selector` | Executing player | Target player (`@p`, `@a`, player name, or `*` / `all`). |
-| `[restore_uses]` | `Boolean` | `true` | `true`: Restores remaining uses to default (for finite balls).<br>`false`: Clears openers without modifying remaining uses. |
+| `[restore_uses]` | `Boolean` | `true` | `true`: Restores remaining uses to default (for finite balls).<br />`false`: Clears openers without modifying remaining uses. |
 
-!!! note "Infinite Loot Balls"
-    Infinite loot balls (`uses = -1`) always retain infinite uses regardless of `restore_uses`.
+<Note>
+  **Infinite Loot Balls**: Infinite loot balls (`uses = -1`) always retain infinite uses regardless of `restore_uses`.
+</Note>
 
 ---
 
@@ -81,8 +80,9 @@ Reverts the last global or per-player reset action, restoring the previous opene
 | :--- | :--- | :--- | :--- |
 | `[player]` | `Player \| Selector` | Executing player | Reverts the reset for a specific player or all players (`*` / `all`). |
 
-!!! tip "How Undo Works"
-    The undo system tracks the previous reset timestamp in `CobblelootsWorldData`. If no previous reset was performed during the current world lifecycle, the command will notify you that there is no action to undo.
+<Tip>
+  **How Undo Works**: The undo system tracks the previous reset timestamp in `CobblelootsWorldData`. If no previous reset was performed during the current world lifecycle, the command will notify you that there is no action to undo.
+</Tip>
 
 ---
 
@@ -149,4 +149,4 @@ Server operators can inspect and change mod configuration values directly in-gam
 /midnightconfig cobbleloots <key> [value]
 ```
 
-For a complete list of available configuration options, see the [Configuration Guide](../guides/configuration.md).
+For a complete list of available configuration options, see the [Configuration Guide](/guides/configuration).
