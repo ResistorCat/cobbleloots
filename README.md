@@ -4,7 +4,7 @@
 
 Cobbleloots is a mod for [Cobblemon](https://cobblemon.com/) that adds different ways to obtain items based on the original Pokémon video games.
 
-Check the [Documentation](https://resistorcat.github.io/cobbleloots/) for more information on how to use the mod objects and features in your custom maps, or the [Modinfo](./MODINFO.md) file for a quick overview of the mod.
+Check the [Documentation](https://docs.ripio.dev/cobbleloots/stable/) for more information on how to use the mod objects and features in your custom maps, or the [Modinfo](./MODINFO.md) file for a quick overview of the mod.
 
 # Looking for the old mod? (Loot Balls)
 
