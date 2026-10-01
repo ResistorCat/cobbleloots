@@ -1,164 +1,142 @@
-# Especificación de Diseño: Migración de Documentación a Mintlify
+# Technical Specification: Mintlify Documentation Migration with Multiversion Selector (DEV-31)
 
-**Fecha:** 2026-09-30  
-**Ubicación:** `docs/`  
-**Tecnología:** [Mintlify](https://mintlify.com) (`docs.json`, MDX, Mintlify CLI)  
-**Estado:** Aprobado en diseño  
-
----
-
-## 1. Visión General y Objetivos
-
-Esta especificación detalla la migración completa del subsistema de documentación de Cobbleloots desde **MkDocs Material** (Python/GitHub Pages) hacia **Mintlify** (MDX/Mintlify Cloud).
-
-### Objetivos Clave
-1. **Modernización Visual y Experiencia de Usuario:** Migrar de páginas estáticas de MkDocs a una plataforma interactiva basada en MDX con componentes nativos (`<CardGroup>`, `<Tabs>`, `<Note>`, `<CodeGroup>`).
-2. **Soporte Multiversión / Multicanal (Estilo Godot):** Implementar un selector desplegable de versiones en la interfaz (`navigation.versions`) que permita a los jugadores alternar entre el canal **Estable (Release)** y el canal **Alpha (Latest)** apuntando a sus respectivos subdominios de despliegue.
-3. **Aislamiento en `docs/`:** Mantener toda la configuración de Mintlify (`docs.json`), assets y archivos `.mdx` estrictamente dentro del subdirectorio `docs/`, preservando limpia la raíz del proyecto para el mod de Minecraft.
-4. **Automatización de CI/CD:** Sustituir el build de Python y el despliegue manual a GitHub Pages en `.github/workflows/ci.yml` por validaciones automáticas con Node.js (`mint validate` y `mint broken-links`), delegando el hosting continuo en la GitHub App oficial de Mintlify.
-5. **Limpieza y Cero Residuos:** Eliminar por completo `mkdocs.yml`, dependencias de Python y extensiones obsoletas de Python-Markdown (`markdown="span"`, directivas de ancho y sintaxis de Twemoji).
+- **Issue**: [DEV-31](https://linear.app/ripiodev/issue/DEV-31)
+- **Author**: Antigravity & Pair Programming Partner
+- **Date**: 2026-09-30
+- **Status**: Draft / Under Review
 
 ---
 
-## 2. Arquitectura de Mintlify y Configuración (`docs/docs.json`)
+## 1. Overview & Objectives
 
-Se utiliza el estándar moderno de Mintlify: `docs/docs.json` (el archivo obsoleto `mint.json` no será utilizado).
+Migrate Cobbleloots' official documentation subsystem from MkDocs Material (Python / GitHub Pages) to **Mintlify** (MDX / Mintlify Cloud).
 
-### 2.1. Identidad Visual y Paleta
-- **Nombre del sitio:** `Cobbleloots`
-- **Theme:** `mint`
-- **Colores:**
-  - `primary`: `#6366F1` (Índigo Cobblemon/Cobbleloots)
-  - `light`: `#4F46E5`
-  - `dark`: `#818CF8`
-- **Logo:** `/assets/logo.png`
-- **Favicon:** `/assets/ball/model/poke.png`
-- **Navbar Links:**
-  - Discord: `https://discord.gg/kbykWUH5dV`
-  - Modrinth: `https://modrinth.com/mod/cobbleloots`
-  - CurseForge: `https://www.curseforge.com/minecraft/mc-mods/cobbleloots`
-  - GitHub: `https://github.com/ResistorCat/cobbleloots`
+The target architecture provides:
+1. **Modern Navigation & MDX Components**: Interactive layout using `<CardGroup>`, `<Tabs>`, `<Note>`, `<Tip>`, and `<Warning>`.
+2. **Channel-Based Multiversion Selector**: Header dropdown (`navigation.global.versions`) linking to Stable (`main`), Beta (`beta`), and Alpha (`alpha`) channels deployed under `docs.ripio.dev/cobbleloots/<channel>/`.
+3. **Docs Isolation**: Self-contained documentation configuration in `docs/docs.json` (Mintlify modern standard), avoiding clutter in the repository root.
+4. **Automated CI**: Fast validation pipeline in `.github/workflows/ci.yml` running `mint validate` and `mint broken-links` with Node.js 22, eliminating Python dependencies and `mkdocs.yml`.
 
-### 2.2. Selector de Versiones y Canales
-El selector desplegable de versiones se ubica en el menú lateral y permite cambiar entre ramas de despliegue sin duplicar carpetas en Git:
-```json
-{
-  "navigation": {
-    "versions": [
-      {
-        "version": "Stable (2.4.x)",
-        "href": "https://docs.cobbleloots.com",
-        "default": true
-      },
-      {
-        "version": "Alpha (2.5.x)",
-        "href": "https://alpha.docs.cobbleloots.com"
-      }
-    ]
-  }
-}
-```
+---
 
-### 2.3. Estructura Jerárquica de Navegación
+## 2. Information Architecture & Navigation
+
+### 2.1 Global Configuration (`docs/docs.json`)
+
+The site configuration resides entirely at `docs/docs.json`.
+
 ```json
 {
   "$schema": "https://mintlify.com/docs.json",
   "name": "Cobbleloots",
-  "theme": "mint",
+  "theme": "prism",
   "colors": {
-    "primary": "#6366F1",
-    "light": "#4F46E5",
-    "dark": "#818CF8"
+    "primary": "#3B82F6",
+    "light": "#60A5FA",
+    "dark": "#1D4ED8"
   },
+  "favicon": "/assets/ball/model/pumpkin.png",
   "logo": {
-    "light": "/assets/logo.png",
-    "dark": "/assets/logo.png"
-  },
-  "favicon": "/assets/ball/model/poke.png",
-  "navbar": {
-    "links": [
-      { "type": "github", "href": "https://github.com/ResistorCat/cobbleloots" },
-      { "type": "discord", "href": "https://discord.gg/kbykWUH5dV" }
-    ]
+    "light": "/assets/halloween-logo.png",
+    "dark": "/assets/halloween-logo.png"
   },
   "navigation": {
-    "versions": [
-      {
-        "version": "Stable (2.4.x)",
-        "href": "https://docs.cobbleloots.com",
-        "default": true
-      },
-      {
-        "version": "Alpha (2.5.x)",
-        "href": "https://alpha.docs.cobbleloots.com"
-      }
-    ],
+    "global": {
+      "versions": [
+        {
+          "version": "Stable",
+          "href": "https://docs.ripio.dev/cobbleloots/stable/",
+          "default": true
+        },
+        {
+          "version": "Beta",
+          "href": "https://docs.ripio.dev/cobbleloots/beta/"
+        },
+        {
+          "version": "Alpha",
+          "href": "https://docs.ripio.dev/cobbleloots/alpha/"
+        }
+      ]
+    },
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "Guides",
         "groups": [
           {
             "group": "Overview",
             "pages": ["index"]
           },
           {
-            "group": "Loot Balls",
+            "group": "Getting Started & Setup",
             "pages": [
-              "loot_balls/index",
-              {
-                "group": "Tier 1 — Common",
-                "pages": [
-                  "loot_balls/tier-1-common/poke",
-                  "loot_balls/tier-1-common/citrine",
-                  "loot_balls/tier-1-common/verdant",
-                  "loot_balls/tier-1-common/azure",
-                  "loot_balls/tier-1-common/roseate",
-                  "loot_balls/tier-1-common/slate",
-                  "loot_balls/tier-1-common/premier"
-                ]
-              },
-              {
-                "group": "Tier 2 — Uncommon",
-                "pages": [
-                  "loot_balls/tier-2-uncommon/great",
-                  "loot_balls/tier-2-uncommon/dive",
-                  "loot_balls/tier-2-uncommon/heal",
-                  "loot_balls/tier-2-uncommon/lure",
-                  "loot_balls/tier-2-uncommon/nest",
-                  "loot_balls/tier-2-uncommon/net",
-                  "loot_balls/tier-2-uncommon/pumpkin",
-                  "loot_balls/tier-2-uncommon/quick",
-                  "loot_balls/tier-2-uncommon/rainbow",
-                  "loot_balls/tier-2-uncommon/safari",
-                  "loot_balls/tier-2-uncommon/timer"
-                ]
-              },
-              {
-                "group": "Tier 3 — Rare",
-                "pages": [
-                  "loot_balls/tier-3-rare/ultra",
-                  "loot_balls/tier-3-rare/dusk",
-                  "loot_balls/tier-3-rare/luxury"
-                ]
-              },
-              {
-                "group": "Tier 4 — Ultra Rare",
-                "pages": [
-                  "loot_balls/tier-4-ultra-rare/master"
-                ]
-              }
+              "guides/configuration"
             ]
           },
           {
-            "group": "Guides",
+            "group": "How-To Guides",
             "pages": [
-              "guides/configuration",
               "guides/how-to/creative",
               "guides/how-to/datapack"
             ]
+          }
+        ]
+      },
+      {
+        "tab": "Loot Balls",
+        "groups": [
+          {
+            "group": "Overview",
+            "pages": ["loot_balls/index"]
           },
           {
-            "group": "Reference",
+            "group": "Tier 1: Common",
+            "pages": [
+              "loot_balls/tier-1-common/azure",
+              "loot_balls/tier-1-common/citrine",
+              "loot_balls/tier-1-common/poke",
+              "loot_balls/tier-1-common/premier",
+              "loot_balls/tier-1-common/roseate",
+              "loot_balls/tier-1-common/slate",
+              "loot_balls/tier-1-common/verdant"
+            ]
+          },
+          {
+            "group": "Tier 2: Uncommon",
+            "pages": [
+              "loot_balls/tier-2-uncommon/dive",
+              "loot_balls/tier-2-uncommon/great",
+              "loot_balls/tier-2-uncommon/heal",
+              "loot_balls/tier-2-uncommon/lure",
+              "loot_balls/tier-2-uncommon/nest",
+              "loot_balls/tier-2-uncommon/net",
+              "loot_balls/tier-2-uncommon/pumpkin",
+              "loot_balls/tier-2-uncommon/quick",
+              "loot_balls/tier-2-uncommon/rainbow",
+              "loot_balls/tier-2-uncommon/safari",
+              "loot_balls/tier-2-uncommon/timer"
+            ]
+          },
+          {
+            "group": "Tier 3: Rare",
+            "pages": [
+              "loot_balls/tier-3-rare/dusk",
+              "loot_balls/tier-3-rare/luxury",
+              "loot_balls/tier-3-rare/ultra"
+            ]
+          },
+          {
+            "group": "Tier 4: Ultra Rare",
+            "pages": [
+              "loot_balls/tier-4-ultra-rare/master"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Technical Reference",
             "pages": [
               "reference/commands",
               "reference/biome_tags"
@@ -173,105 +151,67 @@ El selector desplegable de versiones se ubica en el menú lateral y permite camb
 
 ---
 
-## 3. Transformación de Contenidos a MDX
+## 3. Content Migration & MDX Standards
 
-Todos los archivos `.md` de `docs/` se renombran y convierten a `.mdx`:
+### 3.1 File Renaming & Frontmatter
+All 29 markdown files in `docs/` are renamed from `.md` to `.mdx`.
+Every file defines YAML frontmatter with `title` and `description`:
+- Python-Markdown icon formats (e.g. `icon: material/cog`, `:material-...:`) are replaced with valid Lucide / FontAwesome icon identifiers (e.g. `icon: "sliders"`, `icon: "terminal"`, `icon: "folder-tree"`, `icon: "circle-dot"`).
 
-### 3.1. Frontmatter Obligatorio
-Cada archivo `.mdx` debe comenzar con metadatos YAML compatibles:
-```yaml
----
-title: "Título Descriptivo"
-description: "Resumen breve para SEO y navegación."
-icon: "circle-dot" # Opcional: icono de Lucide o FontAwesome
----
-```
+### 3.2 Homepage Redesign (`docs/index.mdx`)
+The landing page is restructured with `<CardGroup cols={2}>` to provide an intuitive visual hub:
+- Direct links to Loot Balls catalog, Configuration guide, Creative mode editor, Datapack creation, Commands, and Biome Tags.
 
-### 3.2. Mapeo de Componentes y Sintaxis
-1. **Admonitions:**
-   - `!!! note "Título"` $\rightarrow$ `<Note>**Título**: ...</Note>`
-   - `!!! tip` $\rightarrow$ `<Tip>...</Tip>`
-   - `!!! warning` $\rightarrow$ `<Warning>...</Warning>`
-2. **Tabs de loaders:**
-   - `=== "Fabric"` y `=== "NeoForge"` $\rightarrow$ `<Tabs><Tab title="Fabric">...</Tab><Tab title="NeoForge">...</Tab></Tabs>`.
-3. **Página de inicio (`docs/index.mdx`):**
-   - Se reemplazan listas planas por un grid interactivo con `<CardGroup cols={2}>` y componentes `<Card>`.
-4. **Fichas técnicas y tablas de Loot Balls (22 páginas):**
-   - Eliminación de `markdown="span"`, directivas de tamaño `{ width="..." }` e iconos de Material `:material-pokeball:`.
-   - Normalización de rutas de imágenes relativas a rutas raíz (`/assets/...`).
-   - Renderizado nítido de pixel-art aplicando `style={{ imageRendering: "pixelated" }}` o clases CSS equivalentes.
-5. **Enlaces internos:**
-   - Rutas relativas a la raíz sin extensión de archivo (ej. `[Comandos](/reference/commands)`).
+### 3.3 Admonitions & Callouts
+Python-Markdown syntax is transformed to native Mintlify MDX components:
+- `!!! note ...` and `> **Note:**` $\rightarrow$ `<Note>...</Note>`
+- `!!! tip ...` $\rightarrow$ `<Tip>...</Tip>`
+- `!!! warning ...` $\rightarrow$ `<Warning>...</Warning>`
+- `!!! info ...` $\rightarrow$ `<Info>...</Info>`
 
----
-
-## 4. Pipeline de CI/CD en GitHub Actions
-
-Se actualiza `.github/workflows/ci.yml` para validar la documentación en Node.js 22:
-
-```yaml
-name: Documentation CI
-
-on:
-  push:
-    branches: [main, master, beta, alpha]
-    paths:
-      - "docs/**"
-      - ".github/workflows/ci.yml"
-  pull_request:
-    branches: [main, master, beta, alpha]
-    paths:
-      - "docs/**"
-      - ".github/workflows/ci.yml"
-  workflow_dispatch:
-
-jobs:
-  validate:
-    name: Validate Mintlify Docs
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: docs
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Install Mintlify CLI
-        run: npm install -g mint
-
-      - name: Validate Docs Schema & Syntax
-        run: mint validate
-
-      - name: Check Internal Links
-        run: mint broken-links
-```
-
-- Se elimina el archivo `mkdocs.yml` de la raíz del repositorio.
-- Se elimina el paso de despliegue a GitHub Pages (`mkdocs gh-deploy`), ya que Mintlify Cloud despliega automáticamente.
+### 3.4 Loot Ball Tables & Pixel Art Crisp Rendering
+The 22 Loot Ball documentation pages contain HTML tables with 16x16 and 32x32 Pokémon sprites. In MDX/JSX:
+1. `markdown="span"` table attributes are removed.
+2. Void HTML tags are strictly self-closing: `<img ... />` and `<br />`.
+3. Inline styles are transformed into valid JSX objects:
+   ```jsx
+   <div style={{ display: "flex", alignItems: "center" }}>
+     <img 
+       src="/assets/items/cobblemon/poke_ball.png" 
+       width="32" 
+       height="32" 
+       alt="Poke Ball" 
+       style={{ imageRendering: "pixelated" }} 
+     />
+     <span style={{ marginLeft: "10px" }}>Poke Ball</span>
+   </div>
+   ```
+4. Asset paths are normalized to root-relative `/assets/...`.
+5. Internal markdown links are converted to root-relative, extensionless URLs (e.g. `/loot_balls/tier-1-common/poke`).
 
 ---
 
-## 5. Estrategia de Migración y Verificación
+## 4. Continuous Integration & Deprecations
 
-1. **Scaffolding:** Crear `docs/docs.json` con la configuración validada.
-2. **Script de Utilidad Interno (`scratch/convert-docs.mjs`):** Script temporal para procesar en lote las 22 bolas de loot:
-   - Renombrar `.md` a `.mdx`.
-   - Limpiar `markdown="span"`, tags de iconos y directivas `{ width="..." }`.
-   - Convertir admonitions `!!! note` a componentes `<Note>`.
-   - Normalizar rutas de assets a `/assets/...`.
-3. **Conversión Manual / Refinado de Páginas Clave:**
-   - `docs/index.mdx`: Implementar `<CardGroup>`.
-   - `docs/guides/*.mdx`: Convertir tabs de Fabric/NeoForge a `<Tabs>`.
-   - `docs/reference/*.mdx`: Convertir callouts y tablas de comandos.
-4. **Verificación Estricta:**
-   - Ejecutar `npx mint validate` dentro de `docs/`.
-   - Ejecutar `npx mint broken-links` dentro de `docs/`.
-   - Probar hot-reloading local con `npx mint dev`.
-5. **Limpieza:**
-   - `git rm mkdocs.yml`.
-   - Actualizar `.github/workflows/ci.yml`.
+### 4.1 CI Workflow Update (`.github/workflows/ci.yml`)
+1. Path filtering on `docs/**` and `.github/workflows/ci.yml` for triggers on `push` and `pull_request` targeting `main`, `master`, `beta`, and `alpha`.
+2. Job executes under Node.js 22 with `working-directory: docs`.
+3. Runs:
+   - `npx mint validate`
+   - `npx mint broken-links`
+4. The Python toolchain (`actions/setup-python`, `pip install mkdocs-material`, `mkdocs gh-deploy`) is removed completely.
+
+### 4.2 Repository Deprecations & Cleanup
+1. `mkdocs.yml` is deleted from the repository root.
+2. In `MODINFO.md`, the documentation URL `https://resistorcat.github.io/cobbleloots/` is updated to `https://docs.ripio.dev/cobbleloots/stable/`.
+
+---
+
+## 5. Verification Plan
+
+### 5.1 Local Verification
+- `cd docs && npx mint validate`: Verify that configuration and MDX parsing succeed with zero errors or warnings.
+- `cd docs && npx mint broken-links`: Ensure all internal links and asset references resolve.
+
+### 5.2 CI Pipeline Verification
+- Trigger `.github/workflows/ci.yml` via GitHub PR check to confirm clean execution on Linux runner.
