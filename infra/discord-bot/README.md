@@ -14,15 +14,40 @@ The bot provides real-time community support for players and maintainers, answer
 - **Rich Interactive HITL (Human-in-the-Loop)**:
   - `ask_question`: Renders interactive Discord button components for users to clarify environment details (e.g. loader, Minecraft version).
   - `save_faq`: Allows proposing FAQs that can be directly approved and indexed by administrators.
-- **Domain Tools**:
-  - `search_docs`: Searches MkDocs documentation markdown files (`docs/`).
+- **Grounding Tools (Hybrid Local & Remote)**:
+  - `search_docs`: Searches local MkDocs markdown files (`docs/`) if present, falling back to the public precomputed MkDocs search index (`https://resistorcat.github.io/cobbleloots/search/search_index.json`).
   - `search_faqs`: Full-text search across approved FAQs stored in SQLite.
-  - `get_releases`: Queries changelog fragments (`.changelog/`) and release notes (`CHANGELOG.md`).
-  - `inspect_code`: Inspects source files across `common/`, `fabric/`, and `neoforge/` subprojects (restricted to safe paths).
+  - `get_releases`: Queries the GitHub Releases REST API for latest releases and release notes, falling back to local `CHANGELOG.md` and `.changelog/` fragments.
+  - `inspect_code`: Inspects source files across `common/`, `fabric/`, and `neoforge/` subprojects (restricted to safe paths, dynamically fetched from the latest published release tag on GitHub or read locally when in the monorepo).
 - **Persistent Storage**:
-  - Embedded SQLite database (`data/bot.db`) managed with `better-sqlite3` for durable FAQ storage and player profiles.
+  - Embedded SQLite database (`data/bot.db`) managed with `better-sqlite3` (WAL mode enabled) for durable FAQ storage and player profiles.
 - **Discord HTTP Interactions**:
   - Direct Discord HTTP webhook interaction model with cryptographic signature verification (`DISCORD_PUBLIC_KEY`), eliminating gateway heartbeat overhead.
+
+---
+
+## Grounding & Remote Resolution Architecture
+
+To keep production Docker images lightweight and decoupled from the monorepo source tree, the bot implements a hybrid grounding architecture:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Discord AI Assistant                      │
+└───────┬─────────────────────────┬─────────────────────────┬─┘
+        │                         │                         │
+ ┌──────▼──────┐           ┌──────▼──────┐           ┌──────▼──────┐
+ │ search_docs │           │inspect_code │           │get_releases │
+ └──────┬──────┘           └──────┬──────┘           └──────┬──────┘
+        │                         │                         │
+  Local docs/ exists?       Local repo exists?       Query GitHub API
+  ├── Yes -> Read disk      ├── Yes -> Read disk     ├── Success -> Return notes
+  └── No  -> Remote index   └── No  -> GitHub API    └── Fail    -> Read CHANGELOG
+             (Pages CDN)               (@latest tag)
+```
+
+- **Zero Monorepo Bundling in Docker**: The Docker container only needs `infra/discord-bot/`. It does not require a full clone of the Java monorepo, keeping image sizes small and builds fast.
+- **Local Dev Speed**: When developing in the monorepo or running tests, local files are read directly from disk with zero network latency.
+- **Dynamic Tag Resolution**: Code inspection in container environments automatically resolves against the latest published release tag (e.g., `v2.5.0-alpha.2`), ensuring answers reflect active player releases.
 
 ---
 
@@ -81,9 +106,11 @@ cp .env.example .env
 | `DISCORD_PUBLIC_KEY` | **Yes** | — | Discord Public Key used for interaction webhook verification. |
 | `DISCORD_ADMIN_IDS` | No | `""` | Comma-separated Discord user snowflakes with maintainer/admin permissions. |
 | `DEFAULT_MODEL` | No | `google/gemini-2.5-pro` | Default LLM model string for the agent. |
-| `DATABASE_PATH` | No | `./data/bot.db` | File path for SQLite database storing FAQs and state. |
-| `REPO_ROOT` | No | Mod repo root | Absolute path to the Cobbleloots repository root. |
-| `REPO_DOCS_PATH` | No | `<REPO_ROOT>/docs` | Absolute path to the MkDocs markdown documentation folder. |
+| `DATABASE_PATH` | No | `./data/bot.db` | File path for SQLite database storing FAQs and state (`/app/data/bot.db` in Docker). |
+| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | GitHub repository identifier for remote release & code queries. |
+| `GITHUB_TOKEN` | No | — | Optional GitHub Personal Access Token for increased API rate limits in production. |
+| `REPO_ROOT` | No | Mod repo root | Absolute path to the local Cobbleloots repository root (dev only). |
+| `REPO_DOCS_PATH` | No | `<REPO_ROOT>/docs` | Absolute path to local MkDocs markdown folder (dev only). |
 | `GOOGLE_GENERATIVE_AI_API_KEY` | Conditional | — | Required if using Google Gemini models (`google/*`). |
 | `OPENAI_API_KEY` | Conditional | — | Required if using OpenAI models (`openai/*`). |
 | `ANTHROPIC_API_KEY` | Conditional | — | Required if using Anthropic models (`anthropic/*`). |
@@ -104,7 +131,7 @@ npm test
 ```
 To run a specific test file:
 ```bash
-npx vitest run tests/agent-config.test.ts
+npx vitest run tests/tools.test.ts
 ```
 
 ### 3. Typecheck
@@ -121,11 +148,59 @@ npm run dev
 The server listens for incoming HTTP interaction webhooks at `http://localhost:3000/eve/v1/discord`.
 
 ### 5. Production Build & Run
-To compile and run the production server:
+To compile and run the production server locally:
 ```bash
 npm run build
 npm run start
 ```
+
+---
+
+## Production Deployment with Coolify v4 & Cloudflare
+
+The assistant is containerized with a multi-stage Dockerfile and designed to run on a self-hosted server managed via [Coolify](https://coolify.io/) behind a Cloudflare reverse proxy.
+
+### Coolify Setup Runbook
+
+1. **Create New Service in Coolify**:
+   - In your Coolify dashboard, select your project/environment and click **+ New** -> **Application** -> **Public Repository** (or Private GitHub App).
+   - Repository URL: `https://github.com/ResistorCat/cobbleloots`
+   - Branch: `main` (or your target branch)
+2. **Configure Application Settings**:
+   - **Build Pack**: Select **Dockerfile**.
+   - **Base Directory**: Set to `infra/discord-bot`.
+   - **Dockerfile Location**: `/Dockerfile` (relative to Base Directory).
+   - **Ports Exposes**: `3000`.
+3. **Configure Persistent Storage (Volume)**:
+   - Go to the **Storages** tab in Coolify.
+   - Add a persistent volume mount:
+     - **Destination Path**: `/app/data`
+     - **Volume Name / Host Path**: `cobbleloots-bot-data` (or `/var/lib/docker/volumes/cobbleloots-bot-data`)
+   - This ensures the SQLite database (`/app/data/bot.db`) persists across redeployments and container restarts.
+4. **Configure Environment Variables**:
+   - Under the **Environment Variables** tab, add all required secrets:
+     ```text
+     DISCORD_APPLICATION_ID=<your-app-id>
+     DISCORD_BOT_TOKEN=<your-bot-token>
+     DISCORD_PUBLIC_KEY=<your-public-key>
+     DISCORD_ADMIN_IDS=<admin-snowflake-ids>
+     DATABASE_PATH=/app/data/bot.db
+     DEFAULT_MODEL=google/gemini-2.5-pro
+     GOOGLE_GENERATIVE_AI_API_KEY=<gemini-api-key>
+     GITHUB_TOKEN=<optional-github-pat>
+     ```
+5. **Set Domains & Cloudflare Reverse Proxy**:
+   - In Coolify **Domains**, enter your public domain (e.g. `https://bot.yourdomain.com`).
+   - In Cloudflare DNS:
+     - Add a `CNAME` or `A` record pointing `bot.yourdomain.com` to your Coolify server IP with Cloudflare Proxy enabled (Orange Cloud / Proxied).
+     - SSL/TLS encryption mode: Set to **Full (strict)**.
+6. **Register Discord Webhook**:
+   - In the Discord Developer Portal for your application:
+     - Interactions Endpoint URL: `https://bot.yourdomain.com/eve/v1/discord`
+     - Save changes. Discord will send a signature validation ping; the running bot will respond with HTTP 200 `PONG`.
+7. **Deploy**:
+   - Click **Deploy** in Coolify.
+   - Monitor the deployment logs. The multi-stage build compiles native dependencies, builds the Nitro output bundle, and runs under the unprivileged `node` user.
 
 ---
 
@@ -137,3 +212,9 @@ npm run start
   - The agent enters **Maintainer/Admin Mode**, offering in-depth code inspections and architectural insights.
   - The agent can save new FAQs directly to the database without requiring secondary approval (`approved: 1`).
 - When a standard player's query uncovers a helpful Q&A, the agent can stage an unapproved FAQ (`approved: 0`), ready for review and activation by mod administrators.
+
+### Database Backups
+Because SQLite uses Write-Ahead Logging (WAL mode), backups of `/app/data/bot.db` can be taken online without stopping the container:
+```bash
+sqlite3 /app/data/bot.db ".backup '/app/data/backup-$(date +%F).db'"
+```

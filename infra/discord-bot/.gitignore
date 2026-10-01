@@ -6,3 +6,4 @@ data/bot.db-wal
 data/bot.db-shm
 dist/
 .eve/
+.output/
