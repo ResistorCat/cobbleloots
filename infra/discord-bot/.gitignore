@@ -1,9 +1,7 @@
 node_modules/
 .env
-data/bot.db
-data/bot.db-journal
-data/bot.db-wal
-data/bot.db-shm
+pnpm-debug.log
 dist/
 .eve/
 .output/
+
