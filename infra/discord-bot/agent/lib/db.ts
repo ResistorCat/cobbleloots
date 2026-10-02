@@ -5,11 +5,16 @@ import fs from "node:fs";
 let defaultDb: Database.Database | null = null;
 
 function resolveNativeBinding(): string | undefined {
+  const target = `${process.platform}-${process.arch}.node`;
   const candidates = [
-    path.resolve(process.cwd(), "node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
-    path.resolve("/app/node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
+    path.resolve(process.cwd(), "node_modules/better-sqlite3/prebuilds", target),
+    path.resolve("/app/node_modules/better-sqlite3/prebuilds", target),
+    path.resolve(process.cwd(), ".output/server/prebuilds", target),
+    path.resolve("/app/.output/server/prebuilds", target),
     path.resolve(process.cwd(), ".output/server/build/Release/better_sqlite3.node"),
     path.resolve("/app/.output/server/build/Release/better_sqlite3.node"),
+    path.resolve(process.cwd(), "node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
+    path.resolve("/app/node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
   ];
 
   for (const p of candidates) {

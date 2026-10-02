@@ -4,18 +4,17 @@
 FROM node:24-slim AS builder
 WORKDIR /app
 
-# Install native dependencies required for better-sqlite3 compilation
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    python3 \
-    make \
-    g++ \
-    && rm -rf /var/lib/apt/lists/*
-
 COPY package*.json ./
-RUN npm ci && (test -f node_modules/better-sqlite3/build/Release/better_sqlite3.node || (cd node_modules/better-sqlite3 && npx --yes node-gyp rebuild))
+RUN npm ci --ignore-scripts
 
 COPY . .
 RUN npm run build
+
+# Copy prebuilt better-sqlite3 native addon to .output/server locations expected by bundled Nitro
+RUN ARCH=$(uname -m | sed 's/x86_64/x64/' | sed 's/aarch64/arm64/') && \
+    cp -r /app/node_modules/better-sqlite3/prebuilds /app/.output/server/prebuilds && \
+    mkdir -p /app/.output/server/build/Release && \
+    cp /app/node_modules/better-sqlite3/prebuilds/linux-${ARCH}.node /app/.output/server/build/Release/better_sqlite3.node
 
 # ==========================================
 # Stage 2: Production Runtime
@@ -27,7 +26,7 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV DATABASE_PATH=/app/data/bot.db
 
-# Install production dependencies only (skipping native compilation since precompiled addon is copied from builder)
+# Install production dependencies only (using prebuilt native binaries)
 COPY package*.json ./
 RUN npm ci --omit=dev --ignore-scripts
 
@@ -38,10 +37,10 @@ COPY --from=builder /app/agent ./agent
 COPY --from=builder /app/runner.mjs ./runner.mjs
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
-# Copy compiled better_sqlite3 native addon from builder stage to both node_modules and bundled Nitro locations
-RUN mkdir -p /app/node_modules/better-sqlite3/build/Release /app/.output/server/build/Release
-COPY --from=builder /app/node_modules/better-sqlite3/build/Release/better_sqlite3.node /app/node_modules/better-sqlite3/build/Release/better_sqlite3.node
-COPY --from=builder /app/node_modules/better-sqlite3/build/Release/better_sqlite3.node /app/.output/server/build/Release/better_sqlite3.node
+# Ensure better_sqlite3.node is present in node_modules build/Release for the runner process
+RUN ARCH=$(uname -m | sed 's/x86_64/x64/' | sed 's/aarch64/arm64/') && \
+    mkdir -p /app/node_modules/better-sqlite3/build/Release && \
+    cp /app/node_modules/better-sqlite3/prebuilds/linux-${ARCH}.node /app/node_modules/better-sqlite3/build/Release/better_sqlite3.node
 
 # Create persistent data directory and ensure proper ownership for non-root node user
 RUN mkdir -p /app/data && chown -R node:node /app
