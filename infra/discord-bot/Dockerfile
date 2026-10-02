@@ -45,6 +45,10 @@ COPY --from=builder /app/agent ./agent
 COPY --from=builder /app/runner.mjs ./runner.mjs
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
+# Copy compiled better_sqlite3 native addon to the location expected by bundled Nitro
+RUN mkdir -p /app/.output/server/build/Release && \
+    cp /app/node_modules/better-sqlite3/build/Release/better_sqlite3.node /app/.output/server/build/Release/better_sqlite3.node
+
 # Create persistent data directory and ensure proper ownership for non-root node user
 RUN mkdir -p /app/data && chown -R node:node /app
 

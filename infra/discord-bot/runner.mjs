@@ -1,5 +1,26 @@
 import { spawn } from "node:child_process";
 import { setTimeout } from "node:timers/promises";
+import { existsSync, mkdirSync, copyFileSync } from "node:fs";
+import { resolve, dirname } from "node:path";
+
+// 0. Ensure better-sqlite3 native binding is copied to the path expected by the bundled server
+const targetBinding = resolve(".output/server/build/Release/better_sqlite3.node");
+if (!existsSync(targetBinding)) {
+  const sourceCandidates = [
+    resolve("node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
+    resolve("/app/node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
+  ];
+  const sourceBinding = sourceCandidates.find((p) => existsSync(p));
+  if (sourceBinding) {
+    try {
+      mkdirSync(dirname(targetBinding), { recursive: true });
+      copyFileSync(sourceBinding, targetBinding);
+      console.log(`[Runner] Copied better_sqlite3.node to ${targetBinding}`);
+    } catch (err) {
+      console.warn("[Runner] Could not copy better_sqlite3.node:", err.message);
+    }
+  }
+}
 
 // 1. Start Eve HTTP Server
 const serverEntry = ".output/server/index.mjs";
