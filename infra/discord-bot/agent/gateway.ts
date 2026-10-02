@@ -3,7 +3,7 @@ import { Client as EveClient } from "eve/client";
 import { isAuthorizedAdmin } from "./lib/auth-utils.ts";
 
 export const DEFAULT_GREETING =
-  "¡Hola! Soy el asistente oficial de Cobbleloots. Puedes preguntarme sobre mecánicas, configuración, loot balls o drops de items del mod. ¿En qué te puedo ayudar?";
+  "Hello! I am the official Cobbleloots assistant. You can ask me about mechanics, configuration, loot balls, or item drops from the mod. How can I help you today?";
 
 export function extractPrompt(content: string, botId: string): string {
   const mentionPattern = new RegExp(`<@!?${botId}>`, "g");
@@ -105,7 +105,7 @@ export async function handleDiscordMessage(
 
     const answer = result.message;
     if (!answer || result.status === "failed") {
-      await message.reply("Lo siento, ocurrió un error procesando tu consulta. Por favor intenta de nuevo.");
+      await message.reply("Sorry, an error occurred while processing your request. Please try again.");
       return;
     }
 
@@ -123,7 +123,7 @@ export async function handleDiscordMessage(
   } catch (error) {
     clearInterval(typingInterval);
     console.error("Error processing Discord message:", error);
-    await message.reply("Ocurrió un error al procesar tu consulta con el asistente de Cobbleloots.");
+    await message.reply("An error occurred while communicating with the Cobbleloots assistant. Please try again later.");
   }
 }
 
@@ -152,7 +152,7 @@ export async function startGateway(options: GatewayOptions = {}): Promise<Client
 
   client.on(Events.ClientReady, () => {
     console.log(`[Gateway] Discord Gateway connected as ${client.user?.tag}!`);
-    client.user?.setActivity("Cobbleloots | Etiquétame para consultar", {
+    client.user?.setActivity("Cobbleloots | Tag me to ask!", {
       type: ActivityType.Custom,
     });
   });

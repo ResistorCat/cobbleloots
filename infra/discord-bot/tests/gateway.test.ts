@@ -91,9 +91,10 @@ describe("Gateway Message Handling", () => {
   });
 
   describe("DEFAULT_GREETING", () => {
-    it("should provide a friendly Spanish greeting mentioning Cobbleloots", () => {
+    it("should provide a friendly English greeting mentioning Cobbleloots", () => {
       expect(DEFAULT_GREETING).toContain("Cobbleloots");
-      expect(DEFAULT_GREETING).toContain("mecánicas");
+      expect(DEFAULT_GREETING).toContain("mechanics");
+      expect(DEFAULT_GREETING).toContain("loot balls");
     });
   });
 });
