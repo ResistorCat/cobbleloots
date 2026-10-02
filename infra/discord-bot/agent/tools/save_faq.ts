@@ -1,47 +1,52 @@
 import { defineTool } from "eve/tools";
-import { always } from "eve/tools/approval";
 import { z } from "zod";
-import { getDb } from "../lib/db";
-import { insertFaq } from "../lib/faq-store";
-import { isAuthorizedAdmin } from "../lib/auth-utils";
-import type Database from "better-sqlite3";
+import { getPbClient } from "../lib/pb.ts";
+import { isAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 export { isAuthorizedAdmin };
 
-export default defineTool({
-  description: "Propose saving a frequently asked question and official answer to the global FAQ database. Requires moderator or admin approval before persistence.",
-  inputSchema: z.object({
-    question: z.string().describe("The user query or recurrent question"),
-    answer: z.string().describe("The curated, accurate answer based on official docs or code"),
-    category: z.string().optional().describe("Category, e.g. 'loot-balls', 'installation', 'commands'"),
-    dbInstance: z.any().optional(),
-  }),
-  approval: {
-    request: always(),
-    response: ({ responder }) => {
-      if (!isAuthorizedAdmin(responder.principalId)) {
-        return {
-          status: "rejected",
-          reason: "Only authorized Cobbleloots moderators or admins can approve FAQ entries.",
-        };
-      }
-      return { status: "allowed" };
-    },
-  },
-  async execute({ question, answer, category, dbInstance }, ctx) {
-    const db = (dbInstance as Database.Database) || getDb();
-    const approver = ctx.session?.auth?.current?.principalId ?? "system";
-    const id = insertFaq(db, {
-      question,
-      answer,
-      category: category ?? "general",
-      approvedBy: approver,
-    });
-
-    return {
-      success: true,
-      faqId: id,
-      message: `FAQ #${id} successfully recorded into the knowledge base.`,
-    };
-  },
+const saveFaqSchema = z.object({
+  id: z.string().optional().describe("If updating an existing FAQ, provide its ID. Omit to create a new FAQ."),
+  question: z.string().describe("The question or title of the FAQ"),
+  answer: z.string().describe("The full answer and instructions in Markdown"),
+  category: z.string().describe("Category: Mechanics, Commands, Configuration, or Troubleshooting"),
+  keywords: z.string().optional().describe("Comma-separated keywords for search"),
 });
+
+export const saveFaq = defineTool({
+  description: "Create or update an FAQ in PocketBase. Restricted to administrators.",
+  inputSchema: saveFaqSchema,
+  parameters: saveFaqSchema,
+  execute: async ({ id, question, answer, category, keywords = "" }: { id?: string; question: string; answer: string; category: string; keywords?: string }, ctx: any) => {
+    const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
+    if (!isAuthorizedAdmin(principalId)) {
+      return "Unauthorized: Only server administrators can save FAQs.";
+    }
+
+    const pb = getPbClient();
+    try {
+      if (id) {
+        const updated = await pb.collection("faqs").update(id, {
+          question,
+          answer,
+          category,
+          keywords,
+        });
+        return `Successfully updated FAQ "${updated.question}" (ID: \`${updated.id}\`).`;
+      }
+
+      const created = await pb.collection("faqs").create({
+        question,
+        answer,
+        category,
+        keywords,
+        created_by: principalId,
+      });
+      return `Successfully created new FAQ "${created.question}" (ID: \`${created.id}\`).`;
+    } catch (err) {
+      return `Failed to save FAQ: ${(err as Error).message}`;
+    }
+  },
+} as any);
+
+export default saveFaq;

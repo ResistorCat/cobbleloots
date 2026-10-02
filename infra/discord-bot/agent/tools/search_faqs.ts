@@ -1,19 +1,37 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getDb } from "../lib/db";
-import { searchFaqs } from "../lib/faq-store";
-import type Database from "better-sqlite3";
+import { getPbClient } from "../lib/pb.ts";
 
-export default defineTool({
-  description: "Search community-curated FAQs from the global knowledge base.",
-  inputSchema: z.object({
-    query: z.string().describe("Keywords to search for in curated FAQs"),
-    limit: z.number().optional().describe("Maximum results to return (default: 5)"),
-    dbInstance: z.any().optional(),
-  }),
-  async execute({ query, limit = 5, dbInstance }) {
-    const db = (dbInstance as Database.Database) || getDb();
-    const results = searchFaqs(db, query, limit);
-    return { results };
-  },
+const searchFaqsSchema = z.object({
+  query: z.string().describe("The search query or keyword to look for in FAQs"),
 });
+
+export const searchFaqs = defineTool({
+  description: "Search community FAQs in PocketBase by question, keywords, or topic.",
+  inputSchema: searchFaqsSchema,
+  parameters: searchFaqsSchema,
+  execute: async ({ query }: { query: string }) => {
+    const pb = getPbClient();
+    try {
+      const sanitized = query.replace(/['"\\]/g, "");
+      const records = await pb.collection("faqs").getList(1, 5, {
+        filter: `question ~ "${sanitized}" || keywords ~ "${sanitized}" || answer ~ "${sanitized}"`,
+      });
+
+      if (records.items.length === 0) {
+        return `No community FAQs found matching "${query}".`;
+      }
+
+      return records.items
+        .map(
+          (item) =>
+            `### [FAQ: ${item.category || "General"}] ${item.question} (ID: ${item.id})\n${item.answer}`
+        )
+        .join("\n\n---\n\n");
+    } catch (err) {
+      return `FAQ search currently unavailable: ${(err as Error).message}`;
+    }
+  },
+} as any);
+
+export default searchFaqs;
