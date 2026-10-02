@@ -74,8 +74,8 @@ Follow these steps to set up the Discord Application and bot credentials:
 3. **Configure Bot & Token**:
    - Navigate to the **Bot** tab on the left sidebar.
    - Click **Reset Token** to copy the token (`DISCORD_BOT_TOKEN`).
-   - Under **Privileged Gateway Intents**, no gateway intents are required as the bot uses HTTP Interactions.
-4. **Set Interactions Endpoint URL**:
+   - Under **Privileged Gateway Intents**, enable **Message Content Intent** so the bot can listen to `@Cobbleloots` mentions and replies in chat channels.
+4. **Set Interactions Endpoint URL (Optional for Slash Commands/Webhooks)**:
    - In **General Information**, locate **Interactions Endpoint URL**.
    - Eve exposes HTTP interactions at `/eve/v1/discord`.
    - Set the URL to:
@@ -88,6 +88,15 @@ Follow these steps to set up the Discord Application and bot credentials:
    - Scopes: Select `bot` and `applications.commands`.
    - Bot Permissions: Select `Send Messages`, `Embed Links`, `Use Slash Commands`, and `Read Message History`.
    - Copy the generated URL and open it in a browser to invite the bot to your Discord server.
+
+---
+
+## How to Talk to the Bot
+
+Once invited to your Discord server:
+- **Mention the bot directly**: `@Cobbleloots ¿dónde encuentro la Moon Ball?`
+- **Reply to any previous bot message**: The assistant seamlessly continues the conversation.
+- If mentioned with no question (`@Cobbleloots`), the bot replies with a helpful greeting introducing its capabilities.
 
 ---
 
