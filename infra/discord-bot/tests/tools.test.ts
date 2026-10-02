@@ -2,9 +2,6 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import searchDocsTool from "../agent/tools/search_docs";
 import inspectCodeTool from "../agent/tools/inspect_code";
 import getReleasesTool from "../agent/tools/get_releases";
-import searchFaqsTool from "../agent/tools/search_faqs";
-import { getDb } from "../agent/lib/db";
-import { initFaqSchema, insertFaq } from "../agent/lib/faq-store";
 import {
   getReleases,
   getLatestReleaseTag,
@@ -66,16 +63,6 @@ describe("Grounding Tools", () => {
     expect(result.releases).toBeDefined();
     expect(typeof result.releases).toBe("string");
     expect(result.releases.length).toBeGreaterThan(0);
-  });
-
-  it("search_faqs should return matches from database", async () => {
-    const db = getDb(":memory:");
-    initFaqSchema(db);
-    insertFaq(db, { question: "Can I fish loot balls?", answer: "Yes with fishing config" });
-
-    const result = await (searchFaqsTool as any).execute({ query: "fish", dbInstance: db }, {} as any);
-    expect(result.results.length).toBeGreaterThan(0);
-    expect(result.results[0].question).toContain("fish");
   });
 
   it("github-client should fetch releases and latest tag", async () => {

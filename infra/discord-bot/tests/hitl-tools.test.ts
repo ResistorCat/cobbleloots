@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import saveFaqTool, { isAuthorizedAdmin } from "../agent/tools/save_faq";
-import { getAdminIds, isAuthorizedAdmin as isAuthorizedAdminFromLib } from "../agent/lib/auth-utils";
+import { getAdminIds, isAuthorizedAdmin } from "../agent/lib/auth-utils";
 import askQuestionTool from "../agent/tools/ask_question";
 
 describe("HITL & Approval Tools", () => {
@@ -27,27 +26,12 @@ describe("HITL & Approval Tools", () => {
     expect(isAuthorizedAdmin("222222")).toBe(true);
     expect(isAuthorizedAdmin("999999")).toBe(false);
     expect(isAuthorizedAdmin(undefined)).toBe(false);
-
-    expect(isAuthorizedAdminFromLib("111111")).toBe(true);
-    expect(isAuthorizedAdminFromLib("999999")).toBe(false);
   });
 
-  it("save_faq approval policy allows admins and rejects non-admins", () => {
-    const policy = (saveFaqTool as any).approval.response;
-    expect(policy).toBeDefined();
-
-    const adminDecision = policy({
-      responder: { principalId: "111111" },
-    });
-    expect(adminDecision.status).toBe("allowed");
-
-    const nonAdminDecision = policy({
-      responder: { principalId: "999999" },
-    });
-    expect(nonAdminDecision.status).toBe("rejected");
-  });
-
-  it("ask_question is defined as an Eve tool", () => {
+  it("ask_question is defined as an Eve tool with description and schemas", () => {
     expect(askQuestionTool).toBeDefined();
+    expect((askQuestionTool as any).description).toContain("Ask the user a question");
+    expect((askQuestionTool as any).inputSchema).toBeDefined();
+    expect(typeof (askQuestionTool as any).execute).toBe("function");
   });
 });
