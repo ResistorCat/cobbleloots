@@ -52,7 +52,7 @@ Each item includes custom 16x16 pixel-art textures, immersive tooltips referenci
 
 ## Mapmaking 🗺️
 
-Check out the [documentation](https://resistorcat.github.io/cobbleloots/) to learn how to use the mod objects and features in your custom maps. If you still have questions, feel free to ask on my discord server.
+Check out the [documentation](https://docs.ripio.dev/cobbleloots/stable/) to learn how to use the mod objects and features in your custom maps. If you still have questions, feel free to ask on my discord server.
 
 > **Note**: The documentation is a work in progress, and some features may not be fully documented yet. If you need help with a specific feature, please reach out on my [Discord server](https://discord.gg/kbykWUH5dV).
 
@@ -89,7 +89,7 @@ The mod configuration is powered by **MidnightLib** and supports in-game editing
 - **NeoForge**: Edit via the Mods menu.
 - **Command**: Server OPs can use `/midnightconfig cobbleloots <key> <value>`.
 
-The config file is located in the `config` folder of your Minecraft instance. Check the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more information.
+The config file is located in the `config` folder of your Minecraft instance. Check the [Configuration](https://docs.ripio.dev/cobbleloots/stable/guides/configuration) docs for more information.
 
 ## Commands 🛠️
 
@@ -102,7 +102,7 @@ Cobbleloots provides in-game commands to help server operators and mapmakers man
 - **`/cobbleloots debug weights [source_type] [pos]`**: Displays the weighted spawn probability table for candidate loot balls at your position.
 - **`/cobbleloots debug check <id> [source_type] [pos]`**: Evaluates each filter condition for a specific loot ball ID and reports passed/failed checks.
 
-Check out the full [Commands Reference](https://resistorcat.github.io/cobbleloots/reference/commands/) for detailed arguments, permissions, and examples.
+Check out the full [Commands Reference](https://docs.ripio.dev/cobbleloots/stable/reference/commands) for detailed arguments, permissions, and examples.
 
 ---
 
@@ -122,7 +122,7 @@ To apply this **globally to all new loot balls**, update the default configurati
 - Set `loot_ball_default_uses` to `-1` → all newly spawned/generated loot balls will have infinite uses.
 - Set `loot_ball_default_player_cooldown` to the desired cooldown in ticks (e.g., `72000` = 1 hour) → players can reclaim after that time. Set to `0` to allow each player to collect exactly once, with no reclaim.
 
-See the [Configuration](https://resistorcat.github.io/cobbleloots/guides/configuration/) docs for more details.
+See the [Configuration](https://docs.ripio.dev/cobbleloots/stable/guides/configuration) docs for more details.
 
 ---
 
