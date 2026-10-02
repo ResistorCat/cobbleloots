@@ -38,8 +38,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy built application output from builder stage
+# Copy built application output, agent directory, and eve metadata from builder stage
 COPY --from=builder /app/.output ./.output
+COPY --from=builder /app/.eve ./.eve
+COPY --from=builder /app/agent ./agent
 
 # Create persistent data directory and ensure proper ownership for non-root node user
 RUN mkdir -p /app/data && chown -R node:node /app
