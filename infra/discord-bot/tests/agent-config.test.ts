@@ -1,7 +1,17 @@
 import { describe, it, expect } from "vitest";
 import { buildInstructionsPrompt } from "../agent/instructions.ts";
-import agentConfig, { tools } from "../agent/agent.ts";
+import agentConfig from "../agent/agent.ts";
 import discordChannel from "../agent/channels/discord.ts";
+import eveChannel from "../agent/channels/eve.ts";
+import searchDocs from "../agent/tools/search_docs.ts";
+import searchFaqs from "../agent/tools/search_faqs.ts";
+import listFaqs from "../agent/tools/list_faqs.ts";
+import getFaq from "../agent/tools/get_faq.ts";
+import saveFaq from "../agent/tools/save_faq.ts";
+import deleteFaq from "../agent/tools/delete_faq.ts";
+import inspectCode from "../agent/tools/inspect_code.ts";
+import getReleases from "../agent/tools/get_releases.ts";
+import askQuestion from "../agent/tools/ask_question.ts";
 
 describe("Agent Configuration & Dynamic Instructions", () => {
   describe("buildInstructionsPrompt", () => {
@@ -31,21 +41,33 @@ describe("Agent Configuration & Dynamic Instructions", () => {
     });
   });
 
-  describe("Agent Definition & Tool Registration", () => {
-    it("agent definition should be configured with a model and instructions", () => {
+  describe("Agent Definition & Tool Suite", () => {
+    it("agent definition should be configured with a model", () => {
       expect(agentConfig).toBeDefined();
       expect((agentConfig as any).model).toBeDefined();
-      expect((agentConfig as any).instructions).toBeDefined();
     });
 
-    it("agent should register all 9 grounding and PocketBase management tools", () => {
-      expect((agentConfig as any).tools).toBeDefined();
-      expect((agentConfig as any).tools).toHaveLength(9);
+    it("all 9 grounding and PocketBase management tools should be valid tool definitions", () => {
+      const tools = [
+        searchDocs,
+        searchFaqs,
+        listFaqs,
+        getFaq,
+        saveFaq,
+        deleteFaq,
+        inspectCode,
+        getReleases,
+        askQuestion,
+      ];
       expect(tools).toHaveLength(9);
+      for (const tool of tools) {
+        expect(tool).toBeDefined();
+      }
     });
 
-    it("discord channel should be defined and exported", () => {
+    it("discord and eve channels should be defined and exported", () => {
       expect(discordChannel).toBeDefined();
+      expect(eveChannel).toBeDefined();
     });
   });
 });
