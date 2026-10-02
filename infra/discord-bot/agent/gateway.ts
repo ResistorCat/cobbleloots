@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, Partials, ActivityType, type Message } from "discord.js";
+import { Client, GatewayIntentBits, Partials, ActivityType, Events, type Message } from "discord.js";
 import { Client as EveClient } from "eve/client";
 import { isAuthorizedAdmin } from "./lib/auth-utils.ts";
 
@@ -150,14 +150,14 @@ export async function startGateway(options: GatewayOptions = {}): Promise<Client
       partials: [Partials.Channel, Partials.Message],
     });
 
-  client.on("ready", () => {
+  client.on(Events.ClientReady, () => {
     console.log(`[Gateway] Discord Gateway connected as ${client.user?.tag}!`);
     client.user?.setActivity("Cobbleloots | Etiquétame para consultar", {
       type: ActivityType.Custom,
     });
   });
 
-  client.on("messageCreate", async (message) => {
+  client.on(Events.MessageCreate, async (message) => {
     await handleDiscordMessage(message, client, eveClient);
   });
 
