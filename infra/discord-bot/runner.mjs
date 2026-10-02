@@ -1,43 +1,5 @@
 import { spawn } from "node:child_process";
 import { setTimeout } from "node:timers/promises";
-import { existsSync, mkdirSync, copyFileSync, cpSync } from "node:fs";
-import { resolve, dirname } from "node:path";
-
-// 0. Ensure better-sqlite3 native bindings and prebuilds are available to bundled server
-const targetPrebuilds = resolve(".output/server/prebuilds");
-const sourcePrebuilds = [
-  resolve("node_modules/better-sqlite3/prebuilds"),
-  resolve("/app/node_modules/better-sqlite3/prebuilds"),
-].find((p) => existsSync(p));
-
-if (sourcePrebuilds && !existsSync(targetPrebuilds)) {
-  try {
-    cpSync(sourcePrebuilds, targetPrebuilds, { recursive: true });
-    console.log(`[Runner] Copied better-sqlite3 prebuilds to ${targetPrebuilds}`);
-  } catch (err) {
-    console.warn("[Runner] Could not copy prebuilds:", err.message);
-  }
-}
-
-const targetBinding = resolve(".output/server/build/Release/better_sqlite3.node");
-if (!existsSync(targetBinding)) {
-  const currentTarget = `${process.platform}-${process.arch}.node`;
-  const sourceCandidates = [
-    sourcePrebuilds ? resolve(sourcePrebuilds, currentTarget) : null,
-    resolve("node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
-    resolve("/app/node_modules/better-sqlite3/build/Release/better_sqlite3.node"),
-  ].filter(Boolean);
-  const sourceBinding = sourceCandidates.find((p) => existsSync(p));
-  if (sourceBinding) {
-    try {
-      mkdirSync(dirname(targetBinding), { recursive: true });
-      copyFileSync(sourceBinding, targetBinding);
-      console.log(`[Runner] Copied better_sqlite3.node to ${targetBinding}`);
-    } catch (err) {
-      console.warn("[Runner] Could not copy better_sqlite3.node:", err.message);
-    }
-  }
-}
 
 // 1. Start Eve HTTP Server
 const serverEntry = ".output/server/index.mjs";
@@ -64,9 +26,7 @@ async function waitForHealth(port, maxAttempts = 60) {
   for (let i = 0; i < maxAttempts; i++) {
     try {
       const res = await fetch(url);
-      if (res.ok) {
-        return true;
-      }
+      if (res.ok) return true;
     } catch {
       // Server not ready yet
     }
