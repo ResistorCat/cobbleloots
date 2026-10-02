@@ -24,8 +24,22 @@ export const tools = [
   askQuestion,
 ];
 
-export default (defineAgent as any)({
-  instructions,
-  model: aiGateway("mistral/mistral-nemo"),
-  tools,
+const agent = defineAgent({
+  model: process.env.DEFAULT_MODEL || aiGateway("mistral/mistral-nemo"),
+  defaultTools: false,
 });
+
+Object.defineProperty(agent, "instructions", {
+  value: instructions,
+  enumerable: false,
+  configurable: true,
+});
+
+Object.defineProperty(agent, "tools", {
+  value: tools,
+  enumerable: false,
+  configurable: true,
+});
+
+export default agent;
+

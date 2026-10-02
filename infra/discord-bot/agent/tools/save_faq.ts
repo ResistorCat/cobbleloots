@@ -16,7 +16,6 @@ const saveFaqSchema = z.object({
 export const saveFaq = defineTool({
   description: "Create or update an FAQ in PocketBase. Restricted to administrators.",
   inputSchema: saveFaqSchema,
-  parameters: saveFaqSchema,
   execute: async ({ id, question, answer, category, keywords = "" }: { id?: string; question: string; answer: string; category: string; keywords?: string }, ctx: any) => {
     const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
     if (!isAuthorizedAdmin(principalId)) {

@@ -10,7 +10,6 @@ const getFaqSchema = z.object({
 export const getFaq = defineTool({
   description: "Get full details of a specific FAQ by its PocketBase ID. Restricted to administrators.",
   inputSchema: getFaqSchema,
-  parameters: getFaqSchema,
   execute: async ({ id }: { id: string }, ctx: any) => {
     const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
     if (!isAuthorizedAdmin(principalId)) {

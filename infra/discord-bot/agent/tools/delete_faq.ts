@@ -11,7 +11,6 @@ const deleteFaqSchema = z.object({
 export const deleteFaq = defineTool({
   description: "Delete an FAQ from PocketBase. Restricted to administrators. Requires explicit confirmation.",
   inputSchema: deleteFaqSchema,
-  parameters: deleteFaqSchema,
   execute: async ({ id, confirmed = false }: { id: string; confirmed?: boolean }, ctx: any) => {
     const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
     if (!isAuthorizedAdmin(principalId)) {

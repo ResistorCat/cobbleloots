@@ -1,12 +1,8 @@
 node_modules/
-npm-debug.log
+pnpm-debug.log
 .env
 .env.*
 !.env.example
-data/*.db
-data/*.db-journal
-data/*.db-wal
-data/*.db-shm
 dist/
 .eve/
 .output/

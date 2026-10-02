@@ -6,67 +6,69 @@ The bot provides real-time community support for players and maintainers, answer
 
 ---
 
-## Features
+## Architecture Overview
 
-- **Dynamic Dual-Persona Instructions**:
-  - **Player Mode (default)**: Delivers friendly, clear gameplay guidance grounded in official documentation and FAQs without internal Java or development jargon. Features the *Anti-Rush Protocol* to ask clarifying questions before answering underspecified bug reports.
-  - **Maintainer/Admin Mode**: For authorized administrators, provides technically detailed answers including Java class references, line numbers, loader architecture (Common vs Fabric vs NeoForge), and repository inspection.
-- **Rich Interactive HITL (Human-in-the-Loop)**:
-  - `ask_question`: Renders interactive Discord button components for users to clarify environment details (e.g. loader, Minecraft version).
-  - `save_faq`: Allows proposing FAQs that can be directly approved and indexed by administrators.
-- **Grounding Tools (Hybrid Local & Remote)**:
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                       Discord Gateway Listener                              │
+│         (@Cobbleloots mentions & thread replies, chunked <= 1900 chars)     │
+└──────────────────────────────────────┬──────────────────────────────────────┘
+                                       │
+                                       ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                          Eve AI Assistant Server                            │
+│                 (Multi-stage node:24-slim container via pnpm)               │
+└───────┬──────────────────────────────┬──────────────────────────────┬───────┘
+        │                              │                              │
+ ┌──────▼──────┐                ┌──────▼──────┐                ┌──────▼──────┐
+ │  PocketBase │                │  Grounding  │                │    HITL     │
+ │  Backend    │                │  Tools      │                │  Tooling    │
+ └──────┬──────┘                └──────┬──────┘                └──────┬──────┘
+        │                              │                              │
+  ├── faqs collection            ├── search_docs                └── ask_question
+  │   (Full CRUD via REST API)   │   (Local / MkDocs CDN)           (Discord buttons)
+  └── Web Admin Dashboard        ├── inspect_code
+      (No native SQLite builds)  │   (Local / GitHub tag)
+                                 └── get_releases
+                                     (GitHub API / CHANGELOG)
+```
+
+- **Pure `pnpm` Package Management**: Built on `node:24-slim` with Corepack and `pnpm@11.20.0`. Fast, deterministic, reproducible installs with zero native C++ build tools (`node-gyp`, `python3`, `g++`, `make`) required.
+- **PocketBase Backend Decoupling**: Replaces embedded SQLite with a lightweight, standalone [PocketBase](https://pocketbase.io/) microservice. The bot interacts purely via REST API with `pocketbase`, providing an out-of-the-box web admin UI (`/_/`) for instant FAQ viewing and curation.
+- **Discord Gateway Listener**: Listens in real time for direct `@Cobbleloots Assistant` mentions and reply chains, maintaining a typing indicator while streaming and chunking long responses (up to 1900 characters per Discord message).
+- **Thread Context Engine**: When mentioned inside a Discord thread or forum post, the engine automatically fetches up to 20 recent messages chronologically to form complete context before invoking the model.
+- **Bilingual Conversational Engine**: By default, replies to the global community in English. When addressed or questioned in Spanish, naturally switches to fluent Spanish while preserving English technical terms, commands, and file paths.
+- **Dual-Persona Capability**:
+  - **Player Mode (default)**: Delivers clear, friendly gameplay guidance grounded in official documentation and approved FAQs without internal code jargon. Implements the *Anti-Rush Protocol* to ask clarifying questions before answering underspecified bug reports.
+  - **Maintainer/Admin Mode**: For authorized administrators (configured via `DISCORD_ADMIN_IDS`), provides deep technical answers referencing Java classes, line numbers, loader architecture (Common vs Fabric vs NeoForge), and repository inspection.
+- **Complete Suite of Grounding Tools**:
   - `search_docs`: Searches local MkDocs markdown files (`docs/`) if present, falling back to the public precomputed MkDocs search index (`https://resistorcat.github.io/cobbleloots/search/search_index.json`).
-  - `search_faqs`: Full-text search across approved FAQs stored in SQLite.
-  - `get_releases`: Queries the GitHub Releases REST API for latest releases and release notes, falling back to local `CHANGELOG.md` and `.changelog/` fragments.
+  - `search_faqs`: Semantic and keyword search across approved FAQs in PocketBase.
+  - `list_faqs`: Lists existing FAQs with optional category or approval status filters.
+  - `get_faq`: Retrieves a single FAQ by ID.
+  - `save_faq`: Creates or updates FAQ entries in PocketBase (auto-approved for admins).
+  - `delete_faq`: Deletes an FAQ entry by ID.
   - `inspect_code`: Inspects source files across `common/`, `fabric/`, and `neoforge/` subprojects (restricted to safe paths, dynamically fetched from the latest published release tag on GitHub or read locally when in the monorepo).
-- **Persistent Storage**:
-  - Embedded SQLite database (`data/bot.db`) managed with `better-sqlite3` (WAL mode enabled) for durable FAQ storage and player profiles.
-- **Discord HTTP Interactions**:
-  - Direct Discord HTTP webhook interaction model with cryptographic signature verification (`DISCORD_PUBLIC_KEY`), eliminating gateway heartbeat overhead.
-
----
-
-## Grounding & Remote Resolution Architecture
-
-To keep production Docker images lightweight and decoupled from the monorepo source tree, the bot implements a hybrid grounding architecture:
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                   Discord AI Assistant                      │
-└───────┬─────────────────────────┬─────────────────────────┬─┘
-        │                         │                         │
- ┌──────▼──────┐           ┌──────▼──────┐           ┌──────▼──────┐
- │ search_docs │           │inspect_code │           │get_releases │
- └──────┬──────┘           └──────┬──────┘           └──────┬──────┘
-        │                         │                         │
-  Local docs/ exists?       Local repo exists?       Query GitHub API
-  ├── Yes -> Read disk      ├── Yes -> Read disk     ├── Success -> Return notes
-  └── No  -> Remote index   └── No  -> GitHub API    └── Fail    -> Read CHANGELOG
-             (Pages CDN)               (@latest tag)
-```
-
-- **Zero Monorepo Bundling in Docker**: The Docker container only needs `infra/discord-bot/`. It does not require a full clone of the Java monorepo, keeping image sizes small and builds fast.
-- **Local Dev Speed**: When developing in the monorepo or running tests, local files are read directly from disk with zero network latency.
-- **Dynamic Tag Resolution**: Code inspection in container environments automatically resolves against the latest published release tag (e.g., `v2.5.0-alpha.2`), ensuring answers reflect active player releases.
+  - `get_releases`: Queries the GitHub Releases REST API for latest releases and release notes, falling back to local `CHANGELOG.md` and `.changelog/` fragments.
+  - `ask_question`: Renders interactive Discord button components for users to clarify environment details (e.g. loader, Minecraft version).
 
 ---
 
 ## Prerequisites
 
 - **Node.js**: `>= 22.0.0`
-- **npm**: `>= 10.0.0`
+- **pnpm**: `>= 11.0.0` (Corepack recommended: `corepack enable`)
+- **PocketBase**: Standalone instance (v0.23+ or v0.26+) accessible over HTTP/HTTPS.
 - A Discord Application configured in the [Discord Developer Portal](https://discord.com/developers/applications).
-- API credentials for the LLM model provider (e.g., Google Gemini, OpenAI, or Anthropic).
+- API credentials for your chosen LLM provider (Vercel AI Gateway, Google Gemini, OpenAI, or Anthropic).
 
 ---
 
 ## Discord Developer Portal Setup
 
-Follow these steps to set up the Discord Application and bot credentials:
-
 1. **Create Application**:
    - Go to [Discord Developer Portal](https://discord.com/developers/applications).
-   - Click **New Application**, name it (e.g., `Cobbleloots Assistant`), and accept the terms.
+   - Click **New Application**, name it (e.g., `Cobbleloots Assistant`), and accept terms.
 2. **Retrieve Application ID & Public Key**:
    - In the **General Information** tab:
      - Copy the **Application ID** (`DISCORD_APPLICATION_ID`).
@@ -74,19 +76,19 @@ Follow these steps to set up the Discord Application and bot credentials:
 3. **Configure Bot & Token**:
    - Navigate to the **Bot** tab on the left sidebar.
    - Click **Reset Token** to copy the token (`DISCORD_BOT_TOKEN`).
-   - Under **Privileged Gateway Intents**, enable **Message Content Intent** so the bot can listen to `@Cobbleloots` mentions and replies in chat channels.
-4. **Set Interactions Endpoint URL (Optional for Slash Commands/Webhooks)**:
+   - Under **Privileged Gateway Intents**, enable **Message Content Intent** so the bot can listen to `@Cobbleloots Assistant` mentions and replies in chat channels and threads.
+4. **Configure Interactions Endpoint URL (Optional for Slash Commands/Webhooks)**:
    - In **General Information**, locate **Interactions Endpoint URL**.
    - Eve exposes HTTP interactions at `/eve/v1/discord`.
    - Set the URL to:
      ```text
      https://<your-public-domain>/eve/v1/discord
      ```
-   - For local development, expose your local port using a tunnel (e.g. `ngrok http 3000` or `cloudflared tunnel`) and provide `https://<tunnel-subdomain>/eve/v1/discord`. Discord will send a `PING` to verify the public key signature automatically.
+   - For local development, expose your local port using a tunnel (e.g., `ngrok http 3000` or `cloudflared tunnel`) and provide `https://<tunnel-subdomain>/eve/v1/discord`. Discord will send a `PING` to verify the public key signature automatically.
 5. **Invite Bot to Server**:
    - Navigate to **OAuth2** -> **URL Generator**.
    - Scopes: Select `bot` and `applications.commands`.
-   - Bot Permissions: Select `Send Messages`, `Embed Links`, `Use Slash Commands`, and `Read Message History`.
+   - Bot Permissions: Select `Send Messages`, `Send Messages in Threads`, `Embed Links`, `Use Slash Commands`, and `Read Message History`.
    - Copy the generated URL and open it in a browser to invite the bot to your Discord server.
 
 ---
@@ -94,9 +96,11 @@ Follow these steps to set up the Discord Application and bot credentials:
 ## How to Talk to the Bot
 
 Once invited to your Discord server:
-- **Mention the bot directly**: `@Cobbleloots ¿dónde encuentro la Moon Ball?`
-- **Reply to any previous bot message**: The assistant seamlessly continues the conversation.
-- If mentioned with no question (`@Cobbleloots`), the bot replies with a helpful greeting introducing its capabilities.
+- **Mention the bot directly**: `@Cobbleloots Assistant where do I find the Moon Ball?`
+- **Reply to any previous bot message**: The assistant seamlessly continues the conversation with context.
+- **Thread Context Support**: Mention the bot inside any thread or forum post, and it automatically reads the preceding messages (up to 20) to understand the full conversation history.
+- **Spanish Inquiries**: `@Cobbleloots Assistant ¿cómo configuro los drops de pesca?` — the assistant answers fluently in Spanish.
+- **Empty mention**: If mentioned with no question (`@Cobbleloots Assistant`), the bot replies with a welcoming greeting explaining what it can do.
 
 ---
 
@@ -114,116 +118,130 @@ cp .env.example .env
 | `DISCORD_BOT_TOKEN` | **Yes** | — | Discord Bot Token from Developer Portal. |
 | `DISCORD_PUBLIC_KEY` | **Yes** | — | Discord Public Key used for interaction webhook verification. |
 | `DISCORD_ADMIN_IDS` | No | `""` | Comma-separated Discord user snowflakes with maintainer/admin permissions. |
-| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Default LLM model string for the agent (routes via Vercel AI Gateway). |
-| `DATABASE_PATH` | No | `./data/bot.db` | File path for SQLite database storing FAQs and state (`/app/data/bot.db` in Docker). |
-| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | GitHub repository identifier for remote release & code queries. |
-| `GITHUB_TOKEN` | No | — | Optional GitHub Personal Access Token for increased API rate limits in production. |
-| `REPO_ROOT` | No | Mod repo root | Absolute path to the local Cobbleloots repository root (dev only). |
-| `REPO_DOCS_PATH` | No | `<REPO_ROOT>/docs` | Absolute path to local MkDocs markdown folder (dev only). |
+| `POCKETBASE_URL` | **Yes** | `http://127.0.0.1:8090` | URL of the PocketBase service (e.g., `http://pocketbase:8090` or `https://pb.yourdomain.com`). |
+| `POCKETBASE_ADMIN_EMAIL` | **Yes** | — | PocketBase admin or superuser email for schema bootstrap and authenticated mutations. |
+| `POCKETBASE_ADMIN_PASSWORD` | **Yes** | — | PocketBase admin or superuser password. |
+| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Default LLM model string for the agent. |
+| `AI_GATEWAY_TOKEN` | No | — | Optional Vercel AI Gateway bearer token for model routing. |
 | `GOOGLE_GENERATIVE_AI_API_KEY` | Conditional | — | Required if using Google Gemini models (`google/*`). |
 | `OPENAI_API_KEY` | Conditional | — | Required if using OpenAI models (`openai/*`). |
 | `ANTHROPIC_API_KEY` | Conditional | — | Required if using Anthropic models (`anthropic/*`). |
+| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | GitHub repository identifier for remote release & code queries. |
+| `GITHUB_TOKEN` | No | — | Optional GitHub Personal Access Token for increased API rate limits in production. |
+| `DISABLE_GATEWAY` | No | `false` | Set to `true` to skip the Discord Gateway listener (HTTP interactions only). |
+| `PORT` | No | `3000` | Port for the Eve HTTP server. |
 
 ---
 
-## Installation & Development Runbook
+## Local Development Runbook
 
 ### 1. Install Dependencies
 ```bash
-npm install
+corepack enable
+pnpm install
 ```
 
 ### 2. Run Tests
-Execute the Vitest test suite covering FAQ store, domain tools, HITL workflows, session state, and agent configuration:
+Execute the Vitest test suite covering PocketBase client, FAQ tools, domain tools, HITL workflows, Gateway message handling, and agent configuration:
 ```bash
-npm test
+pnpm test
 ```
 To run a specific test file:
 ```bash
-npx vitest run tests/tools.test.ts
+pnpm exec vitest run tests/faq-tools.test.ts
 ```
 
 ### 3. Typecheck
-Verify strict TypeScript compilation:
+Verify strict TypeScript compilation with zero errors:
 ```bash
-npm run typecheck
+pnpm run typecheck
 ```
 
 ### 4. Start Local Development Server
 Start the Eve live development server with hot reload:
 ```bash
-npm run dev
+pnpm run dev
 ```
 The server listens for incoming HTTP interaction webhooks at `http://localhost:3000/eve/v1/discord`.
 
 ### 5. Production Build & Run
-To compile and run the production server locally:
+To compile and run the production server locally with the gateway runner:
 ```bash
-npm run build
-npm run start
+pnpm run build
+pnpm run start
 ```
 
 ---
 
-## Production Deployment with Coolify v4 & Cloudflare
+## Admin FAQ Management
 
-The assistant is containerized with a multi-stage Dockerfile and designed to run on a self-hosted server managed via [Coolify](https://coolify.io/) behind a Cloudflare reverse proxy.
+The assistant provides full FAQ management capabilities backed by PocketBase:
 
-### Coolify Setup Runbook
+### Available Tools
+- `search_faqs`: Query FAQs by keyword or topic. Returns approved entries to normal players and all matching entries to admins.
+- `list_faqs`: List FAQs in the collection. Supports filtering by `category` and `approved_only` boolean.
+- `get_faq`: Fetch complete details of a specific FAQ entry by its PocketBase ID.
+- `save_faq`: Create or update an FAQ entry. When called by an admin (or via web UI), FAQs are automatically approved. Normal player submissions are staged with `approved: 0`.
+- `delete_faq`: Permanently delete an FAQ entry by ID (restricted to authorized admins).
 
-1. **Create New Service in Coolify**:
-   - In your Coolify dashboard, select your project/environment and click **+ New** -> **Application** -> **Public Repository** (or Private GitHub App).
-   - Repository URL: `https://github.com/ResistorCat/cobbleloots`
-   - Branch: `main` (or your target branch)
-2. **Configure Application Settings**:
-   - **Build Pack**: Select **Dockerfile**.
-   - **Base Directory**: Set to `infra/discord-bot`.
-   - **Dockerfile Location**: `/Dockerfile` (relative to Base Directory).
-   - **Ports Exposes**: `3000`.
-3. **Configure Persistent Storage (Volume)**:
-   - Go to the **Storages** tab in Coolify.
-   - Add a persistent volume mount:
-     - **Destination Path**: `/app/data`
-     - **Volume Name / Host Path**: `cobbleloots-bot-data` (or `/var/lib/docker/volumes/cobbleloots-bot-data`)
-   - This ensures the SQLite database (`/app/data/bot.db`) persists across redeployments and container restarts.
-4. **Configure Environment Variables**:
-   - Under the **Environment Variables** tab, add all required secrets:
-     ```text
-     DISCORD_APPLICATION_ID=<your-app-id>
-     DISCORD_BOT_TOKEN=<your-bot-token>
-     DISCORD_PUBLIC_KEY=<your-public-key>
-     DISCORD_ADMIN_IDS=<admin-snowflake-ids>
-     DATABASE_PATH=/app/data/bot.db
-     DEFAULT_MODEL=mistral/mistral-nemo
-     GOOGLE_GENERATIVE_AI_API_KEY=<gemini-api-key>
-     GITHUB_TOKEN=<optional-github-pat>
-     ```
-5. **Set Domains & Cloudflare Reverse Proxy**:
-   - In Coolify **Domains**, enter your public domain (e.g. `https://bot.yourdomain.com`).
-   - In Cloudflare DNS:
-     - Add a `CNAME` or `A` record pointing `bot.yourdomain.com` to your Coolify server IP with Cloudflare Proxy enabled (Orange Cloud / Proxied).
-     - SSL/TLS encryption mode: Set to **Full (strict)**.
-6. **Register Discord Webhook**:
-   - In the Discord Developer Portal for your application:
-     - Interactions Endpoint URL: `https://bot.yourdomain.com/eve/v1/discord`
-     - Save changes. Discord will send a signature validation ping; the running bot will respond with HTTP 200 `PONG`.
-7. **Deploy**:
+### Management via PocketBase Web Admin Dashboard
+Authorized maintainers can manage FAQs visually without touching code:
+1. Open the PocketBase web UI at `https://<pocketbase-domain>/_/`.
+2. Log in with your admin credentials.
+3. Browse the `faqs` collection to create, edit, approve, or delete questions and answers directly.
+4. Changes are immediately available to the Discord assistant on its next inquiry.
+
+---
+
+## Production Deployment with Coolify v4
+
+The bot is packaged as a pure multi-stage Docker container on `node:24-slim` with Corepack and `pnpm@11.20.0`. It is deployed on a self-hosted server running [Coolify v4](https://coolify.io/) alongside PocketBase.
+
+### Step 1: Deploy PocketBase Service
+1. In your Coolify dashboard, select your Project & Environment.
+2. Click **+ New** -> **Service** -> **PocketBase** (or create a custom application using `ghcr.io/muchobien/pocketbase:latest`).
+3. Set up the persistent storage volume for PocketBase data (`/pb_data`).
+4. Assign a public domain (e.g., `https://pb.yourdomain.com`) or take note of the internal Docker network hostname (e.g., `http://pocketbase:8090`).
+5. Open `https://pb.yourdomain.com/_/` in your browser and create the initial superuser account (`admin@yourdomain.com` / `<secure-password>`).
+
+### Step 2: Deploy Discord AI Assistant Service
+1. In Coolify, click **+ New** -> **Application** -> **Public Repository** (or GitHub App).
+2. Repository URL: `https://github.com/ResistorCat/cobbleloots`
+3. Branch: `main` (or release branch)
+4. Configure application build settings:
+   - **Build Pack**: `Dockerfile`
+   - **Base Directory**: `infra/discord-bot`
+   - **Dockerfile Location**: `/Dockerfile` (relative to `infra/discord-bot`)
+   - **Ports Exposes**: `3000`
+5. Configure Environment Variables:
+   ```text
+   DISCORD_APPLICATION_ID=<your-app-id>
+   DISCORD_BOT_TOKEN=<your-bot-token>
+   DISCORD_PUBLIC_KEY=<your-public-key>
+   DISCORD_ADMIN_IDS=<admin-snowflake-ids>
+   POCKETBASE_URL=http://pocketbase:8090
+   POCKETBASE_ADMIN_EMAIL=admin@yourdomain.com
+   POCKETBASE_ADMIN_PASSWORD=<secure-password>
+   DEFAULT_MODEL=mistral/mistral-nemo
+   AI_GATEWAY_TOKEN=<optional-ai-gateway-token>
+   GOOGLE_GENERATIVE_AI_API_KEY=<optional-gemini-key>
+   GITHUB_TOKEN=<optional-github-pat>
+   PORT=3000
+   ```
+   *(If PocketBase is on the same internal Docker network in Coolify, `http://pocketbase:8090` avoids public internet round-trips).*
+
+6. Configure Domain & Cloudflare (Optional for HTTP webhook interactions):
+   - Set Domain: `https://bot.yourdomain.com`.
+   - In Cloudflare DNS, point `bot.yourdomain.com` to the server IP with Proxy enabled (Orange Cloud) and SSL/TLS set to **Full (strict)**.
+   - If using the Discord Gateway exclusively, HTTP ingress is not strictly required, but the Eve server also provides health endpoints at `/eve/v1/health`.
+
+7. Deploy:
    - Click **Deploy** in Coolify.
-   - Monitor the deployment logs. The multi-stage build compiles native dependencies, builds the Nitro output bundle, and runs under the unprivileged `node` user.
+   - The multi-stage build will install dependencies with `pnpm --frozen-lockfile`, compile the application via `eve build`, install production dependencies, and run `pnpm run start` under the non-root `node` user.
 
----
-
-## Operations & Maintenance Runbook
-
-### Admin Privileges & FAQ Moderation
-- Users whose Discord IDs are listed in `DISCORD_ADMIN_IDS` are automatically detected upon slash command invocation.
-- When an admin interacts with the assistant:
-  - The agent enters **Maintainer/Admin Mode**, offering in-depth code inspections and architectural insights.
-  - The agent can save new FAQs directly to the database without requiring secondary approval (`approved: 1`).
-- When a standard player's query uncovers a helpful Q&A, the agent can stage an unapproved FAQ (`approved: 0`), ready for review and activation by mod administrators.
-
-### Database Backups
-Because SQLite uses Write-Ahead Logging (WAL mode), backups of `/app/data/bot.db` can be taken online without stopping the container:
-```bash
-sqlite3 /app/data/bot.db ".backup '/app/data/backup-$(date +%F).db'"
-```
+### Verification Checklist & Troubleshooting
+- [ ] **Health Check**: Visit `https://bot.yourdomain.com/eve/v1/health` (or check container logs for `[Runner] Eve server is healthy and listening on port 3000!`).
+- [ ] **Gateway Connection**: Verify the log entry `[Gateway] Logged in as <BotName>#<discriminator>`.
+- [ ] **PocketBase Schema**: Verify the log entry `[PocketBase] Auto-created 'faqs' collection schema` on first startup if the collection wasn't created yet.
+- [ ] **Test Mention**: Send `@Cobbleloots Assistant test` in a Discord channel where the bot has access. Ensure the bot replies and typing indicator displays.
+- [ ] **Test Thread Ingestion**: Mention the bot inside a multi-message thread; verify in responses that context from earlier in the thread is incorporated.

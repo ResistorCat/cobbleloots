@@ -9,7 +9,6 @@ const searchFaqsSchema = z.object({
 export const searchFaqs = defineTool({
   description: "Search community FAQs in PocketBase by question, keywords, or topic.",
   inputSchema: searchFaqsSchema,
-  parameters: searchFaqsSchema,
   execute: async ({ query }: { query: string }) => {
     const pb = getPbClient();
     try {

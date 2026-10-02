@@ -11,7 +11,6 @@ const listFaqsSchema = z.object({
 export const listFaqs = defineTool({
   description: "List existing FAQs from PocketBase with their IDs, categories, and questions. Restricted to administrators.",
   inputSchema: listFaqsSchema,
-  parameters: listFaqsSchema,
   execute: async ({ category, page = 1 }: { category?: string; page?: number }, ctx: any) => {
     const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
     if (!isAuthorizedAdmin(principalId)) {
