@@ -176,6 +176,21 @@ export async function fetchRepoFile(filePath: string, ref?: string): Promise<str
   }
 }
 
+const STOP_WORDS = new Set([
+  "how", "do", "i", "can", "to", "in", "on", "the", "a", "an", "of", "for", "is", "are",
+  "what", "where", "which", "with", "and", "or", "me", "my", "you", "your", "it", "at",
+  "from", "by", "about", "be"
+]);
+
+export function extractSearchKeywords(query: string): string[] {
+  const words = query
+    .toLowerCase()
+    .replace(/[^\w\s]/g, " ")
+    .split(/\s+/)
+    .filter((word) => word.length > 1 && !STOP_WORDS.has(word));
+  return words.length > 0 ? words : [query.trim().toLowerCase()];
+}
+
 export async function searchDocsRemote(query: string, limit = 5): Promise<Array<{ file: string; excerpt: string }>> {
   const now = Date.now();
   let index: DocsIndexItem[] | null = null;
@@ -201,28 +216,47 @@ export async function searchDocsRemote(query: string, limit = 5): Promise<Array<
     return [];
   }
 
-  const queryLower = query.toLowerCase();
-  const results: Array<{ file: string; excerpt: string }> = [];
+  const queryLower = query.toLowerCase().trim();
+  const keywords = extractSearchKeywords(query);
+  const scored: Array<{ file: string; excerpt: string; score: number }> = [];
 
   for (const item of index) {
     const textClean = (item.text || "").replace(/<[^>]*>/g, " ").replace(/\s+/g, " ");
-    const titleMatches = (item.title || "").toLowerCase().includes(queryLower);
-    const textMatches = textClean.toLowerCase().includes(queryLower);
+    const titleClean = item.title || "";
+    const textLower = textClean.toLowerCase();
+    const titleLower = titleClean.toLowerCase();
 
-    if (!titleMatches && !textMatches) continue;
+    let score = 0;
+    if (titleLower.includes(queryLower) || textLower.includes(queryLower)) {
+      score += 50;
+    }
+
+    for (const kw of keywords) {
+      if (titleLower.includes(kw)) score += 15;
+      if (textLower.includes(kw)) score += 3;
+    }
+
+    if (score === 0) continue;
+
+    let bestIdx = -1;
+    for (const kw of keywords) {
+      const idx = textLower.indexOf(kw);
+      if (idx !== -1 && (bestIdx === -1 || idx < bestIdx)) {
+        bestIdx = idx;
+      }
+    }
 
     let excerpt = textClean.slice(0, 250);
-    if (textMatches) {
-      const idx = textClean.toLowerCase().indexOf(queryLower);
-      const start = Math.max(0, idx - 40);
-      const end = Math.min(textClean.length, idx + 160);
+    if (bestIdx !== -1) {
+      const start = Math.max(0, bestIdx - 40);
+      const end = Math.min(textClean.length, bestIdx + 160);
       excerpt = (start > 0 ? "..." : "") + textClean.slice(start, end) + (end < textClean.length ? "..." : "");
     }
 
     const file = item.location ? item.location : item.title;
-    results.push({ file, excerpt });
-    if (results.length >= limit) break;
+    scored.push({ file, excerpt, score });
   }
 
-  return results;
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map(({ file, excerpt }) => ({ file, excerpt }));
 }
