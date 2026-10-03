@@ -112,4 +112,4 @@ Users in `DISCORD_ADMIN_IDS` can manage FAQs via Discord mentions:
 - `list faqs`: Lists stored FAQs.
 - `get faq <id>`: Displays a specific FAQ.
 - `save faq question: <q> answer: <a> category: <c>`: Creates or updates an FAQ.
-- `delete faq <id>`: Deletes an FAQ (requires interactive confirmation prompt).
+- `delete faq <id>`: Deletes an FAQ (gated by Eve runtime approval with interactive Discord `[Approve]` / `[Cancel]` buttons).

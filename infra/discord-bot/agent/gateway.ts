@@ -1,4 +1,15 @@
-import { Client, GatewayIntentBits, Partials, ActivityType, Events, type Message } from "discord.js";
+import {
+  Client,
+  GatewayIntentBits,
+  Partials,
+  ActivityType,
+  Events,
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  type Message,
+  type ButtonInteraction,
+} from "discord.js";
 import { Client as EveClient } from "eve/client";
 import { isAuthorizedAdmin } from "./lib/auth-utils.ts";
 
@@ -39,51 +50,63 @@ export interface TranscriptMessage {
 }
 
 export function formatThreadTranscript(
-  messages: Array<TranscriptMessage> | Iterable<TranscriptMessage>,
+  messages: Iterable<TranscriptMessage>,
   threadName?: string,
   botId?: string
 ): string {
-  const msgList: TranscriptMessage[] = Array.isArray(messages)
-    ? messages
-    : "values" in (messages as any) && typeof (messages as any).values === "function"
-    ? Array.from((messages as any).values())
-    : Array.from(messages as any);
+  const arr = Array.from(messages);
+  if (arr.length === 0) return "";
 
-  // Sort chronologically if timestamps are provided
-  const sorted = [...msgList].sort((a, b) => {
-    const timeA = a.createdTimestamp ?? (a.createdAt ? new Date(a.createdAt).getTime() : 0);
-    const timeB = b.createdTimestamp ?? (b.createdAt ? new Date(b.createdAt).getTime() : 0);
-    if (timeA && timeB && timeA !== timeB) return timeA - timeB;
-    return 0;
+  // Sort chronologically ascending
+  arr.sort((a, b) => {
+    const timeA = a.createdTimestamp || (a.createdAt ? new Date(a.createdAt).getTime() : 0);
+    const timeB = b.createdTimestamp || (b.createdAt ? new Date(b.createdAt).getTime() : 0);
+    return timeA - timeB;
   });
 
-  const cleanMessages = sorted
-    .filter((m) => m && m.content && m.content.trim().length > 0)
-    .map((m) => {
-      const authorName = m.author?.displayName || m.author?.globalName || m.author?.username || "Unknown";
-      const cleanContent = botId ? extractPrompt(m.content!, botId) : m.content!.trim();
-      return `${authorName}: ${cleanContent}`;
-    })
-    .filter((line) => !line.endsWith(": "));
+  const lines: string[] = [];
+  if (threadName) {
+    lines.push(`[Thread History - #${threadName}]`);
+  } else {
+    lines.push("[Thread History]");
+  }
 
-  if (cleanMessages.length === 0) return "";
-  const header = threadName ? `[Thread History - #${threadName}]` : "[Thread History]";
-  return `${header}\n${cleanMessages.join("\n")}\n\n`;
+  for (const m of arr) {
+    if (!m.content) continue;
+    const authorName =
+      m.author?.displayName ||
+      m.author?.globalName ||
+      m.author?.username ||
+      "User";
+    const cleanContent = (botId ? extractPrompt(m.content, botId) : m.content).trim();
+    if (cleanContent) {
+      lines.push(`${authorName}: ${cleanContent}`);
+    }
+  }
+
+  return lines.length > 1 ? lines.join("\n") + "\n\n" : "";
 }
 
 export function splitMessage(text: string, maxLength = 1900): string[] {
   if (text.length <= maxLength) return [text];
+
   const chunks: string[] = [];
   let remaining = text;
 
   while (remaining.length > maxLength) {
-    let splitIdx = remaining.lastIndexOf("\n\n", maxLength);
-    if (splitIdx <= 0) splitIdx = remaining.lastIndexOf("\n", maxLength);
-    if (splitIdx <= 0) splitIdx = remaining.lastIndexOf(" ", maxLength);
-    if (splitIdx <= 0) splitIdx = maxLength;
+    let splitIndex = remaining.lastIndexOf("\n\n", maxLength);
+    if (splitIndex === -1 || splitIndex < maxLength / 2) {
+      splitIndex = remaining.lastIndexOf("\n", maxLength);
+    }
+    if (splitIndex === -1 || splitIndex < maxLength / 2) {
+      splitIndex = remaining.lastIndexOf(" ", maxLength);
+    }
+    if (splitIndex === -1) {
+      splitIndex = maxLength;
+    }
 
-    chunks.push(remaining.slice(0, splitIdx).trimEnd());
-    remaining = remaining.slice(splitIdx).trimStart();
+    chunks.push(remaining.substring(0, splitIndex).trim());
+    remaining = remaining.substring(splitIndex).trim();
   }
 
   if (remaining.length > 0) {
@@ -91,6 +114,89 @@ export function splitMessage(text: string, maxLength = 1900): string[] {
   }
 
   return chunks;
+}
+
+export function buildApprovalButtons(
+  sessionId: string,
+  requestId: string,
+  options?: Array<{ id: string; label?: string; style?: string }>
+): ActionRowBuilder<ButtonBuilder> {
+  const row = new ActionRowBuilder<ButtonBuilder>();
+  const opts =
+    options && options.length > 0
+      ? options
+      : [
+          { id: "approve", label: "Approve", style: "primary" },
+          { id: "cancel", label: "Cancel", style: "danger" },
+        ];
+
+  for (const opt of opts) {
+    const style =
+      opt.id === "approve"
+        ? ButtonStyle.Success
+        : opt.id === "cancel" || opt.style === "danger"
+        ? ButtonStyle.Danger
+        : ButtonStyle.Primary;
+
+    row.addComponents(
+      new ButtonBuilder()
+        .setCustomId(`eve:${sessionId}:${requestId}:${opt.id}`)
+        .setLabel(opt.label || opt.id)
+        .setStyle(style)
+    );
+  }
+
+  return row;
+}
+
+export async function handleButtonInteraction(
+  interaction: ButtonInteraction,
+  eveClient: EveClient
+): Promise<void> {
+  if (!interaction.customId?.startsWith("eve:")) return;
+
+  const parts = interaction.customId.split(":");
+  const sessionId = parts[1];
+  const requestId = parts[2];
+  const optionId = parts[3];
+
+  if (!sessionId || !requestId || !optionId) return;
+
+  // Authorization check: Only authorized admins can approve
+  if (!isAuthorizedAdmin(interaction.user.id)) {
+    await interaction.reply({
+      content: "❌ Unauthorized: Only server administrators can approve this action.",
+      ephemeral: true,
+    });
+    return;
+  }
+
+  await interaction.deferUpdate();
+
+  try {
+    const session = eveClient.sessions.attach(sessionId);
+    const messageResponse = await session.respond([
+      { requestId, optionId },
+    ]);
+    const nextResult = await messageResponse.result();
+
+    const outcome =
+      nextResult.message ||
+      (optionId === "approve"
+        ? "✅ Action approved and executed successfully."
+        : "❌ Action cancelled by administrator.");
+
+    await interaction.editReply({
+      content: `${interaction.message.content}\n\n**Decision Result:**\n${outcome}`,
+      components: [],
+    });
+  } catch (err) {
+    console.error("[Gateway] Error processing approval decision:", err);
+    await interaction.followUp({
+      content: `Error processing decision: ${(err as Error).message}`,
+      ephemeral: true,
+    });
+  }
 }
 
 export interface GatewayOptions {
@@ -172,6 +278,21 @@ export async function handleDiscordMessage(
     const result = await response.result();
     clearInterval(typingInterval);
 
+    // Check for Human-In-The-Loop approval or input requests
+    if (result.status === "waiting" && result.inputRequests && result.inputRequests.length > 0) {
+      const req = result.inputRequests[0];
+      const row = buildApprovalButtons(result.sessionId, req.requestId, req.options);
+      const promptText =
+        req.prompt ||
+        `⚠️ **Approval Required:** The assistant is requesting authorization to execute **${(req as any).action?.name || "an action"}**.`;
+
+      await message.reply({
+        content: promptText,
+        components: [row],
+      });
+      return;
+    }
+
     const answer = result.message;
     if (!answer || result.status === "failed") {
       await message.reply("Sorry, an error occurred while processing your request. Please try again.");
@@ -224,6 +345,12 @@ export async function startGateway(options: GatewayOptions = {}): Promise<Client
 
   client.on(Events.MessageCreate, async (message) => {
     await handleDiscordMessage(message, client, eveClient);
+  });
+
+  client.on(Events.InteractionCreate, async (interaction) => {
+    if (interaction.isButton()) {
+      await handleButtonInteraction(interaction, eveClient);
+    }
   });
 
   await client.login(token);

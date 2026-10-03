@@ -140,6 +140,10 @@ describe("PocketBase FAQ Tools", () => {
   });
 
   describe("deleteFaq", () => {
+    it("should have approval configured with always policy", () => {
+      expect(deleteFaq.approval).toBeDefined();
+    });
+
     it("should reject non-admin users", async () => {
       const result = await deleteFaq.execute({ id: "rec1" }, {
         session: { auth: { current: { id: "player_456" } } },
@@ -147,21 +151,7 @@ describe("PocketBase FAQ Tools", () => {
       expect(result).toContain("Unauthorized");
     });
 
-    it("should prompt for confirmation when confirmed is not true", async () => {
-      const client = getPbClient();
-      vi.spyOn(client, "collection").mockReturnValue({
-        getOne: vi.fn().mockResolvedValue({ id: "rec1", question: "Delete Me?", category: "General" }),
-      } as any);
-
-      const result = await deleteFaq.execute({ id: "rec1", confirmed: false }, {
-        session: { auth: { current: { id: "admin_123" } } },
-      } as any);
-      expect(result).toContain("Confirmation Required");
-      expect(result).toContain("Delete Me?");
-      expect(result).toContain("confirm delete faq rec1");
-    });
-
-    it("should delete FAQ when confirmed is true", async () => {
+    it("should delete FAQ when executed by authorized admin", async () => {
       const client = getPbClient();
       const deleteMock = vi.fn().mockResolvedValue(true);
       vi.spyOn(client, "collection").mockReturnValue({
@@ -169,7 +159,7 @@ describe("PocketBase FAQ Tools", () => {
         delete: deleteMock,
       } as any);
 
-      const result = await deleteFaq.execute({ id: "rec1", confirmed: true }, {
+      const result = await deleteFaq.execute({ id: "rec1" }, {
         session: { auth: { current: { id: "admin_123" } } },
       } as any);
       expect(deleteMock).toHaveBeenCalledWith("rec1");

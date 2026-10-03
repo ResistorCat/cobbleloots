@@ -6,6 +6,8 @@ import {
   splitMessage,
   DEFAULT_GREETING,
   handleDiscordMessage,
+  buildApprovalButtons,
+  handleButtonInteraction,
 } from "../agent/gateway.ts";
 
 describe("Discord Gateway Thread Context & Message Handling", () => {
@@ -315,6 +317,127 @@ describe("Discord Gateway Thread Context & Message Handling", () => {
 
       expect(replyFn).toHaveBeenCalled();
       expect(sendFn).toHaveBeenCalled();
+    });
+  });
+
+  describe("buildApprovalButtons", () => {
+    it("should build approval buttons with approve and cancel", () => {
+      const row = buildApprovalButtons("sess123", "req456");
+      expect(row).toBeDefined();
+      expect(row.components).toHaveLength(2);
+      expect((row.components[0] as any).data.custom_id).toBe("eve:sess123:req456:approve");
+      expect((row.components[1] as any).data.custom_id).toBe("eve:sess123:req456:cancel");
+    });
+  });
+
+  describe("handleButtonInteraction", () => {
+    it("should reject non-admin users attempting to approve", async () => {
+      process.env.DISCORD_ADMIN_IDS = "admin_999";
+      const replyMock = vi.fn().mockResolvedValue(undefined);
+      const interaction = {
+        isButton: () => true,
+        customId: "eve:sess123:req456:approve",
+        user: { id: "player_111" },
+        reply: replyMock,
+      } as any;
+
+      const mockEveClient = {} as any;
+      await handleButtonInteraction(interaction, mockEveClient);
+      expect(replyMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          content: expect.stringContaining("Unauthorized"),
+          ephemeral: true,
+        })
+      );
+    });
+
+    it("should allow authorized admin to approve and resume session", async () => {
+      process.env.DISCORD_ADMIN_IDS = "admin_999";
+      const deferUpdateMock = vi.fn().mockResolvedValue(undefined);
+      const editReplyMock = vi.fn().mockResolvedValue(undefined);
+      const interaction = {
+        isButton: () => true,
+        customId: "eve:sess123:req456:approve",
+        user: { id: "admin_999" },
+        message: { content: "Original prompt" },
+        deferUpdate: deferUpdateMock,
+        editReply: editReplyMock,
+      } as any;
+
+      const respondMock = vi.fn().mockResolvedValue({
+        result: vi.fn().mockResolvedValue({
+          message: "Successfully deleted FAQ",
+          status: "completed",
+        }),
+      });
+
+      const mockEveClient = {
+        sessions: {
+          attach: vi.fn().mockReturnValue({
+            respond: respondMock,
+          }),
+        },
+      } as any;
+
+      await handleButtonInteraction(interaction, mockEveClient);
+      expect(deferUpdateMock).toHaveBeenCalled();
+      expect(mockEveClient.sessions.attach).toHaveBeenCalledWith("sess123");
+      expect(respondMock).toHaveBeenCalledWith([{ requestId: "req456", optionId: "approve" }]);
+      expect(editReplyMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          content: expect.stringContaining("Successfully deleted FAQ"),
+          components: [],
+        })
+      );
+    });
+  });
+
+  describe("handleDiscordMessage with inputRequests", () => {
+    it("should render approval buttons when session requires approval", async () => {
+      const replyFn = vi.fn();
+      const message = {
+        author: { bot: false, id: "admin_999" },
+        content: `<@${BOT_ID}> delete faq 123`,
+        mentions: { has: (id: string) => id === BOT_ID },
+        reply: replyFn,
+        channel: {
+          sendTyping: vi.fn().mockResolvedValue(undefined),
+        },
+      } as any;
+
+      const mockEveClient = {
+        sessions: {
+          create: vi.fn().mockResolvedValue({
+            response: {
+              result: vi.fn().mockResolvedValue({
+                sessionId: "sess_abc",
+                status: "waiting",
+                inputRequests: [
+                  {
+                    kind: "tool-approval",
+                    requestId: "req_xyz",
+                    prompt: "Approve delete_faq for id 123?",
+                    options: [
+                      { id: "approve", label: "Approve" },
+                      { id: "cancel", label: "Cancel" },
+                    ],
+                  },
+                ],
+              }),
+            },
+          }),
+        },
+      } as any;
+
+      const client = { user: { id: BOT_ID } } as any;
+
+      await handleDiscordMessage(message, client, mockEveClient);
+      expect(replyFn).toHaveBeenCalledWith(
+        expect.objectContaining({
+          content: "Approve delete_faq for id 123?",
+          components: expect.any(Array),
+        })
+      );
     });
   });
 });

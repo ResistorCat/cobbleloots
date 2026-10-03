@@ -1,23 +1,18 @@
 import { defineTool } from "eve/tools";
+import { always } from "eve/tools/approval";
 import { z } from "zod";
 import { getAuthenticatedPbClient, formatPbError } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const deleteFaqSchema = z.object({
   id: z.string().describe("The ID of the FAQ record to delete"),
-  confirmed: z
-    .boolean()
-    .optional()
-    .default(false)
-    .describe(
-      "MANDATORY: Must be false on initial deletion requests. Set to true ONLY if the administrator explicitly used the word 'confirm' in their command."
-    ),
 });
 
 export const deleteFaq = defineTool({
-  description: "Delete an FAQ from PocketBase. Restricted to administrators. Requires explicit confirmation.",
+  description: "Delete an FAQ from PocketBase. Restricted to administrators. Gated by human approval.",
   inputSchema: deleteFaqSchema,
-  execute: async ({ id, confirmed = false }: { id: string; confirmed?: boolean }, ctx: any) => {
+  approval: always(),
+  execute: async ({ id }: { id: string }, ctx: any) => {
     if (!isSessionAuthorizedAdmin(ctx)) {
       return "Unauthorized: Only server administrators can delete FAQs.";
     }
@@ -25,17 +20,6 @@ export const deleteFaq = defineTool({
     try {
       const pb = await getAuthenticatedPbClient();
       const existing = await pb.collection("faqs").getOne(id);
-
-      if (!confirmed) {
-        return (
-          `⚠️ **Confirmation Required:** Are you sure you want to permanently delete FAQ:\n` +
-          `• **Question:** "${existing.question}"\n` +
-          `• **Category:** ${existing.category}\n` +
-          `• **ID:** \`${existing.id}\`\n\n` +
-          `To proceed, reply with: \`@Cobbleloots Assistant confirm delete faq ${existing.id}\``
-        );
-      }
-
       await pb.collection("faqs").delete(id);
       return `Successfully deleted FAQ "${existing.question}" (ID: \`${id}\`).`;
     } catch (err) {
