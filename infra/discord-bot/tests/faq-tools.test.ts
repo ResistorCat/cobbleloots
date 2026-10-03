@@ -140,8 +140,8 @@ describe("PocketBase FAQ Tools", () => {
   });
 
   describe("deleteFaq", () => {
-    it("should have approval configured with always policy", () => {
-      expect(deleteFaq.approval).toBeDefined();
+    it("should be executable directly without an approval gate", () => {
+      expect((deleteFaq as any).approval).toBeUndefined();
     });
 
     it("should reject non-admin users", async () => {

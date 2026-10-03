@@ -1,5 +1,4 @@
 import { defineTool } from "eve/tools";
-import { always } from "eve/tools/approval";
 import { z } from "zod";
 import { getAuthenticatedPbClient, formatPbError } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
@@ -9,9 +8,8 @@ const deleteFaqSchema = z.object({
 });
 
 export const deleteFaq = defineTool({
-  description: "Delete an FAQ from PocketBase. Restricted to administrators. Gated by human approval.",
+  description: "Delete an FAQ from PocketBase. Restricted to administrators.",
   inputSchema: deleteFaqSchema,
-  approval: always(),
   execute: async ({ id }: { id: string }, ctx: any) => {
     console.log(`[delete_faq] Invoked execute for id: "${id}"`);
     if (!isSessionAuthorizedAdmin(ctx)) {

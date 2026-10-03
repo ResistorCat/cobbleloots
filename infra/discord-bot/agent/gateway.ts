@@ -391,10 +391,14 @@ export async function startGateway(options: GatewayOptions = {}): Promise<Client
   });
 
   client.on(Events.MessageCreate, async (message) => {
+    if (!message.author.bot && client.user && message.mentions.has(client.user.id)) {
+      console.log(`[Gateway] Mentioned by ${message.author.tag} (${message.author.id}): "${message.content}"`);
+    }
     await handleDiscordMessage(message, client, eveClient);
   });
 
   client.on(Events.InteractionCreate, async (interaction) => {
+    console.log(`[Gateway] Interaction received via Gateway: type=${interaction.type}, isButton=${interaction.isButton()}`);
     if (interaction.isButton()) {
       await handleButtonInteraction(interaction, eveClient);
     }
