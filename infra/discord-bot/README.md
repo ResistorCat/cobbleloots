@@ -54,9 +54,7 @@ Crear archivo `.env` en `infra/discord-bot` a partir de `.env.example`:
 | `POCKETBASE_ADMIN_EMAIL` | **Sí** | — | Email de la cuenta admin de PocketBase. |
 | `POCKETBASE_ADMIN_PASSWORD` | **Sí** | — | Contraseña de la cuenta admin de PocketBase. |
 | `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Modelo LLM configurado (enrutado vía Vercel AI Gateway). |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | Condicional | — | Clave para modelos Google Gemini (`google/*`). |
-| `OPENAI_API_KEY` | Condicional | — | Clave para modelos OpenAI (`openai/*`). |
-| `ANTHROPIC_API_KEY` | Condicional | — | Clave para modelos Anthropic (`anthropic/*`). |
+| `AI_GATEWAY_API_KEY` | **Sí** | — | Clave de API de Vercel AI Gateway para autenticar las peticiones al modelo. |
 | `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | Repositorio para consultas remotas de código y releases. |
 | `GITHUB_TOKEN` | No | — | Token opcional de GitHub para evitar límites de tasa en la API pública. |
 
