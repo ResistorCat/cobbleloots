@@ -119,7 +119,8 @@ export function splitMessage(text: string, maxLength = 1900): string[] {
 export function buildApprovalButtons(
   sessionId: string,
   requestId: string,
-  options?: Array<{ id: string; label?: string; style?: string }>
+  options?: Array<{ id: string; label?: string; style?: string }>,
+  streamIndex: number = 0
 ): ActionRowBuilder<ButtonBuilder> {
   const row = new ActionRowBuilder<ButtonBuilder>();
   const opts =
@@ -140,7 +141,7 @@ export function buildApprovalButtons(
 
     row.addComponents(
       new ButtonBuilder()
-        .setCustomId(`eve:${sessionId}:${requestId}:${opt.id}`)
+        .setCustomId(`eve|${sessionId}|${requestId}|${opt.id}|${streamIndex}`)
         .setLabel(opt.label || opt.id)
         .setStyle(style)
     );
@@ -153,17 +154,38 @@ export async function handleButtonInteraction(
   interaction: ButtonInteraction,
   eveClient: EveClient
 ): Promise<void> {
-  if (!interaction.customId?.startsWith("eve:")) return;
+  console.log(`[Gateway] Received button interaction customId="${interaction.customId}" from ${interaction.user.tag} (${interaction.user.id})`);
 
-  const parts = interaction.customId.split(":");
-  const sessionId = parts[1];
-  const requestId = parts[2];
-  const optionId = parts[3];
+  let sessionId: string | undefined;
+  let requestId: string | undefined;
+  let optionId: string | undefined;
+  let streamIndex: number | undefined;
 
-  if (!sessionId || !requestId || !optionId) return;
+  if (interaction.customId?.startsWith("eve|")) {
+    const parts = interaction.customId.split("|");
+    sessionId = parts[1];
+    requestId = parts[2];
+    optionId = parts[3];
+    streamIndex = parts[4] ? parseInt(parts[4], 10) : undefined;
+  } else if (interaction.customId?.startsWith("eve:")) {
+    // Backwards compatibility with active buttons using previous format
+    const parts = interaction.customId.split(":");
+    sessionId = parts[1];
+    requestId = parts[2];
+    optionId = parts[3];
+  } else {
+    return;
+  }
 
-  // Authorization check: Only authorized admins can approve
-  if (!isAuthorizedAdmin(interaction.user.id)) {
+  if (!sessionId || !requestId || !optionId) {
+    console.warn("[Gateway] Malformed approval customId:", interaction.customId);
+    return;
+  }
+
+  const authorized = isAuthorizedAdmin(interaction.user.id);
+  console.log(`[Gateway] Admin check for user ${interaction.user.id}: ${authorized ? "AUTHORIZED" : "DENIED"}`);
+
+  if (!authorized) {
     await interaction.reply({
       content: "❌ Unauthorized: Only server administrators can approve this action.",
       ephemeral: true,
@@ -174,11 +196,26 @@ export async function handleButtonInteraction(
   await interaction.deferUpdate();
 
   try {
-    const session = eveClient.sessions.attach(sessionId);
-    const messageResponse = await session.respond([
-      { requestId, optionId },
-    ]);
+    console.log(`[Gateway] Attaching to session "${sessionId}" (streamIndex: ${streamIndex ?? 0})...`);
+    const session = eveClient.sessions.attach(
+      sessionId,
+      streamIndex !== undefined ? { streamIndex } : undefined
+    );
+
+    console.log(`[Gateway] Submitting approval response for requestId "${requestId}", optionId "${optionId}"...`);
+    const messageResponse = await session.respond(
+      [{ requestId, optionId }],
+      {
+        headers: {
+          "x-discord-user-id": interaction.user.id,
+          "x-discord-is-admin": "true",
+        },
+      }
+    );
+
+    console.log("[Gateway] Awaiting post-approval execution result from Eve...");
     const nextResult = await messageResponse.result();
+    console.log(`[Gateway] Resumed turn completed. status=${nextResult.status}, events=${nextResult.events?.length ?? 0}`);
 
     const outcome =
       nextResult.message ||
@@ -190,12 +227,17 @@ export async function handleButtonInteraction(
       content: `${interaction.message.content}\n\n**Decision Result:**\n${outcome}`,
       components: [],
     });
+    console.log("[Gateway] Discord message updated and buttons stripped successfully.");
   } catch (err) {
     console.error("[Gateway] Error processing approval decision:", err);
-    await interaction.followUp({
-      content: `Error processing decision: ${(err as Error).message}`,
-      ephemeral: true,
-    });
+    try {
+      await interaction.editReply({
+        content: `${interaction.message.content}\n\n⚠️ **Error processing decision:** ${(err as Error).message}`,
+        components: [],
+      });
+    } catch (editErr) {
+      console.error("[Gateway] Failed to update message with error:", editErr);
+    }
   }
 }
 
@@ -281,7 +323,12 @@ export async function handleDiscordMessage(
     // Check for Human-In-The-Loop approval or input requests
     if (result.status === "waiting" && result.inputRequests && result.inputRequests.length > 0) {
       const req = result.inputRequests[0];
-      const row = buildApprovalButtons(result.sessionId, req.requestId, req.options);
+      const row = buildApprovalButtons(
+        result.sessionId,
+        req.requestId,
+        req.options,
+        result.events?.length ?? 0
+      );
       const promptText =
         req.prompt ||
         `⚠️ **Approval Required:** The assistant is requesting authorization to execute **${(req as any).action?.name || "an action"}**.`;

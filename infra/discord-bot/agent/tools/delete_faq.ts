@@ -13,7 +13,9 @@ export const deleteFaq = defineTool({
   inputSchema: deleteFaqSchema,
   approval: always(),
   execute: async ({ id }: { id: string }, ctx: any) => {
+    console.log(`[delete_faq] Invoked execute for id: "${id}"`);
     if (!isSessionAuthorizedAdmin(ctx)) {
+      console.warn(`[delete_faq] Unauthorized attempt for id: "${id}", session auth:`, JSON.stringify(ctx?.session?.auth));
       return "Unauthorized: Only server administrators can delete FAQs.";
     }
 
@@ -21,9 +23,10 @@ export const deleteFaq = defineTool({
       const pb = await getAuthenticatedPbClient();
       const existing = await pb.collection("faqs").getOne(id);
       await pb.collection("faqs").delete(id);
+      console.log(`[delete_faq] Successfully deleted FAQ "${existing.question}" (ID: ${id})`);
       return `Successfully deleted FAQ "${existing.question}" (ID: \`${id}\`).`;
     } catch (err) {
-      console.error("[delete_faq] Error deleting FAQ in PocketBase:", err);
+      console.error(`[delete_faq] Error deleting FAQ in PocketBase (ID: ${id}):`, err);
       return `Failed to delete FAQ with ID "${id}": ${formatPbError(err)}`;
     }
   },

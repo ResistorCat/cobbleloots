@@ -12,12 +12,21 @@ export function isAuthorizedAdmin(principalId: string | undefined): boolean {
 
 export function isSessionAuthorizedAdmin(ctx: any): boolean {
   if (!ctx) return false;
-  const current = ctx?.session?.auth?.current;
-  if (current?.attributes?.isAdmin === "true" || current?.attributes?.isAdmin === true) {
-    return true;
+  const auth = ctx?.session?.auth;
+  const current = auth?.current;
+  const initiator = auth?.initiator;
+
+  for (const principal of [current, initiator]) {
+    if (!principal) continue;
+    if (principal.attributes?.isAdmin === "true" || principal.attributes?.isAdmin === true) {
+      return true;
+    }
+    const id = principal.principalId || principal.id;
+    if (isAuthorizedAdmin(id)) {
+      return true;
+    }
   }
-  const principalId = current?.principalId || current?.id;
-  return isAuthorizedAdmin(principalId);
+  return false;
 }
 
 export function getSessionCallerId(ctx: any): string | undefined {

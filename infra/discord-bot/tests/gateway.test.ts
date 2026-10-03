@@ -322,11 +322,11 @@ describe("Discord Gateway Thread Context & Message Handling", () => {
 
   describe("buildApprovalButtons", () => {
     it("should build approval buttons with approve and cancel", () => {
-      const row = buildApprovalButtons("sess123", "req456");
+      const row = buildApprovalButtons("sess123", "req456", undefined, 5);
       expect(row).toBeDefined();
       expect(row.components).toHaveLength(2);
-      expect((row.components[0] as any).data.custom_id).toBe("eve:sess123:req456:approve");
-      expect((row.components[1] as any).data.custom_id).toBe("eve:sess123:req456:cancel");
+      expect((row.components[0] as any).data.custom_id).toBe("eve|sess123|req456|approve|5");
+      expect((row.components[1] as any).data.custom_id).toBe("eve|sess123|req456|cancel|5");
     });
   });
 
@@ -336,8 +336,8 @@ describe("Discord Gateway Thread Context & Message Handling", () => {
       const replyMock = vi.fn().mockResolvedValue(undefined);
       const interaction = {
         isButton: () => true,
-        customId: "eve:sess123:req456:approve",
-        user: { id: "player_111" },
+        customId: "eve|sess123|req456|approve|5",
+        user: { id: "player_111", tag: "Player#1111" },
         reply: replyMock,
       } as any;
 
@@ -351,14 +351,14 @@ describe("Discord Gateway Thread Context & Message Handling", () => {
       );
     });
 
-    it("should allow authorized admin to approve and resume session", async () => {
+    it("should allow authorized admin to approve and resume session with streamIndex and auth headers", async () => {
       process.env.DISCORD_ADMIN_IDS = "admin_999";
       const deferUpdateMock = vi.fn().mockResolvedValue(undefined);
       const editReplyMock = vi.fn().mockResolvedValue(undefined);
       const interaction = {
         isButton: () => true,
-        customId: "eve:sess123:req456:approve",
-        user: { id: "admin_999" },
+        customId: "eve|sess123|req456|approve|5",
+        user: { id: "admin_999", tag: "Admin#9999" },
         message: { content: "Original prompt" },
         deferUpdate: deferUpdateMock,
         editReply: editReplyMock,
@@ -381,8 +381,16 @@ describe("Discord Gateway Thread Context & Message Handling", () => {
 
       await handleButtonInteraction(interaction, mockEveClient);
       expect(deferUpdateMock).toHaveBeenCalled();
-      expect(mockEveClient.sessions.attach).toHaveBeenCalledWith("sess123");
-      expect(respondMock).toHaveBeenCalledWith([{ requestId: "req456", optionId: "approve" }]);
+      expect(mockEveClient.sessions.attach).toHaveBeenCalledWith("sess123", { streamIndex: 5 });
+      expect(respondMock).toHaveBeenCalledWith(
+        [{ requestId: "req456", optionId: "approve" }],
+        expect.objectContaining({
+          headers: expect.objectContaining({
+            "x-discord-user-id": "admin_999",
+            "x-discord-is-admin": "true",
+          }),
+        })
+      );
       expect(editReplyMock).toHaveBeenCalledWith(
         expect.objectContaining({
           content: expect.stringContaining("Successfully deleted FAQ"),
