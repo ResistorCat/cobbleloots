@@ -1,0 +1,12 @@
+node_modules/
+pnpm-debug.log
+.env
+.env.*
+!.env.example
+dist/
+.eve/
+.output/
+tests/
+.git/
+.github/
+.vscode/

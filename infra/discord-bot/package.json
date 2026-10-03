@@ -1,0 +1,34 @@
+{
+  "name": "discord-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "packageManager": "pnpm@11.20.0",
+  "imports": {
+    "#*": "./agent/*"
+  },
+  "scripts": {
+    "dev": "eve dev",
+    "build": "eve build",
+    "start": "node runner.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@vercel/connect": "^2.2.0",
+    "ai": "^7.0.105",
+    "discord.js": "^14.27.0",
+    "dotenv": "^17.2.3",
+    "eve": "^0.68.0",
+    "pocketbase": "^0.26.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "just-bash": "^3.6.0",
+    "typescript": "^7.0.2",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

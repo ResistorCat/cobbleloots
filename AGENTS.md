@@ -71,6 +71,7 @@ GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx5g -Dorg.gradle.daemon=false -Dorg.gradle.
 6. **Feature PR Target Branch**: Pull requests for new features (`feat(...)`) MUST target the `alpha` branch (`origin/alpha`).
 7. **Early Returns Convention**: Always prefer early returns and guard clauses over deeply nested `if-else` blocks to maximize code clarity and maintainability.
 8. **Documentation Invariant**: Whenever a feature, command, configuration option, or game mechanic is added, modified, or deprecated, the corresponding user-facing documentation in `docs/` and `MODINFO.md` MUST be updated in the same PR. Never leave new features undocumented.
+9. **Mandatory Git Worktree Isolation**: Never work directly on the repository root working tree for any feature, bugfix, or development task. All development, file creation, testing, and command execution MUST occur inside an isolated worktree under `.worktrees/<branch-name>`. The repository root checkout must remain pristine at all times. Before creating any files or writing code, the agent MUST verify or create the isolated worktree via `git worktree add .worktrees/<branch-name> <branch-name>` and switch its working directory there.
 
 ---
 
@@ -155,6 +156,7 @@ After a PR is approved and merged into `alpha`, `beta`, or `main`, the agent/dev
 ## 5. Reference Documents in `.agents/`
 - [`.agents/rules/minecraft-loaders.md`](file:///.agents/rules/minecraft-loaders.md): Pinned loader versions and platform registration guides.
 - [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md): Multi-loader patterns and common code guidelines.
+- [`.agents/rules/context-alignment.md`](file:///.agents/rules/context-alignment.md): Guidelines for context continuity, active conversation re-scanning, and anti-anchoring.
 - [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): Mandatory PR template for agent and contributor pull requests.
 - [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): Recommended structure and conventions for Linear tickets.
 - [`.agents/templates/discord-announcement-template.md`](file:///.agents/templates/discord-announcement-template.md): Template and emoji reference for Discord release announcements.
