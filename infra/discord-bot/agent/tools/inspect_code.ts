@@ -2,7 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import fs from "node:fs";
 import path from "node:path";
-import { fetchRepoFile, getLocalRepoRoot } from "../lib/github-client";
+import { fetchRepoFile, getLocalRepoRoot } from "../lib/github-client.ts";
 
 const ALLOWED_ROOTS = ["common", "fabric", "neoforge"];
 

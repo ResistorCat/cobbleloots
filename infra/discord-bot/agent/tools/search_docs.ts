@@ -2,7 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import fs from "node:fs";
 import path from "node:path";
-import { searchDocsRemote } from "../lib/github-client";
+import { searchDocsRemote } from "../lib/github-client.ts";
 
 function getRepoDocsPath(): string | null {
   if (process.env.REPO_DOCS_PATH) {

@@ -1,5 +1,5 @@
 import { discordChannel } from "eve/channels/discord";
-import { isAuthorizedAdmin } from "../lib/auth-utils";
+import { isAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 export default discordChannel({
   onCommand: (_ctx, interaction) => {

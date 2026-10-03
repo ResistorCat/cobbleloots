@@ -6,7 +6,7 @@ import {
   splitMessage,
   DEFAULT_GREETING,
   handleDiscordMessage,
-} from "../agent/gateway";
+} from "../agent/gateway.ts";
 
 describe("Discord Gateway Thread Context & Message Handling", () => {
   const BOT_ID = "123456789012345678";

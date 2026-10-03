@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { getAdminIds, isAuthorizedAdmin } from "../agent/lib/auth-utils";
-import askQuestionTool from "../agent/tools/ask_question";
+import { getAdminIds, isAuthorizedAdmin } from "../agent/lib/auth-utils.ts";
+import askQuestionTool from "../agent/tools/ask_question.ts";
 
 describe("HITL & Approval Tools", () => {
   const originalEnv = process.env.DISCORD_ADMIN_IDS;

@@ -22,13 +22,25 @@ export async function ensurePocketBaseAuth(client = getPbClient()): Promise<bool
   }
 
   try {
-    // PocketBase v0.23+ superusers or legacy admins
-    if ("_superusers" in client.collection) {
-      await client.collection("_superusers").authWithPassword(email, password);
-    } else if ((client as any).admins?.authWithPassword) {
-      await (client as any).admins.authWithPassword(email, password);
+    // Attempt PocketBase v0.23+ superuser authentication first
+    try {
+      if (typeof client.collection === "function") {
+        const col = client.collection("_superusers");
+        if (col && typeof col.authWithPassword === "function") {
+          await col.authWithPassword(email, password);
+          return true;
+        }
+      }
+    } catch {
+      // Fall through to legacy admin authentication if _superusers collection fails
     }
-    return true;
+
+    // Fallback for PocketBase < v0.23 legacy admin authentication
+    if ((client as any).admins?.authWithPassword) {
+      await (client as any).admins.authWithPassword(email, password);
+      return true;
+    }
+    return false;
   } catch (err) {
     console.warn("[PocketBase] Authentication failed:", (err as Error).message);
     return false;

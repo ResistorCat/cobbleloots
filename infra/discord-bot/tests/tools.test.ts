@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import searchDocsTool from "../agent/tools/search_docs";
-import inspectCodeTool from "../agent/tools/inspect_code";
-import getReleasesTool from "../agent/tools/get_releases";
+import searchDocsTool from "../agent/tools/search_docs.ts";
+import inspectCodeTool from "../agent/tools/inspect_code.ts";
+import getReleasesTool from "../agent/tools/get_releases.ts";
 import {
   getReleases,
   getLatestReleaseTag,
   fetchRepoFile,
   searchDocsRemote,
   clearGithubCache,
-} from "../agent/lib/github-client";
+} from "../agent/lib/github-client.ts";
 
 describe("Grounding Tools", () => {
   const origDocsPath = process.env.REPO_DOCS_PATH;

@@ -2,7 +2,7 @@ import { defineTool } from "eve/tools";
 import { z } from "zod";
 import fs from "node:fs";
 import path from "node:path";
-import { getReleases, getLocalRepoRoot } from "../lib/github-client";
+import { getReleases, getLocalRepoRoot } from "../lib/github-client.ts";
 
 export default defineTool({
   description: "Fetch release notes and pending changelog fragments from GitHub releases API or local CHANGELOG.md.",
