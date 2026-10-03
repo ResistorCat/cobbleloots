@@ -1,6 +1,6 @@
-# Cobbleloots Discord AI Assistant
+# Cobbleloots Discord Assistant
 
-Autonomous community support and maintenance assistant for [Cobbleloots](https://github.com/ResistorCat/cobbleloots), built with the [Eve](https://eve.dev) framework and decoupled with [PocketBase](https://pocketbase.io).
+Discord support assistant for [Cobbleloots](https://github.com/ResistorCat/cobbleloots).
 
 ---
 
@@ -20,7 +20,7 @@ flowchart TD
         Tools["Tools (search_docs, inspect_code, save_faq, ...)"]
     end
 
-    subgraph Persistence["External Services"]
+    subgraph Services["External Services"]
         PocketBase[("PocketBase ('faqs' collection)")]
         GitHub["GitHub REST API (Docs & Releases)"]
     end
@@ -34,79 +34,82 @@ flowchart TD
     Tools -->|Docs & Source Code| GitHub
 ```
 
-- **Thread Context Engine**: Ingests up to 20 chronological messages when mentioned inside Discord support threads to preserve context.
-- **Multilingual Support**: Answers in English by default for the global community, and automatically adapts to any user language (Spanish, Portuguese, French, German, Japanese, etc.) while keeping technical identifiers untranslated.
-- **Decoupled Persistence**: FAQs are stored in an external PocketBase instance, manageable via web admin UI at `/_/` or directly from Discord by authorized administrators.
+### Components
+
+- **Gateway (`agent/gateway.ts`)**: WebSocket listener (`discord.js`) handling mentions and thread messages. Forwards message history (up to 20 messages in threads) to the local Eve server.
+- **Agent (`agent/agent.ts`, `agent/instructions.ts`)**: Eve agent with dynamic instructions. Adapts response language to match user input (defaults to English) and keeps technical identifiers untranslated.
+- **Grounding Tools (`agent/tools/`)**:
+  - `search_docs`: Queries documentation index.
+  - `inspect_code`: Reads source files from allowed directories.
+  - `get_releases`: Fetches release notes from GitHub.
+  - `search_faqs`: Searches published FAQs.
+  - `list_faqs`, `get_faq`, `save_faq`, `delete_faq`: Manage FAQs in PocketBase (admin restricted).
+  - `ask_question`: Clarification tool for ambiguous bug reports.
+- **Storage**: PocketBase instance hosting the `faqs` collection.
 
 ---
 
 ## Environment Variables
 
-Create a `.env` file in `infra/discord-bot` by copying `.env.example`:
-
 | Variable | Required | Default | Description |
 | :--- | :---: | :---: | :--- |
-| `DISCORD_APPLICATION_ID` | **Yes** | — | Discord Application ID from the Developer Portal. |
-| `DISCORD_BOT_TOKEN` | **Yes** | — | Discord Bot Token (with Message Content Intent enabled). |
-| `DISCORD_PUBLIC_KEY` | **Yes** | — | Public Key for HTTP interaction signature verification. |
-| `DISCORD_ADMIN_IDS` | No | `""` | Comma-separated Discord user snowflakes with administrator permissions. |
-| `POCKETBASE_URL` | **Yes** | — | Base URL of PocketBase (e.g. `http://pocketbase:8090` or `https://pb.yourdomain.com`). |
-| `POCKETBASE_ADMIN_EMAIL` | **Yes** | — | PocketBase administrator email. |
-| `POCKETBASE_ADMIN_PASSWORD` | **Yes** | — | PocketBase administrator password. |
-| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Configured LLM model string (routed via Vercel AI Gateway). |
-| `AI_GATEWAY_API_KEY` | **Yes** | — | Vercel AI Gateway API key used to authenticate model requests. |
-| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | Target repository for remote release and code lookups. |
-| `GITHUB_TOKEN` | No | — | Optional GitHub token to prevent API rate-limiting in production. |
+| `DISCORD_APPLICATION_ID` | Yes | — | Discord Application ID. |
+| `DISCORD_BOT_TOKEN` | Yes | — | Discord Bot Token (Message Content Intent enabled). |
+| `DISCORD_PUBLIC_KEY` | Yes | — | Public Key for HTTP interaction verification. |
+| `DISCORD_ADMIN_IDS` | No | `""` | Comma-separated Discord user IDs with admin privileges. |
+| `POCKETBASE_URL` | Yes | — | PocketBase endpoint URL. |
+| `POCKETBASE_ADMIN_EMAIL` | Yes | — | PocketBase admin email. |
+| `POCKETBASE_ADMIN_PASSWORD` | Yes | — | PocketBase admin password. |
+| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Model ID routed through AI Gateway. |
+| `AI_GATEWAY_API_KEY` | Yes | — | Vercel AI Gateway API key. |
+| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | Target repository for code and release queries. |
+| `GITHUB_TOKEN` | No | — | Optional GitHub API token. |
 
 ---
 
 ## Local Development
 
 ```bash
-# 1. Install dependencies
+# Install dependencies
 pnpm install
 
-# 2. Run unit tests
+# Run unit tests
 pnpm test
 
-# 3. TypeScript typecheck
+# Typecheck
 pnpm run typecheck
 
-# 4. Live development server (hot reload)
+# Start development server
 pnpm run dev
 
-# 5. Production build and start
+# Build and start production bundle
 pnpm run build
 pnpm run start
 ```
 
 ---
 
-## Deployment with Coolify v4
+## Deployment (Coolify v4)
 
-Deploy the bot in Coolify as two decoupled services:
+### 1. PocketBase
+1. Deploy PocketBase using the Coolify template or `ghcr.io/muchobien/pocketbase:latest`.
+2. Mount persistent storage at `/pb_data`.
+3. Set up the admin account at `/_/`.
 
-### 1. PocketBase Service
-1. Create a new service in Coolify using the **PocketBase** template (or docker image `ghcr.io/muchobien/pocketbase:latest`).
-2. Attach a persistent volume mounted at `/pb_data`.
-3. Assign a public domain or connect via Coolify internal Docker network (e.g. `http://pocketbase:8090`).
-4. Access `https://<pocketbase-domain>/_/` to register the initial admin account.
-
-### 2. Discord Bot Service
-1. Create a new application in Coolify pointing to the GitHub repository:
-   - **Build Pack**: `Dockerfile`
+### 2. Bot Service
+1. Create a service in Coolify using `Dockerfile` build pack:
    - **Base Directory**: `infra/discord-bot`
    - **Port**: `3000`
-2. Add the environment variables from the table above in the Coolify environment settings.
-3. Deploy. The service builds using `node:24-slim` and `pnpm`, running unprivileged under user `node`.
+2. Set the environment variables listed above.
+3. Deploy.
 
 ---
 
-## Admin FAQ Management via Discord
+## Admin FAQ Commands
 
-Users listed in `DISCORD_ADMIN_IDS` can manage FAQs conversationally by mentioning the bot:
+Users in `DISCORD_ADMIN_IDS` can manage FAQs via Discord mentions:
 
-- **List FAQs**: `@Cobbleloots Assistant list faqs`
-- **View details**: `@Cobbleloots Assistant get faq <id>`
-- **Create / Update**: `@Cobbleloots Assistant save faq question: ... answer: ... category: ...`
-- **Delete**: `@Cobbleloots Assistant delete faq <id>` *(requires interactive confirmation to prevent accidental deletions)*.
+- `list faqs`: Lists stored FAQs.
+- `get faq <id>`: Displays a specific FAQ.
+- `save faq question: <q> answer: <a> category: <c>`: Creates or updates an FAQ.
+- `delete faq <id>`: Deletes an FAQ (requires interactive confirmation prompt).
