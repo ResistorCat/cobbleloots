@@ -5,7 +5,13 @@ import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const deleteFaqSchema = z.object({
   id: z.string().describe("The ID of the FAQ record to delete"),
-  confirmed: z.boolean().optional().default(false).describe("Set to true only after the administrator has explicitly confirmed the deletion"),
+  confirmed: z
+    .boolean()
+    .optional()
+    .default(false)
+    .describe(
+      "MANDATORY: Must be false on initial deletion requests. Set to true ONLY if the administrator explicitly used the word 'confirm' in their command."
+    ),
 });
 
 export const deleteFaq = defineTool({
