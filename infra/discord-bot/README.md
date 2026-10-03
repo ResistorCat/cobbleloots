@@ -1,112 +1,112 @@
 # Cobbleloots Discord AI Assistant
 
-Bot de soporte técnico y ayuda comunitaria para la comunidad de [Cobbleloots](https://github.com/ResistorCat/cobbleloots), construido con el framework [Eve](https://eve.dev) y desacoplado con [PocketBase](https://pocketbase.io).
+Autonomous community support and maintenance assistant for [Cobbleloots](https://github.com/ResistorCat/cobbleloots), built with the [Eve](https://eve.dev) framework and decoupled with [PocketBase](https://pocketbase.io).
 
 ---
 
-## Arquitectura
+## Architecture
 
 ```mermaid
 flowchart TD
     subgraph Discord["Discord"]
-        User["Jugador / Admin"]
-        Thread["Hilo de Soporte (#thread)"]
+        User["Player / Admin"]
+        Thread["Support Thread (#thread)"]
     end
 
     subgraph BotContainer["Bot Container (Node 24 / Eve)"]
         Gateway["agent/gateway.ts (discord.js)"]
-        EveServer["Servidor Eve (Nitro / Port 3000)"]
-        Agent["Agente LLM (Dynamic Instructions)"]
+        EveServer["Eve Server (Nitro / Port 3000)"]
+        Agent["LLM Agent (Dynamic Instructions)"]
         Tools["Tools (search_docs, inspect_code, save_faq, ...)"]
     end
 
-    subgraph Persistence["Servicios Externos"]
-        PocketBase[("PocketBase (Colección 'faqs')")]
+    subgraph Persistence["External Services"]
+        PocketBase[("PocketBase ('faqs' collection)")]
         GitHub["GitHub REST API (Docs & Releases)"]
     end
 
-    User -->|Mención @Cobbleloots| Gateway
-    Thread -->|Últimos 20 mensajes| Gateway
+    User -->|Mention @Cobbleloots| Gateway
+    Thread -->|Last 20 messages| Gateway
     Gateway -->|POST /eve/v1/session| EveServer
     EveServer --> Agent
     Agent --> Tools
-    Tools -->|Lectura / Escritura FAQs| PocketBase
+    Tools -->|Read / Write FAQs| PocketBase
     Tools -->|Docs & Source Code| GitHub
 ```
 
-- **Thread Context Engine**: Al ser invocado en hilos de soporte, ingiere cronológicamente los últimos 20 mensajes para contextualizar la consulta.
-- **Bilingüe**: Responde en inglés por defecto para la comunidad global, o en español si el usuario interactúa en español.
-- **Persistencia Desacoplada**: FAQs almacenadas en PocketBase, administrables vía web en `/_/` o desde Discord por moderadores autorizados.
+- **Thread Context Engine**: Ingests up to 20 chronological messages when mentioned inside Discord support threads to preserve context.
+- **Bilingual Support**: Answers in English by default for the global community, or in natural Spanish if addressed in Spanish.
+- **Decoupled Persistence**: FAQs are stored in an external PocketBase instance, manageable via web admin UI at `/_/` or directly from Discord by authorized administrators.
 
 ---
 
-## Variables de Entorno
+## Environment Variables
 
-Crear archivo `.env` en `infra/discord-bot` a partir de `.env.example`:
+Create a `.env` file in `infra/discord-bot` by copying `.env.example`:
 
-| Variable | Requerido | Default | Descripción |
+| Variable | Required | Default | Description |
 | :--- | :---: | :---: | :--- |
-| `DISCORD_APPLICATION_ID` | **Sí** | — | ID de la aplicación en Discord Developer Portal. |
-| `DISCORD_BOT_TOKEN` | **Sí** | — | Token del bot de Discord (con Message Content Intent activo). |
-| `DISCORD_PUBLIC_KEY` | **Sí** | — | Clave pública para verificación de HTTP Interactions. |
-| `DISCORD_ADMIN_IDS` | No | `""` | IDs de usuario (snowflakes) de Discord con permisos de administración, separados por coma. |
-| `POCKETBASE_URL` | **Sí** | — | URL base de PocketBase (ej. `http://pocketbase:8090` o `https://pb.tudominio.com`). |
-| `POCKETBASE_ADMIN_EMAIL` | **Sí** | — | Email de la cuenta admin de PocketBase. |
-| `POCKETBASE_ADMIN_PASSWORD` | **Sí** | — | Contraseña de la cuenta admin de PocketBase. |
-| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Modelo LLM configurado (enrutado vía Vercel AI Gateway). |
-| `AI_GATEWAY_API_KEY` | **Sí** | — | Clave de API de Vercel AI Gateway para autenticar las peticiones al modelo. |
-| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | Repositorio para consultas remotas de código y releases. |
-| `GITHUB_TOKEN` | No | — | Token opcional de GitHub para evitar límites de tasa en la API pública. |
+| `DISCORD_APPLICATION_ID` | **Yes** | — | Discord Application ID from the Developer Portal. |
+| `DISCORD_BOT_TOKEN` | **Yes** | — | Discord Bot Token (with Message Content Intent enabled). |
+| `DISCORD_PUBLIC_KEY` | **Yes** | — | Public Key for HTTP interaction signature verification. |
+| `DISCORD_ADMIN_IDS` | No | `""` | Comma-separated Discord user snowflakes with administrator permissions. |
+| `POCKETBASE_URL` | **Yes** | — | Base URL of PocketBase (e.g. `http://pocketbase:8090` or `https://pb.yourdomain.com`). |
+| `POCKETBASE_ADMIN_EMAIL` | **Yes** | — | PocketBase administrator email. |
+| `POCKETBASE_ADMIN_PASSWORD` | **Yes** | — | PocketBase administrator password. |
+| `DEFAULT_MODEL` | No | `mistral/mistral-nemo` | Configured LLM model string (routed via Vercel AI Gateway). |
+| `AI_GATEWAY_API_KEY` | **Yes** | — | Vercel AI Gateway API key used to authenticate model requests. |
+| `GITHUB_REPO` | No | `ResistorCat/cobbleloots` | Target repository for remote release and code lookups. |
+| `GITHUB_TOKEN` | No | — | Optional GitHub token to prevent API rate-limiting in production. |
 
 ---
 
-## Desarrollo Local
+## Local Development
 
 ```bash
-# 1. Instalar dependencias
+# 1. Install dependencies
 pnpm install
 
-# 2. Ejecutar tests unitarios
+# 2. Run unit tests
 pnpm test
 
-# 3. Verificación de tipos TypeScript
+# 3. TypeScript typecheck
 pnpm run typecheck
 
-# 4. Servidor de desarrollo en vivo (hot reload)
+# 4. Live development server (hot reload)
 pnpm run dev
 
-# 5. Compilación y arranque en producción
+# 5. Production build and start
 pnpm run build
 pnpm run start
 ```
 
 ---
 
-## Despliegue en Coolify v4
+## Deployment with Coolify v4
 
-El bot se despliega en Coolify como dos servicios desacoplados:
+Deploy the bot in Coolify as two decoupled services:
 
-### 1. Servicio PocketBase
-1. Crear nuevo servicio en Coolify usando la plantilla **PocketBase** (o imagen `ghcr.io/muchobien/pocketbase:latest`).
-2. Configurar volumen persistente en `/pb_data`.
-3. Asignar dominio o usar la red interna de Docker (ej. `http://pocketbase:8090`).
-4. Ingresar al panel `/_/` para registrar la cuenta de administrador.
+### 1. PocketBase Service
+1. Create a new service in Coolify using the **PocketBase** template (or docker image `ghcr.io/muchobien/pocketbase:latest`).
+2. Attach a persistent volume mounted at `/pb_data`.
+3. Assign a public domain or connect via Coolify internal Docker network (e.g. `http://pocketbase:8090`).
+4. Access `https://<pocketbase-domain>/_/` to register the initial admin account.
 
-### 2. Servicio Discord Bot
-1. Crear nueva aplicación en Coolify apuntando al repositorio de GitHub:
+### 2. Discord Bot Service
+1. Create a new application in Coolify pointing to the GitHub repository:
    - **Build Pack**: `Dockerfile`
    - **Base Directory**: `infra/discord-bot`
    - **Port**: `3000`
-2. Configurar las variables de entorno de la tabla anterior.
-3. Desplegar. El servicio compilará con `node:24-slim` y `pnpm`, ejecutándose bajo el usuario `node`.
+2. Add the environment variables from the table above in the Coolify environment settings.
+3. Deploy. The service builds using `node:24-slim` and `pnpm`, running unprivileged under user `node`.
 
 ---
 
-## Gestión de FAQs en Discord (Comandos Admin)
+## Admin FAQ Management via Discord
 
-Los usuarios incluidos en `DISCORD_ADMIN_IDS` pueden gestionar FAQs directamente mencionando al bot:
+Users listed in `DISCORD_ADMIN_IDS` can manage FAQs conversationally by mentioning the bot:
 
-- **Listar FAQs**: `@Cobbleloots Assistant list faqs`
-- **Ver detalle**: `@Cobbleloots Assistant get faq <id>`
-- **Crear/Editar**: `@Cobbleloots Assistant save faq question: ... answer: ... category: ...`
-- **Eliminar**: `@Cobbleloots Assistant delete faq <id>` *(requiere confirmación interactiva para prevenir borrados accidentales)*.
+- **List FAQs**: `@Cobbleloots Assistant list faqs`
+- **View details**: `@Cobbleloots Assistant get faq <id>`
+- **Create / Update**: `@Cobbleloots Assistant save faq question: ... answer: ... category: ...`
+- **Delete**: `@Cobbleloots Assistant delete faq <id>` *(requires interactive confirmation to prevent accidental deletions)*.
