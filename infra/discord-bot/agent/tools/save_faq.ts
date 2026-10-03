@@ -5,6 +5,15 @@ import { isAuthorizedAdmin, isSessionAuthorizedAdmin, getSessionCallerId } from 
 
 export { isAuthorizedAdmin };
 
+export function generateRecordId(): string {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < 15; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
 const saveFaqSchema = z.object({
   id: z.string().optional().describe("If updating an existing FAQ, provide its ID. Omit to create a new FAQ."),
   question: z.string().describe("The question or title of the FAQ"),
@@ -33,8 +42,9 @@ export const saveFaq = defineTool({
         });
         return `Successfully updated FAQ "${updated.question}" (ID: \`${updated.id}\`).`;
       }
-
+      const recordId = generateRecordId();
       const created = await pb.collection("faqs").create({
+        id: recordId,
         question,
         answer,
         category,

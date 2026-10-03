@@ -19,7 +19,13 @@ export function formatPbError(err: any): string {
   const orig = err.originalError?.cause?.message || err.originalError?.message || "";
   const respMsg = err.response?.message || "";
   const baseMsg = err.message || "";
-  const details = [status, respMsg || baseMsg, orig].filter(Boolean).join(" - ");
+  const fieldErrors =
+    err.response?.data && typeof err.response.data === "object"
+      ? Object.entries(err.response.data)
+          .map(([k, v]: [string, any]) => `${k}: ${v?.message || JSON.stringify(v)}`)
+          .join(", ")
+      : "";
+  const details = [status, respMsg || baseMsg, fieldErrors, orig].filter(Boolean).join(" - ");
   return details || String(err);
 }
 
@@ -85,7 +91,7 @@ export async function ensureFaqsCollection(client = getPbClient()): Promise<void
         name: "faqs",
         type: "base",
         fields: [
-          { name: "id", type: "text", primaryKey: true },
+          { name: "id", type: "text", primaryKey: true, pattern: "^[a-z0-9]+$", autogeneratePattern: "[a-z0-9]{15}" },
           { name: "question", type: "text", required: true },
           { name: "answer", type: "text", required: true },
           { name: "keywords", type: "text", required: false },
