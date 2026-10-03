@@ -13,6 +13,16 @@ export function getPbClient(): PocketBase {
   return pbInstance;
 }
 
+export function formatPbError(err: any): string {
+  if (!err) return "Unknown error";
+  const status = typeof err.status === "number" ? `(HTTP ${err.status})` : "";
+  const orig = err.originalError?.cause?.message || err.originalError?.message || "";
+  const respMsg = err.response?.message || "";
+  const baseMsg = err.message || "";
+  const details = [status, respMsg || baseMsg, orig].filter(Boolean).join(" - ");
+  return details || String(err);
+}
+
 export async function ensurePocketBaseAuth(client = getPbClient()): Promise<boolean> {
   const email = process.env.POCKETBASE_ADMIN_EMAIL;
   const password = process.env.POCKETBASE_ADMIN_PASSWORD;
@@ -23,26 +33,29 @@ export async function ensurePocketBaseAuth(client = getPbClient()): Promise<bool
 
   try {
     // Attempt PocketBase v0.23+ superuser authentication first
-    try {
-      if (typeof client.collection === "function") {
-        const col = client.collection("_superusers");
-        if (col && typeof col.authWithPassword === "function") {
+    if (typeof client.collection === "function") {
+      const col = client.collection("_superusers");
+      if (col && typeof col.authWithPassword === "function") {
+        try {
           await col.authWithPassword(email, password);
           return true;
+        } catch (superErr: any) {
+          console.warn(
+            "[PocketBase] Superuser auth failed:",
+            formatPbError(superErr)
+          );
         }
       }
-    } catch {
-      // Fall through to legacy admin authentication if _superusers collection fails
     }
 
     // Fallback for PocketBase < v0.23 legacy admin authentication
-    if ((client as any).admins?.authWithPassword) {
+    if ((client as any).admins?.authWithPassword && !(client as any).admins?.isSuperusers) {
       await (client as any).admins.authWithPassword(email, password);
       return true;
     }
     return false;
   } catch (err) {
-    console.warn("[PocketBase] Authentication failed:", (err as Error).message);
+    console.warn("[PocketBase] Authentication failed:", formatPbError(err));
     return false;
   }
 }
@@ -94,7 +107,7 @@ export async function ensureFaqsCollection(client = getPbClient()): Promise<void
       });
       console.log("[PocketBase] Auto-created 'faqs' collection schema.");
     } catch (createErr) {
-      console.warn("[PocketBase] Could not auto-create 'faqs' collection:", (createErr as Error).message);
+      console.warn("[PocketBase] Could not auto-create 'faqs' collection:", formatPbError(createErr));
     }
   }
 }

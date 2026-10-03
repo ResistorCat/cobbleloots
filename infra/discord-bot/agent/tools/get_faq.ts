@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getAuthenticatedPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient, formatPbError } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const getFaqSchema = z.object({
@@ -26,7 +26,7 @@ export const getFaq = defineTool({
         `**Answer:**\n${record.answer}`;
     } catch (err) {
       console.error("[get_faq] Error fetching FAQ in PocketBase:", err);
-      return `Could not find FAQ with ID "${id}": ${(err as Error).message}`;
+      return `Could not find FAQ with ID "${id}": ${formatPbError(err)}`;
     }
   },
 } as any);

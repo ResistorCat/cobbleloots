@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getAuthenticatedPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient, formatPbError } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const listFaqsSchema = z.object({
@@ -35,7 +35,7 @@ export const listFaqs = defineTool({
       return `**Cobbleloots FAQs (Page ${result.page}/${result.totalPages}, Total: ${result.totalItems}):**\n\n${rows.join("\n")}`;
     } catch (err) {
       console.error("[list_faqs] Error listing FAQs in PocketBase:", err);
-      return `Failed to list FAQs: ${(err as Error).message}`;
+      return `Failed to list FAQs: ${formatPbError(err)}`;
     }
   },
 } as any);

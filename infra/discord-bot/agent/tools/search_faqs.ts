@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getPbClient } from "../lib/pb.ts";
+import { getPbClient, formatPbError } from "../lib/pb.ts";
 
 const searchFaqsSchema = z.object({
   query: z.string().describe("The search query or keyword to look for in FAQs"),
@@ -28,7 +28,7 @@ export const searchFaqs = defineTool({
         )
         .join("\n\n---\n\n");
     } catch (err) {
-      return `FAQ search currently unavailable: ${(err as Error).message}`;
+      return `FAQ search currently unavailable: ${formatPbError(err)}`;
     }
   },
 } as any);

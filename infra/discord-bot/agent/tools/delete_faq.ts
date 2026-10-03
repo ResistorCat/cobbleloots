@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getAuthenticatedPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient, formatPbError } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const deleteFaqSchema = z.object({
@@ -34,7 +34,7 @@ export const deleteFaq = defineTool({
       return `Successfully deleted FAQ "${existing.question}" (ID: \`${id}\`).`;
     } catch (err) {
       console.error("[delete_faq] Error deleting FAQ in PocketBase:", err);
-      return `Failed to delete FAQ with ID "${id}": ${(err as Error).message}`;
+      return `Failed to delete FAQ with ID "${id}": ${formatPbError(err)}`;
     }
   },
 } as any);
