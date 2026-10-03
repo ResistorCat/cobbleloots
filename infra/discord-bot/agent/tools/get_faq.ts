@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { getPbClient } from "../lib/pb.ts";
-import { isAuthorizedAdmin } from "../lib/auth-utils.ts";
+import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const getFaqSchema = z.object({
   id: z.string().describe("The PocketBase FAQ record ID"),
@@ -11,8 +11,7 @@ export const getFaq = defineTool({
   description: "Get full details of a specific FAQ by its PocketBase ID. Restricted to administrators.",
   inputSchema: getFaqSchema,
   execute: async ({ id }: { id: string }, ctx: any) => {
-    const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
-    if (!isAuthorizedAdmin(principalId)) {
+    if (!isSessionAuthorizedAdmin(ctx)) {
       return "Unauthorized: Only server administrators can inspect FAQ details.";
     }
 

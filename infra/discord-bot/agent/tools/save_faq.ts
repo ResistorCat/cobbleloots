@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { getPbClient } from "../lib/pb.ts";
-import { isAuthorizedAdmin } from "../lib/auth-utils.ts";
+import { isAuthorizedAdmin, isSessionAuthorizedAdmin, getSessionCallerId } from "../lib/auth-utils.ts";
 
 export { isAuthorizedAdmin };
 
@@ -17,10 +17,10 @@ export const saveFaq = defineTool({
   description: "Create or update an FAQ in PocketBase. Restricted to administrators.",
   inputSchema: saveFaqSchema,
   execute: async ({ id, question, answer, category, keywords = "" }: { id?: string; question: string; answer: string; category: string; keywords?: string }, ctx: any) => {
-    const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
-    if (!isAuthorizedAdmin(principalId)) {
+    if (!isSessionAuthorizedAdmin(ctx)) {
       return "Unauthorized: Only server administrators can save FAQs.";
     }
+    const principalId = getSessionCallerId(ctx);
 
     const pb = getPbClient();
     try {

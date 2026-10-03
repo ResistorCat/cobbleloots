@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { getPbClient } from "../lib/pb.ts";
-import { isAuthorizedAdmin } from "../lib/auth-utils.ts";
+import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const deleteFaqSchema = z.object({
   id: z.string().describe("The ID of the FAQ record to delete"),
@@ -12,8 +12,7 @@ export const deleteFaq = defineTool({
   description: "Delete an FAQ from PocketBase. Restricted to administrators. Requires explicit confirmation.",
   inputSchema: deleteFaqSchema,
   execute: async ({ id, confirmed = false }: { id: string; confirmed?: boolean }, ctx: any) => {
-    const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
-    if (!isAuthorizedAdmin(principalId)) {
+    if (!isSessionAuthorizedAdmin(ctx)) {
       return "Unauthorized: Only server administrators can delete FAQs.";
     }
 

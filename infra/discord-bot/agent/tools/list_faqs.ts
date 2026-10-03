@@ -1,7 +1,7 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
 import { getPbClient } from "../lib/pb.ts";
-import { isAuthorizedAdmin } from "../lib/auth-utils.ts";
+import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const listFaqsSchema = z.object({
   category: z.string().optional().describe("Optional category to filter by (e.g. Mechanics, Commands, Configuration)"),
@@ -12,8 +12,7 @@ export const listFaqs = defineTool({
   description: "List existing FAQs from PocketBase with their IDs, categories, and questions. Restricted to administrators.",
   inputSchema: listFaqsSchema,
   execute: async ({ category, page = 1 }: { category?: string; page?: number }, ctx: any) => {
-    const principalId = (ctx?.session?.auth?.current as { id?: string } | undefined)?.id;
-    if (!isAuthorizedAdmin(principalId)) {
+    if (!isSessionAuthorizedAdmin(ctx)) {
       return "Unauthorized: Only server administrators can list all FAQs.";
     }
 

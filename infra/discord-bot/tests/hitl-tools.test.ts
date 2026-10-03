@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { getAdminIds, isAuthorizedAdmin } from "../agent/lib/auth-utils.ts";
+import { getAdminIds, isAuthorizedAdmin, isSessionAuthorizedAdmin } from "../agent/lib/auth-utils.ts";
 import askQuestionTool from "../agent/tools/ask_question.ts";
 
 describe("HITL & Approval Tools", () => {
@@ -26,6 +26,18 @@ describe("HITL & Approval Tools", () => {
     expect(isAuthorizedAdmin("222222")).toBe(true);
     expect(isAuthorizedAdmin("999999")).toBe(false);
     expect(isAuthorizedAdmin(undefined)).toBe(false);
+  });
+
+  it("isSessionAuthorizedAdmin validates session context across principalId, id, and attributes", () => {
+    // Via principalId
+    expect(isSessionAuthorizedAdmin({ session: { auth: { current: { principalId: "111111" } } } })).toBe(true);
+    // Via legacy id
+    expect(isSessionAuthorizedAdmin({ session: { auth: { current: { id: "222222" } } } })).toBe(true);
+    // Via attribute isAdmin = "true"
+    expect(isSessionAuthorizedAdmin({ session: { auth: { current: { attributes: { isAdmin: "true" } } } } })).toBe(true);
+    // Unauthorized user
+    expect(isSessionAuthorizedAdmin({ session: { auth: { current: { principalId: "random_user" } } } })).toBe(false);
+    expect(isSessionAuthorizedAdmin(null)).toBe(false);
   });
 
   it("ask_question is defined as an Eve tool with description and schemas", () => {
