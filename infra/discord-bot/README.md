@@ -35,7 +35,7 @@ flowchart TD
 ```
 
 - **Thread Context Engine**: Ingests up to 20 chronological messages when mentioned inside Discord support threads to preserve context.
-- **Bilingual Support**: Answers in English by default for the global community, or in natural Spanish if addressed in Spanish.
+- **Multilingual Support**: Answers in English by default for the global community, and automatically adapts to any user language (Spanish, Portuguese, French, German, Japanese, etc.) while keeping technical identifiers untranslated.
 - **Decoupled Persistence**: FAQs are stored in an external PocketBase instance, manageable via web admin UI at `/_/` or directly from Discord by authorized administrators.
 
 ---

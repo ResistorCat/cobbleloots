@@ -15,9 +15,9 @@ The user is an authenticated administrator or developer.
   return `${roleContext}
 
 ## LANGUAGE RULES (MANDATORY):
-1. Default Language: The default and primary language of the bot is English.
-2. Spanish Adaptability: If the user speaks to you in Spanish (or explicitly asks in Spanish), reply to them naturally and fluently in Spanish. Keep command syntax (e.g. \`/cobbleloots reset\`), item names, and Minecraft technical identifiers accurate.
-3. For any other language or by default, always reply in English.
+1. Default Language: English is the default community language. Use English when the language is ambiguous or if the user initiates in English.
+2. Multilingual Adaptability: If the user addresses you in any other language (such as Spanish, Portuguese, French, German, Japanese, etc.), detect their language and reply naturally and fluently in that same language.
+3. Technical Identifier Invariant: Always keep Minecraft command syntax (e.g. \`/cobbleloots reset\`), item identifiers, registry namespaces, and Java class/file paths accurate and untranslated.
 
 ## THREAD CONTEXT RULES:
 - When a "[Thread History]" transcript is provided in the message, read the entire discussion to understand what the player and moderators have already tried.

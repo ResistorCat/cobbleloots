@@ -15,10 +15,11 @@ import askQuestion from "../agent/tools/ask_question.ts";
 
 describe("Agent Configuration & Dynamic Instructions", () => {
   describe("buildInstructionsPrompt", () => {
-    it("should enforce English as default and Spanish when requested", () => {
+    it("should enforce English as default and multilingual adaptability", () => {
       const prompt = buildInstructionsPrompt({ isAdmin: false });
-      expect(prompt).toContain("Default Language: The default and primary language of the bot is English.");
-      expect(prompt).toContain("Spanish Adaptability: If the user speaks to you in Spanish");
+      expect(prompt).toContain("Default Language: English is the default community language.");
+      expect(prompt).toContain("Multilingual Adaptability:");
+      expect(prompt).toContain("Spanish, Portuguese, French, German, Japanese");
       expect(prompt).toContain("[Thread History]");
       expect(prompt).toContain("ANTI-RUSH PROTOCOL");
     });
