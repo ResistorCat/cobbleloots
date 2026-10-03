@@ -45,6 +45,17 @@ try {
   process.exit(1);
 }
 
+// 2.5 Bootstrap PocketBase
+if (process.env.POCKETBASE_URL) {
+  console.log(`[Runner] Connecting to PocketBase at ${process.env.POCKETBASE_URL}...`);
+  try {
+    const { ensureFaqsCollection } = await import("./agent/lib/pb.ts");
+    await ensureFaqsCollection();
+  } catch (err) {
+    console.warn("[Runner] PocketBase setup error:", (err && err.message) || err);
+  }
+}
+
 // 3. Start Discord Gateway Listener
 if (process.env.DISCORD_BOT_TOKEN && process.env.DISABLE_GATEWAY !== "true") {
   console.log("[Runner] Starting Discord Gateway listener for @mentions...");

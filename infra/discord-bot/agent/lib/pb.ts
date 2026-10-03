@@ -47,18 +47,38 @@ export async function ensurePocketBaseAuth(client = getPbClient()): Promise<bool
   }
 }
 
+export async function getAuthenticatedPbClient(): Promise<PocketBase> {
+  const client = getPbClient();
+  if (!client.authStore?.isValid) {
+    await ensurePocketBaseAuth(client);
+  }
+  return client;
+}
+
 export async function ensureFaqsCollection(client = getPbClient()): Promise<void> {
   const authed = await ensurePocketBaseAuth(client);
-  if (!authed) return;
+  if (!authed) {
+    console.warn("[PocketBase] Skipping collection setup: authentication failed or credentials missing.");
+    return;
+  }
 
   try {
     await client.collections.getOne("faqs");
+    console.log("[PocketBase] Collection 'faqs' already exists.");
   } catch {
     // Collection does not exist, create it
     try {
       await client.collections.create({
         name: "faqs",
         type: "base",
+        fields: [
+          { name: "id", type: "text", primaryKey: true },
+          { name: "question", type: "text", required: true },
+          { name: "answer", type: "text", required: true },
+          { name: "keywords", type: "text", required: false },
+          { name: "category", type: "text", required: true },
+          { name: "created_by", type: "text", required: false },
+        ],
         schema: [
           { name: "question", type: "text", required: true },
           { name: "answer", type: "text", required: true },
@@ -66,6 +86,11 @@ export async function ensureFaqsCollection(client = getPbClient()): Promise<void
           { name: "category", type: "text", required: true },
           { name: "created_by", type: "text", required: false },
         ],
+        listRule: "",
+        viewRule: "",
+        createRule: null,
+        updateRule: null,
+        deleteRule: null,
       });
       console.log("[PocketBase] Auto-created 'faqs' collection schema.");
     } catch (createErr) {

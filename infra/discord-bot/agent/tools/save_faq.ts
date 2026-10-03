@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient } from "../lib/pb.ts";
 import { isAuthorizedAdmin, isSessionAuthorizedAdmin, getSessionCallerId } from "../lib/auth-utils.ts";
 
 export { isAuthorizedAdmin };
@@ -22,8 +22,8 @@ export const saveFaq = defineTool({
     }
     const principalId = getSessionCallerId(ctx);
 
-    const pb = getPbClient();
     try {
+      const pb = await getAuthenticatedPbClient();
       if (id) {
         const updated = await pb.collection("faqs").update(id, {
           question,
@@ -43,6 +43,7 @@ export const saveFaq = defineTool({
       });
       return `Successfully created new FAQ "${created.question}" (ID: \`${created.id}\`).`;
     } catch (err) {
+      console.error("[save_faq] Error saving FAQ in PocketBase:", err);
       return `Failed to save FAQ: ${(err as Error).message}`;
     }
   },

@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const deleteFaqSchema = z.object({
@@ -16,8 +16,8 @@ export const deleteFaq = defineTool({
       return "Unauthorized: Only server administrators can delete FAQs.";
     }
 
-    const pb = getPbClient();
     try {
+      const pb = await getAuthenticatedPbClient();
       const existing = await pb.collection("faqs").getOne(id);
 
       if (!confirmed) {
@@ -33,6 +33,7 @@ export const deleteFaq = defineTool({
       await pb.collection("faqs").delete(id);
       return `Successfully deleted FAQ "${existing.question}" (ID: \`${id}\`).`;
     } catch (err) {
+      console.error("[delete_faq] Error deleting FAQ in PocketBase:", err);
       return `Failed to delete FAQ with ID "${id}": ${(err as Error).message}`;
     }
   },

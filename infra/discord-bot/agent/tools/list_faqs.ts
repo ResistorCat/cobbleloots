@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const listFaqsSchema = z.object({
@@ -16,8 +16,8 @@ export const listFaqs = defineTool({
       return "Unauthorized: Only server administrators can list all FAQs.";
     }
 
-    const pb = getPbClient();
     try {
+      const pb = await getAuthenticatedPbClient();
       const filter = category ? `category = "${category.replace(/['"\\]/g, "")}"` : "";
       const result = await pb.collection("faqs").getList(page, 20, {
         filter,
@@ -34,6 +34,7 @@ export const listFaqs = defineTool({
 
       return `**Cobbleloots FAQs (Page ${result.page}/${result.totalPages}, Total: ${result.totalItems}):**\n\n${rows.join("\n")}`;
     } catch (err) {
+      console.error("[list_faqs] Error listing FAQs in PocketBase:", err);
       return `Failed to list FAQs: ${(err as Error).message}`;
     }
   },

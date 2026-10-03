@@ -1,6 +1,6 @@
 import { defineTool } from "eve/tools";
 import { z } from "zod";
-import { getPbClient } from "../lib/pb.ts";
+import { getAuthenticatedPbClient } from "../lib/pb.ts";
 import { isSessionAuthorizedAdmin } from "../lib/auth-utils.ts";
 
 const getFaqSchema = z.object({
@@ -15,8 +15,8 @@ export const getFaq = defineTool({
       return "Unauthorized: Only server administrators can inspect FAQ details.";
     }
 
-    const pb = getPbClient();
     try {
+      const pb = await getAuthenticatedPbClient();
       const record = await pb.collection("faqs").getOne(id);
       return `**FAQ Details (ID: \`${record.id}\`):**\n` +
         `• **Question:** ${record.question}\n` +
@@ -25,6 +25,7 @@ export const getFaq = defineTool({
         `• **Created By:** ${record.created_by || "Unknown"}\n\n` +
         `**Answer:**\n${record.answer}`;
     } catch (err) {
+      console.error("[get_faq] Error fetching FAQ in PocketBase:", err);
       return `Could not find FAQ with ID "${id}": ${(err as Error).message}`;
     }
   },
