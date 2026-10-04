@@ -1,7 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { buildInstructionsPrompt } from "../agent/instructions.ts";
 import agentConfig from "../agent/agent.ts";
-import discordChannel from "../agent/channels/discord.ts";
 import eveChannel from "../agent/channels/eve.ts";
 import searchDocs from "../agent/tools/search_docs.ts";
 import searchFaqs from "../agent/tools/search_faqs.ts";
@@ -66,8 +65,7 @@ describe("Agent Configuration & Dynamic Instructions", () => {
       }
     });
 
-    it("discord and eve channels should be defined and exported", () => {
-      expect(discordChannel).toBeDefined();
+    it("eve channel should be defined and exported", () => {
       expect(eveChannel).toBeDefined();
     });
   });

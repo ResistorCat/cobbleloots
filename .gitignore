@@ -141,3 +141,5 @@ TODO.md
 # MkDocs
 site/
 
+# Superpowers agent artifacts
+.superpowers/
