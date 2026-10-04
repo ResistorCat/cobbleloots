@@ -19,13 +19,13 @@ LOOT_BALLS_ASSETS = (
 )
 COBBLEMON_ASSETS = Path(__file__).parent.parent / "local/assets/cobblemon"
 MINECRAFT_ASSETS = Path(__file__).parent.parent / "local/assets/minecraft"
-TEMPLATE_PATH = Path(__file__).parent / "templates/docs/loot_ball.md"
+TEMPLATE_PATH = Path(__file__).parent / "templates/docs/loot_ball.mdx"
 DOCS_OUTPUT_DIR = Path(__file__).parent.parent / "docs/loot_balls"
 DOCS_ASSETS_ITEMS_DIR = Path(__file__).parent.parent / "docs/assets/items"
 LOOT_TABLES_DIR = LOOT_BALLS_DATA / "loot_table"
 BIOME_TAGS_DIR = LOOT_BALLS_DATA / "tags/worldgen/biome"
-BIOME_TAGS_TEMPLATE_PATH = Path(__file__).parent / "templates/docs/biome_tags.md"
-BIOME_TAGS_OUTPUT_FILE = Path(__file__).parent.parent / "docs/reference/biome_tags.md"
+BIOME_TAGS_TEMPLATE_PATH = Path(__file__).parent / "templates/docs/biome_tags.mdx"
+BIOME_TAGS_OUTPUT_FILE = Path(__file__).parent.parent / "docs/reference/biome_tags.mdx"
 
 # Special Mappings
 ITEM_TEXTURE_MAPPINGS = {
@@ -220,7 +220,7 @@ def parse_loot_table(
         ]
 
     try:
-        with file_path.open("r") as f:
+        with file_path.open("r", encoding="utf-8") as f:
             data = json.load(f)
     except Exception as e:
         return [
@@ -326,7 +326,7 @@ def parse_loot_table(
                         potion_name = potion_id.replace("_", " ").title()
                         display_name = f"Potion of {potion_name}"
 
-                icon_html = f'<img src="../../../assets/items/{namespace}/{item_id}.png" width="32" height="32" alt="{display_name}" style="image-rendering: pixelated;">'
+                icon_html = f'<img src="/assets/items/{namespace}/{item_id}.png" width="32" height="32" alt="{display_name}" style={{{{ imageRendering: "pixelated" }}}} />'
 
                 items.append(
                     {
@@ -421,7 +421,7 @@ def generate_loot_table_html(loot_table_id: str) -> str:
             item = group_items[0]
             rows.append(f"""
     <tr>
-        <td><div style="display:flex; align-items:center;">{item["icon_html"]} <span style="margin-left:10px;">{item["display_name"]}</span></div></td>
+        <td><div style={{{{ display: "flex", alignItems: "center" }}}}>{item["icon_html"]} <span style={{{{ marginLeft: "10px" }}}}>{item["display_name"]}</span></div></td>
         <td>{item["quantity"]}</td>
         <td>{group["chance"]:.2f}%</td>
         <td>{item["notes"]}</td>
@@ -430,9 +430,9 @@ def generate_loot_table_html(loot_table_id: str) -> str:
             # Multiple items case - Grouped display
 
             # We create a list of items for the Name column
-            item_list_html = "<br>".join(
+            item_list_html = "<br />".join(
                 [
-                    f'<div style="display:flex; align-items:center;">{i["icon_html"]} <span style="margin-left:5px;">{i["display_name"]}</span></div>'
+                    f'<div style={{{{ display: "flex", alignItems: "center" }}}}>{i["icon_html"]} <span style={{{{ marginLeft: "5px" }}}}>{i["display_name"]}</span></div>'
                     for i in group_items
                 ]
             )
@@ -440,17 +440,17 @@ def generate_loot_table_html(loot_table_id: str) -> str:
             rows.append(f"""
     <tr>
         <td>
-            <strong>One of the following:</strong>
-            <div style="margin-top: 5px; margin-left: 10px;">
+            <div style={{{{ fontWeight: "bold", marginBottom: "6px" }}}}>One of the following:</div>
+            <div style={{{{ marginLeft: "10px" }}}}>
                 {item_list_html}
             </div>
         </td>
-        <td style="vertical-align:middle;">{group["quantity"]}</td>
-        <td style="vertical-align:middle;">{group["chance"]:.2f}%</td>
-        <td style="vertical-align:middle;">{group["notes"]}</td>
+        <td style={{{{ verticalAlign: "middle" }}}}>{group["quantity"]}</td>
+        <td style={{{{ verticalAlign: "middle" }}}}>{group["chance"]:.2f}%</td>
+        <td style={{{{ verticalAlign: "middle" }}}}>{group["notes"]}</td>
     </tr>""")
 
-    return f"""<table markdown="span">
+    return f"""<table>
     <thead>
         <tr>
             <th>Item</th>
@@ -492,7 +492,7 @@ def generate_obtaining_html(sources: dict, source_type: str) -> str:
             elif biome.startswith("#cobbleloots:"):
                 anchor = biome.lstrip("#").replace(":", "").replace("/", "")
                 biome_display = (
-                    f'<a href="../../../reference/biome_tags/#{anchor}">{biome}</a>'
+                    f'<a href="/reference/biome_tags#{anchor}">{biome}</a>'
                 )
             elif biome.startswith("minecraft:"):
                 biome_id = biome.split(":")[-1]
@@ -723,7 +723,7 @@ def generate_obtaining_html(sources: dict, source_type: str) -> str:
         explanation = "<p><em>This can happen while fishing with poke rods.</em></p>"
 
     return f"""{explanation}
-<table markdown="span">
+<table>
     <thead>
         <tr>
             <th>Weight</th>
@@ -742,7 +742,7 @@ def generate_loot_balls_doc():
         print(f"[red]Template not found at {TEMPLATE_PATH}[/red]")
         return
 
-    with TEMPLATE_PATH.open("r") as f:
+    with TEMPLATE_PATH.open("r", encoding="utf-8") as f:
         template = f.read()
 
     print(f"Loaded template from {TEMPLATE_PATH.name}")
@@ -765,7 +765,7 @@ def generate_loot_balls_doc():
     else:
         # Clean up existing files/folders, preserving index.md
         for item in DOCS_OUTPUT_DIR.iterdir():
-            if item.name == "index.md":
+            if item.name in ["index.md", "index.mdx"]:
                 continue
 
             try:
@@ -782,7 +782,7 @@ def generate_loot_balls_doc():
     count = 0
     for loot_ball_file in definitions_path.glob("*.json"):
         try:
-            with loot_ball_file.open("r") as f:
+            with loot_ball_file.open("r", encoding="utf-8") as f:
                 loot_ball_data = json.load(f)
 
             lb_id = loot_ball_file.stem
@@ -805,13 +805,13 @@ def generate_loot_balls_doc():
                     rarity = "Common"
                     rarity_slug = "tier-1-common"
                 elif avg_weight >= 20:
-                    rarity = '<span style="color: #5555FF">Uncommon</span>'
+                    rarity = '<span style={{ color: "#5555FF" }}>Uncommon</span>'
                     rarity_slug = "tier-2-uncommon"
                 elif avg_weight >= 5:
-                    rarity = '<span style="color: #FFAA00">Rare</span>'
+                    rarity = '<span style={{ color: "#FFAA00" }}>Rare</span>'
                     rarity_slug = "tier-3-rare"
                 else:
-                    rarity = '<span style="color: #AA00AA">Ultra Rare</span>'
+                    rarity = '<span style={{ color: "#AA00AA" }}>Ultra Rare</span>'
                     rarity_slug = "tier-4-ultra-rare"
 
             # Normalize dictionary
@@ -837,10 +837,7 @@ def generate_loot_balls_doc():
             # Fill Template
             current_doc = template
             current_doc = current_doc.replace(
-                "title: ${name}", f"title: {normalized_data['clean_title']}"
-            )
-            current_doc = current_doc.replace(
-                f"![${{name}}]", f"![{normalized_data['clean_title']}]"
+                "${clean_title}", normalized_data["clean_title"]
             )
             current_doc = current_doc.replace("${name}", normalized_data["name"])
 
@@ -859,8 +856,8 @@ def generate_loot_balls_doc():
             # Output file
             rarity_dir = DOCS_OUTPUT_DIR / rarity_slug
             rarity_dir.mkdir(parents=True, exist_ok=True)
-            output_file = rarity_dir / f"{lb_id}.md"
-            with output_file.open("w") as f:
+            output_file = rarity_dir / f"{lb_id}.mdx"
+            with output_file.open("w", encoding="utf-8") as f:
                 f.write(current_doc)
 
             print(f"[green]Generated {output_file.name}[/green]")
@@ -884,7 +881,7 @@ def generate_biome_tags_doc():
         print(f"[red]Biome tags directory not found at {BIOME_TAGS_DIR}[/red]")
         return
 
-    with BIOME_TAGS_TEMPLATE_PATH.open("r") as f:
+    with BIOME_TAGS_TEMPLATE_PATH.open("r", encoding="utf-8") as f:
         template = f.read()
 
     # Scan and process tags
@@ -893,12 +890,10 @@ def generate_biome_tags_doc():
     sections = []
 
     for tag_file in tag_files:
-        tag_id = "cobbleloots:" + str(
-            tag_file.relative_to(BIOME_TAGS_DIR).with_suffix("")
-        )
+        tag_id = "cobbleloots:" + tag_file.relative_to(BIOME_TAGS_DIR).with_suffix("").as_posix()
 
         try:
-            with tag_file.open("r") as f:
+            with tag_file.open("r", encoding="utf-8") as f:
                 data = json.load(f)
 
             values = data.get("values", [])
@@ -930,8 +925,9 @@ def generate_biome_tags_doc():
             else:
                 values_list = "*No values*"
 
+            anchor = tag_id.replace(":", "").replace("/", "")
             sections.append(
-                f"## {tag_id}\n\n**ID:** `{tag_id}`\n\n**Included Biomes:**\n\n{values_list}\n"
+                f"## {tag_id} {{#{anchor}}}\n\n**ID:** `{tag_id}`\n\n**Included Biomes:**\n\n{values_list}\n"
             )
 
         except Exception as e:
@@ -945,7 +941,7 @@ def generate_biome_tags_doc():
     # Ensure output dir exists
     BIOME_TAGS_OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
 
-    with BIOME_TAGS_OUTPUT_FILE.open("w") as f:
+    with BIOME_TAGS_OUTPUT_FILE.open("w", encoding="utf-8") as f:
         f.write(output)
 
     print(f"[green]Generated {BIOME_TAGS_OUTPUT_FILE.name}[/green]")
