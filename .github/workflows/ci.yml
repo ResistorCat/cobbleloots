@@ -3,66 +3,40 @@ name: Documentation CI
 on:
   push:
     branches:
-      - master
       - main
+      - master
       - beta
       - alpha
+    paths:
+      - 'docs/**'
+      - '.github/workflows/ci.yml'
   pull_request:
     branches:
-      - master
       - main
+      - master
       - beta
       - alpha
+    paths:
+      - 'docs/**'
+      - '.github/workflows/ci.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate:
-    name: Validate Documentation
+    name: Validate Mintlify Docs
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - name: Install MkDocs & Plugins
-        run: pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
-      - name: Build Documentation (Strict)
-        run: mkdocs build --strict
-
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: validate
-    if: |
-      github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && (
-        github.ref == 'refs/heads/main' ||
-        github.ref == 'refs/heads/master' ||
-        github.ref == 'refs/heads/beta' ||
-        github.ref == 'refs/heads/alpha'
-      ))
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Configure Git Credentials
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v4
-        with:
-          key: mkdocs-material-${{ env.cache_id }}
-          path: ~/.cache
-          restore-keys: |
-            mkdocs-material-
-      - run: pip install mkdocs-material mkdocs-git-revision-date-localized-plugin
-      - run: mkdocs gh-deploy --force
+          node-version: 22
+      - name: Validate documentation structure
+        run: npx mint validate
+      - name: Check for broken links
+        run: npx mint broken-links

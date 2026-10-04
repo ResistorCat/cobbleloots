@@ -1,0 +1,50 @@
+---
+title: "${clean_title}"
+description: "Drops and details for the ${clean_title} in Cobbleloots."
+icon: "circle-dot"
+---
+
+<table>
+    <tbody>
+    <tr>
+        <td rowspan="4" style={{ width: "180px", textAlign: "center", verticalAlign: "middle" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                <img src="/assets/ball/model/${id}.png" width="150" alt="${clean_title}" style={{ imageRendering: "pixelated" }} />
+                <span style={{ marginTop: "6px", fontSize: "0.875rem", fontWeight: "500", color: "#888" }}>${clean_title}</span>
+            </div>
+        </td>
+        <td><Icon icon="dice" /> <strong>Rarity</strong></td>
+        <td>${rarity}</td>
+    </tr>
+    <tr>
+        <td><Icon icon="sparkles" /> <strong>XP on Open</strong></td>
+        <td>${xp}</td>
+    </tr>
+    <tr>
+        <td><Icon icon="cube" /> <strong>Texture</strong></td>
+        <td><code>${texture}</code></td>
+    </tr>
+    <tr>
+        <td><Icon icon="coins" /> <strong>Loot Table ID</strong></td>
+        <td><code>${loot_table_id_display}</code></td>
+    </tr>
+    </tbody>
+</table>
+
+## 🪙 Loot Table
+
+${loot_table}
+
+## Obtaining
+
+### ⛰️ Generation
+
+${generation}
+
+### ⏱️ Spawning
+
+${spawning}
+
+### 🎣 Fishing
+
+${fishing}
