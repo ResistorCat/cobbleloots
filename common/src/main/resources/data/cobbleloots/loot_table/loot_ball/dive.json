@@ -7,7 +7,7 @@
         {
           "type": "minecraft:item",
           "name": "cobblemon:dive_ball",
-          "weight": 10,
+          "weight": 5,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -93,6 +93,11 @@
           "type": "minecraft:loot_table",
           "value": "cobbleloots:loot_ball/shared/candy_uncommon",
           "weight": 1
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/valuable_aquatic",
+          "weight": 5
         }
       ]
     }
