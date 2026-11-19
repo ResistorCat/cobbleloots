@@ -49,13 +49,13 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/timer_ball.png" width="32" height="32" alt="Timer Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Timer Ball</span></div></td>
         <td>1-2</td>
-        <td>24.39%</td>
+        <td>23.26%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/gold_ingot.png" width="32" height="32" alt="Gold Ingot" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Gold Ingot</span></div></td>
         <td>2-8</td>
-        <td>21.95%</td>
+        <td>20.93%</td>
         <td></td>
     </tr>
     <tr>
@@ -66,7 +66,7 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">1</td>
-        <td style="vertical-align:middle;">19.51%</td>
+        <td style="vertical-align:middle;">18.60%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
@@ -77,7 +77,7 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">2-4</td>
-        <td style="vertical-align:middle;">17.56%</td>
+        <td style="vertical-align:middle;">16.74%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
@@ -88,31 +88,42 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">1</td>
-        <td style="vertical-align:middle;">9.76%</td>
+        <td style="vertical-align:middle;">9.30%</td>
         <td style="vertical-align:middle;">Enchanted with 30 levels</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Big Pearl</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/rare_bone.png" width="32" height="32" alt="Rare Bone" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Rare Bone</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/rare_candy.png" width="32" height="32" alt="Rare Candy" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Rare Candy</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
+        <td style="vertical-align:middle;">4.65%</td>
+        <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/revive.png" width="32" height="32" alt="Revive" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Revive</span></div></td>
         <td>1-2</td>
-        <td>1.95%</td>
+        <td>1.86%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_s.png" width="32" height="32" alt="Exp Candy S" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy S</span></div></td>
         <td>2-3</td>
-        <td>1.63%</td>
+        <td>1.55%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy Xs</span></div></td>
         <td>6-8</td>
-        <td>1.63%</td>
+        <td>1.55%</td>
         <td></td>
     </tr>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/rare_candy.png" width="32" height="32" alt="Rare Candy" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Rare Candy</span></div></td>
-        <td>1</td>
-        <td>1.63%</td>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/star_piece.png" width="32" height="32" alt="Star Piece" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Star Piece</span></div></td>
+        <td>1-2</td>
+        <td>1.55%</td>
         <td></td>
     </tr>
     </tbody>

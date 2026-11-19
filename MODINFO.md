@@ -50,6 +50,8 @@ Cobbleloots incorporates 10 classic valuable items from Pokémon that serve as t
 
 Each item includes custom 16x16 pixel-art textures, immersive tooltips referencing collectors and shops who buy them at high prices, and is available in the Cobbleloots creative mode tab.
 
+Valuable items naturally drop from Loot Balls, scaled by rarity tier across **Common**, **Uncommon**, **Rare**, and **Ultra Rare** loot tables. Thematic aquatic treasures like Pearls, Big Pearls, and Rare Bones can also be obtained from fishing and diving via **Lure Balls** and **Dive Balls**.
+
 ## Mapmaking 🗺️
 
 Check out the [documentation](https://resistorcat.github.io/cobbleloots/) to learn how to use the mod objects and features in your custom maps. If you still have questions, feel free to ask on my discord server.

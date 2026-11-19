@@ -49,7 +49,7 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/master_ball.png" width="32" height="32" alt="Master Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Master Ball</span></div></td>
         <td>1</td>
-        <td>25.00%</td>
+        <td>23.81%</td>
         <td></td>
     </tr>
     <tr>
@@ -60,26 +60,37 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">12-16</td>
-        <td style="vertical-align:middle;">20.00%</td>
+        <td style="vertical-align:middle;">19.05%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/netherite_ingot.png" width="32" height="32" alt="Netherite Ingot" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Netherite Ingot</span></div></td>
         <td>2-4</td>
-        <td>20.00%</td>
+        <td>19.05%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/nether_star.png" width="32" height="32" alt="Nether Star" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Nether Star</span></div></td>
         <td>1</td>
-        <td>15.00%</td>
+        <td>14.29%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/ability_patch.png" width="32" height="32" alt="Ability Patch" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Ability Patch</span></div></td>
         <td>1</td>
-        <td>10.00%</td>
+        <td>9.52%</td>
         <td></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/comet_shard.png" width="32" height="32" alt="Comet Shard" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Comet Shard</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl_string.png" width="32" height="32" alt="Pearl String" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Pearl String</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
+        <td style="vertical-align:middle;">4.76%</td>
+        <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td>
@@ -89,7 +100,7 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">12-16</td>
-        <td style="vertical-align:middle;">5.00%</td>
+        <td style="vertical-align:middle;">4.76%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
@@ -100,31 +111,31 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">1</td>
-        <td style="vertical-align:middle;">2.50%</td>
+        <td style="vertical-align:middle;">2.38%</td>
         <td style="vertical-align:middle;">Enchanted with 50 levels</td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_l.png" width="32" height="32" alt="Exp Candy L" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy L</span></div></td>
         <td>4-5</td>
-        <td>0.62%</td>
+        <td>0.60%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_m.png" width="32" height="32" alt="Exp Candy M" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy M</span></div></td>
         <td>14-16</td>
-        <td>0.62%</td>
+        <td>0.60%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xl.png" width="32" height="32" alt="Exp Candy Xl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy Xl</span></div></td>
         <td>2-3</td>
-        <td>0.62%</td>
+        <td>0.60%</td>
         <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/rare_candy.png" width="32" height="32" alt="Rare Candy" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Rare Candy</span></div></td>
         <td>12-16</td>
-        <td>0.62%</td>
+        <td>0.60%</td>
         <td></td>
     </tr>
     </tbody>
