@@ -40,7 +40,7 @@ Cobbleloots also includes **10 classic Pokémon valuable items** designed for se
 
 Each item features custom 16x16 pixel-art textures and lore tooltips highlighting their value to collectors and shops.
 
-Valuable items drop from Loot Balls by tier: common balls give Stardust and Pearl, uncommon balls Star Piece, Big Pearl and Nugget, rare balls Big Nugget, Rare Bone and Balm Mushroom, and the Master ball Comet Shard and Pearl String. Lure and Dive balls, caught by fishing, hold sea treasures. Each ball page lists the exact chances.
+Valuable items drop from Loot Balls by tier: common balls give Stardust and Pearl; Great, Nest, Net, Quick, Safari and Timer balls give Star Piece, Big Pearl and Nugget; rare balls give Big Nugget, Rare Bone and Balm Mushroom; and the Master Loot Ball gives Comet Shard and Pearl String. Lure and Dive balls, found in the ocean and by fishing, hold sea treasures. Heal, Pumpkin and Rainbow balls keep their themed loot. Each ball page lists the exact chances.
 
 ## Guides
 

@@ -52,11 +52,13 @@ Each item includes custom 16x16 pixel-art textures, immersive tooltips referenci
 
 Valuable items can be found inside Loot Balls, and rarer balls hold rarer treasures:
 
-- **Common** balls: Stardust and Pearl.
-- **Uncommon** balls: Star Piece, Big Pearl and Nugget.
-- **Rare** balls: Big Nugget, Rare Bone and Balm Mushroom.
-- **Master Ball**: Comet Shard and Pearl String.
-- **Lure** and **Dive** balls, which you can fish up with Poké Rods, hold sea treasures: Pearl, Big Pearl, Rare Bone and Pearl String.
+- **Common** balls (Poké, Azure, Citrine, Premier, Roseate, Slate, Verdant): Stardust and Pearl.
+- **Great, Nest, Net, Quick, Safari and Timer** balls: Star Piece, Big Pearl and Nugget.
+- **Rare** balls (Ultra, Luxury, Dusk): Big Nugget, Rare Bone and Balm Mushroom.
+- **Master** Loot Ball: Comet Shard and Pearl String.
+- **Lure** and **Dive** balls, found in the ocean and by fishing, hold sea treasures: Pearl, Big Pearl, Rare Bone and Pearl String.
+
+Heal, Pumpkin and Rainbow Loot Balls keep their themed loot and don't contain valuable items.
 
 Finding a valuable item never lowers the odds of medicine, candies, berries or EV items: the space comes from the ball's own Poké Ball drop.
 
