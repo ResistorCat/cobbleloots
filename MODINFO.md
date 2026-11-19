@@ -50,6 +50,16 @@ Cobbleloots incorporates 10 classic valuable items from Pokémon that serve as t
 
 Each item includes custom 16x16 pixel-art textures, immersive tooltips referencing collectors and shops who buy them at high prices, and is available in the Cobbleloots creative mode tab.
 
+Valuable items can be found inside Loot Balls, and rarer balls hold rarer treasures:
+
+- **Common** balls: Stardust and Pearl.
+- **Uncommon** balls: Star Piece, Big Pearl and Nugget.
+- **Rare** balls: Big Nugget, Rare Bone and Balm Mushroom.
+- **Master Ball**: Comet Shard and Pearl String.
+- **Lure** and **Dive** balls, which you can fish up with Poké Rods, hold sea treasures: Pearl, Big Pearl, Rare Bone and Pearl String.
+
+Finding a valuable item never lowers the odds of medicine, candies, berries or EV items: the space comes from the ball's own Poké Ball drop.
+
 ## Mapmaking 🗺️
 
 Check out the [documentation](https://resistorcat.github.io/cobbleloots/) to learn how to use the mod objects and features in your custom maps. If you still have questions, feel free to ask on my discord server.
