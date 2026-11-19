@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "linear": {
-      "command": "node",
-      "args": [".agents/plugins/linear/linear-mcp.mjs"]
-    }
-  }
-}
-

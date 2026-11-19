@@ -1,8 +1,3 @@
----
-trigger: always_on
-description: Minecraft loader guidelines and pinned dependencies
----
-
 # Minecraft Loaders & Pinned Dependencies Guide
 
 This document outlines the active versions, registration lifecycle, and platform-specific idioms for **Minecraft 1.21.1** in Cobbleloots.
