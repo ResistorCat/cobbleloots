@@ -49,7 +49,7 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/great_ball.png" width="32" height="32" alt="Great Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Great Ball</span></div></td>
         <td>1-2</td>
-        <td>25.00%</td>
+        <td>20.00%</td>
         <td></td>
     </tr>
     <tr>
@@ -96,6 +96,17 @@ icon: material/pokeball
         <td>
             <strong>One of the following:</strong>
             <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/nugget.png" width="32" height="32" alt="Nugget" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Nugget</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/star_piece.png" width="32" height="32" alt="Star Piece" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Star Piece</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-2</td>
+        <td style="vertical-align:middle;">3.33%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
                 <div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/golden_axe.png" width="32" height="32" alt="Golden Axe" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Golden Axe</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/golden_pickaxe.png" width="32" height="32" alt="Golden Pickaxe" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Golden Pickaxe</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/golden_shovel.png" width="32" height="32" alt="Golden Shovel" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Golden Shovel</span></div>
             </div>
         </td>
@@ -107,6 +118,12 @@ icon: material/pokeball
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/revive.png" width="32" height="32" alt="Revive" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Revive</span></div></td>
         <td>1-2</td>
         <td>2.00%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Big Pearl</span></div></td>
+        <td>1</td>
+        <td>1.67%</td>
         <td></td>
     </tr>
     <tr>

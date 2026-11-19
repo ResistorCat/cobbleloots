@@ -47,12 +47,6 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/quick_ball.png" width="32" height="32" alt="Quick Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Quick Ball</span></div></td>
-        <td>1-2</td>
-        <td>23.26%</td>
-        <td></td>
-    </tr>
-    <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/ender_pearl.png" width="32" height="32" alt="Ender Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Ender Pearl</span></div></td>
         <td>1-3</td>
         <td>18.60%</td>
@@ -61,6 +55,12 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/potion.png" width="32" height="32" alt="Potion of Swiftness" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Potion of Swiftness</span></div></td>
         <td>1</td>
+        <td>18.60%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/quick_ball.png" width="32" height="32" alt="Quick Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Quick Ball</span></div></td>
+        <td>1-2</td>
         <td>18.60%</td>
         <td></td>
     </tr>
@@ -109,9 +109,26 @@ icon: material/pokeball
         <td style="vertical-align:middle;">Enchanted with 30 levels</td>
     </tr>
     <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/nugget.png" width="32" height="32" alt="Nugget" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Nugget</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/star_piece.png" width="32" height="32" alt="Star Piece" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Star Piece</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-2</td>
+        <td style="vertical-align:middle;">3.10%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/quick_candy.png" width="32" height="32" alt="Quick Candy" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Quick Candy</span></div></td>
         <td>1</td>
         <td>2.33%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Big Pearl</span></div></td>
+        <td>1</td>
+        <td>1.55%</td>
         <td></td>
     </tr>
     <tr>

@@ -47,14 +47,14 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/ultra_ball.png" width="32" height="32" alt="Ultra Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Ultra Ball</span></div></td>
-        <td>1-2</td>
-        <td>25.00%</td>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/diamond.png" width="32" height="32" alt="Diamond" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Diamond</span></div></td>
+        <td>2-6</td>
+        <td>20.00%</td>
         <td></td>
     </tr>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/diamond.png" width="32" height="32" alt="Diamond" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Diamond</span></div></td>
-        <td>2-6</td>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/ultra_ball.png" width="32" height="32" alt="Ultra Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Ultra Ball</span></div></td>
+        <td>1-2</td>
         <td>20.00%</td>
         <td></td>
     </tr>
@@ -80,6 +80,17 @@ icon: material/pokeball
         <td>1-2</td>
         <td>10.00%</td>
         <td></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/balm_mushroom.png" width="32" height="32" alt="Balm Mushroom" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Balm Mushroom</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_nugget.png" width="32" height="32" alt="Big Nugget" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Big Nugget</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/rare_bone.png" width="32" height="32" alt="Rare Bone" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Rare Bone</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
+        <td style="vertical-align:middle;">5.00%</td>
+        <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td>

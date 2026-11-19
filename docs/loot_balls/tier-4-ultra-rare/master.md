@@ -47,12 +47,6 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/master_ball.png" width="32" height="32" alt="Master Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Master Ball</span></div></td>
-        <td>1</td>
-        <td>25.00%</td>
-        <td></td>
-    </tr>
-    <tr>
         <td>
             <strong>One of the following:</strong>
             <div style="margin-top: 5px; margin-left: 10px;">
@@ -62,6 +56,12 @@ icon: material/pokeball
         <td style="vertical-align:middle;">12-16</td>
         <td style="vertical-align:middle;">20.00%</td>
         <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/master_ball.png" width="32" height="32" alt="Master Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Master Ball</span></div></td>
+        <td>1</td>
+        <td>20.00%</td>
+        <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/netherite_ingot.png" width="32" height="32" alt="Netherite Ingot" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Netherite Ingot</span></div></td>
@@ -89,6 +89,17 @@ icon: material/pokeball
             </div>
         </td>
         <td style="vertical-align:middle;">12-16</td>
+        <td style="vertical-align:middle;">5.00%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/comet_shard.png" width="32" height="32" alt="Comet Shard" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Comet Shard</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl_string.png" width="32" height="32" alt="Pearl String" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Pearl String</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
         <td style="vertical-align:middle;">5.00%</td>
         <td style="vertical-align:middle;"></td>
     </tr>
