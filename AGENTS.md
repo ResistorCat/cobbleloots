@@ -126,9 +126,9 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 - **Community GitHub Issues Triage**: Because this is a public repository, players and community members may submit bug reports or feedback via GitHub Issues. Agents must check open GitHub issues (`gh issue list`) when triaging pending work. Any legitimate community issue must be triaged, migrated into Linear as a tracked issue (linking back to the GitHub issue), and updated accordingly upon resolution.
 - **Linear Tooling**: Inspect and update tasks through Linear, via MCP or CLI depending on the tool you use.
 - **Autonomous Creation upon Approval**: Once the user approves the draft, design, or requirements of a Linear ticket (e.g. after planning or refinement), the agent **MUST immediately create the issue in Linear** (linking team, project, title, label, and full body) without waiting for an additional confirmation or stopping at just displaying the markdown.
-- **Title format**: `[<REPO>] <título descriptivo en español>` (e.g., `[Cobbleloots] Reiniciar loot balls que ya fueron abiertas`).
+- **Title format**: `[<REPO>] <title>` in Spanish (e.g., `[Cobbleloots] Registrar Tiny Mushroom como objeto valioso`).
 - **Tags / Labels**: Must use the proper workspace tag (`Feature`, `Bug`, `Improvement`).
-- **Issue Body**: Follow [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md) for acceptance criteria, suggested files, and technical constraints.
+- **Issue Body**: Four parts in Spanish, following [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md): **Por qué** (max 2 lines), **Cómo** (max 3 lines, understandable by anyone without technical or project context), **Restricciones** (bullet list), **Herramientas** (tools, repos and technologies to be used).
 
 ### 4.5 Agent Tooling & Windows Execution Guidelines
 - **PowerShell Backtick Escaping**: Never pass multi-line markdown containing backticks (` `) inside double-quoted PowerShell commands; PowerShell treats backticks as escape characters. Always write content to temporary files and use flags like `gh pr create --body-file <file>`.

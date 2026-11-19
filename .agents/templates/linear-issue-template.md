@@ -1,21 +1,18 @@
-# Plantilla Recomendada para Tickets de Linear (Agent-Ready)
+# Plantilla para Tickets de Linear
 
-Utiliza esta estructura al crear tickets en Linear para maximizar la tasa de éxito al resolverlos con asistentes de IA o desarrollo en equipo.
+Utiliza esta estructura al crear tickets en Linear. Debe ser legible por cualquier persona, sin necesidad de contexto técnico ni del proyecto.
 
 ---
 
 ## 1. Convención de Título
-El título del ticket **DEBE** seguir estrictamente la siguiente estructura en **español**:
+El título del ticket **DEBE** seguir esta estructura, en **español**:
 ```text
-[<REPO>] <título descriptivo en español>
+[<REPO>] <título>
 ```
 - **`<REPO>`**: Nombre del repositorio / proyecto (por ejemplo `[Cobbleloots]`).
-- **`<título>`**: Resumen claro y conciso de la tarea o mejora en español.
+- **`<título>`**: Resumen claro y conciso de la tarea.
 
-*Ejemplos:*
-- `[Cobbleloots] Añadir MCP de Linear`
-- `[Cobbleloots] Optimizar Gradle CI con filtro condicional de rutas para cambios que no son de código`
-- `[Cobbleloots] Corregir renderizado del Loot Ball en Fabric`
+*Ejemplo:* `[Cobbleloots] Registrar Tiny Mushroom como objeto valioso`
 
 ## 2. Convención de Etiquetas (Tags)
 Asignar la etiqueta correspondiente en Linear según la naturaleza del trabajo:
@@ -28,22 +25,21 @@ Asignar la etiqueta correspondiente en Linear según la naturaleza del trabajo:
 ## 3. Estructura del Cuerpo del Ticket
 
 ```markdown
-## Contexto y Objetivo
-<!-- Explica brevemente qué problema resuelve este ticket o qué nueva funcionalidad se desea incorporar en Cobbleloots. -->
+**Por qué**: <Explicación breve, máximo 2 líneas, de por qué existe esta issue.>
+**Cómo**: <Explicación breve, máximo 3 líneas, de cómo se piensa resolver, para alguien sin contexto técnico ni del proyecto.>
+**Restricciones**:
+- <Restricción 1>
+- <Restricción 2>
+**Herramientas**: <Herramientas, repositorios y tecnologías que se utilizarán.>
+```
 
-## Criterios de Aceptación
-<!-- Lista explícita de condiciones verificables para que la tarea se considere completa. -->
-- [ ] El comando/mecánica ... funciona según lo especificado.
-- [ ] El archivo de configuración o tabla de loot ... incluye las nuevas opciones.
-- [ ] La solución funciona tanto en Fabric como en NeoForge (1.21.1).
-- [ ] El proyecto compila limpiamente con `./gradlew build`.
+*Ejemplo:*
 
-## Áreas / Archivos Sugeridos (Opcional pero Recomendado)
-- `common/src/main/java/dev/ripio/cobbleloots/...`
-- `common/src/main/resources/data/cobbleloots/...`
-
-## Restricciones y Notas Técnicas
+```markdown
+**Por qué**: El Tiny Mushroom aún no cuenta como objeto valioso, así que no aparece entre los botines raros.
+**Cómo**: Se agrega el objeto a la lista de objetos valiosos del mod y se comprueba en el juego que aparezca.
+**Restricciones**:
 - Mantener compatibilidad con Cobblemon 1.7.3+1.21.1.
-- No modificar directamente el archivo `CHANGELOG.md`.
-- No alterar formatos existentes de configuración sin incluir migración.
+- Funcionar en Fabric y NeoForge.
+**Herramientas**: Repo cobbleloots, Gradle, datapacks de Cobbleloots.
 ```
