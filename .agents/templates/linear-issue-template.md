@@ -26,10 +26,14 @@ Asignar la etiqueta correspondiente en Linear según la naturaleza del trabajo:
 
 ```markdown
 **Por qué**: <Explicación breve, máximo 2 líneas, de por qué existe esta issue.>
+
 **Cómo**: <Explicación breve, máximo 3 líneas, de cómo se piensa resolver, para alguien sin contexto técnico ni del proyecto.>
+
 **Restricciones**:
+
 - <Restricción 1>
 - <Restricción 2>
+
 **Herramientas**: <Herramientas, repositorios y tecnologías que se utilizarán.>
 ```
 
@@ -37,9 +41,13 @@ Asignar la etiqueta correspondiente en Linear según la naturaleza del trabajo:
 
 ```markdown
 **Por qué**: El Tiny Mushroom aún no cuenta como objeto valioso, así que no aparece entre los botines raros.
+
 **Cómo**: Se agrega el objeto a la lista de objetos valiosos del mod y se comprueba en el juego que aparezca.
+
 **Restricciones**:
+
 - Mantener compatibilidad con Cobblemon 1.7.3+1.21.1.
 - Funcionar en Fabric y NeoForge.
+
 **Herramientas**: Repo cobbleloots, Gradle, datapacks de Cobbleloots.
 ```
