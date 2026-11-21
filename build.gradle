@@ -58,10 +58,6 @@ subprojects {
                 includeGroup "maven.modrinth"
             }
         }
-        maven {
-            name = "MidnightDust"
-            url = "https://maven.midnightdust.eu/releases"
-        }
     }
 
     loom {

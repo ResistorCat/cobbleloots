@@ -8,7 +8,10 @@ dependencies {
     // Do NOT use other classes from Fabric Loader.
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
     testImplementation "net.fabricmc:fabric-loader-junit:${rootProject.fabric_loader_version}"
-    modImplementation "eu.midnightdust:midnightlib:$rootProject.midnightlib_version_fabric"
+    modImplementation "maven.modrinth:midnightlib:$rootProject.midnightlib_version_fabric"
+    // The Modrinth maven publishes MidnightLib without dependencies; Fabric Loader's JUnit
+    // launcher still requires the Fabric API module that MidnightLib declares in fabric.mod.json.
+    modLocalRuntime fabricApi.module("fabric-resource-loader-v0", rootProject.fabric_api_version)
     modCompileOnly("com.cobblemon:mod:$rootProject.cobblemon_version") {
         transitive false
     }
