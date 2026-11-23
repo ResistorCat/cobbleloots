@@ -92,11 +92,18 @@ processResources {
             'mod_curseforge': project.mod_curseforge
         ])
     }
+    def logoParent = new File(project.mod_logo).parent
+    from(project(':common').file("src/main/resources/${project.mod_logo}")) {
+        if (logoParent) {
+            into logoParent
+        }
+    }
 }
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 remapJar {
