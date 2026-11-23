@@ -56,6 +56,14 @@ In resource-constrained environments (such as GitHub Actions runners with 7GB RA
 GRADLE_OPTS="-Dorg.gradle.jvmargs=-Xmx5g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=false" ./gradlew build
 ```
 
+### Dependency Repositories & Transient Failures
+Every third-party Maven repository (in `settings.gradle` and `build.gradle`) is restricted with `content { ... }` or `exclusiveContent { ... }` to the groups it actually publishes. Gradle does not fall back to the next repository when one answers with a 5xx, so an unrestricted repository that is down breaks the resolution of unrelated artifacts. When adding a new repository, always restrict it the same way.
+
+If a build still fails because a repository returned a 5xx or timed out while resolving its own artifacts, wait a few minutes and retry, forcing Gradle to re-check cached failures:
+```bash
+./gradlew build --refresh-dependencies
+```
+
 ---
 
 ## 3. Development Invariants & Multi-Platform Rules
