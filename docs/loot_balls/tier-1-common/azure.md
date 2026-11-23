@@ -47,12 +47,6 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/azure_ball.png" width="32" height="32" alt="Azure Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Azure Ball</span></div></td>
-        <td>1-2</td>
-        <td>19.61%</td>
-        <td></td>
-    </tr>
-    <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/blue_apricorn.png" width="32" height="32" alt="Blue Apricorn" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Blue Apricorn</span></div></td>
         <td>6-8</td>
         <td>19.61%</td>
@@ -68,6 +62,12 @@ icon: material/pokeball
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/lapis_lazuli.png" width="32" height="32" alt="Lapis Lazuli" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Lapis Lazuli</span></div></td>
         <td>1-3</td>
         <td>19.61%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/azure_ball.png" width="32" height="32" alt="Azure Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Azure Ball</span></div></td>
+        <td>1-2</td>
+        <td>15.69%</td>
         <td></td>
     </tr>
     <tr>
@@ -96,6 +96,17 @@ icon: material/pokeball
         <td>
             <strong>One of the following:</strong>
             <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Exp Candy Xs</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl.png" width="32" height="32" alt="Pearl" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Pearl</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-2</td>
+        <td style="vertical-align:middle;">3.92%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
                 <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/clever_feather.png" width="32" height="32" alt="Clever Feather" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Clever Feather</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/genius_feather.png" width="32" height="32" alt="Genius Feather" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Genius Feather</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/health_feather.png" width="32" height="32" alt="Health Feather" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Health Feather</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/muscle_feather.png" width="32" height="32" alt="Muscle Feather" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Muscle Feather</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/resist_feather.png" width="32" height="32" alt="Resist Feather" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Resist Feather</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/swift_feather.png" width="32" height="32" alt="Swift Feather" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Swift Feather</span></div>
             </div>
         </td>
@@ -104,8 +115,8 @@ icon: material/pokeball
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy Xs</span></div></td>
-        <td>1-2</td>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/stardust.png" width="32" height="32" alt="Stardust" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Stardust</span></div></td>
+        <td>1-3</td>
         <td>1.96%</td>
         <td></td>
     </tr>

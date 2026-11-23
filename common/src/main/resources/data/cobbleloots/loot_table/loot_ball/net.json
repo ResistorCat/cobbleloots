@@ -7,7 +7,7 @@
         {
           "type": "minecraft:item",
           "name": "cobblemon:net_ball",
-          "weight": 10,
+          "weight": 8,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -92,6 +92,11 @@
         {
           "type": "minecraft:loot_table",
           "value": "cobbleloots:loot_ball/shared/tools_uncommon",
+          "weight": 2
+        },
+        {
+          "type": "minecraft:loot_table",
+          "value": "cobbleloots:loot_ball/shared/valuable_uncommon",
           "weight": 2
         }
       ]

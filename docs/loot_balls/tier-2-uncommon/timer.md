@@ -47,12 +47,6 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/timer_ball.png" width="32" height="32" alt="Timer Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Timer Ball</span></div></td>
-        <td>1-2</td>
-        <td>24.39%</td>
-        <td></td>
-    </tr>
-    <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/gold_ingot.png" width="32" height="32" alt="Gold Ingot" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Gold Ingot</span></div></td>
         <td>2-8</td>
         <td>21.95%</td>
@@ -68,6 +62,12 @@ icon: material/pokeball
         <td style="vertical-align:middle;">1</td>
         <td style="vertical-align:middle;">19.51%</td>
         <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/timer_ball.png" width="32" height="32" alt="Timer Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Timer Ball</span></div></td>
+        <td>1-2</td>
+        <td>19.51%</td>
+        <td></td>
     </tr>
     <tr>
         <td>
@@ -92,6 +92,28 @@ icon: material/pokeball
         <td style="vertical-align:middle;">Enchanted with 30 levels</td>
     </tr>
     <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Big Pearl</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/rare_candy.png" width="32" height="32" alt="Rare Candy" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Rare Candy</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1</td>
+        <td style="vertical-align:middle;">3.25%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/nugget.png" width="32" height="32" alt="Nugget" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Nugget</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/star_piece.png" width="32" height="32" alt="Star Piece" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Star Piece</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-2</td>
+        <td style="vertical-align:middle;">3.25%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/revive.png" width="32" height="32" alt="Revive" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Revive</span></div></td>
         <td>1-2</td>
         <td>1.95%</td>
@@ -106,12 +128,6 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy Xs</span></div></td>
         <td>6-8</td>
-        <td>1.63%</td>
-        <td></td>
-    </tr>
-    <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/rare_candy.png" width="32" height="32" alt="Rare Candy" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Rare Candy</span></div></td>
-        <td>1</td>
         <td>1.63%</td>
         <td></td>
     </tr>

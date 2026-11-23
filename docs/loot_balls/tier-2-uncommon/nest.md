@@ -47,12 +47,6 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/nest_ball.png" width="32" height="32" alt="Nest Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Nest Ball</span></div></td>
-        <td>1-2</td>
-        <td>23.26%</td>
-        <td></td>
-    </tr>
-    <tr>
         <td>
             <strong>One of the following:</strong>
             <div style="margin-top: 5px; margin-left: 10px;">
@@ -62,6 +56,12 @@ icon: material/pokeball
         <td style="vertical-align:middle;">2-5</td>
         <td style="vertical-align:middle;">20.93%</td>
         <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/nest_ball.png" width="32" height="32" alt="Nest Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Nest Ball</span></div></td>
+        <td>1-2</td>
+        <td>18.60%</td>
+        <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/leaf_stone.png" width="32" height="32" alt="Leaf Stone" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Leaf Stone</span></div></td>
@@ -96,6 +96,23 @@ icon: material/pokeball
         <td style="vertical-align:middle;">1</td>
         <td style="vertical-align:middle;">6.98%</td>
         <td style="vertical-align:middle;">Enchanted with 30 levels</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/nugget.png" width="32" height="32" alt="Nugget" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Nugget</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/star_piece.png" width="32" height="32" alt="Star Piece" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Star Piece</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-2</td>
+        <td style="vertical-align:middle;">3.10%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Big Pearl</span></div></td>
+        <td>1</td>
+        <td>1.55%</td>
+        <td></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/revive.png" width="32" height="32" alt="Revive" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Revive</span></div></td>

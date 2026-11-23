@@ -47,12 +47,6 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/lure_ball.png" width="32" height="32" alt="Lure Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Lure Ball</span></div></td>
-        <td>1-2</td>
-        <td>20.41%</td>
-        <td></td>
-    </tr>
-    <tr>
         <td>
             <strong>One of the following:</strong>
             <div style="margin-top: 5px; margin-left: 10px;">
@@ -81,10 +75,27 @@ icon: material/pokeball
         <td></td>
     </tr>
     <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/lure_ball.png" width="32" height="32" alt="Lure Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Lure Ball</span></div></td>
+        <td>1-2</td>
+        <td>10.20%</td>
+        <td></td>
+    </tr>
+    <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/prism_scale.png" width="32" height="32" alt="Prism Scale" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Prism Scale</span></div></td>
         <td>1</td>
         <td>10.20%</td>
         <td></td>
+    </tr>
+    <tr>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl.png" width="32" height="32" alt="Pearl" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Pearl</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/relic_coin_pouch.png" width="32" height="32" alt="Relic Coin Pouch" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Relic Coin Pouch</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-3</td>
+        <td style="vertical-align:middle;">8.16%</td>
+        <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/minecraft/book.png" width="32" height="32" alt="Book" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Book</span></div></td>
@@ -99,9 +110,21 @@ icon: material/pokeball
         <td>Enchanted with 30 levels</td>
     </tr>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/relic_coin_pouch.png" width="32" height="32" alt="Relic Coin Pouch" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Relic Coin Pouch</span></div></td>
-        <td>1-3</td>
-        <td>4.08%</td>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/big_pearl.png" width="32" height="32" alt="Big Pearl" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Big Pearl</span></div></td>
+        <td>1</td>
+        <td>3.06%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/rare_bone.png" width="32" height="32" alt="Rare Bone" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Rare Bone</span></div></td>
+        <td>1</td>
+        <td>2.04%</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl_string.png" width="32" height="32" alt="Pearl String" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Pearl String</span></div></td>
+        <td>1</td>
+        <td>1.02%</td>
         <td></td>
     </tr>
     <tr>

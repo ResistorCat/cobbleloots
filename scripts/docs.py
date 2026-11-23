@@ -137,6 +137,15 @@ def copy_item_icon(namespace: str, item_id: str) -> None:
                     source_file = found_files[0]
             except Exception:
                 pass
+    elif namespace == "cobbleloots":
+        base_item_path = LOOT_BALLS_ASSETS / "textures"
+        search_paths = [
+            base_item_path / "item",
+        ]
+        for path in search_paths:
+            if (path / texture_name).exists():
+                source_file = path / texture_name
+                break
     else:
         print(f"[yellow]Warning: Unknown namespace: {namespace}[/yellow]")
         return

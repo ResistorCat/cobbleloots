@@ -61,7 +61,7 @@ icon: material/pokeball
     <tr>
         <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/verdant_ball.png" width="32" height="32" alt="Verdant Ball" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Verdant Ball</span></div></td>
         <td>1-2</td>
-        <td>21.74%</td>
+        <td>17.39%</td>
         <td></td>
     </tr>
     <tr>
@@ -104,8 +104,19 @@ icon: material/pokeball
         <td style="vertical-align:middle;"></td>
     </tr>
     <tr>
-        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Exp Candy Xs</span></div></td>
-        <td>1-2</td>
+        <td>
+            <strong>One of the following:</strong>
+            <div style="margin-top: 5px; margin-left: 10px;">
+                <div style="display:flex; align-items:center;"><img src="../../../assets/items/cobblemon/exp_candy_xs.png" width="32" height="32" alt="Exp Candy Xs" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Exp Candy Xs</span></div><br><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/pearl.png" width="32" height="32" alt="Pearl" style="image-rendering: pixelated;"> <span style="margin-left:5px;">Pearl</span></div>
+            </div>
+        </td>
+        <td style="vertical-align:middle;">1-2</td>
+        <td style="vertical-align:middle;">4.35%</td>
+        <td style="vertical-align:middle;"></td>
+    </tr>
+    <tr>
+        <td><div style="display:flex; align-items:center;"><img src="../../../assets/items/cobbleloots/stardust.png" width="32" height="32" alt="Stardust" style="image-rendering: pixelated;"> <span style="margin-left:10px;">Stardust</span></div></td>
+        <td>1-3</td>
         <td>2.17%</td>
         <td></td>
     </tr>
