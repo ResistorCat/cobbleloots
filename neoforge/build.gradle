@@ -102,7 +102,9 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    filesMatching(project.mod_logo) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
     // Relocate and strip MidnightLib to avoid split-package conflicts with other mods that bundle it.
     relocate 'eu.midnightdust', 'dev.ripio.cobbleloots.shadow.midnightdust'
     exclude 'eu/midnightdust/core/**'

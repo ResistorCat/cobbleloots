@@ -103,7 +103,9 @@ processResources {
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    filesMatching(project.mod_logo) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
 }
 
 remapJar {
