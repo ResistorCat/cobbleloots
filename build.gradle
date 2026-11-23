@@ -37,15 +37,40 @@ subprojects {
                 includeGroup "curse.maven"
             }
         }
-        maven {
-            url = "https://maven.impactdev.net/repository/development/"
+        // Third-party repositories are restricted to the groups they publish so that an
+        // outage (5xx) on one of them never blocks resolving artifacts hosted elsewhere.
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "ImpactDev"
+                    url = "https://maven.impactdev.net/repository/development/"
+                }
+            }
+            filter {
+                includeGroup "com.cobblemon"
+            }
         }
-        maven {
-            url = "https://thedarkcolour.github.io/KotlinForForge/"
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "KotlinForForge"
+                    url = "https://thedarkcolour.github.io/KotlinForForge/"
+                }
+            }
+            filter {
+                includeGroup "thedarkcolour"
+            }
         }
-        maven {
-            name = "Terraformers"
-            url = "https://maven.terraformersmc.com/"
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "Terraformers"
+                    url = "https://maven.terraformersmc.com/"
+                }
+            }
+            filter {
+                includeGroup "com.terraformersmc"
+            }
         }
         exclusiveContent {
             forRepository {
