@@ -2,6 +2,13 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## 2.5.0-alpha.3
+
+### Bug Fixes
+- **gradle**: restrict plugin repositories to their groups
+- **gradle**: restrict third-party maven repositories to their groups
+- **gradle**: resolve midnightlib from modrinth maven
+
 ## 2.5.0-alpha.2
 
 ### Added
