@@ -86,19 +86,32 @@ If a build still fails because a repository returned a 5xx or timed out while re
 
 Every Pull Request opened by an agent or developer must adhere to the following strict formatting rules. This ensures bi-directional synchronization with Linear and smooth product QA.
 
-### 4.1 PR Title Format
+### 4.1 Branch Naming Convention
+Every working branch **MUST** follow:
+```text
+ripio/<type>/<linear-id>/<summary>
+```
+- All segments must be **in English and lowercase**.
+- **`<type>`**: One of `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `build`, `ci`, `chore`, `style`, `revert`.
+- **`<linear-id>`**: The Linear ticket identifier in lowercase (e.g., `dev-35`). Including this automatically links the branch and PR with the Linear issue.
+- **`<summary>`**: Short kebab-case summary of the change.
+- **Do not use Linear's default `gitBranchName`** (e.g., `ripio/dev-35-...`).
+
+*Example*: `ripio/fix/dev-35/broken-mod-icon`
+
+### 4.2 PR Title Format
 The title **MUST** match:
 ```text
 [<linear-issue-id>] <type>(<scope>): <description>
 ```
 - **`<linear-issue-id>`**: The Linear ticket identifier (e.g., `DEV-5`, `LOOT-42`). Including this automatically links the GitHub PR with the Linear issue.
-- **`<type>`**: One of `feat`, `fix`, `refactor`, `perf`, `test`, `docs`, `chore`.
+- **`<type>`**: One of `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `build`, `ci`, `chore`, `style`, `revert`.
 - **`<scope>`**: Area affected (e.g., `loot-balls`, `commands`, `fishing`, `config`, `fabric`, `neoforge`).
 - **`<description>`**: Short, imperative description in lowercase, **written in English** (never in Spanish). Even if Linear tickets are written in Spanish, PR titles must always be in English.
 
 *Example*: `[DEV-5] feat(commands): loot balls reset command`
 
-### 4.2 PR Body Format (4 Mandatory Sections)
+### 4.3 PR Body Format (4 Mandatory Sections)
 The body of the PR **MUST** include exactly these four sections:
 
 ```markdown
@@ -126,10 +139,10 @@ The body of the PR **MUST** include exactly these four sections:
 - **Detalles para el reviewer**: Información clave para comprender la implementación.
 ```
 
-### 4.3 CI Verification Gate
+### 4.4 CI Verification Gate
 All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows/gradle-ci.yml`) before they can be merged.
 
-### 4.4 Task Management & Linear as Single Source of Truth
+### 4.5 Task Management & Linear as Single Source of Truth
 - **Sole Source of Truth for Development**: All development tasks, bugs, features, and backlog items are tracked and managed in **Linear** (Team: `RipioDev`, Project: `[Mod] Cobbleloots`).
 - **Community GitHub Issues Triage**: Because this is a public repository, players and community members may submit bug reports or feedback via GitHub Issues. Agents must check open GitHub issues (`gh issue list`) when triaging pending work. Any legitimate community issue must be triaged, migrated into Linear as a tracked issue (linking back to the GitHub issue), and updated accordingly upon resolution.
 - **Linear Tooling**: Inspect and update tasks through Linear, via MCP or CLI depending on the tool you use.
@@ -138,12 +151,12 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 - **Tags / Labels**: Must use the proper workspace tag (`Feature`, `Bug`, `Improvement`).
 - **Issue Body**: Follow [`.agents/templates/linear-issue-template.md`](file:///.agents/templates/linear-issue-template.md) for acceptance criteria, suggested files, and technical constraints.
 
-### 4.5 Agent Tooling & Windows Execution Guidelines
+### 4.6 Agent Tooling & Windows Execution Guidelines
 - **PowerShell Backtick Escaping**: Never pass multi-line markdown containing backticks (` `) inside double-quoted PowerShell commands; PowerShell treats backticks as escape characters. Always write content to temporary files and use flags like `gh pr create --body-file <file>`.
 - **Node.js Environment**: Node.js is located at `C:\nvm4w\nodejs` (junction to `C:\Users\franc\AppData\Local\nvm\v24.15.0`).
 - **Deep Directory Deletion**: For deeply nested directories (e.g., `.gradle` cache or worktrees exceeding Windows `MAX_PATH`), use Node.js `fs.rmSync(dir, { recursive: true, force: true })` rather than PowerShell `Remove-Item`.
 
-### 4.6 Post-Merge, Release & Discord Announcement Protocol
+### 4.7 Post-Merge, Release & Discord Announcement Protocol
 After a PR is approved and merged into `alpha`, `beta`, or `main`, the agent/developer must follow these standardized steps:
 1. **Monitor CI Workflows**: Verify the completion of `Gradle CI`, `Documentation CI`, and `Release Automation` on GitHub Actions (`gh run list`). Ensure the release tag is generated and changelog fragments are merged into `CHANGELOG.md`.
 2. **Workspace Cleanup**:
