@@ -167,7 +167,7 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td>100</td>
+        <td>25</td>
         <td>Any</td>
         <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Poke Rod</li></ul></li></ul></td>
     </tr>

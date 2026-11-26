@@ -56,8 +56,34 @@ Settings regulating where and how Loot Balls appear in the world naturally.
 | `spawning_despawn_time`              | Integer      | `24000`  | Ticks before spawned balls despawn. Set to 0 to disable despawning. |
 | `spawning_disabled_dimensions`       | List(String) | `[]`     | Dimensions where spawning is disabled.                              |
 | `fishing_enabled`                    | Boolean      | `true`   | Enable fishing up loot balls.                                       |
-| `fishing_chance`                     | Float        | `0.01`   | Base chance to hook a loot ball.                                    |
-| `fishing_luck_of_the_sea_multiplier` | Float        | `1.25`   | Multiplier applied per Luck of the Sea level.                       |
+| `fishing_chance`                     | Float        | `0.05`   | Base chance (0.0 to 1.0) to hook a loot ball on a successful catch. |
+| `fishing_luck_of_the_sea_multiplier` | Float        | `1.4`    | Multiplicative bonus applied per level of Luck of the Sea.          |
 | `fishing_despawn_time`               | Integer      | `24000`  | Ticks before fished balls despawn. Set to 0 to disable despawning.  |
 | `fishing_disabled_dimensions`        | List(String) | `[]`     | Dimensions where fishing them is disabled.                          |
 | `archaeology_disabled_dimensions`    | List(String) | `[]`     | Dimensions where archaeology drops are disabled.                    |
+
+#### Fishing Mechanics and Luck of the Sea
+
+When reeling in a successful catch with a Cobblemon **Poké Rod**, Cobbleloots rolls a chance to fish up a Loot Ball using the following formula:
+
+```text
+effective_chance = min(1.0, fishing_chance × (fishing_luck_of_the_sea_multiplier ^ luck_of_the_sea_level))
+```
+
+With the default values (`fishing_chance = 0.05`, `fishing_luck_of_the_sea_multiplier = 1.4`), the catch probability scales as follows:
+
+| Luck of the Sea Level | Effective Chance | Average Catches per Loot Ball |
+| --------------------- | ---------------- | ----------------------------- |
+| None (0)              | `5.00%`          | ~20 catches                   |
+| Level I               | `7.00%`          | ~14 catches                   |
+| Level II              | `9.80%`          | ~10 catches                   |
+| Level III             | `13.72%`         | ~7 catches                    |
+
+Fished Loot Balls prioritize aquatic variants matched to the biome and Poké Rod used:
+
+- **Dive Loot Ball**: Favored in Deep Oceans, Oceans, and Coasts (boosted with a **Dive Rod**).
+- **Lure Loot Ball** _(fishing-exclusive)_: Obtainable across Deep Oceans, Oceans, Rivers, Coasts, and Swamps, or in any biome when using a **Lure Rod**.
+- **Net Loot Ball**: Favored in Rivers, Swamps, Oceans, and Coasts (boosted with a **Net Rod**).
+
+When multiple source rules match the same Loot Ball, the highest matching rule weight is used. Fishing loot balls respect `fishing_despawn_time` (20 minutes by default) and `fishing_disabled_dimensions`.
+

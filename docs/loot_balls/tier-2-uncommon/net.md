@@ -204,33 +204,43 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td>50</td>
-        <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_ocean.json">#cobblemon:is_ocean</a></td>
-        <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Net Rod</li></ul></li></ul></td>
-    </tr>
-    <tr>
-        <td>50</td>
+        <td>65</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_river.json">#cobblemon:is_river</a></td>
         <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Net Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>50</td>
+        <td>65</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_swamp.json">#cobblemon:is_swamp</a></td>
         <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Net Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>5</td>
+        <td>55</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_ocean.json">#cobblemon:is_ocean</a></td>
-        <td>None</td>
+        <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Net Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>5</td>
+        <td>55</td>
+        <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_coast.json">#cobblemon:is_coast</a></td>
+        <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Net Rod</li></ul></li></ul></td>
+    </tr>
+    <tr>
+        <td>25</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_river.json">#cobblemon:is_river</a></td>
         <td>None</td>
     </tr>
     <tr>
-        <td>5</td>
+        <td>25</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_swamp.json">#cobblemon:is_swamp</a></td>
+        <td>None</td>
+    </tr>
+    <tr>
+        <td>15</td>
+        <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_ocean.json">#cobblemon:is_ocean</a></td>
+        <td>None</td>
+    </tr>
+    <tr>
+        <td>15</td>
+        <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_coast.json">#cobblemon:is_coast</a></td>
         <td>None</td>
     </tr>
     </tbody>

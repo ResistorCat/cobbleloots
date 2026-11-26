@@ -194,23 +194,33 @@ icon: material/pokeball
     </thead>
     <tbody>
     <tr>
-        <td>40</td>
+        <td>75</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_deep_ocean.json">#cobblemon:is_deep_ocean</a></td>
         <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Dive Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>20</td>
+        <td>60</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_ocean.json">#cobblemon:is_ocean</a></td>
         <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Dive Rod</li></ul></li></ul></td>
     </tr>
     <tr>
-        <td>4</td>
+        <td>40</td>
+        <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_coast.json">#cobblemon:is_coast</a></td>
+        <td><ul><li>Fishing with the following <a href="https://wiki.cobblemon.com/index.php/Pok%C3%A9_Rod">rods</a>:<ul><li>Dive Rod</li></ul></li></ul></td>
+    </tr>
+    <tr>
+        <td>30</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_deep_ocean.json">#cobblemon:is_deep_ocean</a></td>
         <td>None</td>
     </tr>
     <tr>
-        <td>2</td>
+        <td>20</td>
         <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_ocean.json">#cobblemon:is_ocean</a></td>
+        <td>None</td>
+    </tr>
+    <tr>
+        <td>10</td>
+        <td><a href="https://gitlab.com/cable-mc/cobblemon/-/blob/main/common/src/main/resources/data/cobblemon/tags/worldgen/biome/is_coast.json">#cobblemon:is_coast</a></td>
         <td>None</td>
     </tr>
     </tbody>
