@@ -6,6 +6,7 @@ import com.cobblemon.mod.common.api.events.fishing.PokerodReelEvent;
 import dev.ripio.cobbleloots.Cobbleloots;
 import dev.ripio.cobbleloots.event.custom.CobblelootsFishingEvents;
 import kotlin.Unit;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.projectile.FishingHook;
 
@@ -21,38 +22,45 @@ public class CobblemonCompatEvents {
     }
 
     private static void handlePokerodReel(PokerodReelEvent event) {
-        ServerPlayer player = (ServerPlayer) event.getPlayer();
-        FishingHook bobber = player.fishing;
+        if (!(event.getPlayer() instanceof ServerPlayer player)) {
+            return;
+        }
+        if (!(player.level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
 
-        if (bobber != null) {
-            boolean hasCatch = false;
-            try {
-                // Check 'caughtFish' (boolean) which was identified in logs
-                Field caughtFishField = getFieldRecursive(bobber.getClass(), "caughtFish");
-                if (caughtFishField != null) {
-                    caughtFishField.setAccessible(true);
-                    hasCatch = (boolean) caughtFishField.get(bobber);
-                } else {
-                    // Fallback to checking 'hookCountdown' > 0 if caughtFish is missing?
-                    Field hookCountdownField = getFieldRecursive(bobber.getClass(), "hookCountdown");
-                    if (hookCountdownField != null) {
-                        hookCountdownField.setAccessible(true);
-                        int hookCountdown = (int) hookCountdownField.get(bobber);
-                        if (hookCountdown > 0) {
-                            hasCatch = true;
-                        }
+        FishingHook bobber = player.fishing;
+        if (bobber == null) {
+            return;
+        }
+
+        boolean hasCatch = false;
+        try {
+            // Check 'caughtFish' (boolean) which was identified in logs
+            Field caughtFishField = getFieldRecursive(bobber.getClass(), "caughtFish");
+            if (caughtFishField != null) {
+                caughtFishField.setAccessible(true);
+                hasCatch = (boolean) caughtFishField.get(bobber);
+            } else {
+                // Fallback to checking 'hookCountdown' > 0 if caughtFish is missing?
+                Field hookCountdownField = getFieldRecursive(bobber.getClass(), "hookCountdown");
+                if (hookCountdownField != null) {
+                    hookCountdownField.setAccessible(true);
+                    int hookCountdown = (int) hookCountdownField.get(bobber);
+                    if (hookCountdown > 0) {
+                        hasCatch = true;
                     }
                 }
-            } catch (Exception e) {
-                Cobbleloots.LOGGER.error("Failed to check bobber state via reflection", e);
             }
-
-            if (hasCatch) {
-                CobblelootsFishingEvents.onFishingSuccess((net.minecraft.server.level.ServerLevel) player.level(),
-                        player, bobber.blockPosition(),
-                        event.getRod());
-            }
+        } catch (Exception e) {
+            Cobbleloots.LOGGER.error("Failed to check bobber state via reflection", e);
         }
+
+        if (!hasCatch) {
+            return;
+        }
+
+        CobblelootsFishingEvents.onFishingSuccess(serverLevel, player, bobber.blockPosition(), event.getRod());
     }
 
     // Helper to find field in superclasses
