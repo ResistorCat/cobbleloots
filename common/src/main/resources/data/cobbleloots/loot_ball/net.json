@@ -36,31 +36,48 @@
     ],
     "fishing": [
       {
-        "weight": 5,
-        "biome": "#cobblemon:is_ocean"
+        "weight": 65,
+        "biome": "#cobblemon:is_river",
+        "poke_rod": [
+          "cobblemon:net_rod"
+        ]
       },
       {
-        "weight": 5,
+        "weight": 65,
+        "biome": "#cobblemon:is_swamp",
+        "poke_rod": [
+          "cobblemon:net_rod"
+        ]
+      },
+      {
+        "weight": 55,
+        "biome": "#cobblemon:is_ocean",
+        "poke_rod": [
+          "cobblemon:net_rod"
+        ]
+      },
+      {
+        "weight": 55,
+        "biome": "#cobblemon:is_coast",
+        "poke_rod": [
+          "cobblemon:net_rod"
+        ]
+      },
+      {
+        "weight": 25,
         "biome": "#cobblemon:is_river"
       },
       {
-        "weight": 5,
+        "weight": 25,
         "biome": "#cobblemon:is_swamp"
       },
       {
-        "weight": 50,
-        "biome": "#cobblemon:is_ocean",
-        "poke_rod": ["cobblemon:net_rod"]
+        "weight": 15,
+        "biome": "#cobblemon:is_ocean"
       },
       {
-        "weight": 50,
-        "biome": "#cobblemon:is_river",
-        "poke_rod": ["cobblemon:net_rod"]
-      },
-      {
-        "weight": 50,
-        "biome": "#cobblemon:is_swamp",
-        "poke_rod": ["cobblemon:net_rod"]
+        "weight": 15,
+        "biome": "#cobblemon:is_coast"
       }
     ]
   }

@@ -21,7 +21,7 @@
         "weight": 10
       },
       {
-        "weight": 100,
+        "weight": 25,
         "poke_rod": ["cobblemon:poke_rod"]
       }
     ]
