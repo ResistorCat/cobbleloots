@@ -91,11 +91,20 @@ processResources {
         ])
     }
 
+    def logoParent = new File(project.mod_logo).parent
+    from(project(':common').file("src/main/resources/${project.mod_logo}")) {
+        if (logoParent) {
+            into logoParent
+        }
+    }
 }
 
 shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
+    filesMatching(project.mod_logo) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
     // Relocate and strip MidnightLib to avoid split-package conflicts with other mods that bundle it.
     relocate 'eu.midnightdust', 'dev.ripio.cobbleloots.shadow.midnightdust'
     exclude 'eu/midnightdust/core/**'
