@@ -2,6 +2,15 @@
 
 This document outlines the changes and fixes made in each version of the CobbleLoots mod from version a2.0.10 onwards.
 
+## 2.5.0-alpha.4
+
+### Bug Fixes
+- **build**: scope icon duplicate strategy to mod logo
+- **fabric,neoforge**: copy mod icon into loader resources for runClient
+
+### Technical Changes
+- **fabric**: verify declared mod icon resolves in dev container
+
 ## 2.5.0-alpha.3
 
 ### Bug Fixes
