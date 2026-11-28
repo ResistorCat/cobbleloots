@@ -3,16 +3,12 @@ name: Documentation CI
 on:
   push:
     branches:
-      - master
       - main
-      - beta
-      - alpha
+      - 'mc/**'
   pull_request:
     branches:
-      - master
       - main
-      - beta
-      - alpha
+      - 'mc/**'
   workflow_dispatch:
 
 permissions:
@@ -39,12 +35,7 @@ jobs:
     needs: validate
     if: |
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && (
-        github.ref == 'refs/heads/main' ||
-        github.ref == 'refs/heads/master' ||
-        github.ref == 'refs/heads/beta' ||
-        github.ref == 'refs/heads/alpha'
-      ))
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

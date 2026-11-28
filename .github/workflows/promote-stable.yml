@@ -1,0 +1,59 @@
+name: Promote Beta to Stable
+
+on:
+  schedule:
+    - cron: '0 12 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run mode (evaluate promotion without committing or publishing)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  check:
+    name: Check 7-Day Beta Soak
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      should_promote: ${{ steps.check.outputs.should_promote }}
+      beta_tag: ${{ steps.check.outputs.beta_tag }}
+      target_tag: ${{ steps.check.outputs.target_tag }}
+      reason: ${{ steps.check.outputs.reason }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python Dependencies
+        run: pip install -r scripts/requirements.txt
+
+      - name: Evaluate Beta Promotion Eligibility
+        id: check
+        run: python scripts/release.py --branch main --check-stable-promotion
+
+  promote:
+    name: Publish Stable Release
+    needs: check
+    if: needs.check.outputs.should_promote == 'true'
+    uses: ./.github/workflows/release.yml
+    with:
+      channel: release
+      branch: main
+      target_ref: ${{ needs.check.outputs.beta_tag }}
+      dry_run: ${{ inputs.dry_run == true }}
+    secrets: inherit
