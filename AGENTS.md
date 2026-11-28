@@ -76,7 +76,7 @@ If a build still fails because a repository returned a 5xx or timed out while re
    - **Language**: Changelog fragments **MUST always be written in English** (using standard headings like `### Added`, `### Changed`, `### Fixed`), matching the language of `CHANGELOG.md`.
    - **Completeness**: Changelog fragments must be comprehensive and list all notable player-facing and technical changes introduced by the PR (e.g., new language localizations like `es_es`, assets, creative tabs, configuration options), not just the headlining feature.
    - **Community Attribution**: If a feature, bug report, or improvement was suggested by a community member, the changelog fragment **MUST** include an explicit attribution (e.g., `Suggested by <User> on Discord.`).
-6. **Feature PR Target Branch**: Pull requests for new features (`feat(...)`) MUST target the `alpha` branch (`origin/alpha`).
+6. **PR Target Branch**: All Pull Requests MUST target `main` (`origin/main`) without stacking (except bug-fix backports targeting a maintenance branch `mc/<version>`). See [RELEASING.md](RELEASING.md).
 7. **Early Returns Convention**: Always prefer early returns and guard clauses over deeply nested `if-else` blocks to maximize code clarity and maintainability.
 8. **Documentation Invariant**: Whenever a feature, command, configuration option, or game mechanic is added, modified, or deprecated, the corresponding user-facing documentation in `docs/` and `MODINFO.md` MUST be updated in the same PR. Never leave new features undocumented.
 
@@ -100,15 +100,23 @@ Every working branch **MUST** follow:
 
 *Examples*: `ripio/fix/dev-35/broken-mod-icon`, `someone/feat/gh-12/add-config-option`, `someone/docs/fix-typo`
 
-### 4.2 PR Title Format
-The title **MUST** match:
+### 4.2 PR Title Format & Commit Convention
+The PR title **MUST** match:
 ```text
 [<linear-issue-id>] <type>(<scope>): <description>
 ```
 - **`<linear-issue-id>`**: The Linear ticket identifier (e.g., `DEV-5`, `LOOT-42`). Including this automatically links the GitHub PR with the Linear issue.
-- **`<type>`**: One of `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `build`, `ci`, `chore`, `style`, `revert`.
-- **`<scope>`**: Area affected (e.g., `loot-balls`, `commands`, `fishing`, `config`, `fabric`, `neoforge`).
+- **`<type>`**: Reflects the **player-facing effect**, not merely that code was changed:
+  - `feat` / `fix`: New player-facing content or bug fixes in mod code/resources — **only `feat` and `fix` (or breaking changes) publish a release**.
+  - `build`: Gradle scripts, dependencies, or build configuration.
+  - `ci`: GitHub Actions workflows and release automation.
+  - `test`: Unit or integration tests.
+  - `chore`: Internal tooling, scripts, and agent configuration.
+  - `docs`, `refactor`, `perf`, `style`, `revert`: Non-publishing unless marked breaking (`!` / `BREAKING CHANGE:`).
+- **`<scope>`**: Area affected (e.g., `loot-balls`, `commands`, `fishing`, `config`, `fabric`, `neoforge`, `build`, `release`).
 - **`<description>`**: Short, imperative description in lowercase, **written in English** (never in Spanish). Even if Linear tickets are written in Spanish, PR titles must always be in English.
+- **PR title counts for releases**: Because squash/merge uses the PR title as the commit message, using `feat` or `fix` on a build/CI/tooling PR will trigger an empty release. Always pick the type that matches player impact.
+- **Release promotion labels**: Add `release:beta` on the last PR of a Linear milestone (or fix PRs during an active beta) to publish to the beta channel; use `release:stable` to force a stable release. See [RELEASING.md](RELEASING.md).
 
 *Example*: `[DEV-5] feat(commands): loot balls reset command`
 
@@ -158,12 +166,12 @@ All PRs targeting `main` must pass the **`Gradle CI`** check (`.github/workflows
 - **Deep Directory Deletion**: For deeply nested directories (e.g., `.gradle` cache or worktrees exceeding Windows `MAX_PATH`), use Node.js `fs.rmSync(dir, { recursive: true, force: true })` rather than PowerShell `Remove-Item`.
 
 ### 4.7 Post-Merge, Release & Discord Announcement Protocol
-After a PR is approved and merged into `alpha`, `beta`, or `main`, the agent/developer must follow these standardized steps:
-1. **Monitor CI Workflows**: Verify the completion of `Gradle CI`, `Documentation CI`, and `Release Automation` on GitHub Actions (`gh run list`). Ensure the release tag is generated and changelog fragments are merged into `CHANGELOG.md`.
+After a PR is approved and merged into `main` (or a maintenance branch `mc/<version>`), the agent/developer must follow these standardized steps (see [RELEASING.md](RELEASING.md) for the full release lifecycle):
+1. **Monitor CI Workflows**: Verify the completion of `Gradle CI`, `Documentation CI`, and `Release Automation` on GitHub Actions (`gh run list`). For PRs with mod `feat`/`fix` changes, confirm the expected tag (`alpha` by default, `beta` with `release:beta`, or `release` with `release:stable`) is generated and changelog fragments are merged into `CHANGELOG.md`. For non-mod/tooling PRs, verify `Release Automation` exits cleanly without publishing.
 2. **Workspace Cleanup**:
    - Prune git worktrees and remove local worktree directories using Node.js `fs.rmSync` to bypass Windows `MAX_PATH` limitations.
    - Delete local and remote feature branches (`git branch -d <branch>`, `git push origin --delete <branch>`).
-   - Pull the updated target branch in the main working tree (`git pull origin <branch>`).
+   - Pull the updated `main` branch in the main working tree (`git pull origin main`).
 3. **Linear Issue Closure**: Mark the corresponding Linear ticket as **Done** (skip if Linear's GitHub integration already did it on merge).
 4. **Discord Release Announcement**:
    - The release automation generates packages but does not publish to Discord. The agent must prepare a ready-to-copy release announcement for the user.
@@ -174,7 +182,8 @@ After a PR is approved and merged into `alpha`, `beta`, or `main`, the agent/dev
 
 ---
 
-## 5. Reference Documents in `.agents/`
+## 5. Reference Documents
+- [`RELEASING.md`](RELEASING.md): Single-trunk (`main` + tags) branching model, SemVer policy, release channels, hotfix/maintenance procedures, and recovery runbook.
 - [`.agents/rules/minecraft-loaders.md`](file:///.agents/rules/minecraft-loaders.md): Pinned loader versions and platform registration guides.
 - [`.agents/rules/architectury-rules.md`](file:///.agents/rules/architectury-rules.md): Multi-loader patterns and common code guidelines.
 - [`.agents/templates/agent-pr-template.md`](file:///.agents/templates/agent-pr-template.md): Mandatory PR template for agent and contributor pull requests.
