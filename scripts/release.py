@@ -4,12 +4,14 @@ Analyzes git commits, calculates SemVer bumps, manages multi-channel tags,
 updates gradle.properties and CHANGELOG.md, and produces GitHub Actions outputs.
 """
 
+from datetime import datetime, timedelta, timezone
 import os
 from pathlib import Path
 import re
 import subprocess
 import sys
 from typing import Optional
+import requests
 import typer
 
 # Ensure scripts directory is on sys.path
@@ -27,7 +29,10 @@ except ImportError:
 app = typer.Typer(help="Semantic Versioning & Changelog Engine for Cobbleloots.")
 
 MOD_PATH_PREFIXES = ("common/", "fabric/", "neoforge/")
-MOD_EXACT_FILES = {"build.gradle", "settings.gradle", "gradle.properties"}
+VALID_CHANNELS = ("alpha", "beta", "release")
+DEFAULT_PROMOTION_DAYS = 7
+GITHUB_API_URL = "https://api.github.com"
+
 TOOLING_SCOPES = {
     "mcp",
     "relay",
@@ -40,6 +45,8 @@ TOOLING_SCOPES = {
     "scripts",
     "release",
     "docs",
+    "build",
+    "gradle",
 }
 
 
@@ -80,21 +87,141 @@ def parse_conventional_commit(message: str) -> dict | None:
     }
 
 
+def _is_tooling_scope(scope: str | None) -> bool:
+    """
+    Returns True if all comma-separated scope tokens belong to TOOLING_SCOPES.
+    """
+    if not scope:
+        return False
+    parts = [part.strip().lower() for part in scope.split(",") if part.strip()]
+    return bool(parts) and all(part in TOOLING_SCOPES for part in parts)
+
+
+def _is_excluded_mod_path(normalized: str) -> bool:
+    """
+    Returns True for build, Gradle, or test paths that must not trigger mod releases.
+    """
+    filename = Path(normalized).name
+    if filename == "gradle.properties":
+        return True
+    if normalized.endswith((".gradle", ".gradle.kts")):
+        return True
+    if normalized.startswith("gradle/") or "/gradle/" in normalized:
+        return True
+    if normalized.startswith("src/test/") or "/src/test/" in normalized:
+        return True
+    return False
+
+
 def is_mod_commit(files: list[str]) -> bool:
     """
-    Determines whether a commit touched mod paths rather than tooling/repo paths.
+    Determines whether a commit touched mod paths rather than tooling, build, or test paths.
     """
     if not files:
         return False
 
     for f in files:
         normalized = f.replace("\\", "/").strip().lstrip("./")
+        if not normalized:
+            continue
+        if _is_excluded_mod_path(normalized):
+            continue
         if normalized.startswith(MOD_PATH_PREFIXES):
-            return True
-        if normalized in MOD_EXACT_FILES:
             return True
 
     return False
+
+
+def normalize_channel(channel: str) -> str:
+    """
+    Validates and normalizes a release channel name ('alpha', 'beta', or 'release').
+    Accepts 'stable' as an alias for 'release'.
+    """
+    normalized = channel.lower().strip()
+    if normalized == "stable":
+        return "release"
+    if normalized not in VALID_CHANNELS:
+        raise ValueError(
+            f"Invalid release channel '{channel}'. Expected one of: {', '.join(VALID_CHANNELS)}."
+        )
+    return normalized
+
+
+def resolve_channel_from_labels(labels: list[str]) -> str:
+    """
+    Maps GitHub PR label names to a release channel.
+    Priority: release:stable -> release, release:beta -> beta, default -> alpha.
+    """
+    normalized = {label.strip().lower() for label in labels if label and label.strip()}
+    if "release:stable" in normalized:
+        return "release"
+    if "release:beta" in normalized:
+        return "beta"
+    return "alpha"
+
+
+def fetch_pr_labels_for_commit(
+    repo: str,
+    commit_sha: str,
+    token: str | None = None,
+    api_url: str = GITHUB_API_URL,
+) -> list[str]:
+    """
+    Queries the GitHub REST API for Pull Requests associated with a commit SHA
+    and returns the list of label names on the merged PR(s).
+    """
+    if not repo or not commit_sha:
+        return []
+
+    url = f"{api_url.rstrip('/')}/repos/{repo}/commits/{commit_sha}/pulls"
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "cobbleloots-release",
+    }
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    try:
+        response = requests.get(url, headers=headers, timeout=15)
+    except Exception as e:
+        print(f"Warning: failed to query GitHub PRs for {commit_sha}: {e}")
+        return []
+
+    if response.status_code != 200:
+        print(
+            f"Warning: GitHub API returned {response.status_code} for {commit_sha} PR lookup."
+        )
+        return []
+
+    prs = response.json()
+    if not isinstance(prs, list) or not prs:
+        return []
+
+    merged_prs = [pr for pr in prs if isinstance(pr, dict) and pr.get("merged_at")]
+    target_prs = merged_prs or [pr for pr in prs if isinstance(pr, dict)]
+
+    labels: list[str] = []
+    for pr in target_prs:
+        for label in pr.get("labels", []):
+            if isinstance(label, dict) and label.get("name"):
+                labels.append(str(label["name"]))
+            elif isinstance(label, str):
+                labels.append(label)
+    return labels
+
+
+def resolve_channel_for_commit(
+    repo: str,
+    commit_sha: str,
+    token: str | None = None,
+    api_url: str = GITHUB_API_URL,
+) -> str:
+    """
+    Determines the release channel for a commit from its associated GitHub PR labels.
+    """
+    labels = fetch_pr_labels_for_commit(repo, commit_sha, token=token, api_url=api_url)
+    return resolve_channel_from_labels(labels)
 
 
 def get_git_tags() -> list[str]:
@@ -204,13 +331,27 @@ def _find_baseline_commit() -> str | None:
     return None
 
 
-def get_latest_tag_on_branch() -> str | None:
+def get_latest_tag_on_branch(ref: str | None = None) -> str | None:
     """
-    Returns the most recent tag reachable from HEAD on the current branch.
+    Returns the most recent tag reachable from the specified ref (or HEAD).
     """
+    cmd = ["git", "describe", "--tags", "--abbrev=0"]
+    if ref:
+        try:
+            check_ref = subprocess.run(
+                ["git", "rev-parse", "--verify", "--quiet", ref],
+                cwd=ROOT_PATH,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if check_ref.returncode == 0:
+                cmd.append(ref)
+        except Exception:
+            pass
     try:
         res = subprocess.run(
-            ["git", "describe", "--tags", "--abbrev=0"],
+            cmd,
             cwd=ROOT_PATH,
             capture_output=True,
             text=True,
@@ -281,7 +422,7 @@ def get_commits_since_last_tag(base_tag: str | None) -> list[dict]:
             description = subject
 
         # Check hybrid path and scope filtering
-        if scope and scope.lower() in TOOLING_SCOPES:
+        if _is_tooling_scope(scope):
             is_mod = False
         else:
             is_mod = is_mod_commit(files)
@@ -328,8 +469,172 @@ def calculate_version_bump(commits: list[dict]) -> str | None:
     return None
 
 
+def get_latest_unreleased_beta_tag(
+    tags: list[str], base_version: str
+) -> str | None:
+    """
+    Returns the highest vX.Y.Z-beta.N tag belonging to an active cycle that has
+    not yet graduated to a stable vX.Y.Z tag.
+    """
+    core_version = base_version.lstrip("vba").split("-")[0]
+    base_tuple = tuple(map(int, core_version.split(".")))
+
+    parsed_existing = [_parse_semver(t) for t in tags]
+    stable_cores = {
+        (p[0], p[1], p[2])
+        for p in parsed_existing
+        if p is not None and p[3] == 1
+    }
+
+    beta_tags = []
+    pattern = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)-beta\.(\d+)$")
+    for t in tags:
+        m = pattern.match(t.strip())
+        if not m:
+            continue
+        pre_major, pre_minor, pre_patch, pre_count = (
+            int(m.group(1)),
+            int(m.group(2)),
+            int(m.group(3)),
+            int(m.group(4)),
+        )
+        pre_core = (pre_major, pre_minor, pre_patch)
+        if pre_core not in stable_cores and pre_core >= base_tuple:
+            beta_tags.append((pre_major, pre_minor, pre_patch, pre_count, t.strip()))
+
+    if not beta_tags:
+        return None
+
+    latest = max(beta_tags, key=lambda x: (x[0], x[1], x[2], x[3]))
+    return latest[4]
+
+
+def get_tag_timestamp(tag: str) -> datetime | None:
+    """
+    Returns the UTC timestamp of a git tag (tagger date for annotated tags,
+    falling back to commit date). Uses local git metadata only.
+    """
+    try:
+        res = subprocess.run(
+            ["git", "for-each-ref", "--format=%(creatordate:unix)", f"refs/tags/{tag}"],
+            cwd=ROOT_PATH,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        raw = res.stdout.strip()
+        if not raw:
+            res = subprocess.run(
+                ["git", "log", "-1", "--format=%ct", f"{tag}^{{commit}}"],
+                cwd=ROOT_PATH,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            raw = res.stdout.strip()
+        if raw:
+            return datetime.fromtimestamp(int(raw), tz=timezone.utc)
+    except Exception:
+        pass
+    return None
+
+
+def get_tag_commit_sha(tag: str) -> str | None:
+    """
+    Returns the commit SHA referenced by a git tag.
+    """
+    try:
+        res = subprocess.run(
+            ["git", "rev-list", "-n", "1", tag],
+            cwd=ROOT_PATH,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        sha = res.stdout.strip()
+        if sha and res.returncode == 0:
+            return sha
+    except Exception:
+        pass
+    return None
+
+
+def evaluate_beta_promotion(
+    tags: list[str],
+    base_version: str,
+    beta_timestamp: datetime | None,
+    commits_since_beta: list[dict],
+    now: datetime | None = None,
+    min_days: int = DEFAULT_PROMOTION_DAYS,
+) -> dict:
+    """
+    Evaluates whether the latest unreleased beta tag is eligible for automatic
+    promotion to stable (at least `min_days` days old with no new mod `fix` commits).
+    """
+    beta_tag = get_latest_unreleased_beta_tag(tags, base_version)
+    if not beta_tag:
+        return {
+            "should_promote": False,
+            "reason": "no_unreleased_beta",
+            "beta_tag": None,
+            "target_tag": None,
+            "days_elapsed": 0.0,
+        }
+
+    parsed = _parse_semver(beta_tag)
+    target_tag = f"v{parsed[0]}.{parsed[1]}.{parsed[2]}" if parsed else None
+
+    if beta_timestamp is None:
+        return {
+            "should_promote": False,
+            "reason": "missing_beta_timestamp",
+            "beta_tag": beta_tag,
+            "target_tag": target_tag,
+            "days_elapsed": 0.0,
+        }
+
+    current_time = now or datetime.now(timezone.utc)
+    if current_time.tzinfo is None:
+        current_time = current_time.replace(tzinfo=timezone.utc)
+    if beta_timestamp.tzinfo is None:
+        beta_timestamp = beta_timestamp.replace(tzinfo=timezone.utc)
+
+    elapsed = current_time - beta_timestamp
+    days_elapsed = elapsed.total_seconds() / 86400.0
+
+    if elapsed < timedelta(days=min_days):
+        return {
+            "should_promote": False,
+            "reason": "waiting_soak_period",
+            "beta_tag": beta_tag,
+            "target_tag": target_tag,
+            "days_elapsed": days_elapsed,
+        }
+
+    has_mod_fixes = any(
+        c.get("is_mod", False) and c.get("type") == "fix"
+        for c in commits_since_beta
+    )
+    if has_mod_fixes:
+        return {
+            "should_promote": False,
+            "reason": "mod_fixes_since_beta",
+            "beta_tag": beta_tag,
+            "target_tag": target_tag,
+            "days_elapsed": days_elapsed,
+        }
+
+    return {
+        "should_promote": True,
+        "reason": "ready",
+        "beta_tag": beta_tag,
+        "target_tag": target_tag,
+        "days_elapsed": days_elapsed,
+    }
+
+
 def determine_next_version(
-    base_version: str, bump: str, branch: str, existing_tags: list[str]
+    base_version: str, bump: str, channel: str, existing_tags: list[str]
 ) -> tuple[str, str, str]:
     """
     Calculates the next version string, channel name, and git tag.
@@ -338,15 +643,7 @@ def determine_next_version(
     core_version = base_version.lstrip("vba").split("-")[0]
     base_major, base_minor, base_patch = map(int, core_version.split("."))
 
-    branch_lower = branch.lower().strip()
-    if branch_lower in ("main", "master", "release"):
-        channel = "release"
-    elif "beta" in branch_lower:
-        channel = "beta"
-    elif "alpha" in branch_lower:
-        channel = "alpha"
-    else:
-        channel = "release"
+    channel = normalize_channel(channel)
 
     base_tuple = (base_major, base_minor, base_patch)
 
@@ -664,7 +961,41 @@ def get_current_branch(branch_opt: str | None = None) -> str:
 @app.command()
 def main(
     branch: Optional[str] = typer.Option(
-        None, "--branch", "-b", help="Target branch for release (main, beta, alpha)."
+        None,
+        "--branch",
+        "-b",
+        help="Target branch ref for tag anchoring (does not determine release channel).",
+    ),
+    channel: Optional[str] = typer.Option(
+        None,
+        "--channel",
+        "-c",
+        help="Release channel (alpha, beta, release). Defaults to alpha unless --detect-pr-channel is set.",
+    ),
+    detect_pr_channel: bool = typer.Option(
+        False,
+        "--detect-pr-channel",
+        help="Resolve release channel from GitHub PR labels (release:beta / release:stable) for the commit.",
+    ),
+    commit: Optional[str] = typer.Option(
+        None,
+        "--commit",
+        help="Commit SHA for PR label lookup (defaults to $GITHUB_SHA).",
+    ),
+    repo: Optional[str] = typer.Option(
+        None,
+        "--repo",
+        help="GitHub repository in owner/repo format (defaults to $GITHUB_REPOSITORY).",
+    ),
+    check_stable_promotion: bool = typer.Option(
+        False,
+        "--check-stable-promotion",
+        help="Check whether the latest unreleased beta is ready for stable promotion (git-only, no secrets).",
+    ),
+    promotion_days: int = typer.Option(
+        DEFAULT_PROMOTION_DAYS,
+        "--promotion-days",
+        help="Minimum days without mod fix commits before promoting beta to stable.",
     ),
     dry_run: bool = typer.Option(
         False, "--dry-run", help="Dry-run mode without modifying files."
@@ -691,18 +1022,69 @@ def main(
             pass
 
     tags = get_git_tags()
-    latest_branch_tag = get_latest_tag_on_branch()
     base_version, base_tag = get_base_version_and_tag(tags, base_default)
 
-    branch_lower = active_branch.lower().strip()
-    is_stable_channel = branch_lower in ("main", "master", "release")
+    if check_stable_promotion:
+        beta_tag = get_latest_unreleased_beta_tag(tags, base_version)
+        beta_timestamp = get_tag_timestamp(beta_tag) if beta_tag else None
+        commits_since_beta = (
+            get_commits_since_last_tag(beta_tag) if beta_tag else []
+        )
+        beta_commit = get_tag_commit_sha(beta_tag) if beta_tag else None
 
-    # On stable branches (main), anchor to the latest stable tag (base_tag)
-    # to evaluate all commits in the cycle and allow graduation.
-    # On pre-release branches (beta/alpha), anchor to the latest reachable tag on the branch
-    # to avoid re-release loops on non-mod commits.
-    if is_stable_channel:
+        result = evaluate_beta_promotion(
+            tags=tags,
+            base_version=base_version,
+            beta_timestamp=beta_timestamp,
+            commits_since_beta=commits_since_beta,
+            min_days=promotion_days,
+        )
+        should_promote_str = "true" if result["should_promote"] else "false"
+        print(
+            f"Beta promotion check: should_promote={should_promote_str} "
+            f"reason={result['reason']} beta_tag={result['beta_tag']} "
+            f"target_tag={result['target_tag']} days_elapsed={result['days_elapsed']:.2f}"
+        )
+        write_github_output(
+            {
+                "should_promote": should_promote_str,
+                "reason": result["reason"],
+                "beta_tag": result["beta_tag"] or "",
+                "beta_commit": beta_commit or "",
+                "target_tag": result["target_tag"] or "",
+            }
+        )
+        raise typer.Exit(code=0)
+
+    # Determine release channel explicitly from --channel or PR labels (never from branch name)
+    if channel is not None:
+        try:
+            resolved_channel = normalize_channel(channel)
+        except ValueError as e:
+            print(f"Error: {e}")
+            raise typer.Exit(code=1)
+    elif detect_pr_channel:
+        target_repo = repo or os.getenv("GITHUB_REPOSITORY", "")
+        target_commit = commit or os.getenv("GITHUB_SHA", "")
+        token = os.getenv("GITHUB_TOKEN")
+        resolved_channel = resolve_channel_for_commit(
+            target_repo, target_commit, token=token
+        )
+    else:
+        resolved_channel = "alpha"
+
+    latest_branch_tag = get_latest_tag_on_branch()
+
+    # Anchor tag selection:
+    # - release: anchor to latest stable tag (base_tag) to evaluate the full cycle and allow graduation.
+    # - beta: if an active beta cycle exists, anchor to latest reachable tag on the branch to prevent
+    #   re-release loops on non-mod commits; when starting beta.1 from alpha, anchor to base_tag.
+    # - alpha: anchor to latest reachable tag on the branch to prevent re-release loops.
+    if resolved_channel == "release":
         anchor_tag = base_tag
+    elif resolved_channel == "beta":
+        active_beta_tag = get_latest_unreleased_beta_tag(tags, base_version)
+        anchor_tag = (latest_branch_tag or base_tag) if active_beta_tag else base_tag
     else:
         anchor_tag = latest_branch_tag or base_tag
 
@@ -715,7 +1097,7 @@ def main(
         raise typer.Exit(code=0)
 
     new_version, new_channel, new_tag = determine_next_version(
-        base_version, bump, active_branch, tags
+        base_version, bump, resolved_channel, tags
     )
 
     fragments = get_changelog_fragments()
