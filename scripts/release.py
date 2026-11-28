@@ -430,6 +430,7 @@ def get_commits_since_last_tag(base_tag: str | None) -> list[dict]:
         commits.append(
             {
                 "hash": commit_hash,
+                "subject": subject,
                 "type": ctype,
                 "scope": scope,
                 "breaking": breaking,
@@ -579,6 +580,7 @@ def evaluate_beta_promotion(
             "beta_tag": None,
             "target_tag": None,
             "days_elapsed": 0.0,
+            "blocking_commits": [],
         }
 
     parsed = _parse_semver(beta_tag)
@@ -591,6 +593,7 @@ def evaluate_beta_promotion(
             "beta_tag": beta_tag,
             "target_tag": target_tag,
             "days_elapsed": 0.0,
+            "blocking_commits": [],
         }
 
     current_time = now or datetime.now(timezone.utc)
@@ -609,19 +612,25 @@ def evaluate_beta_promotion(
             "beta_tag": beta_tag,
             "target_tag": target_tag,
             "days_elapsed": days_elapsed,
+            "blocking_commits": [],
         }
 
-    has_mod_fixes = any(
-        c.get("is_mod", False) and c.get("type") == "fix"
+    blocking_commits = [
+        {
+            "hash": c.get("hash", ""),
+            "subject": c.get("subject") or c.get("description", ""),
+        }
         for c in commits_since_beta
-    )
-    if has_mod_fixes:
+        if c.get("is_mod", False) and c.get("type") == "fix"
+    ]
+    if blocking_commits:
         return {
             "should_promote": False,
             "reason": "mod_fixes_since_beta",
             "beta_tag": beta_tag,
             "target_tag": target_tag,
             "days_elapsed": days_elapsed,
+            "blocking_commits": blocking_commits,
         }
 
     return {
@@ -630,6 +639,7 @@ def evaluate_beta_promotion(
         "beta_tag": beta_tag,
         "target_tag": target_tag,
         "days_elapsed": days_elapsed,
+        "blocking_commits": [],
     }
 
 
@@ -654,18 +664,40 @@ def determine_next_version(
         if p is not None and p[3] == 1
     }
 
+    unreleased_beta_cores = []
+    pattern_beta = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)-beta\.(\d+)$")
+    for t in existing_tags:
+        m = pattern_beta.match(t.strip())
+        if m:
+            beta_core = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
+            if beta_core not in stable_cores and beta_core >= base_tuple:
+                unreleased_beta_cores.append(beta_core)
+    highest_unreleased_beta_core = (
+        max(unreleased_beta_cores) if unreleased_beta_cores else None
+    )
+
     if channel == "release":
-        # Check if we are graduating an ongoing, unreleased pre-release cycle
-        unreleased_pres = []
-        pattern = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)-(?:alpha|beta)\.(\d+)$")
+        # Prefer graduating an active unreleased beta cycle (so a concurrent next-cycle
+        # alpha does not hijack beta -> stable graduation).
+        if highest_unreleased_beta_core is not None:
+            target_core = (
+                f"{highest_unreleased_beta_core[0]}."
+                f"{highest_unreleased_beta_core[1]}."
+                f"{highest_unreleased_beta_core[2]}"
+            )
+            return target_core, channel, f"v{target_core}"
+
+        # Otherwise graduate an ongoing, unreleased alpha cycle if present
+        unreleased_alphas = []
+        pattern_alpha = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)-alpha\.(\d+)$")
         for t in existing_tags:
-            m = pattern.match(t.strip())
+            m = pattern_alpha.match(t.strip())
             if m:
                 pre_core = (int(m.group(1)), int(m.group(2)), int(m.group(3)))
                 if pre_core not in stable_cores and pre_core >= base_tuple:
-                    unreleased_pres.append((pre_core[0], pre_core[1], pre_core[2], t.strip()))
-        if unreleased_pres:
-            latest_unreleased = max(unreleased_pres, key=lambda x: (x[0], x[1], x[2]))
+                    unreleased_alphas.append(pre_core)
+        if unreleased_alphas:
+            latest_unreleased = max(unreleased_alphas)
             target_core = f"{latest_unreleased[0]}.{latest_unreleased[1]}.{latest_unreleased[2]}"
             return target_core, channel, f"v{target_core}"
 
@@ -683,11 +715,19 @@ def determine_next_version(
                     int(m.group(4)),
                 )
                 pre_core = (pre_major, pre_minor, pre_patch)
-                # An ongoing cycle must not have graduated to stable yet, and must be >= base_tuple
-                if pre_core not in stable_cores and pre_core >= base_tuple:
-                    prerelease_tags.append(
-                        (pre_major, pre_minor, pre_patch, pre_count, t.strip())
-                    )
+                # An ongoing cycle must not have graduated to stable yet, and must be >= base_tuple.
+                # For alpha, cycles already in beta (<= highest_unreleased_beta_core) are closed to new alphas.
+                if pre_core in stable_cores or pre_core < base_tuple:
+                    continue
+                if (
+                    channel == "alpha"
+                    and highest_unreleased_beta_core is not None
+                    and pre_core <= highest_unreleased_beta_core
+                ):
+                    continue
+                prerelease_tags.append(
+                    (pre_major, pre_minor, pre_patch, pre_count, t.strip())
+                )
 
     if prerelease_tags:
         latest_pre = max(prerelease_tags, key=lambda x: (x[0], x[1], x[2], x[3]))
@@ -723,9 +763,12 @@ def determine_next_version(
                 tag = f"v{version}"
                 return version, channel, tag
 
-        major = base_major
-        minor = base_minor
-        patch = base_patch
+        if channel == "alpha" and highest_unreleased_beta_core is not None:
+            major, minor, patch = highest_unreleased_beta_core
+        else:
+            major = base_major
+            minor = base_minor
+            patch = base_patch
 
         if bump == "major":
             major += 1
@@ -1045,6 +1088,16 @@ def main(
             f"reason={result['reason']} beta_tag={result['beta_tag']} "
             f"target_tag={result['target_tag']} days_elapsed={result['days_elapsed']:.2f}"
         )
+        if result["reason"] == "mod_fixes_since_beta" and result.get("blocking_commits"):
+            print("Blocking mod fix commits since beta:")
+            for bc in result["blocking_commits"]:
+                sha = bc.get("hash") or "unknown"
+                subj = bc.get("subject") or ""
+                print(f"  - {sha} {subj}")
+            print(
+                "To unblock stable promotion, merge the fix with the 'release:beta' label "
+                "or run 'Release Automation' manually with channel=beta."
+            )
         write_github_output(
             {
                 "should_promote": should_promote_str,

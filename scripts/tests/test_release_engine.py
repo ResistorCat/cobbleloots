@@ -526,6 +526,114 @@ def test_determine_next_version_advances_existing_beta_cycle():
     assert tag == "v2.5.0-beta.2"
 
 
+def test_determine_next_version_alpha_during_active_beta_starts_next_cycle():
+    tags = ["v2.3.0", "v2.5.0-alpha.4", "v2.5.0-beta.1"]
+
+    # feat -> X.(Y+1).0-alpha.1
+    assert determine_next_version("2.3.0", "minor", "alpha", existing_tags=tags) == (
+        "2.6.0-alpha.1",
+        "alpha",
+        "v2.6.0-alpha.1",
+    )
+    # fix -> X.Y.(Z+1)-alpha.1
+    assert determine_next_version("2.3.0", "patch", "alpha", existing_tags=tags) == (
+        "2.5.1-alpha.1",
+        "alpha",
+        "v2.5.1-alpha.1",
+    )
+    # breaking -> (X+1).0.0-alpha.1
+    assert determine_next_version("2.3.0", "major", "alpha", existing_tags=tags) == (
+        "3.0.0-alpha.1",
+        "alpha",
+        "v3.0.0-alpha.1",
+    )
+
+    # Subsequent next-cycle alpha increments 2.6.0-alpha.1 -> 2.6.0-alpha.2
+    tags_with_next_alpha = tags + ["v2.6.0-alpha.1"]
+    assert determine_next_version(
+        "2.3.0", "minor", "alpha", existing_tags=tags_with_next_alpha
+    ) == ("2.6.0-alpha.2", "alpha", "v2.6.0-alpha.2")
+
+    # Graduating active beta to stable must target v2.5.0, not next-cycle v2.6.0
+    assert determine_next_version(
+        "2.3.0", "minor", "release", existing_tags=tags_with_next_alpha
+    ) == ("2.5.0", "release", "v2.5.0")
+
+
+def test_determine_next_version_alpha_after_stable_release():
+    tags = ["v2.3.0", "v2.5.0-alpha.4", "v2.5.0-beta.1", "v2.5.0"]
+
+    assert determine_next_version("2.5.0", "minor", "alpha", existing_tags=tags) == (
+        "2.6.0-alpha.1",
+        "alpha",
+        "v2.6.0-alpha.1",
+    )
+    assert determine_next_version("2.5.0", "patch", "alpha", existing_tags=tags) == (
+        "2.5.1-alpha.1",
+        "alpha",
+        "v2.5.1-alpha.1",
+    )
+    assert determine_next_version("2.5.0", "major", "alpha", existing_tags=tags) == (
+        "3.0.0-alpha.1",
+        "alpha",
+        "v3.0.0-alpha.1",
+    )
+
+
+def test_next_alpha_on_main_does_not_repeat_versions_when_stable_tag_unreachable(
+    monkeypatch, tmp_path
+):
+    out_file = tmp_path / "github_output.txt"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+
+    feat_commit = [
+        {
+            "hash": "abcdef1234567890",
+            "subject": "feat(lootball): add next-cycle feature",
+            "type": "feat",
+            "scope": "lootball",
+            "breaking": False,
+            "is_mod": True,
+            "description": "add next-cycle feature",
+            "files": ["common/src/main/Item.java"],
+        }
+    ]
+
+    # Case A: v2.5.0 was tagged off-branch from v2.5.0-beta.1; main already moved ahead
+    # with v2.6.0-alpha.1, so v2.5.0 is not reachable from main's HEAD.
+    monkeypatch.setattr(
+        "release.get_git_tags",
+        lambda: ["v2.3.0", "v2.5.0-alpha.4", "v2.5.0-beta.1", "v2.6.0-alpha.1", "v2.5.0"],
+    )
+    monkeypatch.setattr(
+        "release.get_latest_tag_on_branch", lambda ref=None: "v2.6.0-alpha.1"
+    )
+    monkeypatch.setattr("release.get_commits_since_last_tag", lambda tag: feat_commit)
+
+    result = runner.invoke(app, ["--branch", "main", "--channel", "alpha", "--dry-run"])
+    assert result.exit_code == 0
+    content = out_file.read_text(encoding="utf-8")
+    assert "mod_version=2.6.0-alpha.2" in content
+    assert "tag=v2.6.0-alpha.2" in content
+
+    # Case B: v2.5.0 was tagged off-branch from v2.5.0-beta.1; main only had non-mod commits
+    # so the latest reachable tag on main is still v2.5.0-beta.1.
+    out_file.write_text("", encoding="utf-8")
+    monkeypatch.setattr(
+        "release.get_git_tags",
+        lambda: ["v2.3.0", "v2.5.0-alpha.4", "v2.5.0-beta.1", "v2.5.0"],
+    )
+    monkeypatch.setattr(
+        "release.get_latest_tag_on_branch", lambda ref=None: "v2.5.0-beta.1"
+    )
+
+    result = runner.invoke(app, ["--branch", "main", "--channel", "alpha", "--dry-run"])
+    assert result.exit_code == 0
+    content = out_file.read_text(encoding="utf-8")
+    assert "mod_version=2.6.0-alpha.1" in content
+    assert "tag=v2.6.0-alpha.1" in content
+
+
 def test_graduation_on_main_uses_stable_base_tag(monkeypatch, tmp_path):
     out_file = tmp_path / "github_output.txt"
     monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
@@ -803,18 +911,30 @@ def test_evaluate_beta_promotion_seven_day_rule():
     assert res_ready_non_fix["should_promote"] is True
     assert res_ready_non_fix["reason"] == "ready"
 
-    # 5. >= 7 days BUT a mod `fix` landed after the beta -> blocked
+    # 5. >= 7 days BUT a mod `fix` landed after the beta -> blocked with commit details
     res_blocked = evaluate_beta_promotion(
         tags=tags,
         base_version="2.3.0",
         beta_timestamp=now - timedelta(days=8),
         commits_since_beta=[
-            {"type": "fix", "scope": "lootball", "is_mod": True},
+            {
+                "hash": "abc1234567890",
+                "subject": "fix(lootball): prevent crash on open",
+                "type": "fix",
+                "scope": "lootball",
+                "is_mod": True,
+            },
         ],
         now=now,
     )
     assert res_blocked["should_promote"] is False
     assert res_blocked["reason"] == "mod_fixes_since_beta"
+    assert res_blocked["blocking_commits"] == [
+        {
+            "hash": "abc1234567890",
+            "subject": "fix(lootball): prevent crash on open",
+        }
+    ]
 
     # 6. Once beta.2 is tagged for those fixes, timer resets from beta.2 timestamp
     res_reset = evaluate_beta_promotion(
@@ -847,6 +967,49 @@ def test_cli_check_stable_promotion_outputs(monkeypatch, tmp_path):
     assert "beta_tag=v2.5.0-beta.1" in content
     assert "beta_commit=1122334455" in content
     assert "target_tag=v2.5.0" in content
+
+
+def test_cli_check_stable_promotion_logs_blocking_commits(monkeypatch, tmp_path):
+    out_file = tmp_path / "github_output.txt"
+    monkeypatch.setenv("GITHUB_OUTPUT", str(out_file))
+
+    old_ts = datetime.now(timezone.utc) - timedelta(days=8)
+    monkeypatch.setattr("release.get_git_tags", lambda: ["v2.3.0", "v2.5.0-beta.1"])
+    monkeypatch.setattr("release.get_tag_timestamp", lambda tag: old_ts)
+    monkeypatch.setattr("release.get_tag_commit_sha", lambda tag: "1122334455")
+    monkeypatch.setattr(
+        "release.get_commits_since_last_tag",
+        lambda tag: [
+            {
+                "hash": "deadbeef12345678",
+                "subject": "fix(fishing): avoid null drop table",
+                "type": "fix",
+                "scope": "fishing",
+                "is_mod": True,
+                "description": "avoid null drop table",
+            },
+            {
+                "hash": "cafebabe87654321",
+                "subject": "docs(readme): clarify install",
+                "type": "docs",
+                "scope": "readme",
+                "is_mod": False,
+                "description": "clarify install",
+            },
+        ],
+    )
+
+    result = runner.invoke(app, ["--branch", "main", "--check-stable-promotion"])
+    assert result.exit_code == 0
+    assert "reason=mod_fixes_since_beta" in result.output
+    assert "deadbeef12345678" in result.output
+    assert "fix(fishing): avoid null drop table" in result.output
+    assert "cafebabe87654321" not in result.output
+    assert "release:beta" in result.output
+    assert "channel=beta" in result.output
+    content = out_file.read_text(encoding="utf-8")
+    assert "should_promote=false" in content
+    assert "reason=mod_fixes_since_beta" in content
 
 
 def test_get_changelog_fragments(tmp_path):
