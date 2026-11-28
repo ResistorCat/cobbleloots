@@ -47,6 +47,10 @@ permissions:
   contents: write
   pull-requests: read
 
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   release:
     name: Automated Multi-Channel Release
