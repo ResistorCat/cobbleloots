@@ -10,15 +10,65 @@
   "sources": {
     "fishing": [
       {
-        "weight": 50,
+        "weight": 75,
         "biome": "#cobblemon:is_deep_ocean",
         "poke_rod": [
           "cobblemon:lure_rod"
         ]
       },
       {
-        "weight": 5,
+        "weight": 65,
+        "biome": "#cobblemon:is_ocean",
+        "poke_rod": [
+          "cobblemon:lure_rod"
+        ]
+      },
+      {
+        "weight": 55,
+        "biome": "#cobblemon:is_river",
+        "poke_rod": [
+          "cobblemon:lure_rod"
+        ]
+      },
+      {
+        "weight": 55,
+        "biome": "#cobblemon:is_coast",
+        "poke_rod": [
+          "cobblemon:lure_rod"
+        ]
+      },
+      {
+        "weight": 45,
+        "biome": "#cobblemon:is_swamp",
+        "poke_rod": [
+          "cobblemon:lure_rod"
+        ]
+      },
+      {
+        "weight": 35,
+        "poke_rod": [
+          "cobblemon:lure_rod"
+        ]
+      },
+      {
+        "weight": 25,
         "biome": "#cobblemon:is_deep_ocean"
+      },
+      {
+        "weight": 20,
+        "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 15,
+        "biome": "#cobblemon:is_river"
+      },
+      {
+        "weight": 15,
+        "biome": "#cobblemon:is_coast"
+      },
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_swamp"
       }
     ]
   }

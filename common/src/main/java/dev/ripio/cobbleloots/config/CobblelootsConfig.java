@@ -114,9 +114,9 @@ public class CobblelootsConfig extends MidnightConfig {
     @Entry(category = CATEGORY_SOURCES)
     public static boolean fishing_enabled = true;
     @Entry(category = CATEGORY_SOURCES)
-    public static float fishing_chance = 0.01F;
+    public static float fishing_chance = 0.05F;
     @Entry(category = CATEGORY_SOURCES)
-    public static float fishing_luck_of_the_sea_multiplier = 1.25F;
+    public static float fishing_luck_of_the_sea_multiplier = 1.4F;
     @Entry(category = CATEGORY_SOURCES)
     public static int fishing_despawn_time = 24000;
     @Entry(category = CATEGORY_SOURCES, idMode = 1)

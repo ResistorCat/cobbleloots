@@ -105,8 +105,8 @@ public class CobblelootsDataProvider {
       // Process source filters
       for (CobblelootsSourceFilter filter : sourceFilters) {
         if (processSourceFilter(level, levelChunk, pos, filter, sourceType, null, null)) {
-          // Add loot ball
-          filtered.put(id, filter.getWeight());
+          // Keep the highest matching rule weight so fallback rules do not overwrite specialized rod/biome rules
+          filtered.merge(id, filter.getWeight(), Math::max);
         }
       }
     }
@@ -151,8 +151,8 @@ public class CobblelootsDataProvider {
 
       for (CobblelootsSourceFilter filter : sourceFilters) {
         if (processSourceFilter(level, levelChunk, pos, filter, sourceType, player, tool)) {
-          // Add loot ball
-          filtered.put(id, filter.getWeight());
+          // Keep the highest matching rule weight so fallback rules do not overwrite specialized rod/biome rules
+          filtered.merge(id, filter.getWeight(), Math::max);
         }
       }
     }

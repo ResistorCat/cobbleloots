@@ -34,7 +34,7 @@ These balls contain useful items for the player. They can grant XP and items whe
 
 - **Generation**: Loot balls can be found in the world. Some of them are specific to biomes, while others are more common.
 - **Spawning**: Over time, loot balls will spawn in the world around random players.
-- **Fishing**: Players can catch loot balls when fishing with Cobblemon Poké Rods. Different rods can catch different tiers of loot balls, and using the _Luck of the Sea_ enchantment increases the chance of finding a loot ball.
+- **Fishing**: Players can catch loot balls when fishing with Cobblemon Poké Rods (**5%** base chance, scaling with **Luck of the Sea** up to **13.72%** at Level III). Fishing in marine and fluvial biomes prioritizes aquatic loot balls (**Dive**, **Lure**, and **Net** Loot Balls) with themed maritime rewards, and matching Poké Rods further boost their corresponding loot balls. Rates, Luck of the Sea scaling, despawn time, and disabled dimensions are all configurable (`fishing_chance`, `fishing_luck_of_the_sea_multiplier`, `fishing_despawn_time`, `fishing_disabled_dimensions`).
 
 Loot balls are categorized into tiers that determine their rarity and loot quality: **Common**, **Uncommon**, **Rare**, and **Ultra Rare**.
 

@@ -34,26 +34,37 @@
     ],
     "fishing": [
       {
-        "weight": 40,
+        "weight": 75,
         "biome": "#cobblemon:is_deep_ocean",
         "poke_rod": [
           "cobblemon:dive_rod"
         ]
       },
       {
-        "weight": 20,
+        "weight": 60,
         "biome": "#cobblemon:is_ocean",
         "poke_rod": [
           "cobblemon:dive_rod"
         ]
       },
       {
-        "weight": 4,
+        "weight": 40,
+        "biome": "#cobblemon:is_coast",
+        "poke_rod": [
+          "cobblemon:dive_rod"
+        ]
+      },
+      {
+        "weight": 30,
         "biome": "#cobblemon:is_deep_ocean"
       },
       {
-        "weight": 2,
+        "weight": 20,
         "biome": "#cobblemon:is_ocean"
+      },
+      {
+        "weight": 10,
+        "biome": "#cobblemon:is_coast"
       }
     ]
   }

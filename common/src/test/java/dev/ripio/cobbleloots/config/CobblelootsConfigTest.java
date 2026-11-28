@@ -137,6 +137,10 @@ public class CobblelootsConfigTest {
         Assertions.assertTrue(CobblelootsConfig.fishing_disabled_dimensions.isEmpty());
         Assertions.assertTrue(CobblelootsConfig.archaeology_disabled_dimensions.isEmpty());
 
+        Assertions.assertTrue(CobblelootsConfig.fishing_enabled);
+        Assertions.assertEquals(0.05f, CobblelootsConfig.fishing_chance, 0.0001f);
+        Assertions.assertEquals(1.4f, CobblelootsConfig.fishing_luck_of_the_sea_multiplier, 0.0001f);
+
         // Verify file was renamed
         Assertions.assertFalse(Files.exists(legacyConfigFile), "Legacy config file should be renamed");
         Assertions.assertTrue(Files.exists(legacyConfigFile.resolveSibling("cobbleloots.yaml.old")),

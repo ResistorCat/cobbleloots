@@ -69,7 +69,7 @@ public class CobblelootsDebugService {
 
       for (CobblelootsSourceFilter filter : sourceFilters) {
         if (CobblelootsFilterEvaluator.testFilter(level, chunk, pos, filter, sourceType, player, tool)) {
-          matchedWeights.put(id, filter.getWeight());
+          matchedWeights.merge(id, filter.getWeight(), Math::max);
         }
       }
     }
@@ -146,7 +146,8 @@ public class CobblelootsDebugService {
     int matchedWeight = ruleReports.stream()
         .filter(LootBallRuleReport::overallPassed)
         .mapToInt(LootBallRuleReport::weight)
-        .sum();
+        .max()
+        .orElse(0);
 
     return new LootBallCheckReport(id, sourceType, pos, dimension, biome, eligible, matchedWeight, ruleReports);
   }
