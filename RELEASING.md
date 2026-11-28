@@ -68,6 +68,7 @@ The commit type (and PR title, since squash/merge uses it as the commit message)
 3. Ensure the PR title uses `feat(...)` or `fix(...)` only when the change has player-facing mod impact.
 4. Merge the PR into `main`.
 5. `Release Automation` detects the mod commit, bumps the alpha cycle (`vX.Y.Z-alpha.N`), consumes `.changelog/` fragments, updates `gradle.properties` and `CHANGELOG.md`, tags the commit, and publishes to GitHub Releases, Modrinth, and CurseForge.
+   - If an unreleased beta (`vX.Y.Z-beta.N`) is already active, unlabeled merges to `main` automatically start the **next** alpha cycle (`vX.(Y+1).0-alpha.1` for `feat`, `vX.Y.(Z+1)-alpha.1` for `fix`, or `v(X+1).0.0-alpha.1` for breaking changes) so the beta cycle stays closed to new alphas.
 
 ### Beta (Milestone Completion & Fixes During Beta)
 
@@ -87,8 +88,13 @@ The commit type (and PR title, since squash/merge uses it as the commit message)
    ```
 3. If the latest unreleased `vX.Y.Z-beta.N` tag is at least **7 days old** and no new mod `fix` commits exist between that tag and `main`:
    - The workflow checks out the exact beta tag commit so untested post-beta commits on `main` are never included.
-   - It runs `Release Automation` with `channel=release`, compiles the `vX.Y.Z` JARs, tags `vX.Y.Z` (fast-forwarding `main` if `main` has not moved, or pushing the tag alone if `main` has moved ahead), and publishes to GitHub Releases, Modrinth, and CurseForge.
-4. If a mod `fix` lands during the 7-day window, promotion is blocked. Label the fix PR with `release:beta` so `vX.Y.Z-beta.N+1` is published and a fresh 7-day window begins.
+   - It runs `Release Automation` with `channel=release`, compiles the `vX.Y.Z` JARs, tags `vX.Y.Z`, and publishes to GitHub Releases, Modrinth, and CurseForge.
+   - **If `main` has NOT moved since the beta tag**: `main` is fast-forwarded to the `chore(release): vX.Y.Z [skip ci]` commit and the `vX.Y.Z` tag is pushed alongside it.
+   - **If `main` HAS moved past the beta tag** (e.g., docs or next-cycle `feat` commits were merged during the 7-day soak): only the `vX.Y.Z` tag is pushed (attached to a release commit whose parent is the beta commit). As a result, `gradle.properties` and `CHANGELOG.md` on `main` will not include the `chore(release): vX.Y.Z [skip ci]` commit — they remain at the latest commit on `main`. This does **not** affect subsequent releases: `scripts/release.py` reads all tags via `git tag -l` and anchors new alphas to the latest tag reachable on `main`, so previously published versions are never reused or repeated. If you want the `## X.Y.Z` entry reflected in `main`'s `CHANGELOG.md`, you can copy it from `git show vX.Y.Z:CHANGELOG.md` in a `docs(release):` commit.
+4. **Fixes during beta & unblocking promotion**:
+   - If a mod `fix` PR lands during the 7-day window with `release:beta`, `vX.Y.Z-beta.N+1` is published immediately and a fresh 7-day window begins.
+   - If a mod `fix` was merged **without** `release:beta`, automatic stable promotion stays paused so the unfixed beta is never promoted. The daily workflow logs `reason=mod_fixes_since_beta` together with the SHA and subject of each blocking commit.
+   - To unblock promotion, either **merge a fix PR with the `release:beta` label** or manually run **Actions → Release Automation → Run workflow** with `branch=main` and `channel=beta` to publish `vX.Y.Z-beta.N+1` and restart the 7-day timer.
 
 ### Hotfix (Urgent Fix on a Published Stable Version)
 
