@@ -89,15 +89,16 @@ Every Pull Request opened by an agent or developer must adhere to the following 
 ### 4.1 Branch Naming Convention
 Every working branch **MUST** follow:
 ```text
-ripio/<type>/<linear-id>/<summary>
+<author>/<type>/<ticket>/<summary>
 ```
 - All segments must be **in English and lowercase**.
+- **`<author>`**: The contributor's GitHub username (or a short handle), so branches from different collaborators never collide (e.g., `ripio`).
 - **`<type>`**: One of `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `build`, `ci`, `chore`, `style`, `revert`.
-- **`<linear-id>`**: The Linear ticket identifier in lowercase (e.g., `dev-35`). Including this automatically links the branch and PR with the Linear issue.
+- **`<ticket>`**: The tracked issue in lowercase: a Linear ID (e.g., `dev-35`, which links the branch and PR with Linear automatically) or a GitHub issue as `gh-<number>` (e.g., `gh-12`). Omit this segment if there is no issue: `<author>/<type>/<summary>`.
 - **`<summary>`**: Short kebab-case summary of the change.
 - **Do not use Linear's default `gitBranchName`** (e.g., `ripio/dev-35-...`).
 
-*Example*: `ripio/fix/dev-35/broken-mod-icon`
+*Examples*: `ripio/fix/dev-35/broken-mod-icon`, `someone/feat/gh-12/add-config-option`, `someone/docs/fix-typo`
 
 ### 4.2 PR Title Format
 The title **MUST** match:
